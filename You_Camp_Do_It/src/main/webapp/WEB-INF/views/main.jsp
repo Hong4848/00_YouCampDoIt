@@ -36,7 +36,7 @@
             .calendar{
                 border-radius: 5%;
                 width: 490px;
-                background-color: rgb(54, 54, 54);
+                background-color: rgb(87, 87, 87);
                 color: white;
             }
 
@@ -67,6 +67,7 @@
             .day, .week{
                 width: 70px;
                 height: 70px;
+                font-weight: 800;
             }
 
             .day{
@@ -92,7 +93,7 @@
                 background-color: rgba(0, 189, 0, 0.7);
             }
 
-            .nextMonth{
+            .nextMonth, .prevMonth{
                 opacity: 0.5;
             }
             /* 달력 관련 종료 */
@@ -223,6 +224,13 @@
 		                    <div class="day thu"></div>
 		                    <div class="day fri"></div>
 		                    <div class="day sat"></div>
+                            <div class="day sun"></div>
+		                    <div class="day mon"></div>
+		                    <div class="day tue"></div>
+		                    <div class="day wed"></div>
+		                    <div class="day thu"></div>
+		                    <div class="day fri"></div>
+		                    <div class="day sat"></div>
 		                </div>
 		            </div>
 		        </div>
@@ -334,15 +342,16 @@
             function dateList(){
                 let start = false;
                 let dayCount = currentLastDate;
-                for(var i = 34; i >= 0; i--)
+                for(var i = 41; i >= 0; i--)
                 {
-                    if($(".day").eq(i).attr("class").includes(LastWeek) && start == false)
+                    if($(".day").eq(i).attr("class").includes(LastWeek) && start == false && i <= 37)
                     {
                         start = true;
                         console.log(i);
-                        for(var j = 34; j >= i; j--)
+                        for(var j = 41; j > i; j--)
                         {
                             $(".day").eq(j).text(j-i);
+                            $(".day").eq(j).addClass("nextMonth");
                         }
                     }
                     
@@ -351,6 +360,9 @@
                         if(dayCount >= 1)
                         {
                             $(".day").eq(i).text(dayCount);
+                            $(".day").eq(i).removeClass("prevMonth");
+                            $(".day").eq(i).removeClass("nextMonth");
+                            
                             if(currentYear == date.getFullYear() && currentMonth == date.getMonth()+1 && $(".day").eq(i).text() == currentDate){
                                 $(".day").eq(i).addClass("today");
                             }
@@ -362,6 +374,7 @@
                         else{
                             $(".day").eq(i).text(prevLastDate+dayCount);
                             $(".day").eq(i).removeClass("today");
+                            $(".day").eq(i).addClass("prevMonth");
                             dayCount -= 1;
                         }
                         
