@@ -36,7 +36,7 @@
             .calendar{
                 border-radius: 5%;
                 width: 490px;
-                background-color: rgb(54, 54, 54);
+                background-color: rgb(87, 87, 87);
                 color: white;
             }
 
@@ -67,6 +67,7 @@
             .day, .week{
                 width: 70px;
                 height: 70px;
+                font-weight: 800;
             }
 
             .day{
@@ -92,7 +93,7 @@
                 background-color: rgba(0, 189, 0, 0.7);
             }
 
-            .nextMonth, .pastMonth{
+            .nextMonth, .prevMonth{
                 opacity: 0.5;
             }
             /* 달력 관련 종료 */
@@ -146,6 +147,10 @@
             #menuImg{
             	display:none;
             }
+
+            .yyyy{
+                transition: all 1s;
+            }
 		</style>
 	</head>
 	<body>
@@ -164,12 +169,13 @@
 		        <div class="calendar">
 		            <div class="calendar-head">
 		                <div class="calendar-title">
-		                    <div id="prevCalender">⮜</div>
+		                    <div id="prevCalender"><a onclick="prevMonth();" style="cursor: pointer;">⮜</a></div>
 		                    <div style="width: 30%;"></div>
-		                    <div id="year">2024.</div>
-		                    <div id="month">12</div>
+		                    <div id="year" class="yyyy">2024</div>
+                            <div class="yyyy">.</div>
+		                    <div id="month" class="yyyy">12</div>
 		                    <div style="width: 30%;"></div>
-		                    <div id="prevCalender">⮞</div>
+		                    <div id="prevCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
 		                </div>
 		            </div>
 		            <div class="calendar-body">
@@ -178,46 +184,53 @@
 		                    <div class="week">MON</div>
 		                    <div class="week">TUE</div>
 		                    <div class="week">WED</div>
-		                    <div class="week">THE</div>
+		                    <div class="week">THU</div>
 		                    <div class="week">FRI</div>
 		                    <div class="week sat">SAT</div>
 		                </div>
 		                <div class="calendar-day">
-		                    <div class="day sun">1</div>
-		                    <div class="day">2</div>
-		                    <div class="day">3</div>
-		                    <div class="day today">4</div>
-		                    <div class="day">5</div>
-		                    <div class="day">6</div>
-		                    <div class="day sat">7</div>
-		                    <div class="day sun">8</div>
-		                    <div class="day">9</div>
-		                    <div class="day">10</div>
-		                    <div class="day">11</div>
-		                    <div class="day">12</div>
-		                    <div class="day">13</div>
-		                    <div class="day sat">14</div>
-		                    <div class="day sun">15</div>
-		                    <div class="day">16</div>
-		                    <div class="day">17</div>
-		                    <div class="day">18</div>
-		                    <div class="day">19</div>
-		                    <div class="day">20</div>
-		                    <div class="day sat">21</div>
-		                    <div class="day sun">22</div>
-		                    <div class="day">23</div>
-		                    <div class="day">24</div>
-		                    <div class="day">25</div>
-		                    <div class="day">26</div>
-		                    <div class="day">27</div>
-		                    <div class="day sat">28</div>
-		                    <div class="day sun">29</div>
-		                    <div class="day">30</div>
-		                    <div class="day">31</div>
-		                    <div class="day nextMonth">1</div>
-		                    <div class="day nextMonth">2</div>
-		                    <div class="day nextMonth">3</div>
-		                    <div class="day sat nextMonth">4</div>
+		                    <div class="day sun"></div>
+		                    <div class="day mon"></div>
+		                    <div class="day tue"></div>
+		                    <div class="day wed"></div>
+		                    <div class="day thu"></div>
+		                    <div class="day fri"></div>
+		                    <div class="day sat"></div>
+		                    <div class="day sun"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day sat"></div>
+		                    <div class="day sun"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day sat"></div>
+		                    <div class="day sun"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day"></div>
+		                    <div class="day sat"></div>
+		                    <div class="day sun"></div>
+		                    <div class="day mon"></div>
+		                    <div class="day tue"></div>
+		                    <div class="day wed"></div>
+		                    <div class="day thu"></div>
+		                    <div class="day fri"></div>
+		                    <div class="day sat"></div>
+                            <div class="day sun"></div>
+		                    <div class="day mon"></div>
+		                    <div class="day tue"></div>
+		                    <div class="day wed"></div>
+		                    <div class="day thu"></div>
+		                    <div class="day fri"></div>
+		                    <div class="day sat"></div>
 		                </div>
 		            </div>
 		        </div>
@@ -301,13 +314,102 @@
         </script>
 
         <script>
-            var currentYear = ''; // 현재 페이지에 있는 연도
-            var currentMonth = ''; // 현재 페이지에 있는 월
-            console.log("안뜨네?");
-            () => {
-                // 표준시간
-                var day = new Date();
+            let date = new Date();
+            let currentYear = ""; // 이번 년
+            let currentMonth = ""; // 이번 달
+            let currentDate = ""; // 오늘 일
+            let currentLastDate = "";
+            let prevLastDate = "";
+            const WEEKDAY = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+            let LastWeek = "";
+
+            $(()=>{
+                // 현재 시간 뽑아오기
+                currentYear = date.getFullYear();
+                currentMonth = date.getMonth()+1;
+                currentDate = date.getDate();
+                dateInit();
+                dateList();
+            })
+
+            function dateInit(){
+                currentLastDate = new Date(currentYear, currentMonth, 0).getDate();
+                prevLastDate = new Date(currentYear, currentMonth-1, 0).getDate();
                 
+                LastWeek = WEEKDAY[new Date(currentYear+"-"+currentMonth+"-"+currentLastDate).getDay()];
+            }
+
+            function dateList(){
+                let start = false;
+                let dayCount = currentLastDate;
+                for(var i = 41; i >= 0; i--)
+                {
+                    if($(".day").eq(i).attr("class").includes(LastWeek) && start == false && i <= 37)
+                    {
+                        start = true;
+                        console.log(i);
+                        for(var j = 41; j > i; j--)
+                        {
+                            $(".day").eq(j).text(j-i);
+                            $(".day").eq(j).addClass("nextMonth");
+                        }
+                    }
+                    
+                    if(start == true)
+                    {
+                        if(dayCount >= 1)
+                        {
+                            $(".day").eq(i).text(dayCount);
+                            $(".day").eq(i).removeClass("prevMonth");
+                            $(".day").eq(i).removeClass("nextMonth");
+                            
+                            if(currentYear == date.getFullYear() && currentMonth == date.getMonth()+1 && $(".day").eq(i).text() == currentDate){
+                                $(".day").eq(i).addClass("today");
+                            }
+                            else{
+                                $(".day").eq(i).removeClass("today");
+                            }
+                            dayCount -= 1;
+                        }
+                        else{
+                            $(".day").eq(i).text(prevLastDate+dayCount);
+                            $(".day").eq(i).removeClass("today");
+                            $(".day").eq(i).addClass("prevMonth");
+                            dayCount -= 1;
+                        }
+                        
+                    }
+                }
+            }
+
+            function nextMonth(){
+                if(currentMonth >= 12){
+                    currentYear += 1;
+                    currentMonth = 1;
+                    $("#year").text(currentYear)
+                    $("#month").text(currentMonth);
+                }
+                else{
+                    currentMonth += 1;
+                    $("#month").text(currentMonth);
+                }
+                dateInit();
+                dateList();
+            }
+
+            function prevMonth(){
+                if(currentMonth <= 1){
+                    currentYear -= 1;
+                    currentMonth = 12;
+                    $("#year").text(currentYear)
+                    $("#month").text(currentMonth);
+                }
+                else{
+                    currentMonth -= 1;
+                    $("#month").text(currentMonth);
+                }
+                dateInit();
+                dateList();
             }
         </script>
 	</body>
