@@ -1,5 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: user1
+=======
+<<<<<<< HEAD
+Built-By: user1
+=======
+Built-By: kgd14
+>>>>>>> 425f87ef23fd55c5d5a4746ed640628966980119
+>>>>>>> c55f250ed787178e484b0551f458f76297f30f8c
 Build-Jdk: 11.0.23
 Created-By: Maven Integration for Eclipse
 
