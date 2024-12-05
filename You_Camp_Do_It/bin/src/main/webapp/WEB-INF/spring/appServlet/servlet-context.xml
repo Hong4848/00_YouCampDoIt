@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<!-- 
+		* servlet-context.xml 파일
+		Spring 프레임워크의 핵심 부품인 "DispatcherServlet" 이
+		요청 처리 시 알아야 할 관련 설정을 등록하는 문서
+		
+		보통 요청과 요청 시 처리할 코드와 관련된 설정들을 주로 기술
+		(root-context.xml 에 기술한 설정 보다는 중요도가 다소 낮다!!)
+		
+		> 수많은 설정 xml 파일들 중에서 세번째로 읽혀짐
+	-->
+	
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<!-- 
+		1. @Controller 와 같은 MVC 관련 어노테이션을
+		   코드에서 사용할 수 있게끔 활성화 시켜주는 설정
+		   
+		- Spring 에서 제공하는 MVC 관련 어노테이션 : @Controller
+											   @Service
+											   @Repository   
+	-->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<!-- 
+		2. 이 웹사이트에서 필요로 하는 이미지와 같은 외부 자원 파일들을 보관해둘
+		   resources 폴더 (src/main/webapp/resources 를 지칭)
+		   에 대한 경로를 설정하는 부분
+	-->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 
+		3. 응답 페이지 포워딩 시
+		   포워딩할 응답페이지의 파일 경로를 "자동완성" 해주는 설정
+		- prefix : 접두어 (/WEB-INF/views/)
+		- suffix : 접미어 (.jsp)
+		
+		org.springframework.web.servlet.view 패키지의
+		InternalResourceViewResolver 라는 클래스에 의해 경로가 자동완성 되는 원리!!
+	-->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 
+		위의 설정에 의해 해당 객체가 필요할 때 마다
+		
+		InternalResourceViewResolver internalResourceViewResolver 
+						= new InternalResourceViewResolver();
+		internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+		internalResourceViewResolver.setSuffix(".jsp");
+		
+		Spring 에 의해 setter 주입으로 객체가 생성됨!!
+	-->
+	
+	<!-- 
+		4. base-package 에서 설정된 
+		   3 단계의 기본 패키지 (프로젝트 생성 시 최초 설정했었던 것) 안의
+		   모든 클래스에 대해 자동으로 객체를 생성할 수 있게 도와주는 설정
+		   
+		- 스프링에서는 객체를 "Bean" 이라고 부른다고 했었음!! 
+		- 스프링에서는 앞으로 개발자인 내가 직접 new 구문을 통해
+		  객체를 생성할 일이 거의 없어질 것!!
+		  (주도권이 완전히 Spring 한테 들어가게 되기 때문)
+		- 이 설정을 통해 base-package 를 지정하게 되면
+		  이 패키지 하위에 있는 클래스들 중에서 (그것도 어노테이션이 붙은 놈들 중에서)
+		  내가 필요할 때마다
+		  스프링에 의해 자동으로 객체가 생성되서 나한테 넘어오게 됨!!
+		  항상 스프링은 이 패키지에 어느 클래스들이 있는지 감시할 것 (Bean Scanning)
+	-->
+	
+	<context:component-scan base-package="com.kh.youcamp" />
+	
+	<!-- 
+		* xml 태그를 이용해서 bean 으로 등록하는 방법은
+		  매우 어려운 방식임 (귀찮고, 길고, 어렵고, 오류날수도 있고 ..)
+		
+		* Spring Legacy 에서는 bean 으로 등록하는 또 다른 방법을 제공하고 있음
+		> 어노테이션을 이용해서 bean 으로 등록하는 방식!!
+		  (이와 관련된 설정이 annotation-driven, component-scan 임)
+		> 내가 만든 자바 class 선언부 상단에 어노테이션을 기술하는 방식
+		
+		public class MemberController {
+			
+			{			
+				MemberService mService = new MemberServiceImpl();
+				// 매번 객체 생성하기 귀찮음, 스프링이 대신 만들어줬으면 좋겠음
+				// > MemberService 를 빈으로 등록하면됨!!
+			
+				mService.xxx();
+			}
+		}
+		호출
+		-> 
+		@Component
+		public class MemberServiceImple implements MemberService {
+		
+		}  
+		
+		<bean class="com.kh.spring.member.model.service.MemberService"
+			  id="mService" />
+	    로 빈을 등록해도 되지만..
+	    
+	    내가 직접 만든 클래스 (소스코드) 를 빈으로 등록하고자 할 경우 : 어노테이션 방식
+	    선배 개발자들이 만든 외부 클래스 (.class) 를 빈으로 등록하고자 할 경우 : xml 방식
+	-->
+	
+	<!-- 인터셉터 등록 부분 -->
+	
+	
+	
+	
+</beans:beans>
