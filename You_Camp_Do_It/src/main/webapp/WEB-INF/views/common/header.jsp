@@ -197,12 +197,12 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">큰메뉴이름2</a>
+                            <a href="">커뮤니티</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
-                                <a href="">세부내용1</a>
-                                <a href="">세부내용2</a>
-                                <a href="">세부내용3</a>
+                                <a href="list.no">공지사항</a>
+                                <a href="">후기게시판</a>
+                                <a href="">분실물게시판</a>
                             </div>
                         </div>
                         <div class="header_menu1">
