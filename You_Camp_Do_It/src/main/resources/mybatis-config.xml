@@ -27,6 +27,7 @@
 		<typeAlias type="com.kh.youcamp.review.model.vo.ReviewAttachment" alias="reviewAttachment" />
 		<typeAlias type="com.kh.youcamp.review.model.vo.ReviewReply" alias="reviewReply" />
 		<typeAlias type="com.kh.youcamp.review.model.vo.ReviewLike" alias="reviewLike" />
+		<typeAlias type="com.kh.youcamp.cart.model.vo.Cart" alias="cart" />
 		
 		
 	</typeAliases>
@@ -44,6 +45,7 @@
 		<mapper resource="/mappers/order-mapper.xml" />
 		<mapper resource="/mappers/reserve-mapper.xml" />
 		<mapper resource="/mappers/review-mapper.xml" />
+		<mapper resource="/mappers/cart-mapper.xml" />
 	</mappers>
 
 </configuration>
