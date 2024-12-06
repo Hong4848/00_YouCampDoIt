@@ -11,49 +11,57 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
         .content {
-        	margin:auto;
             display: flex;
-            width : 1200px;
+            flex-direction: column; /* 수직 배치를 위한 플렉스 방향 설정 */
+            align-items: center; /* 자식 요소들을 가운데 정렬 */
         }
-        /*사이드메뉴바*/
-        .main-side{padding: 20px;}
-        .sidebar {
-            width: 250px;
-            background-color: #4CAF50;
-            color: white;
-            height: 50%;
-            padding: 20px;
+        /* 메뉴바 스타일 */
+        .main-side {
+            width: 60%; /* 화면 전체 너비 */
+            padding: 10px; /* 내부 여백 설정 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            display: flex; /* 가로로 정렬 */
+            justify-content: center; /* 메뉴 항목을 가운데 정렬 */
         }
-        .sidebar hr {background-color : #C63C51;}
 
-        .sidebar h1 {
-            margin-bottom: 15px;
+        .sidebar {
+            width: 100%; /* 화면 전체 너비 */
+            max-width: 800px; /* 메뉴바 최대 너비 */
+            padding: 10px 0;
+
         }
-        .sidebar ul {
-            list-style-type: none;
+        
+        .main-side h1 {text-align: center;}
+
+        .sidebar  ul {
+            display: flex; /* 가로로 정렬 */
+            justify-content: center; /* 메뉴 항목을 가운데 정렬 */
+            list-style: none; /* 기본 리스트 스타일 제거 */
+            margin: 0;
             padding: 0;
         }
-        .sidebar li {
-            margin-bottom: 15px;
+
+        .sidebar  ul li {
+            margin: 0 15px; /* 메뉴 항목 간격 */
         }
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
+
+        .sidebar  ul li a {
+            text-decoration: none; /* 밑줄 제거 */
+            color: black; /* 텍스트 색상 */
+            font-size: 16px; /* 글씨 크기 */
+            font-weight: bold;
+            transition: color 0.3s ease;
         }
-        .sidebar i {
-            margin-right: 10px;
-        }
-        .sidebar ul li a:hover {
-            background-color: #8dd384bd;
-            border-radius: 5px;
+
+        .sidebar  ul li a:hover {
+            color: #ffcc00; /* 호버 시 색상 변경 */
         }
 
 
         .main-content {
             flex-grow: 1;
             padding: 20px;
+            width: 60%; /* main-side와 동일한 너비 */
         }
         .breadcrumb {
             display: flex;
@@ -128,7 +136,7 @@
         <div class="main-side">
             <div class="sidebar">          
                 <h3>커뮤니티</h3>
-                <hr>
+                <br>
                 <div>
                     <ul>
                         <li><a href="#"><i class="fas fa-notice"></i> 공지사항</a></li>
@@ -141,7 +149,7 @@
         <div class="main-content">
             <!--루트메뉴바-->
             <div class="breadcrumb">
-                <h2>공지사항</h2>
+                <h4>ꉂ🤭︎ 공지사항</h4>
                 <ul>
                     <li>홈</li>
                     <li>커뮤니티</li>

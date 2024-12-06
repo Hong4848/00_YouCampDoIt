@@ -24,4 +24,6 @@ INSERT INTO MEMBER(MEMBER_NO
                  , ?
                  , ?
                  , ?)
+                 
+
   

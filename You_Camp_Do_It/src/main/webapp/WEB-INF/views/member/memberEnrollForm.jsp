@@ -168,12 +168,12 @@
 	            </div>
 	
 	            <!-- 전화번호 -->
-	            <label for="phone">전화번호</label>
-	            <input type="text" id="phone" name="phone" placeholder="전화번호를 입력하세요(-포함)">
+	            <label for="phone">전화번호*</label>
+	            <input type="text" id="phone" name="phone" placeholder="전화번호를 입력하세요(-포함)" required>
 	
 	            <!-- 생년월일 -->
-	            <label for="birthDate">생년월일</label>
-	            <input type="date" id="birthDate" name="birthDate">
+	            <label for="birthDate">생년월일*</label>
+	            <input type="date" id="birthDate" name="birthDate" required>
 	
 	            <!-- 도로명 주소 -->
 	            <label for="address">도로명 주소*</label>

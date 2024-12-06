@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보 및 활동</title>
     <style>
-        body {
+        /*body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #ffe7e7;
-        }
+        }*/
 
         /* 헤더 스타일 */
         .myPage-header {
@@ -143,7 +144,7 @@
         }
     </style>
 </head>
-<body style="background-color: #ffe3e3;">
+<body>
 
     <jsp:include page="../common/header.jsp" />
 
@@ -164,7 +165,7 @@
         <!-- 프로필 섹션 -->
         <div class="profile-section">
             <div class="profile-info">
-                <span class="profile-userId">test123아이디 님</span>
+                <span class="profile-userId">${sessionScope.loginMember.memberId} 님</span>
                 <a href="#">개인정보수정 / 탈퇴</a>
             </div>
         </div>
