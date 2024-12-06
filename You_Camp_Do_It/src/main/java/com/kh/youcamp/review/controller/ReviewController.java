@@ -19,4 +19,11 @@ public class ReviewController {
 		mv.setViewName("review/reviewEnrollForm");
 		return mv;
 	}
+	
+	// 게시글 상세보기 요청 - Path Variable 방식을 이용
+	@GetMapping("detail.re")
+	public ModelAndView selectBoard(ModelAndView mv) {
+		mv.setViewName("review/reviewDetailView");
+		return mv;
+	}
 }
