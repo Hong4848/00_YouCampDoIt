@@ -176,8 +176,12 @@
                     </div>
                     <div style="height: 40%;"></div>
                     <div id="convenience" class="quick_a">
-                        <a href=""><img src="resources/images/mainPage/장바구니icon.png"></a>
-                        <a href="${ pageContext.request.contextPath }/myPage.me"><img src="resources/images/mainPage/마이페이지icon.png"></a>
+                        <a href="${ pageContext.request.contextPath }/list.ca">
+                        	<img src="resources/images/mainPage/장바구니icon.png">
+                        </a>
+                        <a href="${ pageContext.request.contextPath }/myPage.me">
+                        	<img src="resources/images/mainPage/마이페이지icon.png">
+                        </a>
                     </div>
                 </div>
             </div>

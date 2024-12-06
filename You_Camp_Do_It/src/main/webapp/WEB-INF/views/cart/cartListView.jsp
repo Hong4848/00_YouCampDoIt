@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
     <style>
-        /* 전체 백그라운드 스타일 */
+        /* 전체 백그라운드 스타일 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
-        }
+        }*/
 
         /* 헤더부분 */
         .cart-header {
@@ -69,7 +71,7 @@
         }
 
         /* 컨테이너 */
-        .container {
+        .cart-container {
             max-width: 1000px;
             margin: 20px auto;
             padding: 20px;
@@ -237,6 +239,8 @@
 </head>
 <body>
 
+	<jsp:include page="../common/header.jsp" />
+	
     <div class="cart-header">
         <h1>장바구니</h1>
     </div>
@@ -253,7 +257,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="cart-container">
         <!-- Cart Items - 장바구니 목록조회 부분 -->
         <div class="cart-item">
             <input type="checkbox">
@@ -427,6 +431,8 @@
             <button class="order-btn">결제하기</button>
         </div>
     </div>
+    
+    <jsp:include page="../common/footer.jsp" />
 
     <script>
         document.querySelectorAll('.quantity-decrease').forEach(button => {
@@ -449,3 +455,4 @@
     </script>
 </body>
 </html>
+    
