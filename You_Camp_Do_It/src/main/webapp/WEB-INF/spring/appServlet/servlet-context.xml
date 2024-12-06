@@ -117,6 +117,14 @@
 	-->
 	
 	<!-- 인터셉터 등록 부분 -->
+	<!-- 인터셉터 등록 -->
+	<interceptors>
+		<interceptor>
+			<mapping path="/myPage.me" />
+			<beans:bean class="com.kh.youcamp.common.intercepter.LoginInterceptor" 
+						id="loginInterceptor" />
+		</interceptor>
+	</interceptors>
 
 	
 	
