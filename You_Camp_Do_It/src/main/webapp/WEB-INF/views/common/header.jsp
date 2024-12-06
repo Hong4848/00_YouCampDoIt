@@ -224,7 +224,7 @@
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/list.no">공지사항</a>
-                                <a href="">후기게시판</a>
+                                <a href="${ pageContext.request.contextPath }/list.re">후기게시판</a>
                                 <a href="">분실물게시판</a>
                             </div>
                         </div>
