@@ -1,6 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
-  
+ 	
+ 	<resultMap id="memberResultSet" type="member">
+ 		<id column="MEMBER_NO" property="memberNo" />
+ 		<result column="MEMBER_ID" property="memberId" />
+ 		<result column="MEMBER_PWD" property="memberPwd" />
+ 		<result column="MEMBER_NAME" property="memberName" />
+ 		<result column="BIRTH_DATE" property="birthDate" />
+ 		<result column="PHONE" property="phone" />
+ 		<result column="EMAIL" property="email" />
+ 		<result column="SIGNUP_DATE" property="signupDate" />
+ 		<result column="ADDRESS" property="address" />
+ 		<result column="STATUS" property="status" />
+ 	</resultMap>
+ 	
+ 	<!--
+ 		24.12.06 정성민
+ 		로그인 요청 처리용 쿼리문
+ 	-->
+ 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
+ 		SELECT *
+		  FROM MEMBER
+		 WHERE MEMBER_ID = #{memberId}
+		   AND STATUS = 'Y'
+ 	</select>
+ 	
+ 	<!--
+ 		24.12.06 정성민
+ 		회원가입 요청 처리용 쿼리문
+ 	-->
+ 	<insert id="insertMember" parameterType="member">
+ 		INSERT INTO MEMBER(MEMBER_NO
+                 , MEMBER_ID
+                 , MEMBER_PWD
+                 , MEMBER_NAME
+                 , BIRTH_DATE
+                 , PHONE
+                 , EMAIL
+                 , ADDRESS)
+            VALUES(MEMBER_SEQ.NEXTVAL
+                 , #{memberId}
+                 , #{memberPwd}
+                 , #{memberName}
+                 , #{birthDate}
+                 , #{phone}
+                 , #{email}
+                 , #{address})
+ 	</insert>
   
 </mapper>

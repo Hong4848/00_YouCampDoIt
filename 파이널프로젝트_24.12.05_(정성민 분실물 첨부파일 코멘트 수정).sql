@@ -48,7 +48,7 @@ CREATE TABLE MEMBER
 (
     MEMBER_NO           NUMBER                  PRIMARY KEY,
     MEMBER_ID           VARCHAR2(30)            UNIQUE NOT NULL,
-    MEMBER_PWD          VARCHAR2(50)            NOT NULL,
+    MEMBER_PWD          VARCHAR2(100)            NOT NULL,
     MEMBER_NAME         VARCHAR2(15)            NOT NULL,
     BIRTH_DATE          DATE,
     PHONE               CHAR(13)                NOT NULL,

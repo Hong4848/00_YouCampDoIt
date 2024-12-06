@@ -163,6 +163,25 @@
                     display: none;
                 }
             }
+            
+            /* 로그인폼 css */
+            .modal-content {
+	            font-family: Arial, sans-serif;
+	            
+	        }
+	        
+	        #links {
+	        	text-align: center;
+	        	margin-bottom : 20px;
+	        	margin-top: 0px;
+	        }
+	        
+	        #links a {
+	        	color: black;
+	        }
+            
+            
+            
         </style>
     </head>
     <body>
@@ -200,7 +219,7 @@
                             <a href="">커뮤니티</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
-                                <a href="list.no">공지사항</a>
+                                <a href="${ pageContext.request.contextPath }/list.no">공지사항</a>
                                 <a href="">후기게시판</a>
                                 <a href="">분실물게시판</a>
                             </div>
@@ -281,25 +300,63 @@
                     <h4 class="modal-title">로그인</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
+                    
+                    <!-- 
+                    	로그인 요청 시 
+                    	http://localhost:8006/youcamp/login.me
+                    -->
             
-                    <!-- Modal body -->
-                    <form action="">
+                    
+                    <form action="${ pageContext.request.contextPath }/login.me" method="post" >
+                    	<!-- Modal body -->
                         <div class="modal-body">
-                            <label for="userId" class="mr-sm-2">아이디 :</label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력해주세요" id="userId"><br>
-                            <label for="userPwd" class="mr-sm-2">비밀번호 :</label>
-                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력해주세요" id="userPwd" autoComplete="off"><br>
+                            <label for="memberId" class="mr-sm-2">아이디</label>
+                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력해주세요" id="memberId" name="memberId" value="" required><br>
+                            <label for="memberPwd" class="mr-sm-2">비밀번호</label>
+                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력해주세요" id="memberPwd" name="memberPwd" required autoComplete="off"><br>
+                        
+                        	<div class="text-right">
+						        <button type="submit" class="btn btn-primary mb-2">로그인</button>
+						    </div>
                         </div>
             
                         <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary mb-2">회원가입</button>
-                            <button type="reset" class="btn btn-warning mb-2">초기화</button>
-                            <button type="button" class="btn btn-danger mb-2" data-dismiss="modal">취소</button>
+						<div id="links">
+						    <a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
+						    <a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
+						    <a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
+						</div>
+                        <!-- 
+                        <div class="links">
+                        	<a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
+                        	<a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
+                        	<a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
+                        	
+                        	
+                        	<button type="button" class="btn btn-primary mb-2">회원가입</button>
+                            <button type="submit" class="btn btn-primary mb-2">아이디 찾기</button>
+                            <button type="submit" class="btn btn-primary mb-2">비밀번호 찾기</button>
                         </div>
+                         -->
                     </form>
                 </div>
             </div>
         </div>
+        
+        <script>
+        	
+        </script>
 	</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
