@@ -28,7 +28,7 @@ public class CartServiceImpl implements CartService{
 	@Override
 	@Transactional
 	public int insertCart(Cart cart) {
-		return cartDao.insertCart(sqlSession, cart);
+		return 0; //cartDao.insertCart(sqlSession, cart);
 	}
 
 }
