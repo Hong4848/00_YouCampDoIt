@@ -240,12 +240,11 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">큰메뉴이름3</a>
+                            <a href="">실시간 예약</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
-                                <a href="">세부내용1</a>
-                                <a href="">세부내용2</a>
-                                <a href="">세부내용3</a>
+                                <a href="${ pageContext.request.contextPath }/reserveDate.res">실시간 예약</a>
+                                <a href="${ pageContext.request.contextPath }/reserveList.res">예약확인/취소</a>
                             </div>
                         </div>
                         <div class="header_menu1">
