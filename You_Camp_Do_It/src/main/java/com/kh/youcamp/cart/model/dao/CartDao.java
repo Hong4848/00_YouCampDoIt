@@ -11,8 +11,9 @@ import com.kh.youcamp.member.model.vo.Member;
 @Repository
 public class CartDao {
 
-	public ArrayList<Cart> selectList(SqlSessionTemplate sqlSession, Member m) {
-		return (ArrayList)sqlSession.selectList("cartMapper.selectCartList");
+	public ArrayList<Cart> selectList(SqlSessionTemplate sqlSession, int memberNo) {
+	    return (ArrayList) sqlSession.selectList("cartMapper.selectList", memberNo);
 	}
+
 
 }

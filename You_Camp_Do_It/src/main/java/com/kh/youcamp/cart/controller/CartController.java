@@ -2,6 +2,8 @@ package com.kh.youcamp.cart.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,21 +27,25 @@ public class CartController {
 	 * @return
 	 */
 	@GetMapping("list.ca")
-	public ModelAndView selectList(Member m, 
-								 ModelAndView mv, 
-								 Model model) {
+	public ModelAndView selectList(ModelAndView mv, 
+								   Model model,
+								   HttpSession session) {
 		
-		// 헤더에서 memberNo 넘겨야함@@@@@@@@@@@@@@@@@@@@@@@@@
-		// 또는 세션에서 로그인 정보, memberNo 가져오기
+		// 세션에서 유저 번호 가져오기
+		Member loginMember = (Member) session.getAttribute("loginMember");
+		int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+//		System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
+
 		
-		
-		// 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
-		ArrayList<Cart> list = cartService.selectList(m);
+		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
+		ArrayList<Cart> list = cartService.selectList(memberNo);
+		// list 쿼리문 수정필요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 		
 		mv.addObject("list", list);
 		mv.setViewName("cart/cartListView");
+		// System.out.println("카트 list 뷰 db 조회 후 컨트롤러 단" + list);
 		
-		return mv;
+		 return mv;
 	}
 	
 	@GetMapping("insert.ca")
