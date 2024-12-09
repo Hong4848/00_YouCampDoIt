@@ -5,32 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
     <style>
-        /* 전체 백그라운드 스타일 */
+        /* 전체 백그라운드 스타일 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f9f9f9;
-        }
+
+            display: flex;
+            flex-direction: column;  수직 배치를 위한 플렉스 방향 설정 
+             align-items: center;  자식 요소들을 가운데 정렬 
+        } */
+
+        
+
 
         /* 헤더부분 */
         .cart-header {
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 700;
         }
-        .cart-header h1 {
-            margin: 0;
-            font-size: 20px;
+
+        .cart-header-wrap a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            padding: 10px 20px;
+            margin-right: 20px;
+            border-bottom: 3px solid transparent;
         }
+
+        .cart-header-wrap a:first-child {
+            color: #f7b500;
+            border-bottom: 3px solid #f7b500;
+        }
+
+        .cart-header-wrap a:hover {
+            color: #f7b500;
+        }
+
+
 
         /* 선택체크박스 부분 */
         .inner-1 {
-            display: flex;
+            /* display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
@@ -38,12 +59,23 @@
             margin: 0 auto;
             padding: 10px 20px;
             background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            position: sticky;
-            top: 60px;
-            z-index: 90;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid #ddd; */
+
+            /* 고정 속성 삭제 */
+            /* position: static; 기본 위치로 설정
+            box-shadow: none; 그림자 제거 */
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            margin-bottom: 20px; /* 아래 간격 추가 */
+            background-color: #fff;
+            border: 1px solid #ddd; /* 테두리 유지 */
+            border-radius: 4px; /* 약간 둥글게 처리 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 가벼운 그림자 */
         }
+
 
         .inner-1 label {
             display: flex;
@@ -237,196 +269,214 @@
 </head>
 <body>
 
-    <div class="cart-header">
-        <h1>장바구니</h1>
-    </div>
+    <div class="cart-outer" style="border: 1px solid red;">
 
-    <div class="inner-1">
-        <div class="total-chcek">
-            <label>
-                <input type="checkbox">전체 선택
-            </label>
+    
+        <br><br>
+        <div class="cart-header" style="border: 1px solid red;">
+            <div class="cart-header-wrap">
+                <a href="">장바구니</a>
+                <!-- <a href="">예약확인/취소</a> -->
+            </div>
         </div>
+        <br><br>
 
-        <div class="delete-checked">
-            <button>선택 삭제</button>
-        </div>
-    </div>
+        <div class="cart-container" style="border: 1px solid red;">
 
-    <div class="cart-container">
-        <!-- Cart Items - 장바구니 목록조회 부분 -->
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 접이식 의자</h3>
-                <p class="item-options">선택: 블랙</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="2" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
+            <!-- 선택체크박스 부분 -->
+            <div class="inner-1" style="border: 1px solid red;">
+                <div class="total-chcek">
+                    <label>
+                        <input type="checkbox">전체 선택
+                    </label>
+                </div>
+
+                <div class="delete-checked">
+                    <button>선택 삭제</button>
                 </div>
             </div>
-            <div class="item-price">
-                <p>39,800원</p>
+
+            <!-- Cart Items - 장바구니 목록조회 부분 -->
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 접이식 의자</h3>
+                    <p class="item-options">선택: 블랙</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="2" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>39,800원</p>
+                </div>
+                <button class="delete-btn">X</button>
             </div>
-            <button class="delete-btn">X</button>
+            
+            <!-- 하드코딩 부분 -->
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 초경량 텐트</h3>
+                    <p class="item-options">선택: 2인용 / 블루</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>149,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+        
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 LED 랜턴</h3>
+                    <p class="item-options">선택: 충전식</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="3" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>29,700원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+        
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 방수 매트</h3>
+                    <p class="item-options">선택: 대형</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>59,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+        
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 아이스박스</h3>
+                    <p class="item-options">선택: 24L / 화이트</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>89,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+        
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 휴대용 화로</h3>
+                    <p class="item-options">선택: 스테인리스</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>119,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 휴대용 테이블</h3>
+                    <p class="item-options">선택: 알루미늄 소재</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>79,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+            
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 스테인리스 코펠 세트</h3>
+                    <p class="item-options">선택: 4인용</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>49,900원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+            
+            <div class="cart-item">
+                <input type="checkbox">
+                <img src="https://via.placeholder.com/100" alt="상품 이미지">
+                <div class="item-details">
+                    <h3>캠핑용 휴대용 샤워기</h3>
+                    <p class="item-options">선택: 충전식 / 블루</p>
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="1" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <div class="item-price">
+                    <p>69,000원</p>
+                </div>
+                <button class="delete-btn">X</button>
+            </div>
+
         </div>
         
-        <!-- 하드코딩 부분 -->
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 초경량 텐트</h3>
-                <p class="item-options">선택: 2인용 / 블루</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
+        <br><br><br><br>
+
+        <div class="floating-area">
+            <div class="buy-area">
+                <span class="total-price">총 0건 주문금액 0원</span>
+                <button class="order-btn">결제하기</button>
             </div>
-            <div class="item-price">
-                <p>149,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-    
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 LED 랜턴</h3>
-                <p class="item-options">선택: 충전식</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="3" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>29,700원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-    
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 방수 매트</h3>
-                <p class="item-options">선택: 대형</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>59,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-    
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 아이스박스</h3>
-                <p class="item-options">선택: 24L / 화이트</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>89,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-    
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 휴대용 화로</h3>
-                <p class="item-options">선택: 스테인리스</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>119,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 휴대용 테이블</h3>
-                <p class="item-options">선택: 알루미늄 소재</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>79,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-        
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 스테인리스 코펠 세트</h3>
-                <p class="item-options">선택: 4인용</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>49,900원</p>
-            </div>
-            <button class="delete-btn">X</button>
-        </div>
-        
-        <div class="cart-item">
-            <input type="checkbox">
-            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-            <div class="item-details">
-                <h3>캠핑용 휴대용 샤워기</h3>
-                <p class="item-options">선택: 충전식 / 블루</p>
-                <div class="item-quantity">
-                    <span class="quantity-decrease">-</span>
-                    <input type="text" value="1" class="quantity-input" readonly>
-                    <span class="quantity-increase">+</span>
-                </div>
-            </div>
-            <div class="item-price">
-                <p>69,000원</p>
-            </div>
-            <button class="delete-btn">X</button>
         </div>
 
     </div>
-    
-    <br><br><br><br>
 
-    <div class="floating-area">
-        <div class="buy-area">
-            <span class="total-price">총 0건 주문금액 0원</span>
-            <button class="order-btn">결제하기</button>
-        </div>
-    </div>
+
+
+
+
+
 
     <script>
         document.querySelectorAll('.quantity-decrease').forEach(button => {

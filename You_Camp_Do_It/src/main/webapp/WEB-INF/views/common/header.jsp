@@ -74,6 +74,8 @@
             }
 
             .header_menu1{
+                width: 200px;
+                text-align: center;
                 margin-top: 15px;
                 padding: 30px;
                 position: relative;
@@ -222,10 +224,10 @@
                 <div id="header_list" class="header1">
                     <div class="header_menuList">
                         <div class="header_menu1">
-                            <a href="">큰메뉴이름1</a>
+                            <a href="">캠핑용품</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
-                                <a href="">세부내용1</a>
+                                <a href="product.gs">용품목록</a>
                                 <a href="">세부내용2</a>
                                 <a href="">세부내용3</a>
                             </div>
