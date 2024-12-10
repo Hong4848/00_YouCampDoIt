@@ -10,7 +10,6 @@ public class GoodsController
 	@GetMapping("product.gs")
 	public ModelAndView selectList(ModelAndView mv)
 	{
-		// /WEB-INF/views/board/boardListView.jsp
 		mv.setViewName("goods/shoppingMall");
 		return mv;
 	}
