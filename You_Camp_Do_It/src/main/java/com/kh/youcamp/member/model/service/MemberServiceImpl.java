@@ -53,9 +53,13 @@ public class MemberServiceImpl implements MemberService {
 		return 0;
 	}
 
+	/**
+	 * 24.12.10 정성민
+	 * 아이디 중복체크용 서비스 메소드
+	 */
 	@Override
 	public int idCheck(String checkId) {
-		return 0;
+		return memberDao.idCheck(sqlSession, checkId);
 	}
 
 	@Override

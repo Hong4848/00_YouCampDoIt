@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.youcamp.member.model.service.MemberService;
@@ -136,7 +137,15 @@ public class MemberController {
 	}
 	
 	
-	
+	@ResponseBody
+	@GetMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
+	public String idCheck(String checkId) {
+		
+		int count = memberService.idCheck(checkId);
+		
+		return (count > 0) ? "NNNNN" : "NNNNY";
+		
+	}
 	
 	
 	

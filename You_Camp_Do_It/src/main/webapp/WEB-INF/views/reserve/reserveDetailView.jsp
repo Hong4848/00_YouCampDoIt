@@ -454,8 +454,7 @@
             display: flex; /* 버튼 내부에서 수직 중앙 정렬 활성화 */
             align-items: center; /* 수직 중앙 정렬 */
             justify-content: center; /* 가로 중앙 정렬 (선택 사항) */
-            background-color: #ddd;
-            color: #333;
+            background-color: #a59e9e;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -464,7 +463,7 @@
             flex: 1;
             text-decoration: none;
             font-size: 16px; /* 글자 크기 */
-            color: #333; /* 텍스트 색상 */
+            color: white; /* 텍스트 색상 */
             height: 45px
             
         }
@@ -483,6 +482,14 @@
             font-size: 16px; /* 글자 크기 */
             flex: 2;
             height: 45px;
+        }
+        
+        .select_button .btnNext:hover {
+            background-color: #5a4d2e;
+        }
+        
+        .select_button .btn_cancel:hover {
+        	background-color: #6c5e37;
         }
 
         .reserv_guide_txt {
@@ -509,8 +516,8 @@
 		<!-- 실시간 예약 / 예약확인,취소 -->
         <div id="content_1">
             <div class="reserve_wrap">
-                <a href="">실시간 예약</a>
-                <a href="">예약확인/취소</a>
+                <a href="reserveDate.res">실시간 예약</a>
+                <a href="reserveList.res">예약확인/취소</a>
             </div>
         </div>
         
@@ -709,7 +716,7 @@
                             </div>
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid30">취소</a>
-                                <button type="button" class="wid_70 btnNext" onclick="goToPayment();">다음단계</button>
+                                <button type="button" class="wid_70 btnNext" >다음단계</button>
                             </div>
                         </div>
                     </div>
@@ -720,6 +727,24 @@
     </div>
 
     <script>
+    
+    	$(function() {
+    		
+    		// "다음단계" 버튼 클릭 이벤트
+            $(".btnNext").on("click", function (e) {
+                // 체크박스 선택 여부 확인
+                if ($("input[name='roomNoArr']:checked").length === 0) {
+                    e.preventDefault(); // 기본 동작 방지
+                    alert("사이트를 선택해주세요!"); // 경고 메시지
+                    return false; // 요청 차단
+                }
+                
+                // 체크박스가 선택된 경우 요청 진행
+                location.href="reservePayment.res";
+            });
+    		
+    		
+    	});
         
         // 모든 체크박스를 가져옵니다.
         const checkboxes = document.querySelectorAll('.site_select ul li input[type="checkbox"]');
@@ -734,9 +759,7 @@
             });
         });
         
-        function goToPayment() {
-        	location.href="reservePayment.res";
-        }
+        
 
 
 

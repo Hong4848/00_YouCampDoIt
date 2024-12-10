@@ -263,9 +263,6 @@
             position: relative;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             
-            
-            
-            
         }
         
 
@@ -483,8 +480,7 @@
             display: flex; /* 버튼 내부에서 수직 중앙 정렬 활성화 */
             align-items: center; /* 수직 중앙 정렬 */
             justify-content: center; /* 가로 중앙 정렬 (선택 사항) */
-            background-color: #ddd;
-            color: #333;
+            background-color: #a59e9e;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -493,7 +489,7 @@
             flex: 1;
             text-decoration: none;
             font-size: 16px; /* 글자 크기 */
-            color: #333; /* 텍스트 색상 */
+            color: white; /* 텍스트 색상 */
             height: 45px
             
         }
@@ -512,6 +508,14 @@
             font-size: 16px; /* 글자 크기 */
             flex: 2;
             height: 45px;
+        }
+        
+        .select_button .btnPay:hover {
+            background-color: #5a4d2e;
+        }
+        
+        .select_button .btn_cancel:hover {
+        	background-color: #6c5e37;
         }
 
         
@@ -598,8 +602,8 @@
 		<!-- 실시간 예약 / 예약확인,취소 -->
         <div id="content_1">
             <div class="reserve_wrap">
-                <a href="">실시간 예약</a>
-                <a href="">예약확인/취소</a>
+                <a href="reserveDate.res">실시간 예약</a>
+                <a href="reserveList.res">예약확인/취소</a>
             </div>
         </div>
 
@@ -690,7 +694,7 @@
                                 </div>
                             </div>
                             
-                            
+                        
                             
                         <div>
                             <div class="tit_h3">
@@ -882,13 +886,14 @@
                                 </div>
                             </div>
                             
+                            
                         
                             
                             
                             <div class="section reserv_agree2">
                                 <div class="agree_box">
-                                    <input type="checkbox" name="agree2" id="agree2">
-                                    <label for"agree2"> 취소/환불 규정에 대한 동의 (필수동의)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <input type="checkbox" name="agree2" id="agree2" class="custum_checkbox">
+                                    <label for="agree2"> 취소/환불 규정에 대한 동의 (필수동의)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <a href="" class="btn_show">
                                         보기
                                         <span class="ico ico_show_arrow"></span>
@@ -978,24 +983,48 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+        $(function() {
             $(".btn_show").on("click", function (e) {
-        e.preventDefault();
-        const $agreeTxt = $(this).siblings(".agree_txt");
-        const $arrow = $(this).find(".ico_show_arrow");
-
-        // 약관 상태에 따라 슬라이드 및 화살표 방향 전환
-        $agreeTxt.slideToggle(200, function () {
-            if ($agreeTxt.is(":visible")) {
-                $arrow.removeClass("down").addClass("up"); // 위쪽 화살표
-            } else {
-                $arrow.removeClass("up").addClass("down"); // 아래쪽 화살표
-            }
-        });
-    });
-
+		        e.preventDefault();
+		        const $agreeTxt = $(this).siblings(".agree_txt");
+		        const $arrow = $(this).find(".ico_show_arrow");
+		
+		        // 약관 상태에 따라 슬라이드 및 화살표 방향 전환
+		        $agreeTxt.slideToggle(200, function () {
+		            if ($agreeTxt.is(":visible")) {
+		                $arrow.removeClass("down").addClass("up"); // 위쪽 화살표
+		            } else {
+		                $arrow.removeClass("up").addClass("down"); // 아래쪽 화살표
+		            }
+		        });
+		    });
+            
+            $(".btnPay").on("click", function(e) {
+            	if (!$("#agree1").is(":checked")) {
+            		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
+            		return false;
+            	} else if (!$("#agree2").is(":checked")) {
+            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
+            		return false;
+            	} else if (!$("#agree3").is(":checked")) {
+            		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
+            		return false;
+            	} 
+            	
+            	location.href="reserveComplete.res";
+            	
+            	
+            });
+            
+            
             
         });
+        
+        function goToComplete() {
+        	location.href="reserveComplete.res";
+        }
+        
+        
     </script>
     
     <jsp:include page="../common/footer.jsp" />

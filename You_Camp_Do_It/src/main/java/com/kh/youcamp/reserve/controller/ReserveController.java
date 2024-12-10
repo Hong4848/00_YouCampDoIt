@@ -43,9 +43,49 @@ public class ReserveController {
 	 * @return
 	 */
 	@GetMapping("reservePayment.res")
-	public String toReservepayment() {
+	public String toReservePayment() {
 		
 		return "reserve/reservePaymentView";
 	}
 	
+	
+	/**
+	 * 24.12.10 정성민
+	 * 캠핑장 결제 완료 페이지 접속요청용 컨트롤러
+	 * (추후에 결제 완료시 이동하도록 조건 걸고 쿼리스트링으로 받아온 변수 처리해줘야됨!!)@@@@
+	 * @return
+	 */
+	@GetMapping("reserveComplete.res")
+	public String toReserveComplete() {
+		
+		return "reserve/reserveCompleteView";
+	}
+	
+	
+	/**
+	 * 24.12.10 정성민
+	 * 캠핑장 예약 내역 페이지 접속요청용 컨트롤러
+	 * @return
+	 */
+	@GetMapping("reserveList.res")
+	public String toReserveList() {
+		
+		return "reserve/reserveListView";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
+

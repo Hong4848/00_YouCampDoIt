@@ -135,8 +135,10 @@
 	            <!-- 아이디 -->
 	            <label for="memberId">아이디*</label>
 	            <div class="input-group">
-	                <input type="text" id="memberId" name="memberId" placeholder="아이디를 입력하세요" required>
-	                <button type="button" id="checkId" class="btn">중복확인</button>
+	                <input type="text" id="memberId" name="memberId" placeholder="아이디를 입력하세요(영문, 숫자 포함 6글)" required>
+	            </div>
+	            <div id="checkResult" style="font-size: 0.8em; display: none;">
+	            
 	            </div>
 	
 	            <!-- 비밀번호 -->
@@ -196,8 +198,8 @@
             
             
             
+            let isIdChecked = false;
             // 아이디 중복체크 이벤트
-            /*
             const $idInput = $("#enrollForm input[name=memberId]");
             
             $idInput.keyup(function() {
@@ -223,20 +225,21 @@
 								
 								$("#checkResult").show()
 												 .css("color", "red")
-												 .text("중복된 아이디가 이미 존재합니다. 다시 입력해주세요.");
+												 .text("중복된 아이디가 이미 존재합니다. 다시 입력해주세요!");
 								
 								// 회원가입 버튼 비활성화
-								$("#enrollForm button[type=submin]").attr("disabled", true);
+								// $("#enrollForm button[type=submin]").attr("disabled", true);
+								isIdChecked = false;
 							} else {
 								// 사용 가능 아이디
 								
 								$("#checkResult").show()
 												 .css("color", "green")
-												 .text("멋진 아이디네요!");
+												 .text("사용 가능한 아이디입니다!");
 								
 								// 회원가입 버튼 활성화
-								$("#enrollForm button[type=submit]").attr("disabled", false);
-								
+								// $("#enrollForm button[type=submit]").attr("disabled", false);
+								isIdChecked = true;
 							}
 							
 						},
@@ -249,24 +252,38 @@
 					
 					// 5글자 미만일 경우
 					// > 회원가입 버튼 비활성화, 메세지 내용 숨기기
-					$("#enrollForm button[type=submit]").attr("disabled", true);
+					// $("#enrollForm button[type=submit]").attr("disabled", true);
 					$("#checkResult").hide();
+					isIdChecked = false;
 					
 				}
             	
             });
-            */
+            
+            // 회원가입 버튼 클릭 시 중복체크 상태 확인
+            $("#enrollForm button[type=submit]").on("click", function() {
+            	if(!isIdChecked) {
+            		console.log(isIdChecked);
+            		alert("아이디 중복체크를 먼저 진행해주세요!");
+            		
+            		return false;
+            	}
+            	
+            });
+            
+            
+            // 아이디 유효성 검사
+            
+            
+            
             
             
         });
         
         
-        
-        
-        
-        
     </script>
     
     <jsp:include page="../common/footer.jsp" />
+    
 </body>
 </html>

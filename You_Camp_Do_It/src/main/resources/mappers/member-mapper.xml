@@ -48,5 +48,15 @@
                  , #{email}
                  , #{address})
  	</insert>
+ 	
+ 	<select id="idCheck" parameterType="string" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE MEMBER_ID = #{checkId}
+ 	</select>
+ 	
+ 	
+ 	
+ 	
   
 </mapper>

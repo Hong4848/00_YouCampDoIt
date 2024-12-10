@@ -25,5 +25,12 @@ INSERT INTO MEMBER(MEMBER_NO
                  , ?
                  , ?)
                  
-
+-- 3. 아이디 중복체크용 쿼리문
+SELECT COUNT(*)
+  FROM MEMBER
+ WHERE MEMBER_ID = ?
+                 
+                 
+-- RESERVE 테이블 관련 쿼리문들
+-- 1. 
   

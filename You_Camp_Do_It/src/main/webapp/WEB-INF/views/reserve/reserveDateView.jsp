@@ -321,8 +321,8 @@
     	<!-- 실시간 예약 / 예약확인,취소 -->
         <div id="content_1">
             <div class="reserve_wrap">
-                <a href="">실시간 예약</a>
-                <a href="">예약확인/취소</a>
+                <a href="reserveDate.res">실시간 예약</a>
+                <a href="reserveList.res">예약확인/취소</a>
             </div>
         </div>
         
@@ -377,7 +377,7 @@
                 <div class="section item_box">
                     <div class="item">
                     	<!-- 숙박일, 체크인/체크아웃 날짜, 섹션값 쿼리 스트링으로 추후에 넘겨줘야함!! -->
-                        <a href="${ pageContext.request.contextPath }/reserveDetail.res">
+                        <a href="reserveDetail.res">
                             <p class="item_img">
                                 <img src="resources/images/reserve/reserveDate/forest.jpg" alt="A섹션" width="800">
                             </p>
@@ -392,7 +392,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="${ pageContext.request.contextPath }/reserveDetail.res">
+                        <a href="reserveDetail.res">
                             <p class="item_img">
                                 <img src="resources/images/reserve/reserveDate/belly.jpg" alt="B섹션">
                             </p>
@@ -407,7 +407,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="${ pageContext.request.contextPath }/reserveDetail.res">
+                        <a href="reserveDetail.res">
                             <p class="item_img">
                                 <img src="resources/images/reserve/reserveDate/sky.jpg" alt="C섹션">
                             </p>
@@ -422,7 +422,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="${ pageContext.request.contextPath }/reserveDetail.res">
+                        <a href="reserveDetail.res">
                             <p class="item_img">
                                 <img src="resources/images/reserve/reserveDate/stone.png" alt="D섹션">
                             </p>
