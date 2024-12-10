@@ -262,6 +262,23 @@
                 justify-content: space-evenly;
 				background-color: rgb(89, 131, 171);
 			}
+			
+			.category_set{
+				width: 80%;
+				height: 70px;
+				margin: auto;
+				margin-top: 50px;
+				border: 1px solid rgba(110, 110, 110, 0.5);
+				display: flex;
+				justify-content:space-evenly;
+				flex-wrap: wrap;
+			}
+
+			.category_set>div{
+				cursor: pointer;
+				text-align: center;
+				line-height: 65px;
+			}
 		</style>
 	</head>
 	<body>
@@ -376,7 +393,13 @@
 				<div style="height: 10px;"></div>
 				<button class="btn btn-secondary" style="width: 150px;">검색하기</button>
 			</div>
-			
+		</div>
+		<div class="category_set">
+			<div>텐트/쉘터(20)</div>
+			<div>침낭/난방기구(등록개수)</div>
+			<div>의자/테이블(10)</div>
+			<div>화로/버너/전자(20)</div>
+			<div>식기/아이스박스(5)</div>
 		</div>
 		<div id="goods_content">
 			<div style="margin: 10px; font-size: 17px;">등록 제품 : 20</div>
