@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,6 +97,7 @@
 
 
 
+
          /*루트메뉴바*/
         .main-content {
             flex: 1;
@@ -129,23 +130,6 @@
             justify-content: flex-end; /*오른쪽정렬*/
             gap: 5px; /* 요소 간 간격 */
         }
-        
-        .reDetitle {
-        	text-decoration : none;
-        	color : black;
-        }
-        
-        #review-centroller .reviewDetail-next {
-        
-	        display: block;
-	    	padding: 0 10px 10px 25px;
-    	}
-    	
-    	#review-centroller .reviewDetail-prev {
-        
-	        display: block;
-	    	padding: 0 10px 20px 25px;
-    	}
 </style>
 </head>
 <body>
@@ -157,8 +141,8 @@
                 <h3>커뮤니티</h3>
                 <br>
                 <div>
-                    <ul><!-- 상세보기에서 해당 메뉴 클릭시 각 목록조회페이지로 가도록 -->
-                        <li><a href="${ pageContext.request.contextPath }/list.no"><i class="fas fa-notice"></i>공지사항</a></li>
+                    <ul>
+						<li><a href="${ pageContext.request.contextPath }/list.no"><i class="fas fa-notice"></i>공지사항</a></li>
                         <li><a href="${ pageContext.request.contextPath }/list.re"><i class="fas fa-review"></i>후기게시판</a></li>
                         <li><a href="${ pageContext.request.contextPath }/list.lo"><i class="fas fa-lost"></i>분실물게시판</a></li>
                     </ul>
@@ -168,17 +152,17 @@
         <div class="main-content">
             <!--루트메뉴바-->
             <div class="breadcrumb">
-                <h4>후기게시판 상세보기</h4>
+                <h4>분실물게시판 상세보기</h4>
                 <ul>
                     <li>홈</li>
                     <li>커뮤니티</li>
-                    <li>후기게시판</li>
+                    <li>분실물게시판</li>
                 </ul>
             </div>
             
             <br><br>
-			
-            <table id="contentArea" align="center" class="table table-bordered">
+
+			<table id="contentArea" align="center" class="table table-bordered">
             	<tr>
             		<th>제목</th>
             	</tr>
@@ -229,47 +213,30 @@
 			    </tr>
             </table>
 
-			<c:if test="${ sessionScope.loginUser.userId eq requestScope.b.boardWriter }">
+			<c:if test="${ sessionScope.loginUser.userId eq requestScope.n.noticeWriter }">
 	            <div align="center" id="buttoncentroller">
-	                <!-- 
-	                	수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 
-	                	또한, url 주소상에 해당 게시글의 bno 가 보여지면 안됨~ 그래서 POST방식
-	                	으로 변경해주어야 한다~~
-	                -->
-                    <a class="btn btn-danger btn-sm">
-                        <span class="material-symbols-outlined">
-                        heart_check
-                        </span>
-                    </a>
-	                <a class="btn btn-success btn-sm" onclick="postFormSubmit(1);">
-	               		수정
-	                </a>
-	                <a class="btn btn-info btn-sm" onclick="postFormSubmit(2);">
-	                	삭제
-	                </a>
-                    <a class="btn btn-warning btn-sm" href="">목록</a>
-
+                    <a class="btn btn-warning btn-sm" href="list.lo">목록</a>
 	            </div>
 	            
 	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="bno" value="${ requestScope.b.boardNo }">
-	            	<input type="hidden" name="filePath" value="${ requestScope.b.changeName }">
+	            	<input type="hidden" name="nno" value="${ requestScope.n.noticeNo }">
+	            	<input type="hidden" name="filePath" value="${ requestScope.n.changeName }">
 	            </form>
 	            
 	            <script>
 	            	function postFormSubmit(num) {
 	            		// console.log(num);
-	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.bo)
-	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.bo)
+	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.no)
+	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.no)
 	            		
 	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
 	            		// 곧바로 submit 시키기!!
 	            		// attr : 기타 속성
 	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "../updateForm.bo").submit();
+	            			$("#postForm").attr("action", "../updateForm.no").submit();
 	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
 	            		} else { // 삭제하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.bo").submit();
+	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.no").submit();
 	            		}
 	            	}
 	            </script>
@@ -281,55 +248,13 @@
 
 
             <hr>
-            
-             <!-- 이전글, 다음글 -->
-             <div align="left" id="review-centroller">  
-	             <div class="reviewDetail-next">
-	             	<span class="next">다음글</span>
-	             	<a href="" class="reDetitle">캠핑 컨셉이 너무 잘나왔네요~~</a>
-	             </div>
-	             <div class="reviewDetail-prev">
-	             	<span class="prev">이전글</span>
-	             	<a href="" class="reDetitle">이번 캠핑 너무 즐거웠어요~~!!^--^</a>
-	             </div>
-             </div>
-            
-            
-            <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
-            <table id="replyArea" class="table" align="center">
-                <thead>
-                    <tr>
-                    
-                    	<c:choose>
-                    		<c:when test="${ empty sessionScope.loginUser }">
-                    			<!-- 로그인 전 : 댓글 작성 막기 -->
-		                        <th colspan="2">
-		                            <textarea class="form-control" cols="55" rows="2" 
-		                            		  style="resize:none; width:100%;" readonly>로그인한 사용자만 이용 가능한 서비스 입니다. 로그인 후 이용 바랍니다.</textarea>
-		                        </th>
-		                        <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
-		                    </c:when>
-		                    <c:otherwise>
-		                    	<!-- 로그인 후 : 댓글 작성 풀기 -->
-		                    	<th colspan="2">
-		                            <textarea class="form-control" id="content" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
-		                        </th>
-		                        <th style="vertical-align:middle">
-		                        	<button class="btn btn-secondary" onclick="addReply();">
-		                       	 		등록하기
-		                        	</button>
-		                        </th>
-		                    </c:otherwise>
-                        </c:choose>
-                        
-                    </tr>
-                    <tr>
-                        <td colspan="3">댓글(<span id="rcount">0</span>)</td>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
+            <table id="writeArea" class="table">
+                <div>
+                    이전글 | 2014.12.01 A구역 10번 에서 잃어버리신 물건 입니다.  <br>
+                    다음글 | 2024.12.15 B구역 1번 쪽에서 잃어버리신 물건입니다. <br>
+                </div>
             </table>
+            
         </div>
         <br><br>
 
@@ -348,7 +273,7 @@
 	    links.forEach(l => l.classList.remove('active'));
 	    event.currentTarget.classList.add('active');
 	});
-	</script>
+	</script>>
 
 </body>
 </html>

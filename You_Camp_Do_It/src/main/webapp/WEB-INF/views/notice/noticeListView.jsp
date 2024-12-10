@@ -24,38 +24,73 @@
             justify-content: center; /* 메뉴 항목을 가운데 정렬 */
         }
 
-        .sidebar {
-            width: 100%; /* 화면 전체 너비 */
-            max-width: 800px; /* 메뉴바 최대 너비 */
-            padding: 10px 0;
-
-        }
+        
+        /* 사이드메뉴 클릭시 약간의 강조 효과 부여 */
+        
+        .sidebar h3 {
+        	text-align: center; /* h3 태그를 가로로 중앙 정렬 */
+		    margin-bottom: 20px; /* 아래로 여백 추가 */
+		}
+        
+		/* 기본 스타일 */
+		.sidebar ul {
+		    display: flex; /* 한 줄로 정렬 */
+		    justify-content: center; /* 항목들을 중앙에 정렬 */
+		    margin: 0; /* 기본 마진 제거 */
+		    padding: 0; /* 기본 패딩 제거 */
+		    list-style: none; /* 기본 리스트 스타일 제거 */
+		}
+		
+		.sidebar li {
+		    margin: 20px; /* 항목 간격 추가 */
+		    margin-right: 60px; /* 항목들 사이에 20px 간격 추가 */
+		    padding-left  : 15px;
+		}
+		
+		.sidebar  li:last-child {
+		    margin-right: 0; /* 마지막 항목은 간격을 없앰 */
+		  }
+		
+		.sidebar li a {
+		    position: relative; /* 밑줄을 위한 기준 */
+		    text-decoration: none; /* 기본 밑줄 제거 */
+		    color: black; /* 텍스트 색상 */
+		    font-size: 18px; /* 텍스트 크기 */
+		    font-weight: bold;
+		    transition: font-size 0.3s ease, color 0.3s ease; /* 부드러운 애니메이션 */
+		}
+		
+		/* 마우스 오버 시 분홍색 밑줄 */
+		.sidebar li a:hover::after {
+		    content: "";
+		    position: absolute;
+		    left: 0;
+		    bottom: -5px; /* 밑줄 위치 */
+		    width: 100%; /* 밑줄 길이 */
+		    height: 3px; /* 밑줄 두께 */
+		    background-color: lightpink; /* 밑줄 색상 */
+		}
+		
+		/* 클릭된 상태에서 밑줄 효과 유지 */
+		.sidebar li a.active::after {
+		    content: "";
+		    position: absolute;
+		    left: 0;
+		    bottom: -5px; /* 밑줄 위치 */
+		    width: 100%; /* 밑줄 길이 */
+		    height: 3px; /* 밑줄 두께 */
+		    background-color: lightpink; /* 밑줄 색상 */
+		}
+		
+		/* 클릭된 상태 (active) */
+		.sidebar li a.active {
+		    color: blue; /* 클릭된 상태 텍스트 색상 */
+		    font-size: 20px; /* 클릭된 상태에서 폰트 크기 증가 */
+		}
+		
+		/* 메뉴바 효과 끝 */
         
         .main-side h1 {text-align: center;}
-
-        .sidebar  ul {
-            display: flex; /* 가로로 정렬 */
-            justify-content: center; /* 메뉴 항목을 가운데 정렬 */
-            list-style: none; /* 기본 리스트 스타일 제거 */
-            margin: 0;
-            padding: 0;
-        }
-
-        .sidebar  ul li {
-            margin: 0 15px; /* 메뉴 항목 간격 */
-        }
-
-        .sidebar  ul li a {
-            text-decoration: none; /* 밑줄 제거 */
-            color: black; /* 텍스트 색상 */
-            font-size: 16px; /* 글씨 크기 */
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar  ul li a:hover {
-            color: #ffcc00; /* 호버 시 색상 변경 */
-        }
 
 
         .main-content {
@@ -124,6 +159,7 @@
 
         /*페이징바*/
         #pagingArea {width:fit-content; margin:auto;}
+        
 
     </style>
 </head>
@@ -139,9 +175,9 @@
                 <br>
                 <div>
                     <ul>
-                        <li><a href="#"><i class="fas fa-notice"></i> 공지사항</a></li>
-                        <li><a href="#"><i class="fas fa-review"></i> 후기게시판</a></li>
-                        <li><a href="#"><i class="fas fa-lost"></i> 분실물게시판</a></li>
+                        <li><a href="${ pageContext.request.contextPath }/list.no"><i class="fas fa-notice"></i>공지사항</a></li>
+                        <li><a href="${ pageContext.request.contextPath }/list.re"><i class="fas fa-review"></i>후기게시판</a></li>
+                        <li><a href="${ pageContext.request.contextPath }/list.lo"><i class="fas fa-lost"></i>분실물게시판</a></li>
                     </ul>
                 </div>
             </div>
@@ -236,6 +272,22 @@
     </div> <!--content 영역 끝 -->
     
     <jsp:include page="../common/footer.jsp" />
+    
+    <script>
+ // 모든 링크 가져오기
+    const links = document.querySelectorAll('.sidebar li a');
+
+    // 클릭 이벤트 추가
+    links.forEach(link => {
+        link.addEventListener('click', (event) => {
+            // 모든 링크에서 active 클래스 제거
+            links.forEach(l => l.classList.remove('active'));
+
+            // 클릭된 링크에 active 클래스 추가
+            event.currentTarget.classList.add('active');
+        });
+    }
+	</script>
     
 </body>
 </html>

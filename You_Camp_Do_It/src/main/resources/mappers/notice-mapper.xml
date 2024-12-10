@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="noticeMapper">
+
+	<!-- NOTICE 테이블로부터 조회된 ResultSet 을 Notice VO 타입으로 옮겨주는 ResultMap -->
+	<resultMap id="noticeResultSet" type="notice">
+		<id column="NOTICE_NO" property="noticeNo" />
+		<result column="NOTICE_TITLE" property="noticeTitle" />
+		<result column="NOTICE_WRITER" property="noticeWriter" />
+		<result column="COUNT" property="count" />
+		<result column="CREATE_DATE" property="createDate" />
+		<result column="ORIGIN_NAME" property="originName" />
+		<result column="NOTICE_CONTENT" property="noticeContent" />
+		<result column="CHANGE_NAME" property="changeName" />	
+	</resultMap>
   
 </mapper>
