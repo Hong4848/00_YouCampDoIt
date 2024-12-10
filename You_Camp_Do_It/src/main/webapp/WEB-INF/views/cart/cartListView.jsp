@@ -258,10 +258,10 @@
 	<jsp:include page="../common/header.jsp" />
 	
 	<div class="cart-outer">
+	
         <div class="cart-header">
             <div class="cart-header-wrap">
                 <a href="">장바구니</a>
-                <!-- <a href="">예약확인/취소</a> -->
             </div>
         </div>
 	   
@@ -466,7 +466,14 @@
 	    <div class="floating-area">
 	        <div class="buy-area">
 	            <span class="total-price">총 0건 주문금액 0원</span>
-	            <button class="order-btn">결제하기</button>
+	            <!-- 
+	            	장바구니 항목이없거나, 주문금액이 0인 조건 활용해서
+	            	그땐 orderForm 페이지로 넘어가지 않게 처리
+	             -->
+	            <a class="order-btn"
+	               href="${ pageContext.request.contextPath }/orderForm.or">
+	            	결제하기
+	            </a>
 	        </div>
 	    </div>
     
@@ -493,6 +500,7 @@
             });
         });
     </script>
+    
 </body>
 </html>
     

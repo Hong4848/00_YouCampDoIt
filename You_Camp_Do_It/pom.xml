@@ -239,6 +239,13 @@
 		    <version>2.8.6</version>
 		</dependency>
 		
+		<!-- 나이스페이 사용 시 필요, 16진수 변환용 유틸리티 클래스  -->
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.15</version>
+		</dependency>
+		
 		
 		
 		

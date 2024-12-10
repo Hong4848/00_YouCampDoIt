@@ -28,6 +28,8 @@
 		<typeAlias type="com.kh.youcamp.review.model.vo.ReviewReply" alias="reviewReply" />
 		<typeAlias type="com.kh.youcamp.review.model.vo.ReviewLike" alias="reviewLike" />
 		<typeAlias type="com.kh.youcamp.cart.model.vo.Cart" alias="cart" />
+		<typeAlias type="com.kh.youcamp.order.model.vo.Order" alias="order" />
+		<typeAlias type="com.kh.youcamp.order.model.vo.OrderDetail" alias="orderDetail" />
 		
 		
 	</typeAliases>

@@ -31,4 +31,15 @@ public class MemberDao {
 		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 
+	/**
+	 * 24.12.10 13시 윤홍문
+	 * 회원정보 수정용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param m 수정할 회원정보
+	 * @return 성공한 행의 갯수
+	 */
+	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updateMember", m);
+	}
+
 }

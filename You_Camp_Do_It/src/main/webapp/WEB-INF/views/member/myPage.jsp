@@ -8,48 +8,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보 및 활동</title>
     <style>
-        /*body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffe7e7;
-        }*/
+        
+        .myPage-outer{
+			margin-top: 0; /* 상단 여백 제거 */
+		    padding-top: 0; /* 내부 여백 제거 */
+		    background-color: #f8f8f8; /* 배경색 유지 */
+		}
+		
+		/* 헤더부분 */
+		.myPage-header {
+		    margin: 0; /* 외부 여백 제거 */
+		    padding: 0; /* 내부 여백 제거 */
+		    display: flex;
+		    justify-content: center; /* 가로 중앙 정렬 */
+		    align-items: center; /* 세로 중앙 정렬 */
+		    height: 200px; /* 높이 유지 */
+		    box-sizing: border-box;
+		    background-color: white;
+		    font-size: 24px; /* 글씨 크기 추가 */
+		    font-weight: bold; /* 글씨 굵기 추가 */
+		    color: #333; /* 텍스트 색상 */
+		}
 
-        /* 헤더 스타일 */
-        .myPage-header {
-            background-color: #fff;
-            border-bottom: 1px solid #ddd;
-            padding: 15px 20px;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .myPage-header h1 {
-            font-size: 20px;
-            margin: 0;
+        .myPage-header-wrap a {
+            text-decoration: none;
+            font-size: 18px;
             color: #333;
+            padding: 10px 20px;
+            margin-right: 20px;
+            border-bottom: 3px solid transparent;
         }
 
-        /* 배경 이미지 */
-        .main-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* 뒤쪽에 배치 */
-            overflow: hidden;
+        .myPage-header-wrap a:first-child {
+            color: #f7b500;
+            border-bottom: 3px solid #f7b500;
         }
 
-        .main-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .myPage-header-wrap a:hover {
+            color: #f7b500;
         }
+        
 
         /* 컨테이너 */
-        .container {
+        .myPage-container {
             position: relative;
             max-width: 1200px;
             margin: 20px auto;
@@ -148,67 +149,68 @@
 
     <jsp:include page="../common/header.jsp" />
 
-    <!-- 배경 이미지 -->
-    <!-- 
-    <div class="main-img">
-        <img src="https://www.syu.ac.kr/wp-content/uploads/2021/11/%ED%98%B8%ED%94%84%EC%BA%A0%ED%94%84-%EC%B2%B4%ED%97%98%EA%B8%B0-1-%EC%9D%B8%EC%84%B1%EA%B5%90%EC%9C%A1%EC%9B%90-%EC%A0%9C%EA%B3%B5-scaled.jpg" 
-             alt="배경 이미지">
-    </div>
-     -->
+    <div class="myPage-outer">
+    
 
-    <!-- 마이페이지 헤더 -->
-    <div class="myPage-header">
-        <h1>마이페이지</h1>
-    </div>
-
-    <div class="container">
-        <!-- 프로필 섹션 -->
-        <div class="profile-section">
-            <div class="profile-info">
-                <span class="profile-userId">${sessionScope.loginMember.memberId} 님</span>
-                <a href="#">개인정보수정 / 탈퇴</a>
+	    <!-- 마이페이지 헤더 -->
+	    <div class="myPage-header">
+            <div class="myPage-header-wrap">
+                <a href="">마이페이지</a>
             </div>
         </div>
-
-        <!-- 메뉴 섹션 -->
-        <div class="menu-section">
-            <a href="#1" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="결제 내역 아이콘">
-                <span>결제 내역</span>
-            </a>
-            <a href="#2" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="장바구니 아이콘">
-                <span>장바구니</span>
-            </a>
-            <a href="#3" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="대여내역 아이콘">
-                <span>대여내역</span>
-            </a>
-            <a href="#4" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="예약내역 아이콘">
-                <span>예약내역</span>
-            </a>
-        </div>
-
-        <div class="menu-section">
-            <a href="#5" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="내가 쓴 글 아이콘">
-                <span>내가 쓴 글</span>
-            </a>
-            <a href="#6" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="내가 쓴 댓글 아이콘">
-                <span>내가 쓴 댓글</span>
-            </a>
-            <a href="#7" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="좋아요한 글 아이콘">
-                <span>좋아요한 글</span>
-            </a>
-            <a href="#8" class="menu-item">
-                <img src="https://via.placeholder.com/40" alt="찜한 물품 아이콘">
-                <span>찜한 물품</span>
-            </a>
-        </div>
-    </div>
+	
+	    <div class="myPage-container">
+	        <!-- 프로필 섹션 -->
+	        <div class="profile-section">
+	            <div class="profile-info">
+	                <span class="profile-userId">${sessionScope.loginMember.memberId} 님</span>
+	                <a href="${ pageContext.request.contextPath }/updateForm.me">
+	                	개인정보수정 / 탈퇴
+	                </a>
+	            </div>
+	        </div>
+	
+	        <!-- 메뉴 섹션 -->
+	        <div class="menu-section">
+	            <a href="#1" class="menu-item">
+	                <img src="resources/images/member/PaymentDetailsIcon.png" alt="결제 내역 아이콘">
+	                <span>결제 내역</span>
+	            </a>
+	            <a href="${ pageContext.request.contextPath }/list.ca" class="menu-item">
+	                <img src="resources/images/member/CartIcon.png" alt="장바구니 아이콘">
+	                <span>장바구니</span>
+	            </a>
+	            <a href="#3" class="menu-item">
+	                <img src="resources/images/member/GoodsRentalIcon.png" alt="대여내역 아이콘">
+	                <span>대여내역</span>
+	            </a>
+	            <a href="#4" class="menu-item">
+	                <img src="resources/images/member/ReservationListIcon.png" alt="예약내역 아이콘">
+	                <span>예약내역</span>
+	            </a>
+	        </div>
+	
+	        <div class="menu-section">
+	            <a href="#5" class="menu-item">
+	                <img src="resources/images/member/MyScriptIcon.png" alt="내가 쓴 글 아이콘">
+	                <span>내가 쓴 글</span>
+	            </a>
+	            <a href="#6" class="menu-item">
+	                <img src="resources/images/member/MyReplyIcon.png" alt="내가 쓴 댓글 아이콘">
+	                <span>내가 쓴 댓글</span>
+	            </a>
+	            <a href="#7" class="menu-item">
+	                <img src="resources/images/member/MyLikeIcon.png" alt="좋아요한 글 아이콘">
+	                <span>좋아요한 글</span>
+	            </a>
+	            <a href="#8" class="menu-item">
+	                <img src="resources/images/member/MyGoodIcon.png" alt="찜한 물품 아이콘">
+	                <span>찜한 물품</span>
+	            </a>
+	        </div>
+	    </div>
+	<br>
+	</div>    
 
 	<jsp:include page="../common/footer.jsp" />
 
