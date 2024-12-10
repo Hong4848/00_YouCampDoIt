@@ -49,6 +49,7 @@
                  , #{address})
  	</insert>
  	
+
  	<select id="idCheck" parameterType="string" resultType="_int">
  		SELECT COUNT(*)
 		  FROM MEMBER
@@ -58,5 +59,19 @@
  	
  	
  	
+
+ 	<!-- 
+ 		회원정보 수정용 쿼리문
+ 		24.12.10 13시 윤홍문
+ 	 -->
+ 	<update id="updateMember" parameterType="member">
+		UPDATE MEMBER
+		   SET BIRTH_DATE = #{birthDate}
+		     , PHONE = #{phone}
+		     , ADDRESS = #{address}
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND STATUS = 'Y'
+	</update>
+
   
 </mapper>

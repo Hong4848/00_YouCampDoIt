@@ -28,38 +28,73 @@
             justify-content: center; /* 메뉴 항목을 가운데 정렬 */
         }
 
-        .sidebar {
-            width: 100%; /* 화면 전체 너비 */
-            max-width: 800px; /* 메뉴바 최대 너비 */
-            padding: 10px 0;
-
-        }
+		/* 사이드메뉴 클릭시 약간의 강조 효과 부여 */
+        
+        .sidebar h3 {
+        	text-align: center; /* h3 태그를 가로로 중앙 정렬 */
+		    margin-bottom: 20px; /* 아래로 여백 추가 */
+		}
+        
+		/* 기본 스타일 */
+		.sidebar ul {
+		    display: flex; /* 한 줄로 정렬 */
+		    justify-content: center; /* 항목들을 중앙에 정렬 */
+		    margin: 0; /* 기본 마진 제거 */
+		    padding: 0; /* 기본 패딩 제거 */
+		    list-style: none; /* 기본 리스트 스타일 제거 */
+		}
+		
+		.sidebar li {
+		    margin: 20px; /* 항목 간격 추가 */
+		    margin-right: 60px; /* 항목들 사이에 20px 간격 추가 */
+		    padding-left  : 15px;
+		}
+		
+		.sidebar  li:last-child {
+		    margin-right: 0; /* 마지막 항목은 간격을 없앰 */
+		  }
+		
+		.sidebar li a {
+		    position: relative; /* 밑줄을 위한 기준 */
+		    text-decoration: none; /* 기본 밑줄 제거 */
+		    color: black; /* 텍스트 색상 */
+		    font-size: 18px; /* 텍스트 크기 */
+		    font-weight: bold;
+		    transition: font-size 0.3s ease, color 0.3s ease; /* 부드러운 애니메이션 */
+		}
+		
+		/* 마우스 오버 시 분홍색 밑줄 */
+		.sidebar li a:hover::after {
+		    content: "";
+		    position: absolute;
+		    left: 0;
+		    bottom: -5px; /* 밑줄 위치 */
+		    width: 100%; /* 밑줄 길이 */
+		    height: 3px; /* 밑줄 두께 */
+		    background-color: lightpink; /* 밑줄 색상 */
+		}
+		
+		/* 클릭된 상태에서 밑줄 효과 유지 */
+		.sidebar li a.active::after {
+		    content: "";
+		    position: absolute;
+		    left: 0;
+		    bottom: -5px; /* 밑줄 위치 */
+		    width: 100%; /* 밑줄 길이 */
+		    height: 3px; /* 밑줄 두께 */
+		    background-color: lightpink; /* 밑줄 색상 */
+		}
+		
+		/* 클릭된 상태 (active) */
+		.sidebar li a.active {
+		    color: blue; /* 클릭된 상태 텍스트 색상 */
+		    font-size: 20px; /* 클릭된 상태에서 폰트 크기 증가 */
+		}
+		
+		/* 메뉴바 효과 끝 */
         
         .main-side h1 {text-align: center;}
 
-        .sidebar  ul {
-            display: flex; /* 가로로 정렬 */
-            justify-content: center; /* 메뉴 항목을 가운데 정렬 */
-            list-style: none; /* 기본 리스트 스타일 제거 */
-            margin: 0;
-            padding: 0;
-        }
-
-        .sidebar  ul li {
-            margin: 0 15px; /* 메뉴 항목 간격 */
-        }
-
-        .sidebar  ul li a {
-            text-decoration: none; /* 밑줄 제거 */
-            color: black; /* 텍스트 색상 */
-            font-size: 16px; /* 글씨 크기 */
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-
-        .sidebar  ul li a:hover {
-            color: #ffcc00; /* 호버 시 색상 변경 */
-        }
 
 
          /*루트메뉴바*/
@@ -94,6 +129,23 @@
             justify-content: flex-end; /*오른쪽정렬*/
             gap: 5px; /* 요소 간 간격 */
         }
+        
+        .reDetitle {
+        	text-decoration : none;
+        	color : black;
+        }
+        
+        #review-centroller .reviewDetail-next {
+        
+	        display: block;
+	    	padding: 0 10px 10px 25px;
+    	}
+    	
+    	#review-centroller .reviewDetail-prev {
+        
+	        display: block;
+	    	padding: 0 10px 20px 25px;
+    	}
 </style>
 </head>
 <body>
@@ -105,10 +157,10 @@
                 <h3>커뮤니티</h3>
                 <br>
                 <div>
-                    <ul>
-                        <li><a href="#"><i class="fas fa-notice"></i> 공지사항</a></li>
-                        <li><a href="#"><i class="fas fa-review"></i> 후기게시판</a></li>
-                        <li><a href="#"><i class="fas fa-lost"></i> 분실물게시판</a></li>
+                    <ul><!-- 상세보기에서 해당 메뉴 클릭시 각 목록조회페이지로 가도록 -->
+                        <li><a href="${ pageContext.request.contextPath }/list.no"><i class="fas fa-notice"></i>공지사항</a></li>
+                        <li><a href="${ pageContext.request.contextPath }/list.re"><i class="fas fa-review"></i>후기게시판</a></li>
+                        <li><a href="${ pageContext.request.contextPath }/list.lo"><i class="fas fa-lost"></i>분실물게시판</a></li>
                     </ul>
                 </div>
             </div>
@@ -125,22 +177,28 @@
             </div>
             
             <br><br>
-
+			
             <table id="contentArea" align="center" class="table table-bordered">
-                <tr>
-                    <th width="100">제목</th>
-                    <td colspan="3">제목이들어갈자리</td>
-                </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td>관리자</td>
-                    <th>작성일</th>
-                    <td>2024.12.01</td>
-                </tr>
+            	<tr>
+            		<th>제목</th>
+            	</tr>
+			    <tr>
+			        <th width="100">작성자</th>
+			        <td width="220">관리자</td>
+			        <th width="100">작성일시</th>
+			        <td width="220">2024-12-02</td>
+			    </tr>
+			    <tr>
+			        <th>첨부파일</th>
+			        <td colspan="3">
+			            <a href="첨부파일경로" download>첨부파일이름.png</a>
+			        </td>
+			    </tr>
+    			 <!--
                 <tr>
                     <th>첨부파일</th>
                     <td colspan="3">
-                        <!--
+                       
                     	<c:choose>
                     		<c:when test="${ empty requestScope.b.originName }">
                         		첨부파일이 없습니다.
@@ -151,18 +209,24 @@
                         		</a>
                         	</c:otherwise>
                         </c:choose>
-                        -->
+                       
                     </td>
                 </tr>
-                <tr>
-                    <th>내용</th>
-                    <td colspan="3"></td>
-                </tr>
-                <tr>
-                    <td colspan="4">
-                    	<p style="height:150px;">내용이 들어갈 자리</p>
-                    </td>
-                </tr>
+                 -->
+			    <tr>
+			        <th>내용</th>
+			        <td colspan="3">
+			
+			            <p><b>상품 설명:</b> 맑은오토캠핑리조트 / 자연캠핑장 전세</p>
+			            <p><b>이용 안내:</b> 매월 14박 이상 예약 시 이용 가능 (예약 접수 가능 시간: 매일 09:00~18:00)</p>
+			            <ul>
+			                <li>현장 추가 할인: 매월 최대 30%, 추가 할인 적용</li>
+			                <li>결제 방식: 카드 결제 가능</li>
+			                <li>취소 및 환불: 소비자보호법 기준에 따라 진행</li>
+			            </ul>
+			            <p><b>유의 사항:</b> 취소 시 소정의 취소 수수료 발생</p>
+			        </td>
+			    </tr>
             </table>
 
 			<c:if test="${ sessionScope.loginUser.userId eq requestScope.b.boardWriter }">
@@ -217,12 +281,20 @@
 
 
             <hr>
-            <table id="writeArea" class="table">
-                <div>
-                    이전글 | 이번 캠핑 너무 즐거웠어요~~!!^--^  <br>
-                    다음글 | 캠핑 컨셉이 너무 잘나왔네요~~ <br>
-                </div>
-            </table>
+            
+             <!-- 이전글, 다음글 -->
+             <div align="left" id="review-centroller">  
+	             <div class="reviewDetail-next">
+	             	<span class="next">다음글</span>
+	             	<a href="" class="reDetitle">캠핑 컨셉이 너무 잘나왔네요~~</a>
+	             </div>
+	             <div class="reviewDetail-prev">
+	             	<span class="prev">이전글</span>
+	             	<a href="" class="reDetitle">이번 캠핑 너무 즐거웠어요~~!!^--^</a>
+	             </div>
+             </div>
+            
+            
             <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
             <table id="replyArea" class="table" align="center">
                 <thead>
@@ -262,6 +334,21 @@
         <br><br>
 
     </div>
+    
+    <script>
+	// 사이드메뉴 클릭하였을 때, 노란밑줄과 확대효과 부여
+	// 모든 링크 가져오기
+	const links = document.querySelectorAll('.sidebar-menu li a');
+	
+	// 클릭 이벤트 처리
+	link.addEventListener('click', (event) => {
+	    event.preventDefault();
+	    event.stopPropagation();
+	
+	    links.forEach(l => l.classList.remove('active'));
+	    event.currentTarget.classList.add('active');
+	});
+	</script>
 
 </body>
 </html>

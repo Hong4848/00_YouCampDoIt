@@ -43,9 +43,14 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.insertMember(sqlSession, m);
 	}
 
+	/**
+	 * 24.12.10 13시 윤홍문
+	 * 회원정보 수정용 서비스 메소드
+	 */
 	@Override
+	@Transactional
 	public int updateMember(Member m) {
-		return 0;
+		return memberDao.updateMember(sqlSession, m);
 	}
 
 	@Override

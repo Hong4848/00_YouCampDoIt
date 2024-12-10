@@ -34,7 +34,7 @@ public class CartController {
 		// 세션에서 유저 번호 가져오기
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
-//		System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
+		// System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
 
 		
 		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -52,7 +52,6 @@ public class CartController {
 	public void insertCart(Cart cart) {
 		
 		// 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
 		int result = cartService.insertCart(cart);
 		
 		if(result > 0) { // 성공
