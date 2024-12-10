@@ -42,8 +42,14 @@ INSERT INTO CART(CART_NO
             
 
 
-
-
+------------------------------------------
+-- 회원정보 수정용 쿼리문
+UPDATE MEMBER
+   SET BIRTH_DATE = #{birthDate}
+     , PHONE = #{phone}
+     , ADDRESS = #{address}
+ WHERE MEMBER_NO = #{memberNo}
+   AND STATUS = 'Y'
 
 
 

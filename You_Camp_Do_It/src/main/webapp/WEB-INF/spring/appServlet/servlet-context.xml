@@ -121,6 +121,7 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/myPage.me" />
+			<mapping path="/updateForm.me" />
 			<beans:bean class="com.kh.youcamp.common.intercepter.LoginInterceptor" 
 						id="loginInterceptor" />
 		</interceptor>

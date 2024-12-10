@@ -2,4 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="orderMapper">
   
+	<resultMap id="orderResultSet" type="order">
+	    <id column="ORDER_NO" property="orderNo" />
+	    <result column="PAYMENT_ID" property="paymentId" />
+	    <result column="TOTAL_PRICE" property="totalPrice" />
+	    <result column="CREATED_DATE" property="createdDate" />
+	    <result column="PAYMENT_METHOD" property="paymentMethod" />
+	    <result column="PAYMENT_STATUS" property="paymentStatus" />
+	    <result column="UPDATED_DATE" property="updatedDate" />
+	    <result column="MEMBER_NO" property="memberNo" />
+	</resultMap>
+	 
+ 	<resultMap id="orderDetailResultSet" type="orderDetail">
+	    <id column="ORDER_DETAIL_NO" property="orderDetailNo" />
+	    <result column="QUANTITY" property="quantity" />
+	    <result column="PRICE" property="price" />
+	    <result column="TOTAL_PRICE" property="totalPrice" />
+	    <result column="GOODS_NO" property="goodsNo" />
+	    <result column="ORDER_NO" property="orderNo" />
+	</resultMap>
+ 	
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 </mapper>
