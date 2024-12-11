@@ -82,4 +82,6 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.deleteCertNo", email);
 	}
 
+	
+
 }

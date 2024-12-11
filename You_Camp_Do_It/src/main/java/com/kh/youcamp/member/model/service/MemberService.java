@@ -37,7 +37,6 @@ public interface MemberService {
 	// 인증번호 삭제용 서비스
 	int deleteCertNo(String email);
 	
-	// 타임아웃 인증번호 삭제용 서비스
-	int timeOutCertNo(String email);
+	
 
 }

@@ -104,10 +104,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
-	@Override
-	public int timeOutCertNo(String email) {
-		return memberDao.timeOutCertNo(sqlSession, email);
-	}
+	
 
 
 	
