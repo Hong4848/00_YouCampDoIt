@@ -246,6 +246,17 @@
 		    <version>1.15</version>
 		</dependency>
 		
+		<!-- email 전송을 위한 라이브러리 2개 등록 -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>javax.mail</groupId>
+		    <artifactId>mail</artifactId>
+		    <version>1.4.7</version>
+		</dependency>
 		
 		
 		

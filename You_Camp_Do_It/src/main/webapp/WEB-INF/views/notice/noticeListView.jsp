@@ -144,10 +144,51 @@
         #boardList tr td {text-align: center;} /*tbody안의 td 값만 가운데정렬됨...*/
         #boardList>tbody>tr:hover {cursor:pointer;}
 
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+        
+        #boardList td {
+		    word-wrap: break-word; /* 긴 텍스트 줄바꿈 */
+		    overflow: hidden; /* 넘치는 텍스트 숨기기 */
+		    text-overflow: ellipsis; /* 말줄임표 표시 */
+		    white-space: nowrap; /* 텍스트 한 줄 유지 */
+		}
+		
+		
+		#boardList th:nth-child(1),
+		#boardList td:nth-child(1) {
+		    width: 15%; /* 글번호 열 */
+		}
+		
+		#boardList th:nth-child(2),
+		#boardList td:nth-child(2) {
+		    width: 45%; /* 제목 열 */
+		}
+		
+		#boardList th:nth-child(3),
+		#boardList td:nth-child(3) {
+		    width: 10%; /* 첨부파일여부 열 */
+		}
+		
+		#boardList th:nth-child(4),
+		#boardList td:nth-child(4) {
+		    width: 10%; /* 조회수 열 */
+		}
+		
+		#boardList th:nth-child(5),
+		#boardList td:nth-child(5) {
+		    width: 20%; /* 작성일 열 */
+		}
+		
+		#boardList {
+		    table-layout: fixed; /* 열 크기 고정 */
+		    width: 100%; /* 테이블 너비 고정 */
+		}
+        
+        
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
@@ -198,7 +239,6 @@
                     <select class="custom-select" name="condition">
                         <option value="title">제목</option>
                         <option vlaue="content">내용</option>
-                        <option value="writer">작성자</option>
                     </select>
                 </div>
                 <div class="text">
@@ -210,62 +250,104 @@
             <table id="boardList" class="table-hover" align="center">
                 <thead>
                     <tr>
-                        <th style="text-align: center;">번호</th>
+                        <th style="text-align: center;">글번호</th>
                         <th style="text-align: center;">제목</th>
-                        <th style="text-align: center;">작성자</th>
+                        <th style="text-align: center;">첨부파일</th>
                         <th style="text-align: center;">조회수</th>
-                        <th style="text-align: center;">등록일</th>
+                        <th style="text-align: center;">작성일</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>5</td>
-                        <td>2024년 새해맞이 이벤트 안내</td>
-                        <td>관리자</td>
-                        <td>1234</td>
-                        <td>2024.01.10</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>겨울 캠프 참가자 모집</td>
-                        <td>관리자</td>
-                        <td>856</td>
-                        <td>2024.01.09</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>12월 정기 점검 안내</td>
-                        <td>관리자</td>
-                        <td>567</td>
-                        <td>2024.01.08</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>신규 프로그램 오픈 안내</td>
-                        <td>관리자</td>
-                        <td>890</td>
-                        <td>2024.01.07</td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>홈페이지 이용 안내</td>
-                        <td>관리자</td>
-                        <td>432</td>
-                        <td>2024.01.06</td>
-                    </tr>
+                	<c:forEach var="n" items="${ requestScope.list }">
+	                    <tr>
+	                        <td class="nno">${ n.noticeNo }</td>
+	                        <td>${ n.noticeTitle }</td>
+	                        <td>
+	                        	<c:if test="${ not empty n.originName }">
+	                        		✔
+	                        	</c:if>
+	                        </td>
+	                        <td>${ n.count }</td>
+	                        <td>${ n.createDate }</td>
+	                    </tr>
+	                </c:forEach>
                 </tbody>
             </table>
             <br>
+            
+            <script>
+            	// 게시글 하나를 나타내는 tr 태그에 클릭이벤트 걸기
+            	$(function() {
+            		$("#noticeList>tbody>tr").click(function() {
+            			// 글번호 뽑기
+            			let nno = $(this).children(".nno").text();
+            			
+            			// Path Variable 방식 - url 주소상에 글번호를 은근히 같이 넘기도록
+            			location.href = "notice/" + nno;
+            		});
+            	});
+            
+            </script>
+        
+            
             <!-- 페이징 바 -->
-            <div id="pagingArea">
+         <div id="pagingArea">
                 <ul class="pagination">
-                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	                
+	                <c:choose>
+	                	<c:when test="${ requestScope.pi.currentPage eq 1 }">
+		                    <li class="page-item disabled">
+		                    	<a class="page-link" href="#">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                	<li class="page-item">
+		                    	<a class="page-link" href="list.no?cpage=${ requestScope.pi.currentPage - 1 }">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:otherwise>
+	                </c:choose>
+                    
+                    <c:forEach var="p" begin="${ requestScope.pi.startPage }"
+                    				   end="${ requestScope.pi.endPage }" 
+                    				   step="1">
+                    	<c:choose>
+                    		<c:when test="${ p ne requestScope.pi.currentPage }">			   
+			                    <li class="page-item">
+			                    	<a class="page-link" href="list.no?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li class="page-item disabled">
+			                    	<a class="page-link" href="list.no?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+	                    	</c:otherwise>
+	                    </c:choose>
+                    </c:forEach>
+                    
+                    <c:choose>
+                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+                   			<li class="page-item">
+                   				<a class="page-link" href="list.no?cpage=${ requestScope.pi.currentPage + 1 }">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:when>
+                   		<c:otherwise>
+                   			<li class="page-item disabled">
+                   				<a class="page-link" href="#">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:otherwise>
+                   	</c:choose>
                 </ul>
             </div>
         </div>
@@ -274,7 +356,7 @@
     <jsp:include page="../common/footer.jsp" />
     
     <script>
- // 모든 링크 가져오기
+ 	// 모든 링크 가져오기
     const links = document.querySelectorAll('.sidebar li a');
 
     // 클릭 이벤트 추가

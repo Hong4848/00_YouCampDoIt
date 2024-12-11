@@ -6,12 +6,30 @@
 	<resultMap id="noticeResultSet" type="notice">
 		<id column="NOTICE_NO" property="noticeNo" />
 		<result column="NOTICE_TITLE" property="noticeTitle" />
-		<result column="NOTICE_WRITER" property="noticeWriter" />
 		<result column="COUNT" property="count" />
 		<result column="CREATE_DATE" property="createDate" />
 		<result column="ORIGIN_NAME" property="originName" />
 		<result column="NOTICE_CONTENT" property="noticeContent" />
 		<result column="CHANGE_NAME" property="changeName" />	
 	</resultMap>
+	
+	<!-- 공지사항 게시글 갯수 조회용 쿼리문 -->
+	<select id="selectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+		 WHERE STATUS = 'Y'	
+	</select>
+	
+	<select id="selectList" resultMap="noticeResultSet">
+		SELECT NOTICE_NO
+		     , NOTICE_TITLE
+		     , COUNT
+		     , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		     , ORIGIN_NAME
+		  FROM NOTICE
+		 WHERE STATUS = 'Y'
+		 ORDER BY NOTICE_NO DESC
+	</select>
+	
   
 </mapper>

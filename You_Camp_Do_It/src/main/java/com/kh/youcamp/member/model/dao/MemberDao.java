@@ -3,6 +3,7 @@ package com.kh.youcamp.member.model.dao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
 @Repository
@@ -46,6 +47,39 @@ public class MemberDao {
 	public int updateMember(SqlSessionTemplate sqlSession, Member m) {
 		return sqlSession.update("memberMapper.updateMember", m);
 
+	}
+
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 발급용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param idf
+	 * @return
+	 */
+	public int insertCertNo(SqlSessionTemplate sqlSession, Identification idf) {
+		return sqlSession.insert("memberMapper.insertCertNo", idf);
+	}
+
+	/**
+	 * 24.12.11 정섬민
+	 * 인증번호 대조용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param idf
+	 * @return
+	 */
+	public Identification validateCertNo(SqlSessionTemplate sqlSession, Identification idf) {
+		return sqlSession.selectOne("memberMapper.validateCertNo", idf);
+	}
+
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 삭제용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param email
+	 * @return
+	 */
+	public int deleteCertNo(SqlSessionTemplate sqlSession, String email) {
+		return sqlSession.delete("memberMapper.deleteCertNo", email);
 	}
 
 }

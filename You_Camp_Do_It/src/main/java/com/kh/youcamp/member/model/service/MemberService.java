@@ -2,6 +2,7 @@ package com.kh.youcamp.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
 public interface MemberService {
@@ -26,5 +27,17 @@ public interface MemberService {
 	
 	// 회원 전체조회 서비스 (select)
 	ArrayList<Member> selectMemberList();
+	
+	// 인증번호 저장용 서비스 (insert)
+	int insertCertNo(Identification idf);
+	
+	// 인증번호 대조용 서비스 (select)
+	Identification validateCertNo(Identification idf);
+	
+	// 인증번호 삭제용 서비스
+	int deleteCertNo(String email);
+	
+	// 타임아웃 인증번호 삭제용 서비스
+	int timeOutCertNo(String email);
 
 }

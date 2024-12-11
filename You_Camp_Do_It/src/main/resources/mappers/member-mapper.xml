@@ -15,6 +15,12 @@
  		<result column="STATUS" property="status" />
  	</resultMap>
  	
+ 	<resultMap id="identificationResultSet" type="identification">
+ 		<result column="EMAIL" property="email" />
+ 		<result column="AUTH_CODE" property="authCode" />
+ 		<result column="AUTH_CODE_DATE" property="authCodeDate" />
+ 	</resultMap>
+ 	
  	<!--
  		24.12.06 정성민
  		로그인 요청 처리용 쿼리문
@@ -49,14 +55,52 @@
                  , #{address})
  	</insert>
  	
-
+	<!-- 
+		24.12.11 정성민
+		아이디 중복체크용 쿼리문
+	-->
  	<select id="idCheck" parameterType="string" resultType="_int">
  		SELECT COUNT(*)
 		  FROM MEMBER
 		 WHERE MEMBER_ID = #{checkId}
  	</select>
  	
+ 	<!-- 
+ 		24.12.11 정성민
+ 		인증번호 insert 용 쿼리문
+ 	-->
+ 	<insert id="insertCertNo" parameterType="identification">
+ 		INSERT INTO IDENTIFICATION(EMAIL
+		                         , AUTH_CODE
+		                         , AUTH_CODE_DATE)
+		                    VALUES(#{email}
+		                         , #{authCode}
+		                         , SYSDATE)
+ 	</insert>
  	
+ 	<!-- 
+ 		24.12.11 정성민
+ 		인증번호 select 용 쿼리문
+ 	-->
+ 	
+ 	<select id="validateCertNo" parameterType="identification" resultMap="identificationResultSet">
+ 		SELECT AUTH_CODE
+		  FROM IDENTIFICATION
+		 WHERE EMAIL = #{email}
+		   AND AUTH_CODE = #{authCode}
+		   AND AUTH_CODE_DATE > SYSDATE - (3 / 1440)
+ 		
+ 	</select>
+ 	
+ 	<!-- 
+ 		24.12.11 정성민
+ 		인증번호 delete 용 쿼리문
+ 	-->
+ 	<delete id="deleteCertNo" parameterType="string">
+ 		DELETE
+		  FROM IDENTIFICATION
+		 WHERE EMAIL = #{email}
+ 	</delete>
  	
  	
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.youcamp.member.model.dao.MemberDao;
+import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
 @Service
@@ -71,5 +72,44 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Member> selectMemberList() {
 		return null;
 	}
+
+
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 발급용 서비스 메소드
+	 */
+	@Override
+	public int insertCertNo(Identification idf) {
+		return memberDao.insertCertNo(sqlSession, idf);
+	}
+
+
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 대조용 서비스 메소드
+	 */
+	@Override
+	public Identification validateCertNo(Identification idf) {
+		return memberDao.validateCertNo(sqlSession, idf);
+	}
+
+
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 삭제용 서비스 메소드
+	 */
+	@Override
+	public int deleteCertNo(String email) {
+		return memberDao.deleteCertNo(sqlSession, email);
+	}
+
+
+	@Override
+	public int timeOutCertNo(String email) {
+		return memberDao.timeOutCertNo(sqlSession, email);
+	}
+
+
+	
 
 }

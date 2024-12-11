@@ -29,6 +29,24 @@ INSERT INTO MEMBER(MEMBER_NO
 SELECT COUNT(*)
   FROM MEMBER
  WHERE MEMBER_ID = ?
+ 
+-- 4. 이메일 인증번호 발급용 쿼리문
+INSERT INTO IDENTIFICATION(EMAIL,
+                         , AUTH_CODE
+                         , AUTH_CODE_DATE)
+                    VALUES(?
+                         , ?
+                         , SYSDATE)
+                         
+-- 5. 이메일 인증번호 대조용 쿼리문
+SELECT AUTH_CODE
+  FROM IDENTIFICATION
+ WHERE EMAIL = ?
+   AND AUTH_CODE = ?
+   AND SYSDATE < AUTH_CODE-DATE + 3
+                        
+  
+
                  
                  
 -- RESERVE 테이블 관련 쿼리문들
