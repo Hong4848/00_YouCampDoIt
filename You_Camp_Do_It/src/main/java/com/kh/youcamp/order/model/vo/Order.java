@@ -15,15 +15,14 @@ import lombok.ToString;
 @ToString // toString 메소드
 public class Order {
 	
-	private int memberNo;         // MEMBER_NO NUMBER - 회원 번호
-	private String memberId;      // MEMBER_ID VARCHAR2(30 BYTE) - 회원 ID
-	private String memberPwd;     // MEMBER_PWD VARCHAR2(50 BYTE) - 회원 비밀번호
-	private String memberName;    // MEMBER_NAME VARCHAR2(15 BYTE) - 회원 이름
-	private Date birthDate;       // BIRTH_DATE DATE - 생년월일
-	private String phone;         // PHONE CHAR(13 BYTE) - 전화번호
-	private String email;         // EMAIL VARCHAR2(300 BYTE) - 이메일
-	private Date signupDate;      // SIGNUP_DATE DATE - 가입일
-	private String address;       // ADDRESS VARCHAR2(200 BYTE) - 주소
-	private String status;        // STATUS VARCHAR2(1 BYTE) - 상태 (활성화 여부)
+	private int orderNo;             // ORDER_NO NUMBER - 주문 번호
+	private String paymentId;        // PAYMENT_ID VARCHAR2(60 BYTE) - 결제 ID
+	private int totalPrice;          // TOTAL_PRICE NUMBER - 총 금액
+	private Date createdDate;        // CREATED_DATE DATE - 주문 생성 날짜
+	private String paymentMethod;    // PAYMENT_METHOD VARCHAR2(60 BYTE) - 결제 방법
+	private String paymentStatus;    // PAYMENT_STATUS VARCHAR2(60 BYTE) - 결제 상태 
+	// CREATED: 사용자 결제 요청, PAID: 사용자 결제 완료, CANCELED: 사용자의 주문 취소 요청 시REFUNDED: 관리자 취소 승인
+	private Date updatedDate;        // UPDATED_DATE DATE - 결제 상태 수정 날짜
+	private int memberNo;            // MEMBER_NO NUMBER - 주문한 회원 번호
 	
 }

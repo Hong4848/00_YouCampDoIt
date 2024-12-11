@@ -23,7 +23,29 @@
 	</resultMap>
  	
   
-  
+	<!-- 주문 저장 -->
+    <insert id="saveOrder" parameterType="Order">
+        INSERT INTO ORDERS (ORDER_NO, PAYMENT_ID, TOTAL_PRICE, CREATED_DATE, PAYMENT_STATUS, MEMBER_NO)
+        VALUES (SEQ_ORDERS.NEXTVAL, #{paymentId}, #{totalPrice}, SYSDATE, #{paymentStatus}, #{memberNo})
+    </insert>
+
+    <!-- 주문 상세 저장 -->
+    <insert id="saveOrderDetail" parameterType="OrderDetail">
+        INSERT INTO ORDER_DETAIL (ORDER_DETAIL_NO, QUANTITY, PRICE, TOTAL_PRICE, GOODS_NO, ORDER_NO)
+        VALUES (SEQ_ORDER_DETAIL.NEXTVAL, #{quantity}, #{price}, #{totalPrice}, #{goodsNo}, #{orderNo})
+    </insert>
+
+    <!-- 주문 조회 -->
+    <select id="findOrderById" parameterType="int" resultType="Order">
+        SELECT * FROM ORDERS WHERE ORDER_NO = #{orderNo}
+    </select>
+
+    <!-- 주문 상태 업데이트 -->
+    <update id="updateOrderStatus" parameterType="Order">
+        UPDATE ORDERS
+        SET PAYMENT_STATUS = #{paymentStatus}, PAYMENT_ID = #{paymentId}, UPDATED_DATE = SYSDATE
+        WHERE ORDER_NO = #{orderNo}
+    </update>
   
   
   

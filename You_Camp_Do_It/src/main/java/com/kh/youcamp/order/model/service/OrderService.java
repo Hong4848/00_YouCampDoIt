@@ -1,5 +1,10 @@
 package com.kh.youcamp.order.model.service;
 
-public interface OrderService {
+import com.kh.youcamp.order.model.vo.Order;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 
+public interface OrderService {
+	
+	
+	
 }

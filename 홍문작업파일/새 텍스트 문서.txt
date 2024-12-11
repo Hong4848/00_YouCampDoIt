@@ -1,0 +1,72 @@
+내가 보낸 샘플코드 두개를 활용해서
+
+orderForm.jsp에서 결제하기 버튼을 클릭하면
+결제에 필요한 정보들은 orderForm.jsp에서 controller로 넘기고
+order 및 orderDetail 테이블에 데이터를 insert하고
+나이스페이 결제 요청 및 결과 처리 기능을 구현해줘
+
+그리고 결제가 성공했다면 
+oerder의 상태값을 paid로 변경되도록 로직구현
+
+요약하자면 다음과 같아
+결제하기버튼 클릭 > order 및 orderDetail 테이블에 데이터를 insert, oerder의 상태값 created
+결제요청, 결제성공 > oerder의 상태값  piad
+		결제실패시 결제 실패 알람 띄우고 orderForm.jsp 로 이동
+
+
+
+mvc단 클래스들은 다음과 같아
+-controller
+OrderController.java
+
+-detail
+OrderDao.java
+
+-service
+OrderService.java
+OrderServiceImpl.java
+
+-vo
+Order.java
+OrderDetail.java
+Goods.java
+
+
+
+vo는 새로만들지 말고 다음 세개의 vo 만사용하고
+스프링 레거시와 마이바티스프레임워크 기준
+ model (service, vo, dao), view(.jsp), controller기준으로 코드를 작성해줘
+
+
+--orderDetail
+private int orderDetailNo;   // ORDER_DETAIL_NO NUMBER - 주문 상세 번호. 시퀀스로 채번
+	private int quantity;        // QUANTITY NUMBER - 수량. 장바구니 상품일 경우 필수
+	private double price;        // PRICE NUMBER - 개별 금액
+	private double totalPrice;   // TOTAL_PRICE NUMBER - 항목 별 총 금액
+	private int goodsNo;         // GOODS_NO NUMBER - 주문하고자 하는 제품 번호
+	private int orderNo;         // ORDER_NO NUMBER - 주문 번호
+
+--order
+private int orderNo;             // ORDER_NO NUMBER - 주문 번호
+	private String paymentId;        // PAYMENT_ID VARCHAR2(60 BYTE) - 결제 ID
+	private int totalPrice;          // TOTAL_PRICE NUMBER - 총 금액
+	private Date createdDate;        // CREATED_DATE DATE - 주문 생성 날짜
+	private String paymentMethod;    // PAYMENT_METHOD VARCHAR2(60 BYTE) - 결제 방법
+	private String paymentStatus;    // PAYMENT_STATUS VARCHAR2(60 BYTE) - 결제 상태 
+	// CREATED: 사용자 결제 요청, PAID: 사용자 결제 완료, CANCELED: 사용자의 주문 취소 요청 시REFUNDED: 관리자 취소 승인
+	private Date updatedDate;        // UPDATED_DATE DATE - 결제 상태 수정 날짜
+	private int memberNo;            // MEMBER_NO NUMBER - 주문한 회원 번호
+
+--goods
+private int goodsNo;             // GOODS_NO NUMBER - 시퀀스로 채번하여 등록
+	private String category;         // CATEGORY VARCHAR2(60 BYTE) - 카테고리 별로 분류하기 위한 제품의 종류
+	private String goodsName;        // GOODS_NAME VARCHAR2(60 BYTE) - 제품의 이름
+	private String goodsContent;     // GOODS_CONTENT CLOB - 제품 설명 내용 (CLOB 타입, 이미지 포함 가능)
+	private String mark;             // MARK VARCHAR2(60 BYTE) - 제품의 제조사
+	private int price;               // PRICE NUMBER - 제품의 가격
+	private int views;               // VIEWS NUMBER - 제품 페이지 조회 수
+	private Date enrollDate;         // ENROLL_DATE DATE - 제품 등록일
+	private int totalStock;          // TOTAL_STOCK NUMBER - 보유한 제품의 총 재고 개수
+	private int remainStock;         // REMAIN_STOCK NUMBER - 제품의 남은 재고 개수
+	private String status;           // STATUS VARCHAR2(1 BYTE) - 제품 존속 여부 (Y: 존속, N: 폐기)
+

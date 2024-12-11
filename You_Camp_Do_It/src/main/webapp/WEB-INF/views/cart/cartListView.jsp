@@ -469,10 +469,13 @@
 	            <!-- 
 	            	장바구니 항목이없거나, 주문금액이 0인 조건 활용해서
 	            	그땐 orderForm 페이지로 넘어가지 않게 처리
+	            	
+	            	요소 밸류값은 cart 테이블에서 가져오기
+	            	요소 네임값은 order 로 저장해서 넘기기
 	             -->
 	            <a class="order-btn"
-	               href="${ pageContext.request.contextPath }/orderForm.or">
-	            	결제하기
+	               href="${ pageContext.request.contextPath }/insert.or">
+	            	주문하기
 	            </a>
 	        </div>
 	    </div>
