@@ -127,6 +127,8 @@ public class MemberController {
 		
 		m.setMemberPwd(encPwd);
 		
+		System.out.println(m);
+		
 		int result = memberService.insertMember(m);
 		
 		if(result > 0) { // 성공

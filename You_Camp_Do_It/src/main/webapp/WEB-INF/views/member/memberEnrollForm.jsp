@@ -192,7 +192,7 @@
 	            <input type="text" id="address" name="address" placeholder="도로명 주소를 입력하세요" required>
 	
 	            <!-- 회원가입 버튼 -->
-	            <button type="submit" class="btn-submit" onclick="signupValidate();">회원가입</button>
+	            <button type="submit" class="btn-submit" onclick="return signupValidate();">회원가입</button>
 	        </form>
 	    </div>
     </div>
@@ -201,6 +201,9 @@
     <script>
     	
     	let timerInterval; // 타이머 관리 변수
+    	var isCertChecked = false;
+        var isIdChecked = false;
+    	
     	
     	// 인증번호 발급용 ajax
     	function cert() {
@@ -226,7 +229,7 @@
     				// 사용자가 계속 인증 요청 보내는 것을 
 					// 방지하기 위해 인증번호 발급 후 인증 이메일 입력창
 					// 및 인증메일 보내기 버튼 비활성화
-					$("#email").attr("disabled", true);
+					$("#email").attr("readonly", true);
     				$("#sendCodeButton").attr("disabled", true);
     				
     			}, 
@@ -261,7 +264,7 @@
     				$("#validateResult").text("인증 시간이 만료되었습니다. 다시 요청해주세요.");
     				
     				// 이메일 입력 및 인증번호 버튼 활성화
-    				$("#email").attr("disabled", false);
+    				$("#email").attr("readonly", false);
     				$("#sendCodeButton").attr("disabled", false);
     				
     				let email = $("#email").val();
@@ -329,12 +332,14 @@
         					
         					// 타이머 종료
         					clearInterval(timerInterval);
+        					
+        					isCertChecked = true;
         				} else {
         					
         					$("#validateResult").css("color", "red");
         					
         					// 인증 실패 시 재인증 하 수 있도록 유도
-        					$("#email").attr("disabled", false);
+        					$("#email").attr("readonly", false);
         					$("#cert").attr("disabled", false);
         					
         					$("#verificationCode").attr("disabled", true);
@@ -342,6 +347,8 @@
         					
         					$("#email").val("");
         					$("#verificationCode").val("");
+        					
+        					isCertChecked = false;
         				}
         				
         			},
@@ -354,6 +361,7 @@
 
     	}
     	
+    	
     	// 유효성 검사, 아이디 중복체크 및 인증번호 인증 여부 검사
         function signupValidate() {
     		
@@ -364,22 +372,66 @@
     		let memberName = $("#enrollForm input[name=memberName]").val();
     		let phone = $("#enrollForm input[name=phone]").val();
     		
+    		
     		// 아이디 유효성 검사
     		let regex = /^[a-zA-Z][a-zA-Z0-9]{4,11}$/;
     		if(!regex.test(memberId)) {
     			alert("형식에 맞는 아이디를 입력해주세요!");
     			return false;
+    		} 
+    		
+			if(isIdChecked == false) {
+	        		
+        		alert("아이디 중복체크를 반드시 해야합니다!");
+        		return false;
+        		
+        	}
+    		
+    		// 비밀번호 유효성 검사
+    		regex = /^[0-9a-zA-Z!@#$%^&]{8,15}$/;
+    		if(!regex.test(memberPwd)) {
+    			alert("형식에 맞는 비밀번호를 입력해주세요!");
+    			return false;
     		}
     		
+    		// 비밀번호, 비밀번호 확인 일치 검사
+    		if(memberPwd != checkPwd) {
+    			alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요!");
+    			return false;
+    		}
+    		
+    		// 회원 이름 유효성 검사
+    		regex = /^[가-힣]{2,}$/;
+    		if(!regex.test(memberName)) {
+    			alert("2글자 이상의 이름을 입력해주세요!");
+    			return false;
+    		}
+    		
+    		// 이메일 인증 여부 검사
+    		if(isCertChecked == false) {
+    			alert("이메일 인증을 반드시 해야합니다!");
+    			return false;
+    		}
+    		
+    		// 전화번호 유효성 검사
+    		regex = /^\d{3}-\d{4}-\d{4}$/;
+    		if(!regex.test(phone)) {
+    			alert("형식에 맞는 전화번호를 입력해주세요!");
+    			return false;
+    		}
+    		
+    		
+    		
 
-    		if(!isIdChecked) {
-        		console.log(isIdChecked);
-        		alert("아이디 중복체크를 먼저 진행해주세요!");
-        		
-        		return false;
-        	}
+    		
+    		
+    		
+    		
+    		
         	
         }
+    	
+    	
     
         $(function() {
             // '인증번호 받기' 버튼 클릭 시 인증번호 입력 필드 보이기
@@ -389,7 +441,6 @@
             });
             
             
-            let isIdChecked = false;
             // 아이디 중복체크 이벤트
             const $idInput = $("#enrollForm input[name=memberId]");
             
@@ -450,6 +501,9 @@
 				}
             	
             });
+            
+            
+         
             
             
         });
