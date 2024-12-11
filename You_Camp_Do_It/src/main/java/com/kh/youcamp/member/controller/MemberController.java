@@ -3,6 +3,8 @@ package com.kh.youcamp.member.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.youcamp.member.model.service.MemberService;
+import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
 @Controller
@@ -22,6 +25,10 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	
 	/**
@@ -38,7 +45,7 @@ public class MemberController {
 	
 	/**
 	 * 24.12.06 정성민
-	 * 로그인 요청용 메소드
+	 * 로그인 요청용 컨트롤러
 	 * @param m
 	 * @param mv
 	 * @param session
@@ -74,7 +81,7 @@ public class MemberController {
 	
 	/**
 	 * 24.12.05 정성민
-	 * 로그아웃 요청용 메소드
+	 * 로그아웃 요청용 컨트롤러
 	 * @param session
 	 * @return
 	 */
@@ -90,7 +97,7 @@ public class MemberController {
 	
 	/**
 	 * 24.12.05 정성민
-	 * 회원가입 페이지 요청용 메소드
+	 * 회원가입 페이지 요청용 컨트롤러
 	 * @param mv
 	 * @return
 	 */
@@ -106,7 +113,7 @@ public class MemberController {
 	
 	/**
 	 * 24.12.06 정성민
-	 * 회원가입 요청 처리용 메소드
+	 * 회원가입 요청 처리용 컨트롤러
 	 * @param m
 	 * @param model
 	 * @param session
@@ -137,6 +144,12 @@ public class MemberController {
 	
 	
 
+	/**
+	 * 24.12.10 정성민
+	 * 아이디 중복 체크 요청 처리용 컨트롤러
+	 * @param checkId
+	 * @return
+	 */
 	@ResponseBody
 	@GetMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
 	public String idCheck(String checkId) {
@@ -146,6 +159,94 @@ public class MemberController {
 		return (count > 0) ? "NNNNN" : "NNNNY";
 		
 	}
+	
+	/**
+	 * 
+	 * 24.12.11 정성민
+	 * 이메일 인증번호 요청 처리용 컨트롤러
+	 * @param email
+	 */
+	@ResponseBody
+	@PostMapping(value="cert.me", produces="text/html; charset=UTF-8")
+	public String sendCertNo(String email) {
+		
+		// 인증번호 만들기
+		int random = (int)(Math.random() * 900000 + 100000);
+		
+		// 객체로 가공 후 Identification 테이블에 INSERT
+		Identification idf = new Identification();
+		idf.setEmail(email);
+		idf.setAuthCode(String.valueOf(random));
+		int count = memberService.insertCertNo(idf);
+		
+		System.out.println();
+		
+		if(count > 0) {
+			SimpleMailMessage message = new SimpleMailMessage();
+			
+			// 메세지 정보 담기
+			message.setSubject("[YOU CAMP DO IT] 이메일 인증 번호입니다.");
+			message.setText("인증 번호 : " + random);
+			message.setTo(email);
+			
+			// 메세지 전송하기
+			mailSender.send(message);
+			
+			return "인증번호 발급 완료"; 
+		} else {
+			return "인증번호 발급 실패!";
+		}
+	}
+	
+	
+	/**
+	 * 24.12.11 정성민
+	 * 인증번호 대조 요청 처리용 컨트롤러
+	 * @param email
+	 * @param ckeckNo
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value="validate.me", produces="text/html; charset=UTF-8")
+	public String validateCertNo(String email, String checkNo) {
+		
+		String result = "";
+		
+		Identification beforeIdf = new Identification();
+		beforeIdf.setEmail(email);
+		beforeIdf.setAuthCode(checkNo);
+		
+		Identification afterIdf = memberService.validateCertNo(beforeIdf);
+		
+		if(afterIdf.getAuthCode() != null && afterIdf.getAuthCode().equals(checkNo)) {
+			
+			result = "인증 성공";
+		} else {
+			
+			result = "인증 실패";
+		}
+		
+		// DELETE 해줘야됨
+		int deleteResult = memberService.deleteCertNo(email);
+		
+		return result;
+		
+	}
+	
+	/**
+	 * 24.12.11 정성민
+	 * 이메일 인증번호 삭제 요청 처리용 컨트롤러
+	 * @param email
+	 */
+	@ResponseBody
+	@PostMapping(value="timeOut.me", produces="text/html; charset=UTF-8")
+	public void timeOutCertNo(String email) {
+		
+		int result = memberService.deleteCertNo(email);
+		
+	}
+	
+	
 
 	/**
 	 * 24.12.10 09 윤홍문
