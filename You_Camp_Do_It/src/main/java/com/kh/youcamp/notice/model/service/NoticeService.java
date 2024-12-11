@@ -14,21 +14,10 @@ public interface NoticeService {
 	// 게시글 목록조회
 	ArrayList<Notice> selectList(PageInfo pi);
 	
-	// 게시글 작성하기 서비스 메소드 (관리자만)
-	int insertNotice(Notice n);
-	
 	// 게시글 상세조회 서비스 메소드
 	// 1.게시글 조회수 증가 메소드
 	int increaseCount(int noticeNo);
 	// 2.게시글 상세조회 메소드
 	Notice selectNotice(int noticeNo);
 	
-	// 게시글 삭제 서비스 메소드 (update 사용 - 관리자만)
-	int deleteNotice(int noticeNo);
-	
-	// 게시글 수정 서비스 메소드 (관리자)
-	int updateNotice(Notice n);
-	
-	
-
 }
