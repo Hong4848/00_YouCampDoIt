@@ -29,5 +29,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 			// 로그인이 필요한 페이지로 진입을 막기 위해
 			return false;
 		}
+		
+		
 	}
 }

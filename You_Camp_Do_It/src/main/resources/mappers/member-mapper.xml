@@ -102,6 +102,36 @@
 		 WHERE EMAIL = #{email}
  	</delete>
  	
+ 	<!--  
+ 		24.12.12 정성민
+ 		아이디 찾기 select 용 쿼리문
+ 	-->
+ 	<select id="selectId" parameterType="member" resultType="string">
+ 		SELECT MEMBER_ID
+		  FROM MEMBER
+		 WHERE MEMBER_NAME = #{memberName}
+		   AND EMAIL = #{email}
+		   AND STATUS = 'Y'
+ 	</select>
+ 	
+ 	<!--  
+ 		24.12.12 정성민
+ 		비밀번호 찾기 입력 select 용 쿼리문
+ 	-->
+ 	<select id="selectPwdMember" parameterType="member" resultMap="memberResultSet">
+ 		SELECT *
+		  FROM MEMBER
+		 WHERE MEMBER_NAME = #{memberName}
+		   AND MEMBER_ID = #{memberId}
+		   AND EMAIL = #{email}
+		   AND STATUS = 'Y'
+ 	</select>
+ 	
+ 	<!-- 
+ 		24.12.12 정성민 
+ 	-->
+ 	<!--   <update id="updatePwd" parameterType="member" result -->
+ 	
  	
 
  	<!-- 

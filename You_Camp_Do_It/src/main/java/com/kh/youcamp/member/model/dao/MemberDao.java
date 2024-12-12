@@ -82,6 +82,39 @@ public class MemberDao {
 		return sqlSession.delete("memberMapper.deleteCertNo", email);
 	}
 
+	/**
+	 * 24.12.12 정성민
+	 * 아이디 찾기용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param m
+	 * @return
+	 */
+	public String selectId(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.selectId", m);
+	}
+
+	/**
+	 * 23.12.12 정성민
+	 * 비밀번호 찾기 입력 정보 대조용 메소드
+	 * @param sqlSession
+	 * @param m
+	 * @return
+	 */
+	public Member selectPwdMember(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.selectOne("memberMapper.selectPwdMember", m);
+	}
+
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 변경용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param m
+	 * @return
+	 */
+	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePwd", m);
+	}
+
 	
 
 }

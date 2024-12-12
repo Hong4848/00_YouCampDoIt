@@ -339,8 +339,8 @@
                         <!-- Modal footer -->
 						<div id="links">
 						    <a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
-						    <a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
-						    <a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
+						    <a href="${ pageContext.request.contextPath }/findIdForm.me">아이디 찾기</a> | 
+						    <a href="${ pageContext.request.contextPath }/findPwdForm.me">비밀번호 찾기</a>
 						</div>
                         <!-- 
                         <div class="links">

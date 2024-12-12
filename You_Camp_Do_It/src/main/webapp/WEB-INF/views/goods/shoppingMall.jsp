@@ -284,23 +284,6 @@
 	<body>
 		<!-- 헤더 추가 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-		<div id="shoppingMall_header">
-			<div class="logo">
-				<a href=""><img src="resources/images/mainPage/메인로고.png"></a>
-			</div>
-			<div class="title">
-				<h1 style="text-align: center;">여기에 이미지로 만들어서 붙여넣기</h1>
-			</div>
-			<div class="search">
-				<div style="width: 70%; margin: auto; text-align: center;">
-					자세한 사항은 전화/챗봇을 통해 상담하세요
-				</div>
-				<div class="search_content">
-					<input type="text" style="width: 350px; height: 30px; border: none; outline: none;">
-					<a href=""><img src="resources/images/goods/검색_아이콘.png" style="width: 5%; padding-bottom: 5px;"></a>
-				</div>
-			</div>
-		</div>
 		<div style="border: 1px dashed gray; opacity: 0.5;"></div>
 		<div id="shoppingMall_index">
 			<div style="width: 10%;"></div>

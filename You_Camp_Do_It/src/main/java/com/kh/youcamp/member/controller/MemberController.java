@@ -127,7 +127,7 @@ public class MemberController {
 		
 		m.setMemberPwd(encPwd);
 		
-		System.out.println(m);
+		// System.out.println(m);
 		
 		int result = memberService.insertMember(m);
 		
@@ -212,6 +212,7 @@ public class MemberController {
 	@PostMapping(value="validate.me", produces="text/html; charset=UTF-8")
 	public String validateCertNo(String email, String checkNo) {
 		
+		
 		String result = "";
 		
 		Identification beforeIdf = new Identification();
@@ -220,12 +221,13 @@ public class MemberController {
 		
 		Identification afterIdf = memberService.validateCertNo(beforeIdf);
 		
-		if(afterIdf.getAuthCode() != null && afterIdf.getAuthCode().equals(checkNo)) {
-			
-			result = "인증 성공";
-		} else {
+		
+		if(afterIdf == null) {
 			
 			result = "인증 실패";
+		} else if (afterIdf != null && afterIdf.getAuthCode().equals(checkNo)) {
+			
+			result = "인증 성공";
 		}
 		
 		// DELETE 해줘야됨
@@ -248,6 +250,114 @@ public class MemberController {
 		
 	}
 	
+	/**
+	 * 24.12.12 정성민
+	 * 아이디찾기 페이지 접속 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping(value="findIdForm.me")
+	public ModelAndView findIdForm(ModelAndView mv) {
+		
+		mv.setViewName("member/findMemberId");
+		return mv;
+	}
+	
+	/**
+	 * 24.12.12 정성민
+	 * 아이디찾기 요청용 컨트롤러
+	 * @param m
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value="findId.me", produces="text/html; charset=UTF-8")
+	public String selectId(Member m) {
+		
+		String email = memberService.selectId(m);
+		
+		if(email == null) {
+			return "해당 계정 없음";
+			
+		} else {
+			
+			return email;
+		}
+		
+
+	}
+	
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 찾기 페이지 접속 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping(value="findPwdForm.me")
+	public ModelAndView findPwdForm(ModelAndView mv) {
+		
+		mv.setViewName("member/findMemberPwd");
+		return mv;
+	}
+	
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 찾기 입력 정보 대조용 컨트롤러
+	 * @param m
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value="findPwd.me", produces="text/html; charset=UTF-8")
+	public String selectPwdMember(Member m, HttpSession session) {
+		
+		Member checkedMember = memberService.selectPwdMember(m);
+
+		if(checkedMember != null) {
+			
+	        session.setAttribute("loginMember", checkedMember);
+			return "입력한 정보와 일치하는 계정 존재";
+				
+		} else {
+			return "해당 계정 없음";
+			
+		}
+	}
+	
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 변경 페이지 접속 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping(value="changePwdForm.me")
+	public ModelAndView changePwdForm(ModelAndView mv) {
+		
+		mv.setViewName("member/changeMemberPwd");
+		return mv;
+	}
+	
+	
+	@PostMapping(value="changePwd.me")
+	public String updatePwd(Member m, Model model, HttpSession session) {
+		
+		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+		m.setMemberPwd(encPwd);
+		
+		int result = memberService.updatePwd(m);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "비밀번호 변경에 성공했습니다! 변경한 비밀번호로 로그인해주세요!");
+			
+			session.removeAttribute("loginMember");
+			
+			return "redirect:/";
+		} else {
+			session.removeAttribute("loginMember");
+			
+			model.addAttribute("errorMsg", "비밀번호 변경에 실패했습니다!");
+			
+			return "common/errorPage";
+		}
+	}
 	
 
 	/**

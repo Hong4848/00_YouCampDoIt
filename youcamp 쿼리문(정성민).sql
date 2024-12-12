@@ -43,9 +43,27 @@ SELECT AUTH_CODE
   FROM IDENTIFICATION
  WHERE EMAIL = ?
    AND AUTH_CODE = ?
-   AND SYSDATE < AUTH_CODE-DATE + 3
-                        
+   AND SYSDATE < TO_DATE(AUTH_CODE_DATE, 'YYYY-MM-DD HH24:MI:SS') + NUMTODSINTERVAL(3, 'MINUTE');
+
+-- 6. 이메일 인증번호 삭제용 쿼리문
+DELETE
+  FROM IDENTIFICATION
+ WHERE EMAIL = ?
+ 
+-- 7. 아이디 찾기용 쿼리문
+SELECT MEMBER_ID
+  FROM MEMBER
+ WHERE MEMBER_NAME = ?
+   AND EMAIL = ?
+   AND STATUS = 'Y'
   
+-- 8. 비밀번호 찾기용 쿼리문
+SELECT *
+  FROM MEMBER
+ WHERE MEMBER_NAME = ?
+   AND MEMBER_ID = ?
+   AND EMAIL = ?
+   AND STATUS = 'Y'
 
                  
                  

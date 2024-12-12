@@ -143,14 +143,14 @@
 	        <form action="insert.me" method="post" id="enrollForm" >
 	            <!-- 아이디 -->
 	            <label for="memberId">아이디*</label>
-	            <input type="text" id="memberId" name="memberId" placeholder="아이디를 입력하세요(첫글자 반드시 영문자 / 영문자, 숫자 포함 5~12자)" required>
+	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="아이디를 입력하세요(첫글자 반드시 영문자 / 영문자, 숫자 포함 5~12자)" required>
 	            
 	            <div id="checkResult" style="font-size: 0.8em; display: none;">
 	            
 	            </div>
 	
 	            <!-- 비밀번호 -->
-	            <label for="memberPwd">비밀번호*</label>
+	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
 	            <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
 	
 	            <!-- 비밀번호 확인 -->
@@ -231,6 +231,9 @@
 					// 및 인증메일 보내기 버튼 비활성화
 					$("#email").attr("readonly", true);
     				$("#sendCodeButton").attr("disabled", true);
+    				
+    				$("#verificationCode").attr("readonly", false);
+					$("#checkCode").attr("disabled", false);
     				
     			}, 
     			error : function() {
@@ -327,7 +330,7 @@
         					
         					$("#validateResult").css("color", "green");
         					
-        					$("#verificationCode").attr("disabled", true);
+        					$("#verificationCode").attr("readonly", true);
         					$("#checkCode").attr("disabled", true);
         					
         					// 타이머 종료
@@ -335,15 +338,17 @@
         					
         					isCertChecked = true;
         				} else {
-        					
+        					clearInterval(timerInterval);
+        					$("#validateResult").text("인증 실패! 다시 인증해주세요.");
         					$("#validateResult").css("color", "red");
         					
         					// 인증 실패 시 재인증 하 수 있도록 유도
         					$("#email").attr("readonly", false);
-        					$("#cert").attr("disabled", false);
+        					$("#sendCodeButton").attr("disabled", false);
         					
-        					$("#verificationCode").attr("disabled", true);
-        					$("#sendCodeButton").attr("disabled", true);
+        					$("#verificationCode").attr("readonly", true);
+        					$("#checkCode").attr("disabled", true);
+        					
         					
         					$("#email").val("");
         					$("#verificationCode").val("");

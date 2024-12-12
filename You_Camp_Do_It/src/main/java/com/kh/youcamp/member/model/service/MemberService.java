@@ -34,8 +34,17 @@ public interface MemberService {
 	// 인증번호 대조용 서비스 (select)
 	Identification validateCertNo(Identification idf);
 	
-	// 인증번호 삭제용 서비스
+	// 인증번호 삭제용 서비스 (delete)
 	int deleteCertNo(String email);
+
+	// 아이디 찾기용 서비스 (select)
+	String selectId(Member m);
+
+	// 비밀번호 찾기 입력 정보 대조용 서비스 (select)
+	Member selectPwdMember(Member m);
+
+	// 비밀번호 변경용 서비스 (update)
+	int updatePwd(Member m);
 	
 	
 

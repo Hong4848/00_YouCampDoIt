@@ -104,6 +104,37 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	/**
+	 * 24.12.12 정성민
+	 * 아이디 찾기용 서비스 메소드
+	 *
+	 */
+	@Override
+	public String selectId(Member m) {
+		return memberDao.selectId(sqlSession, m);
+	}
+
+
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 찾기 입력정보 대조용 서비스 메소드
+	 */
+	@Override
+	public Member selectPwdMember(Member m) {
+		return memberDao.selectPwdMember(sqlSession, m);
+	}
+
+
+	/**
+	 * 24.12.12 정성민
+	 * 비밀번호 변경용 서비스 메소드
+	 */
+	@Override
+	public int updatePwd(Member m) {
+		return memberDao.updatePwd(sqlSession, m);
+	}
+
+
 	
 
 
