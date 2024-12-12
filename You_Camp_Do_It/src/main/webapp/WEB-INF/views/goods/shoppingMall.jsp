@@ -5,15 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
-
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Dongle&family=Nanum+Pen+Script&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<title>캠핑 용품 대여</title>
 		<style>
 			div{
 				box-sizing: border-box;
@@ -21,10 +13,10 @@
 
 			#shoppingMall_header{
 				width: 80%;
-				height: 300px;
+				height: 100px;
 				margin: auto;
 				display: flex;
-				justify-content: space-between;
+				justify-content:right;
 			}
 
 			.logo{
@@ -45,7 +37,7 @@
 			.search{
 				width: 30%;
 				height: 100%;
-				padding-top: 100px;
+				margin-top: 30px;
 			}
 
 			.search_content
@@ -54,55 +46,69 @@
 				margin: auto;
 				border: 2px solid gray;
 			}
-
+			
 			#shoppingMall_index{
 				margin: auto;
 				width: 80%;
-				height: 70px;
+				height: 100px;
 				display: flex;
-				justify-content: space-between;
+				justify-content: center;
 			}
 
 			.shoppingMall_category{
-				width: 15%;
+				width: 16%;
 				text-align: center;
-				line-height: 60px;
-				font-size: 25px;
-				font-family: "Nanum Pen Script", cursive;
-				font-weight: 500;
-				font-style: normal;
+				line-height: 90px;
+				font-size: 18px;
+				font-weight: 700;
 				cursor: pointer;
-				z-index: 5px;
+				z-index: 1px;
 				
 			}
 
 			.category_list{
 				border: 2px solid rgba(128, 128, 128, 0.3);
-				border-top: none;
 				transition: all 0.5s;
 				opacity: 0.0;
+				background-color: white;
+				position: relative;
+				line-height: 60px;
+				z-index: 1;
 			}
 
-			.shoppingMall_category a{
+			.shoppingMall_category>a{
+				padding: 10px 20px;
+				color: black;
+			}
+			.shoppingMall_category>a:hover{
+				color: #f7b500;
+			}
+
+			.select_this>a{
+				color: #f7b500;
+				border-bottom: 3px solid #f7b500;
+			}
+
+			.category_list>a{
 				color: black;
 				display: block;
 			}
-			.shoppingMall_category a:hover{
+			.category_list>a:hover{
 				color: white;
 				background-color: rgb(180, 180, 180);
 			}
 
 			#search_title{
 				margin: auto;
-				margin-top: 300px;
+				margin-top: 20px;
 				width: 80%;
 				height: 65px;
 				text-align: center;
-				line-height: 65px;
+				line-height: 60px;
 				font-size: 50px;
-				font-family: "Nanum Pen Script", cursive;
-				font-weight: 500;
 				border: 1px solid rgba(110, 110, 110, 0.5);
+				position: relative;
+				z-index: 2;
 			}
 
 			#search_format{
@@ -113,6 +119,8 @@
 				margin-top: 20px;
 				border: 3px solid rgba(110, 110, 110, 0.5);
 				padding: 20px;
+				position: relative;
+				z-index: 2;
 			}
 
 			.search_img img{
@@ -180,11 +188,6 @@
 				height: 480px;
 				margin-top: 10px;
 				margin-inline: 29px;
-
-				text-align: center;
-				font-family: "Dongle", sans-serif;
-				font-weight: 400;
-				font-style: normal;
 			}
 
 			.goods_img{
@@ -197,8 +200,9 @@
 			}
 			
 			.goods_title{
-				height: 75px;
-				font-size: 25px;
+				height: 50px;
+				font-size: 15px;
+				text-align: center;
 			}
 			
 			.goods_name{
@@ -216,16 +220,16 @@
 			}
 
 			.goods_maker{
-				font-size: 25px;
+				font-size: 17px;
 			}
 
 			.goods_price{
-				font-size: 17px;
+				font-size: 12px;
 				text-decoration:line-through;
 			}
 
 			.goods_discounted{
-				font-size: 25px;
+				font-size: 20px;
 			}
 
 			#paging_bar{
@@ -244,7 +248,6 @@
 				background-color: rgb(218, 227, 236);
 				cursor: pointer;
 				border-radius: 10px;
-				
 			}
 
 			.arrowBtn{
@@ -279,11 +282,17 @@
 				text-align: center;
 				line-height: 65px;
 			}
+
+			#pagingArea{
+				width:fit-content;
+				margin:auto;
+			}
 		</style>
 	</head>
 	<body>
 		<!-- 헤더 추가 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+<!-- 이부분 충돌남 -->
 		<div style="border: 1px dashed gray; opacity: 0.5;"></div>
 		<div id="shoppingMall_index">
 			<div style="width: 10%;"></div>
@@ -292,6 +301,18 @@
 			</div>
 			<div class="shoppingMall_category">
 				캠핑용품대여
+<!-- 이부분 충돌남 -->
+		<div id="shoppingMall_index">
+			<div style="width: 10%;"></div>
+			<div class="shoppingMall_category select_this">
+				<a href="">전체 목록 보기</a>
+			</div>
+			<div class="shoppingMall_category">
+				<a href="">캠핑장비 패키지 세트 대여</a>
+			</div>
+			<div class="shoppingMall_category">
+				<a href="">캠핑용품대여</a>
+<!-- 이부분 충돌남 -->
 				<div class="category_list">
 					<a href="">텐트/쉘터</a>
 					<a href="">침낭/난방기구</a>
@@ -301,7 +322,11 @@
 				</div>
 			</div>
 			<div class="shoppingMall_category">
+<!-- 이부분 충돌남 -->
 				소비용품판매
+<!-- 이부분 충돌남 -->
+				<a href="">소비용품판매</a>
+<!-- 이부분 충돌남 -->
 				<div class="category_list">
 					<a href="">연료/가스</a>
 					<a href="">식자재</a>
@@ -309,6 +334,7 @@
 				</div>
 			</div>
 			<div class="shoppingMall_category">
+<!-- 이부분 충돌남 -->
 				 이달의 세일
 			</div>
 			<div class="shoppingMall_category">
@@ -319,6 +345,25 @@
 			</div>
 		</div>
 		<div style="border: 1px solid gray; opacity: 0.3;"></div>
+<!-- 이부분 충돌남 -->
+				<a href="">이달의 세일</a>
+			</div>
+			<div style="width: 10%;"></div>
+		</div>
+		
+		<div id="shoppingMall_header">
+			<div class="search">
+				<div style="width: 70%; margin: auto; text-align: center;">
+					자세한 사항은 전화/챗봇을 통해 상담하세요
+				</div>
+				<div class="search_content">
+					<input type="text" style="width: 350px; height: 30px; border: none; outline: none;">
+					<a href=""><img src="resources/images/goods/검색_아이콘.png" style="width: 5%; padding-bottom: 5px;"></a>
+				</div>
+			</div>
+		</div>
+
+<!-- 이부분 충돌남 -->
 		<div id="search_title">
 			상품 검색
 		</div>
@@ -473,31 +518,25 @@
 					</div>
 				</div>
 			</div>
-			<div id="paging_bar">
-				<div class="divBtn arrowBtn">⮜⮜</div>
-				<div style="width: 5%;"></div>
-				<div class="divBtn arrowBtn">⮜</div>
-				<div style="width: 5%;"></div>
-				<div id="pageNumber">
-					<div class="pNum divBtn">1</div>
-					<div class="pNum divBtn">2</div>
-					<div class="pNum divBtn">3</div>
-					<div class="pNum divBtn">4</div>
-					<div class="pNum divBtn">5</div>
-				</div>
-				<div style="width: 5%;"></div>
-				<div class="divBtn arrowBtn">⮞</div>
-				<div style="width: 5%;"></div>
-				<div class="divBtn arrowBtn">⮞⮞</div>
-			</div>
-			<div style="height: 200px;"></div>
+			<div id="pagingArea">
+                <ul class="pagination">
+                    <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </div>
+			<div style="height: 100px;"></div>
 		</div>
 		<script>
 			 $(".shoppingMall_category").hover(function(){
-                $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px");
+                $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
             },
             function(){
-                $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px");
+                $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
             });
 		</script>
 	</body>

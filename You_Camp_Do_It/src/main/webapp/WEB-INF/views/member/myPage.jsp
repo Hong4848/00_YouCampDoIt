@@ -22,7 +22,7 @@
 		    display: flex;
 		    justify-content: center; /* 가로 중앙 정렬 */
 		    align-items: center; /* 세로 중앙 정렬 */
-		    height: 200px; /* 높이 유지 */
+		    height: 100px; /* 높이 유지 */
 		    box-sizing: border-box;
 		    background-color: white;
 		    font-size: 24px; /* 글씨 크기 추가 */
@@ -172,7 +172,7 @@
 	
 	        <!-- 메뉴 섹션 -->
 	        <div class="menu-section">
-	            <a href="#1" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/list.or" class="menu-item">
 	                <img src="resources/images/member/PaymentDetailsIcon.png" alt="결제 내역 아이콘">
 	                <span>결제 내역</span>
 	            </a>

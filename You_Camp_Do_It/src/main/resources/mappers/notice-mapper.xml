@@ -20,6 +20,7 @@
 		 WHERE STATUS = 'Y'	
 	</select>
 	
+	<!-- 공지사항 목록조회 쿼리문  -->
 	<select id="selectList" resultMap="noticeResultSet">
 		SELECT NOTICE_NO
 		     , NOTICE_TITLE
@@ -31,5 +32,26 @@
 		 ORDER BY NOTICE_NO DESC
 	</select>
 	
+	<!-- 공지사항 상세조회용 쿼리문 -->
+	<!-- 1. 게시글 조회수증가용 쿼리문 -->
+	<update id="increaseCount" parameterType="_int">
+		UPDATE NOTICE
+		   SET COUNT = COUNT + 1
+		 WHERE NOTICE_NO = #{noticeNo}
+		   AND STATUS = 'Y'
+	</update>
+	
+	<!-- 2. 상세조회 쿼리문 -->
+	<select id="selectNotice" parameterType="_int" resultMap="noticeResultSet">
+		SELECT NOTICE_NO
+		     , NOTICE_TITLE
+		     , NOTICE_CONTENT
+		     , ORIGIN_NAME
+		     , CHARGE_NAME
+		     , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+		  FROM NOTICE
+		 WHERE NOTICE_NO = #{noticeNo}
+		   AND STATUS = 'Y'
+	</select>
   
 </mapper>

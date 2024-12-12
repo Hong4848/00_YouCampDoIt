@@ -29,4 +29,14 @@ public class NoticeDao {
 		return (ArrayList)sqlSession.selectList("noticeMapper.selectList", null, rowBounds);
 	}
 
+	public int increaseCount(SqlSessionTemplate sqlSession, int noticeNo) {
+		// update문 : update 메소드
+		return sqlSession.update("noticeMapper.increaseCount", noticeNo);
+	}
+
+	public Notice selectNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+		// select(단일행) : selectOne 메소드
+		return sqlSession.selectOne("noticeMapper.selectNotice", noticeNo);
+	}
+
 }
