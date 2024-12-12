@@ -8,6 +8,13 @@
 		<result column="ADDED_AT" property="addedAt" />
 		<result column="MEMBER_NO" property="memberNo" />
 		<result column="GOODS_NO" property="goodsNo" />
+		
+		<!-- list View 용 조인 컬럼들 -->
+		<result property="category" column="CATEGORY" />
+	    <result property="goodsName" column="GOODS_NAME" />
+	    <result property="goodsThumbnail" column="GOODS_THUMBNAIL" />
+	    <result property="goodsInfo" column="GOODS_INFO" />
+	    <result property="goodsPrice" column="GOODS_PRICE" />
 	</resultMap>
 	
 	<select id="selectList" parameterType="int" resultMap="cartResultSet">
@@ -15,18 +22,17 @@
 		     , C.CART_NO
 		     , C.QUANTITY
 		     , C.PRICE AS CART_PRICE
+		     , C.ADDED_AT
 		     , G.GOODS_NO
 		     , G.CATEGORY
 		     , G.GOODS_NAME
+		     , G.GOODS_THUMBNAIL
+		     , G.GOODS_INFO
 		     , G.PRICE AS GOODS_PRICE
-		     , GA.FILE_NO
-		     , GA.ORIGIN_NAME
-		     , GA.CHANGE_NAME
-		FROM CART C
-		JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
-		JOIN GOODS G ON C.GOODS_NO = G.GOODS_NO
-		JOIN GOODS_ATTACHMENT GA ON G.GOODS_NO = GA.ATTACHMENT_GNO
-		WHERE M.MEMBER_NO = #{memberNo}
+		  FROM CART C
+		  JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
+		  JOIN GOODS G ON C.GOODS_NO = G.GOODS_NO
+		 WHERE M.MEMBER_NO = #{memberNo}
 	</select>
 
 

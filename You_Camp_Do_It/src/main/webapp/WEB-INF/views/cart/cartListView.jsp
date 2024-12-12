@@ -22,7 +22,7 @@
 		    display: flex;
 		    justify-content: center; /* 가로 중앙 정렬 */
 		    align-items: center; /* 세로 중앙 정렬 */
-		    height: 200px; /* 높이 유지 */
+		    height: 100px;
 		    box-sizing: border-box;
 		    background-color: white;
 		    font-size: 24px; /* 글씨 크기 추가 */
