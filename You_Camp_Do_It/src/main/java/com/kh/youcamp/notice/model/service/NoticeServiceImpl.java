@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.notice.model.dao.NoticeDao;
@@ -31,15 +32,14 @@ public class NoticeServiceImpl implements NoticeService {
 
 
 	@Override
+	@Transactional
 	public int increaseCount(int noticeNo) {
-		// TODO Auto-generated method stub
-		return 0;
+		return noticeDao.increaseCount(sqlSession, noticeNo);
 	}
 
 	@Override
 	public Notice selectNotice(int noticeNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return noticeDao.selectNotice(sqlSession, noticeNo);
 	}
 
 
