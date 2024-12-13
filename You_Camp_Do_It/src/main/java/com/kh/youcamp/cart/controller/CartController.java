@@ -76,29 +76,27 @@ public class CartController {
 	/**
 	 * 24.12.13 윤홍문
 	 * 장바구니 삭제 메소드
-	 * @param cartNos 삭제할 카트 번호 - 문자열(숫자아님)
+	 * @param cartNos 삭제할 카트 번호 - 쉼표가 포함된 문자열(숫자아님)
 	 * @return 쿼리문실행결과
-	 * 일단 쿼리문 in으로 처리
-	 * 나중에 배열, for 문으로 수정하기
+	 * 
 	 * 목록조회 ajax 로 바꿔야함
-	 * 배열로받는거 고려해야함
 	 */
 	@ResponseBody
 	@PostMapping(value="delete.ca",
 				 produces="text/html; charset=UTF-8")
 	public String AjaxDeleteCart(String cartNos) {
 		
-//		System.out.println(cartNos);
-
-		/*
+		System.out.println(cartNos);
+		// null 또는 공백만있거나 또는 빈문자열"" 이면
+		// 빈배열 [] 할당
 		String[] cartNoList = 
-				cartNos.isEmpty() ? new String[0] : cartNos.split(",");
-		
+			    (cartNos == null || cartNos.trim().isEmpty()) 
+			    			? new String[0] : cartNos.split(",");
 		int result = 0;
 		for (int i = 0; i < cartNoList.length; i++) {
-			result = cartService.deleteCart(인덱스i번째);
-        }*/
-		int result = cartService.deleteCart(cartNos);
+			result += 
+				cartService.deleteCart( Integer.parseInt(cartNoList[i]));
+        }
 		
 		return (result > 0) ? "success" : "fail";
 	}

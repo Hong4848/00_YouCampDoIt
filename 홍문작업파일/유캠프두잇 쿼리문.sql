@@ -34,7 +34,7 @@ INSERT INTO CART(CART_NO
 -- 장바구니 삭제용 쿼리문 > 여러 체크된 요소로 받아서 in 구문사용
 DELETE
   FROM CART
- WHERE CART_NO IN (?)
+ WHERE CART_NO IN (?, ?, ...)
  (${cartNo})
 ------------------------------------------
 -- 회원정보 수정용 쿼리문
@@ -123,7 +123,7 @@ INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTEN
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
 ( 15, '소모품', '캠핑용 손난로', NULL, '추운 날씨에 적합한 휴대용 손난로.', '휴대용 손난로', NULL, 4000, 0, 0, SYSDATE, 100, 100, 'Y');
-
+commit
 --------------------------------------------------------------
 --
 -- CART 더미데이터
@@ -157,3 +157,4 @@ INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUE
 
 INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUES
 (10, 1, 55000, SYSDATE, 1, 10);
+commit;
