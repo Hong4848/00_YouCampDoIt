@@ -1,5 +1,7 @@
 package com.kh.youcamp.review.model.vo;
 
+import java.util.ArrayList;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,5 +20,7 @@ public class Review {
 	private String createDate;
 	private String status;
 	private int MemberNo;
+	public ArrayList<ReviewAttachment> reviewAtachments;
+	
 	
 }

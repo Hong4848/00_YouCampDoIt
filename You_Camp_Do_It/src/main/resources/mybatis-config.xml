@@ -31,8 +31,7 @@
 		<typeAlias type="com.kh.youcamp.cart.model.vo.Cart" alias="cart" />
 		<typeAlias type="com.kh.youcamp.order.model.vo.Order" alias="order" />
 		<typeAlias type="com.kh.youcamp.order.model.vo.OrderDetail" alias="orderDetail" />
-		
-		
+		<typeAlias type="com.kh.youcamp.goods.model.vo.Goods" alias="goods"/>
 	</typeAliases>
 	
 	<mappers>

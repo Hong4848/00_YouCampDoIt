@@ -8,19 +8,23 @@
 		<!--여기에 외부 코드 등록-->
         <!----------------------------------------------------------------------------------------------------------->
         <!-- J쿼리 -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
         <!-- 부트스트랩 -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
-
-        <!-- alert CSS
+        <!-- alert CSS -->
         <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/default.min.css"/>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/themes/semantic.min.css"/>
-        -->
+        
+        <link rel="stylesheet" href="resources/css/summernote/summernote-lite.css">
+		<!--
+		<script src="resources/js/summernote/lang/summernote-ko-KR.js"></script>
+		-->
+		<script src="resources/js/summernote/summernote-lite.js"></script>
 
         <!-- 글꼴 -->
         <link rel="preconnect" href="https://fonts.googleapis.com">

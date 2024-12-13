@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>캠핑 용품 대여</title>
+		<title>YOU CAMP DO IT 캠핑용품대여</title>
 		<style>
 			div{
 				box-sizing: border-box;
@@ -188,6 +188,8 @@
 				height: 480px;
 				margin-top: 10px;
 				margin-inline: 29px;
+
+				cursor: pointer;
 			}
 
 			.goods_img{
@@ -292,16 +294,6 @@
 	<body>
 		<!-- 헤더 추가 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-<!-- 이부분 충돌남 -->
-		<div style="border: 1px dashed gray; opacity: 0.5;"></div>
-		<div id="shoppingMall_index">
-			<div style="width: 10%;"></div>
-			<div class="shoppingMall_category">
-				캠핑장비 패키지 세트 대여
-			</div>
-			<div class="shoppingMall_category">
-				캠핑용품대여
-<!-- 이부분 충돌남 -->
 		<div id="shoppingMall_index">
 			<div style="width: 10%;"></div>
 			<div class="shoppingMall_category select_this">
@@ -312,7 +304,6 @@
 			</div>
 			<div class="shoppingMall_category">
 				<a href="">캠핑용품대여</a>
-<!-- 이부분 충돌남 -->
 				<div class="category_list">
 					<a href="">텐트/쉘터</a>
 					<a href="">침낭/난방기구</a>
@@ -322,11 +313,7 @@
 				</div>
 			</div>
 			<div class="shoppingMall_category">
-<!-- 이부분 충돌남 -->
-				소비용품판매
-<!-- 이부분 충돌남 -->
 				<a href="">소비용품판매</a>
-<!-- 이부분 충돌남 -->
 				<div class="category_list">
 					<a href="">연료/가스</a>
 					<a href="">식자재</a>
@@ -334,18 +321,6 @@
 				</div>
 			</div>
 			<div class="shoppingMall_category">
-<!-- 이부분 충돌남 -->
-				 이달의 세일
-			</div>
-			<div class="shoppingMall_category">
-				대여/반납 안내
-			</div>
-			<div class="shoppingMall_category">
-				자주묻는질문
-			</div>
-		</div>
-		<div style="border: 1px solid gray; opacity: 0.3;"></div>
-<!-- 이부분 충돌남 -->
 				<a href="">이달의 세일</a>
 			</div>
 			<div style="width: 10%;"></div>
@@ -363,7 +338,6 @@
 			</div>
 		</div>
 
-<!-- 이부분 충돌남 -->
 		<div id="search_title">
 			상품 검색
 		</div>
@@ -538,6 +512,11 @@
             function(){
                 $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
             });
+		</script>
+		<script>
+			$(".goods_container").click(function(){
+				location.href="goodsDetail.gs";
+			});
 		</script>
 	</body>
 </html>

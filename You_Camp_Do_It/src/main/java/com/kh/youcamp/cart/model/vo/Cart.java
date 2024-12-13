@@ -2,6 +2,8 @@ package com.kh.youcamp.cart.model.vo;
 
 import java.sql.Date;
 
+import com.kh.youcamp.goods.model.vo.Goods;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +23,8 @@ public class Cart {
 	private Date addedAt;      // ADDED_AT DATE - 장바구니에 담은 날짜 (30일이 넘으면 삭제)
 	private int memberNo;      // MEMBER_NO NUMBER - 장바구니에 담은 회원 번호
 	private int goodsNo;       // GOODS_NO NUMBER - 이 회원이 담은 제품의 번호
+	
+	// 조인된 GOODS 객체
+    private Goods goods;
 
 }
