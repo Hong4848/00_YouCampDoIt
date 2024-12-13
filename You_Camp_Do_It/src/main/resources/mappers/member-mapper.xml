@@ -129,8 +129,27 @@
  	
  	<!-- 
  		24.12.12 정성민 
+ 		비밀번호 변경 update 용 쿼리문
  	-->
- 	<!--   <update id="updatePwd" parameterType="member" result -->
+ 	<update id="updatePwd" parameterType="member">
+ 		UPDATE MEMBER
+		   SET MEMBER_PWD = #{memberPwd}
+		 WHERE MEMBER_NAME = #{memberName}
+		   AND MEMBER_ID = #{memberId}
+		   AND EMAIL = #{email}
+		   AND STATUS = 'Y'
+ 	</update>
+ 	
+ 	<!--  
+ 		24.12.13 정성민
+ 		회원탈퇴 update 용 쿼리문
+ 	-->
+ 	<update id="deleteMember" parameterType="string">
+ 		UPDATE MEMBER
+		   SET STATUS = 'N'
+		 WHERE MEMBER_ID = #{memberId}
+		   AND STATUS = 'Y'
+ 	</update>
  	
  	
 

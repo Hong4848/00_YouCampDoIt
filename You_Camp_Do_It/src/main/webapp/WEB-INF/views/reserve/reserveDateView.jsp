@@ -81,6 +81,7 @@
 
         .left_box {
             width: 40%;
+            height: 75%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -310,6 +311,94 @@
         .item a {
             text-decoration: none; /* 기본적으로 밑줄 제거 */
         }
+        
+        
+        
+        /* 달력 관련 시작 @@@ */
+        .calendar{
+            border-radius: 5%;
+            width: 100%;
+            height: 30%;
+            background-color: #EAE3E3;
+            color: black;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            
+            
+        }
+
+        .calendar-title{
+            width: 100%;
+            display: flex;
+            padding-inline: 10px;
+            justify-content: space-between;
+            text-align: center;
+            padding-top: 10px;
+            height: 40px;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .calendar-body{
+            font-size: 15px;
+            
+        }
+
+        .calendar-week, .calendar-day{
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            text-align: center;
+            line-height: 70px;
+            align-items: center;
+            
+        }
+        
+        .calendar-day {
+        	height: 300px;
+        }
+        
+        .day, .week{
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+            width: 56.6px;
+            height: 56.5px;
+            font-weight: 600;
+            
+        }
+
+        .day{
+            cursor: pointer;
+            
+            
+            
+        }
+
+        .day:hover{
+            background-color: rgb(119, 119, 119);
+        }
+
+        .sat{
+            color: rgb(40, 40, 255);
+        }
+
+        .sun{
+            color: rgb(255, 0, 0);
+        }
+
+        .today{
+            
+            
+            background-color: #CEB8B8;
+        }
+
+        .nextMonth, .prevMonth{
+            opacity: 0.3;
+        }
+        /* 달력 관련 종료 */
+        
+        
 
     </style>
 </head>
@@ -326,125 +415,322 @@
             </div>
         </div>
         
-    <div class="content">
-        
-        <!-- 캘린더 / 장소선택 -->
-        <div id="content_2">
-            <div class="left_box">
-                <!-- 숙박일 선택 -->
-                <div class="section select_night">
-                    <ul>
-                        <li>
-                            <input type="radio" name="select_night" id="select_night_1" class="select_nigth_radio" value="1">
-                            <label for="select_night_1">1박</label>
-                        </li>
-                        <li>
-                            <input type="radio" name="select_night" id="select_night_2" class="select_nigth_radio" value="2">
-                            <label for="select_night_2">2박</label>
-                        </li>
-                    </ul>
-                </div>
+	    <div class="content">
+	        
+	        <!-- 캘린더 / 장소선택 -->
+	        <div id="content_2">
+	            <div class="left_box">
+	                <!-- 숙박일 선택 -->
+	                <div class="section select_night">
+	                    <ul>
+	                        <li>
+	                            <input type="radio" name="select_night" id="select_night_1" class="select_nigth_radio" value="1" checked="true">
+	                            <label for="select_night_1">1박</label>
+	                        </li>
+	                        <li>
+	                            <input type="radio" name="select_night" id="select_night_2" class="select_nigth_radio" value="2">
+	                            <label for="select_night_2">2박</label>
+	                        </li>
+	                    </ul>
+	                </div>
+	
+	                <!-- 캘린더가 들어갈 자리 -->
+	                <div id="calendar" class="section calendar">
+	                    
+	                    
+				            <div class="calendar-head">
+				                <div class="calendar-title">
+				                    <div id="prevCalender"><a onclick="prevMonth();" style="cursor: pointer;">⮜</a></div>
+				                    <div style="width: 30%;"></div>
+				                    <div id="year" class="yyyy">2024</div>
+		                            <div class="yyyy">.</div>
+				                    <div id="month" class="yyyy">12</div>
+				                    <div style="width: 30%;"></div>
+				                    <div id="prevCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
+				                </div>
+				            </div>
+				            <div class="calendar-body">
+				                <div class="calendar-week">
+				                    <div class="week sun">SUN</div>
+				                    <div class="week">MON</div>
+				                    <div class="week">TUE</div>
+				                    <div class="week">WED</div>
+				                    <div class="week">THU</div>
+				                    <div class="week">FRI</div>
+				                    <div class="week sat">SAT</div>
+				                </div>
+				                <div class="calendar-day">
+				                    <div class="day sun"></div>
+				                    <div class="day mon"></div>
+				                    <div class="day tue"></div>
+				                    <div class="day wed"></div>
+				                    <div class="day thu"></div>
+				                    <div class="day fri"></div>
+				                    <div class="day sat"></div>
+				                    <div class="day sun"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day sat"></div>
+				                    <div class="day sun"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day sat"></div>
+				                    <div class="day sun"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day"></div>
+				                    <div class="day sat"></div>
+				                    <div class="day sun"></div>
+				                    <div class="day mon"></div>
+				                    <div class="day tue"></div>
+				                    <div class="day wed"></div>
+				                    <div class="day thu"></div>
+				                    <div class="day fri"></div>
+				                    <div class="day sat"></div>
+		                            <div class="day sun"></div>
+				                    <div class="day mon"></div>
+				                    <div class="day tue"></div>
+				                    <div class="day wed"></div>
+				                    <div class="day thu"></div>
+				                    <div class="day fri"></div>
+				                    <div class="day sat"></div>
+				                </div>
+				            </div>
+				        
+	                </div>
+	                <!-- 예약가능 섹션 검색 -->
+	                <div class="section select_button">
+	                    <a href="" class="btnSearch">
+	                        <span class="ico_search"></span>
+	                        예약가능 섹션 검색
+	                    </a>
+	                </div>
+	
+	            </div>
+	            <div class="right_box">
+	                <div class="section site_day">
+	                    <div class="start_day">
+	                        <span>체크인</span>
+	                        <strong id="txt-checkIn">
+	                            12.25(수)
+	                        </strong>
+	                    </div>
+	                    <div class="state_night">2박</div>
+	                    <div class="end_day">
+	                        <span>체크아웃</span>
+	                        <strong id="txt-checkOut">
+	                            12.27(금)
+	                        </strong>
+	                    </div>
+	                </div>
+	                <div class="section item_box">
+	                    <div class="item">
+	                    	<!-- 숙박일, 체크인/체크아웃 날짜, 섹션값 쿼리 스트링으로 추후에 넘겨줘야함!! -->
+	                        <a href="reserveDetail.res">
+	                            <p class="item_img">
+	                                <img src="resources/images/reserve/reserveDate/forest.jpg" alt="A섹션" width="800">
+	                            </p>
+	                            <p class="item_txt">
+	                                <span class="item_title">
+	                                    A섹션
+	                                </span>
+	                                <span class="item_price">
+	                                    <strong>30,000</strong>
+	                                    <span class="remain-seats">(5/10)</span> 
+	                                </span>
+	                            </p>
+	                        </a>
+	                    </div>
+	                    <div class="item">
+	                        <a href="reserveDetail.res">
+	                            <p class="item_img">
+	                                <img src="resources/images/reserve/reserveDate/belly.jpg" alt="B섹션">
+	                            </p>
+	                            <p class="item_txt">
+	                                <span class="item_title">
+	                                    B섹션
+	                                </span>
+	                                <span class="item_price">
+	                                    <strong>40,000</strong>
+	                                    <span class="remain-seats">(5/10)</span> 
+	                                </span>
+	                            </p>
+	                        </a>
+	                    </div>
+	                    <div class="item">
+	                        <a href="reserveDetail.res">
+	                            <p class="item_img">
+	                                <img src="resources/images/reserve/reserveDate/sky.jpg" alt="C섹션">
+	                            </p>
+	                            <p class="item_txt">
+	                                <span class="item_title">
+	                                    C섹션
+	                                </span>
+	                                <span class="item_price">
+	                                    <strong>50,000</strong>
+	                                    <span class="remain-seats">(5/10)</span> 
+	                                </span>
+	                            </p>
+	                        </a>
+	                    </div>
+	                    <div class="item">
+	                        <a href="reserveDetail.res">
+	                            <p class="item_img">
+	                                <img src="resources/images/reserve/reserveDate/stone.png" alt="D섹션">
+	                            </p>
+	                            <p class="item_txt">
+	                                <span class="item_title">
+	                                    D섹션
+	                                </span>
+	                                <span class="item_price">
+	                                    <strong>60,000</strong>
+	                                    <span class="remain-seats">(5/10)</span> 
+	                                </span>
+	                            </p>
+	                        </a>
+	                    </div>
+	                </div>
+	
+	
+	            </div>
+	
+	        </div>
+	        
+	    </div>
+    </div>
+    
+    <script>
+    
+    	// 달력 관련 스크립트
+        let date = new Date();
+        let currentYear = ""; // 이번 년
+        let currentMonth = ""; // 이번 달
+        let currentDate = ""; // 오늘 일
+        let currentLastDate = "";
+        let prevLastDate = "";
+        const WEEKDAY = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        let LastWeek = "";
 
-                <!-- 캘린더가 들어갈 자리 -->
-                <div id="calendar" class="section calendar">
+        $(()=>{
+            // 현재 시간 뽑아오기
+            currentYear = date.getFullYear();
+            currentMonth = date.getMonth()+1;
+            currentDate = date.getDate();
+            dateInit();
+            dateList();
+        })
+
+        function dateInit(){
+            currentLastDate = new Date(currentYear, currentMonth, 0).getDate();
+            prevLastDate = new Date(currentYear, currentMonth-1, 0).getDate();
+            
+            LastWeek = WEEKDAY[new Date(currentYear+"-"+currentMonth+"-"+currentLastDate).getDay()];
+        }
+
+        function dateList(){
+            let start = false;
+            let dayCount = currentLastDate;
+            for(var i = 41; i >= 0; i--)
+            {
+                if($(".day").eq(i).attr("class").includes(LastWeek) && start == false && i <= 37)
+                {
+                    start = true;
                     
-                </div>
-                <!-- 예약가능 섹션 검색 -->
-                <div class="section select_button">
-                    <a href="" class="btnSearch">
-                        <span class="ico_search"></span>
-                        예약가능 섹션 검색
-                    </a>
-                </div>
+                    for(var j = 41; j > i; j--)
+                    {
+                        $(".day").eq(j).text(j-i);
+                        $(".day").eq(j).addClass("nextMonth");
+                    }
+                }
+                
+                if(start == true)
+                {
+                    if(dayCount >= 1)
+                    {
+                        $(".day").eq(i).text(dayCount);
+                        $(".day").eq(i).removeClass("prevMonth");
+                        $(".day").eq(i).removeClass("nextMonth");
+                        
+                        if(currentYear == date.getFullYear() && currentMonth == date.getMonth()+1 && $(".day").eq(i).text() == currentDate){
+                            $(".day").eq(i).addClass("today");
+                        }
+                        else{
+                            $(".day").eq(i).removeClass("today");
+                        }
+                        dayCount -= 1;
+                    }
+                    else{
+                        $(".day").eq(i).text(prevLastDate+dayCount);
+                        $(".day").eq(i).removeClass("today");
+                        $(".day").eq(i).addClass("prevMonth");
+                        dayCount -= 1;
+                    }
+                    
+                }
+            }
+        }
 
-            </div>
-            <div class="right_box">
-                <div class="section site_day">
-                    <div class="start_day">
-                        <span>체크인</span>
-                        <strong id="txt-checkIn">
-                            12.25(수)
-                        </strong>
-                    </div>
-                    <div class="state_night">2박</div>
-                    <div class="end_day">
-                        <span>체크아웃</span>
-                        <strong id="txt-checkOut">
-                            12.27(금)
-                        </strong>
-                    </div>
-                </div>
-                <div class="section item_box">
-                    <div class="item">
-                    	<!-- 숙박일, 체크인/체크아웃 날짜, 섹션값 쿼리 스트링으로 추후에 넘겨줘야함!! -->
-                        <a href="reserveDetail.res">
-                            <p class="item_img">
-                                <img src="resources/images/reserve/reserveDate/forest.jpg" alt="A섹션" width="800">
-                            </p>
-                            <p class="item_txt">
-                                <span class="item_title">
-                                    A섹션
-                                </span>
-                                <span class="item_price">
-                                    <strong>30,000</strong>
-                                </span>
-                            </p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="reserveDetail.res">
-                            <p class="item_img">
-                                <img src="resources/images/reserve/reserveDate/belly.jpg" alt="B섹션">
-                            </p>
-                            <p class="item_txt">
-                                <span class="item_title">
-                                    B섹션
-                                </span>
-                                <span class="item_price">
-                                    <strong>40,000</strong>
-                                </span>
-                            </p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="reserveDetail.res">
-                            <p class="item_img">
-                                <img src="resources/images/reserve/reserveDate/sky.jpg" alt="C섹션">
-                            </p>
-                            <p class="item_txt">
-                                <span class="item_title">
-                                    C섹션
-                                </span>
-                                <span class="item_price">
-                                    <strong>50,000</strong>
-                                </span>
-                            </p>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="reserveDetail.res">
-                            <p class="item_img">
-                                <img src="resources/images/reserve/reserveDate/stone.png" alt="D섹션">
-                            </p>
-                            <p class="item_txt">
-                                <span class="item_title">
-                                    D섹션
-                                </span>
-                                <span class="item_price">
-                                    <strong>60,000</strong>
-                                </span>
-                            </p>
-                        </a>
-                    </div>
-                </div>
+        function nextMonth(){
+            if(currentMonth >= 12){
+                currentYear += 1;
+                currentMonth = 1;
+                $("#year").text(currentYear)
+                $("#month").text(currentMonth);
+            }
+            else{
+                currentMonth += 1;
+                $("#month").text(currentMonth);
+            }
+            dateInit();
+            dateList();
+        }
 
+        function prevMonth(){
+            if(currentMonth <= 1){
+                currentYear -= 1;
+                currentMonth = 12;
+                $("#year").text(currentYear)
+                $("#month").text(currentMonth);
+            }
+            else{
+                currentMonth -= 1;
+                $("#month").text(currentMonth);
+            }
+            dateInit();
+            dateList();
+        }
+    </script>
+    
+    <script>
+    	$(function() {
+    		// 초기 체크된 라디오 버튼 값 가져오기
+    	    const $stayDay = $("input[name='select_night']:checked").val();
+    	    console.log("초기 선택된 값:", $stayDay);
 
-            </div>
+    	    // 라디오 버튼 값이 변경될 때 가져오기
+    	    $(".select_nigth_radio").on("change", function() {
+    	        $stayDay = $("input[name='select_night']:checked").val();
+    	        console.log("변경된 값:", $stayDay);
+    	    });
 
-        </div>
-        
-    </div>
-    </div>
+    		
+    		
+    		
+    		
+    	});
+    	
+    </script>
+    
+    
+    
     
     <jsp:include page="../common/footer.jsp" />
 

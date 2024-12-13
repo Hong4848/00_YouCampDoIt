@@ -143,7 +143,7 @@
 	        <form action="insert.me" method="post" id="enrollForm" >
 	            <!-- 아이디 -->
 	            <label for="memberId">아이디*</label>
-	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="아이디를 입력하세요(첫글자 반드시 영문자 / 영문자, 숫자 포함 5~12자)" required>
+	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="아이디를 입력하세요(첫글자는 반드시 영문자이고 영문자, 숫자 포함 5~12자)" required>
 	            
 	            <div id="checkResult" style="font-size: 0.8em; display: none;">
 	            
@@ -151,7 +151,7 @@
 	
 	            <!-- 비밀번호 -->
 	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
-	            <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
+	            <input type="password" id="memberPwd" name="memberPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자)" required>
 	
 	            <!-- 비밀번호 확인 -->
 	            <label for="checkPwd">비밀번호 확인*</label>
@@ -159,7 +159,7 @@
 	
 	            <!-- 이름 -->
 	            <label for="memberName">이름*</label>
-	            <input type="text" id="memberName" name="memberName" placeholder="이름을 입력하세요" required>
+	            <input type="text" id="memberName" name="memberName" placeholder="한글 2자 이상" required>
 	
 	            <!-- 이메일 -->
 	            <label for="email">이메일 주소*</label>
@@ -172,7 +172,7 @@
 	            <div id="verificationFields" class="hidden">
 	                <label for="verificationCode">인증번호*</label>
 	                <div class="input-group">
-	                    <input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호 6자리를 입력하세요" style="margin-bottom: 0px;">
+	                    <input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호 숫자 6자리를 입력하세요" style="margin-bottom: 0px;">
 	                    <button type="button" id="checkCode" class="btn" onclick="validate();">인증하기</button>
 	                    
 	                </div>
@@ -181,7 +181,7 @@
 	
 	            <!-- 전화번호 -->
 	            <label for="phone">전화번호*</label>
-	            <input type="text" id="phone" name="phone" placeholder="전화번호를 입력하세요(-포함)" required>
+	            <input type="text" id="phone" name="phone" placeholder="-포함한 숫자 13자" required>
 	
 	            <!-- 생년월일 -->
 	            <label for="birthDate">생년월일*</label>

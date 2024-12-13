@@ -336,13 +336,23 @@ public class MemberController {
 	}
 	
 	
+	/**
+	 * 24.12.13 정성민 
+	 * 비밀번호 변경 요청용 컨트롤러
+	 * @param m
+	 * @param model
+	 * @param session
+	 * @return
+	 */
 	@PostMapping(value="changePwd.me")
 	public String updatePwd(Member m, Model model, HttpSession session) {
 		
-		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
-		m.setMemberPwd(encPwd);
+		Member changeMember = (Member)session.getAttribute("loginMember");
 		
-		int result = memberService.updatePwd(m);
+		String encPwd = bcryptPasswordEncoder.encode(m.getMemberPwd());
+		changeMember.setMemberPwd(encPwd);
+		
+		int result = memberService.updatePwd(changeMember);
 		
 		if(result > 0) {
 			session.setAttribute("alertMsg", "비밀번호 변경에 성공했습니다! 변경한 비밀번호로 로그인해주세요!");
@@ -359,6 +369,75 @@ public class MemberController {
 		}
 	}
 	
+	/**
+	 * 24.12.13 정성민
+	 * 회원탈퇴 페이지 접속 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping(value="memberDeleteForm.me")
+	public ModelAndView memberDeleteForm(ModelAndView mv) {
+		
+		mv.setViewName("member/memberDeleteForm");
+		return mv;
+	}
+	
+	/**
+	 * 24.12.13 정성민
+	 * 회원탈퇴 요청용 컨트롤러
+	 * @param memberPwd
+	 * @param mv
+	 * @param session
+	 * @return
+	 */
+	@PostMapping(value="memberDelete.me")
+	public String deleteMember(String memberPwd, Model model, HttpSession session) {
+		
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		
+		System.out.println(loginMember);
+		System.out.println(bcryptPasswordEncoder.matches(memberPwd, loginMember.getMemberPwd()));
+		
+		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
+		
+		
+		
+		if(bcryptPasswordEncoder.matches(memberPwd, loginMember.getMemberPwd())) {
+			
+			
+			System.out.println("서비스 전");
+			int result = memberService.deleteMember(memberId);
+			
+			System.out.println(result);
+			if(result > 0) {
+				
+				session.removeAttribute("loginMember");
+				
+				System.out.println("비밀번호 똑같음");
+				
+				session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다. 그동안 이용해 주셔서 감사합니다.");
+				return "redirect:/";
+			} else {
+				
+				model.addAttribute("errorMsg", "회원 탈퇴 실패");
+				
+				return "common/errorPage";
+			}
+			
+		} else {
+			
+			session.setAttribute("alertMsg", "비밀번호가 틀렸습니다!");
+			
+			System.out.println("else문 실행된");
+			
+			return "redirect:/myPage.me";
+		}
+			
+			
+		
+		
+		
+	}
 
 	/**
 	 * 24.12.10 09 윤홍문

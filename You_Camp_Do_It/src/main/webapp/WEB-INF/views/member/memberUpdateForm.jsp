@@ -184,10 +184,10 @@
 	
 	            <div class="button-group">
 				    <button type="submit" class="btn-submit">회원정보 수정</button>
-				    <a href="#" data-toggle="modal" data-target="#updateMemberPwdModal" class="btn-submit">
+				    <a href="changePwdForm.me" class="btn-submit">
 				        비밀번호 변경
 				    </a>
-				    <a href="#" data-toggle="modal" data-target="#deleteMemberModal" class="btn-submit">
+				    <a href="memberDeleteForm.me" class="btn-submit">
 				    	회원 탈퇴
 				    </a>
 				</div>
@@ -197,47 +197,6 @@
     </div>
     
     
-    <!-- 비밀번호 변경 모달창 -->
-    <div class="modal" id="updateMemberPwdModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Modal Header -->
-                <div class="modal-header">
-                <h4 class="modal-title">비밀번호변경</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                
-            
-                <form action="#" method="post" >
-                	<!-- Modal body -->
-                    <div class="modal-body">
-                    	성민님 모달까지 만들어놨어요 여기서부터 비번변경 수정해서 쓰세요
-                    	<!-- 
-                        <label for="memberId" class="mr-sm-2">아이디</label>
-                        <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력해주세요" id="memberId" name="memberId" value="" required><br>
-                        <label for="memberPwd" class="mr-sm-2">비밀번호</label>
-                        <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력해주세요" id="memberPwd" name="memberPwd" required autoComplete="off"><br>
-                    
-                    	<div class="text-center">
-					        <button type="submit" class="btn btn-primary mb-2">로그인</button>
-					    </div>
-					     -->
-                    </div>
-                    
-        
-                    <!-- Modal footer -->
-                    <!-- 
-					<div id="links">
-					    <a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
-					    <a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
-					    <a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
-					</div>
-					 -->
-                    
-                </form>
-            </div>
-        </div>
-    </div>
     
     <!-- 회원 탈퇴 모달창 -->
     <div class="modal" id="deleteMemberModal">
@@ -254,7 +213,7 @@
                 	<!-- Modal body -->
                     <div class="modal-body">
                     	성민님 모달까지 만들어놨어요 여기서부터 회원 탈퇴 수정해서 쓰세요
-                    	<!-- 
+                    	
                         <label for="memberId" class="mr-sm-2">아이디</label>
                         <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력해주세요" id="memberId" name="memberId" value="" required><br>
                         <label for="memberPwd" class="mr-sm-2">비밀번호</label>
@@ -263,18 +222,18 @@
                     	<div class="text-center">
 					        <button type="submit" class="btn btn-primary mb-2">로그인</button>
 					    </div>
-					     -->
+					    
                     </div>
                     
         
                     <!-- Modal footer -->
-                    <!-- 
+                    
 					<div id="links">
 					    <a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
 					    <a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
 					    <a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
 					</div>
-					 -->
+					
                     
                 </form>
             </div>

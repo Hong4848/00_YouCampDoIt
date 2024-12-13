@@ -54,10 +54,6 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updateMember(sqlSession, m);
 	}
 
-	@Override
-	public int deleteMember(String userId) {
-		return 0;
-	}
 
 	/**
 	 * 24.12.10 정성민
@@ -132,6 +128,16 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int updatePwd(Member m) {
 		return memberDao.updatePwd(sqlSession, m);
+	}
+
+
+	/**
+	 * 24.12.13 정성민
+	 * 회원탈퇴용 서비스 메소드
+	 */
+	@Override
+	public int deleteMember(String memberId) {
+		return memberDao.deleteMember(sqlSession, memberId);
 	}
 
 

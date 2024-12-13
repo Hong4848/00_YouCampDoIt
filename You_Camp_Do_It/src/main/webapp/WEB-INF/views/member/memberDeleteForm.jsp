@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <style>
      .wrap-signup {
          font-family: Arial, sans-serif;
@@ -132,9 +132,13 @@
      }
      
      .explain {
-     	font-size : 13px;
-     	color: #7e7575;
+     	font-size : 15px;
+     	color: #black;
      	margin-bottom: 40px;
+     }
+     
+     .red-text {
+     	color: red;
      }
 
 
@@ -146,29 +150,29 @@
 	<jsp:include page="../common/header.jsp" />
 	
 	
+	
+	
 	<div class="wrap-signup">
 	    <div class="signup-container">
-	        <h1 style="margin-bottom: 40px;">비밀번호 변경</h1>
+	        <h1 style="margin-bottom: 40px;">회원 탈퇴</h1>
 	        
-	        <form action="changePwd.me" method="post" id="enrollForm" >
+	        <form action="memberDelete.me" method="post" id="enrollForm" >
 	            
 	            <div class="explain">
-	            	비밀번호를 변경해 주세요. <br>
-					다른 아이디나 사이트에서 사용한 적 없는 안전한 비밀번호로 변경해 주세요
+	            	<span class="red-text">탈퇴 전 반드시 확인해주세요!!</span> <br><br>
+					탈퇴 시 <span class="red-text">계정은 영구적으로 삭제</span>되며<br>
+					동일한 계정으로 <span class="red-text">재가입 역시 불가능합니다.</span><br>
+					또한 사이트 내에 <span class="red-text">모든 데이터 복구가 불가능</span>합니다.<br><br><br>
+					<spa class="red-text"n>정말 탈퇴를 원하신다면 아래에 비밀번호를 입력해주세요!!</span>
 				</div>
 	            
 	            <!-- 비밀번호 -->
-	            <label for="memberPwd" style="margin-top: 15px;">새 비밀번호*</label>
-	            <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" required>
+	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
+	            <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" style="margin-bottom: 60px;" required>
 	
-	            <!-- 비밀번호 확인 -->
-	            <label for="checkPwd">비밀번호 확인*</label>
-	            <input type="password" id="checkPwd" name="checkPwd" placeholder="비밀번호를 한번 더 입력하세요" required>
 	            
-	            
-	            
-	            <!-- 회원가입 버튼 -->
-	            <button type="submit" class="btn-submit" style="margin-top: 25px;" onclick="return signupValidate(); ">비밀번호 변경</button>
+	            <!-- 회원탈퇴 버튼 -->
+	            <button type="submit" class="btn-submit" style="margin-top: 25px;" onclick="return signupValidate(); ">회원탈퇴</button>
 	        </form>
 	    </div>
     </div>
@@ -178,21 +182,12 @@
     
     <script>
     	
-    	let timerInterval; // 타이머 관리 변수
-    	var isCertChecked = false;
-        var isIdChecked = false;
-    	
-    	
     	
     	// 유효성 검사, 아이디 중복체크 및 인증번호 인증 여부 검사
         function signupValidate() {
     		
-    		
-    		// 검사할 값들 가져오기
-    		
-    		
+    		// 검사할 값들 가져오기		
     		let memberPwd = $("#enrollForm input[name=memberPwd]").val();
-    		let checkPwd = $("#enrollForm input[name=checkPwd]").val();
     		
     		// 비밀번호 유효성 검사
     		let regex = /^[0-9a-zA-Z!@#$%^&]{8,15}$/;
@@ -201,12 +196,9 @@
     			return false;
     		}
     		
-    		// 비밀번호, 비밀번호 확인 일치 검사
-    		if(memberPwd != checkPwd) {
-    			alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요!");
-    			return false;
-    		}
-        	
+    		
+    		
+    		
         }
     	
     	

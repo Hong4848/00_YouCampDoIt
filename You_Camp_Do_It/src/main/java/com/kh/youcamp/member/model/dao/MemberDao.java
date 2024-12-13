@@ -115,6 +115,20 @@ public class MemberDao {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 
+	/**
+	 * 24.12.13 정성민
+	 * 회원탈퇴용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param memberId
+	 * @return
+	 */
+	public int deleteMember(SqlSessionTemplate sqlSession, String memberId) {
+		int result = sqlSession.update("memberMapper.deleteMember", memberId);
+		System.out.println(result);
+		return result;
+		
+	}
+
 	
 
 }
