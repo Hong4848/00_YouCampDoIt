@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>     
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>     
 <!DOCTYPE html>
 <html>
 <head>
@@ -92,7 +93,7 @@
 </style>
 </head>
 <body>
-	<jsp:include page="../common/header.jsp" />
+	<jsp:include page="/WEB-INF/views/common/header.jsp" />
 	
 	<div class="content">
         <br><br>
@@ -192,10 +193,28 @@
 
             <hr>
             <table id="writeArea" class="table">
-                <div>
-                    이전글 | 2014.12.01 A구역 10번 에서 잃어버리신 물건 입니다.  <br>
-                    다음글 | 2024.12.15 B구역 1번 쪽에서 잃어버리신 물건입니다. <br>
-                </div>
+	            <div class="my-3 p-3 bg-white rounded shadow-sm">
+					<c:choose >
+					<c:when test="${move.next != 9999}">
+						다음글 |<a href="/board/readView?bno=${move.next}" style="color: black"> ${move.nexttitle} </a>
+					</c:when>
+					
+					<c:when test="${move.next == 9999}">
+						다음글이 없습니다
+					</c:when>
+					</c:choose>
+					<br/>
+					<c:choose>
+					<c:when test="${move.last != 9999}">
+						이전글 |<a href="/board/readView?bno=${move.last}" style="color: black"> ${move.lasttitle} </a>
+					</c:when>
+					
+					<c:when test="${move.last == 9999}">
+						이전글이 없습니다
+					</c:when>
+					</c:choose>
+				
+				</div>
             </table>
             
         </div>

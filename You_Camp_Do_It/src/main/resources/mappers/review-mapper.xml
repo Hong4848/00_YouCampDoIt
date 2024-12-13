@@ -10,7 +10,20 @@
   	<result column="CREATE_DATE" property="createDate" />
   </resultMap>
   
+  <resultMap id="reviewAttachmentResultSet" type="reviewAttachment">
+  	<result column="FILE_NO" property="fileNo" />
+  	<result column="ORIGIN_NAME" property="originName" />
+  	<result column="CHANGE_NAME" property="changeName" />
+  	<result column="FILE_PATH" property="filePath" />
+  	<result column="UPLOAD_DATE" property="uploadDate" />
+  	<result column="FILE_LEVEL" property="fileLevel" />
+  	<result column="REVIEW_NO" property="reviewNo" />
+  
+  </resultMap>
+  
   <!-- 게시글 작성용 쿼리문 -->
+  
+  
   <insert id="insertReview" parameterType="review">
   	INSERT INTO REVIEW(REVIEW_NO
   					 , REVIEW_TITLE
@@ -19,5 +32,23 @@
   					 , #{reviewTitle}
   					 , #{reviewContent})
   </insert>
+  
+  
+  <!-- 게시글 작성용 쿼리문(첨부파일) -->
+  <insert id="insertReviewAttachment" parameterType="reviewAttachment">
+  	INSERT INTO REVIEWATTACHMENT(FILE_NO
+  							   , ORIGIN_NAME
+  							   , CHANGE_NAME
+  							   , UPLOAD_DATE
+  							   , FILE_PATH
+  							   , REVIEW_NO)
+  					      VALUES(FILE_SEQ.NEXTVAL
+  					      	   , #{originName}
+  					      	   , #{changeName}
+  					      	   , #{uploadName}
+  					      	   , #{filePate}
+  					      	   , #{reviewNo})
+  </insert>
+   
   
 </mapper>

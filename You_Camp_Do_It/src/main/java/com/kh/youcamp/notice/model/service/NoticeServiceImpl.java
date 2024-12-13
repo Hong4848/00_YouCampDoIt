@@ -42,5 +42,4 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDao.selectNotice(sqlSession, noticeNo);
 	}
 
-
 }
