@@ -112,7 +112,7 @@
 
             .detail_content{
                 width: 92.5%;
-                height: 400px;
+                height: 470px;
                 margin: auto;
                 margin-top: 25px;
                 border: 1px solid rgba(156, 156, 156, 0.3);
@@ -141,7 +141,7 @@
                 box-shadow: 0px 0px 0px rgba(128, 128, 128, 0.363);
                 border-radius: 15px;
                 overflow: hidden;
-				transition: all 0.5s;
+				transition: all 1s;
                 position: absolute;
                 background-color: white;
             }
@@ -179,6 +179,19 @@
     <body>
         <div id="outer">
             <jsp:include page="/WEB-INF/views/admin/pageManagerMenu.jsp"></jsp:include>
+            <c:if test="${ not empty sessionScope.alertMsg }">
+                <script>
+                    alertify.alert('등록 결과', '${ sessionScope.alertMsg }', function(){ alertify.success('상품이 등록되었습니다.'); });
+                </script>
+                <c:remove var="alertMsg" scope="session" />
+            </c:if>
+
+            <c:if test="${ not empty sessionScope.errorMsg }">
+                <script>
+                    alertify.alert('등록 결과', '${ sessionScope.errorMsg }', function(){ alertify.success('상품이 등록에 실패했습니다.'); });
+                </script>
+                <c:remove var="errorMsg" scope="session" />
+            </c:if>
             <div class="goods_enrollment">
                 <div class="title_enrollment">
                     <div style="line-height: 47px; padding-left: 20px;">상품 등록</div>
@@ -291,16 +304,19 @@
         <script>
             $("#category").on("focus", function(){
                 $(".select_Category").css("padding-top", 20).css("border", "1px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "5px 5px 5px rgba(128, 128, 128, 0.363)").css("height", 328);
+                
             });
 
             $("#category").on("blur", function(){
                 $(".select_Category").css("padding-top", 0).css("border", "0px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "0px 0px 0px rgba(128, 128, 128, 0.363)").css("height", 0);
             });
 
-            $(".category_body").click(function(){
-                let selectC = $(this).children(".val").text()
+            $(".category_body").on("click", function(){
+                let selectC = $(this).children(".val").text();
+                console.log(selectC);
                 $("#category").val(selectC);
             });
+           
         </script>
 
         <script>
@@ -356,7 +372,7 @@
 	            $("#goodsContent").summernote({
                     lang: 'ko-KR',
 	                width: '100%',   //가로값 설정
-	                height: 270,    // 높이값 설정
+	                height: 340,    // 높이값 설정
 	                toolbar: [
                         // [groupName, [list of button]]
                         ['fontname', ['fontname']],
@@ -384,37 +400,47 @@
                 let totalStock = $("#totalStock").val();
                 let goodsContent = $("#goodsContent").summernote('code');
 
-                console.log(productThumbnail);
-                console.log(goodsTitle);
-                console.log(goodsInfo);
-                console.log(category);
-                console.log(brand);
-                console.log(price);
-                console.log(totalStock);
-                console.log(goodsContent);
+                let errorMsg = "";
+                if(goodsTitle == "" || category == ""){
+                    if(goodsTitle == "")
+                    {
+                        errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
+                    }
 
-                $.ajax({
-					url : "enrollGoods.gs",
-					type : "post",
-					data : {
-                        goodsThumbnail : productThumbnail,
-                        goodsName : goodsTitle,
-                        goodsInfo : goodsInfo,
-                        category : category,
-                        mark : brand,
-                        price : price,
-                        totalStock : totalStock,
-                        goodsContent : goodsContent
-                    },
-					success : function()
-					{
-						console.log("성공");
-					},
-					error : function()
-					{
-                        console.log("실패");
-					}
-				});
+                    if(category == "")
+                    {
+                        errorMsg += "상품이 분류되지 않았습니다.<br>";
+                    }
+                    
+                    alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
+                }
+                else{
+                    let formData = new FormData();
+                    formData.append('goodsThumbnail', productThumbnail);
+                    formData.append('goodsName', goodsTitle);
+                    formData.append('goodsInfo', goodsInfo);
+                    formData.append('category', category);
+                    formData.append('mark', brand);
+                    formData.append('price', price);
+                    formData.append('totalStock', totalStock);
+                    formData.append('goodsContent', goodsContent);
+
+                    $.ajax({
+                        url : "enrollGoods.gs",
+                        type : "post",
+                        data : formData,
+                        contentType: false,
+                        processData: false,
+                        success : function(result)
+                        {
+                            location.replace(result);
+                        },
+                        error : function()
+                        {
+                            console.log("실패");
+                        }
+                    });
+                }
             });
         </script>
     </body>
