@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<script type="text/javascript" src="/resources/js/reserve/reserveDateView.js"></script>
 <title>날짜 자리 선택</title>
     <style>
     	body {
@@ -398,6 +399,33 @@
         }
         /* 달력 관련 종료 */
         
+        .day:hover {
+		    cursor: default; /* 기본 상태 */
+			background-color: inherit;    
+		}
+		
+		.day.hoverable {
+		    cursor: pointer; /* hover 가능 상태 */
+		}
+		
+		.day.hoverable:hover {
+		    background-color: rgb(119, 119, 119);
+		}
+		
+		.day.today {
+		    pointer-events: none; /* hover 효과를 완전히 차단 */
+		}
+		
+		.day.nextMonth,
+		.day.prevMonth {
+		    
+		    pointer-events: none; /* hover 효과 및 클릭 차단 */
+		}
+		        
+        
+        
+        
+        
         
 
     </style>
@@ -424,7 +452,7 @@
 	                <div class="section select_night">
 	                    <ul>
 	                        <li>
-	                            <input type="radio" name="select_night" id="select_night_1" class="select_nigth_radio" value="1" checked="true">
+	                            <input type="radio" name="select_night" id="select_night_1" class="select_nigth_radio" value="1" checked>
 	                            <label for="select_night_1">1박</label>
 	                        </li>
 	                        <li>
@@ -446,7 +474,7 @@
 		                            <div class="yyyy">.</div>
 				                    <div id="month" class="yyyy">12</div>
 				                    <div style="width: 30%;"></div>
-				                    <div id="prevCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
+				                    <div id="nextCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
 				                </div>
 				            </div>
 				            <div class="calendar-body">
@@ -523,7 +551,7 @@
 	                            12.25(수)
 	                        </strong>
 	                    </div>
-	                    <div class="state_night">2박</div>
+	                    <div class="state_night">1박</div>
 	                    <div class="end_day">
 	                        <span>체크아웃</span>
 	                        <strong id="txt-checkOut">
@@ -608,6 +636,7 @@
     </div>
     
     <script>
+    	
     
     	// 달력 관련 스크립트
         let date = new Date();
@@ -635,48 +664,59 @@
             LastWeek = WEEKDAY[new Date(currentYear+"-"+currentMonth+"-"+currentLastDate).getDay()];
         }
 
-        function dateList(){
+        function dateList() {
             let start = false;
-            let dayCount = currentLastDate;
-            for(var i = 41; i >= 0; i--)
-            {
-                if($(".day").eq(i).attr("class").includes(LastWeek) && start == false && i <= 37)
-                {
+            let dayCount = currentLastDate; // 이번 달 마지막 날짜
+            const todayFullDate = new Date(); // 오늘 날짜
+
+            for (let i = 41; i >= 0; i--) {
+                if ($(".day").eq(i).attr("class").includes(LastWeek) && start == false && i <= 37) {
                     start = true;
-                    
-                    for(var j = 41; j > i; j--)
-                    {
-                        $(".day").eq(j).text(j-i);
-                        $(".day").eq(j).addClass("nextMonth");
+
+                    for (let j = 41; j > i; j--) {
+                        $(".day").eq(j).text(j - i); // 다음 달 날짜
+                        $(".day").eq(j).addClass("nextMonth").removeClass("hoverable"); // hoverable 제거
                     }
                 }
-                
-                if(start == true)
-                {
-                    if(dayCount >= 1)
-                    {
-                        $(".day").eq(i).text(dayCount);
-                        $(".day").eq(i).removeClass("prevMonth");
-                        $(".day").eq(i).removeClass("nextMonth");
-                        
-                        if(currentYear == date.getFullYear() && currentMonth == date.getMonth()+1 && $(".day").eq(i).text() == currentDate){
-                            $(".day").eq(i).addClass("today");
+
+                if (start) {
+                    if (dayCount >= 1) {
+                        // 이번 달 날짜
+                        const currentFullDate = new Date(currentYear, currentMonth - 1, dayCount);
+
+                        $(".day").eq(i).text(dayCount); // 날짜 업데이트
+                        $(".day").eq(i).removeClass("prevMonth nextMonth");
+
+                        // 오늘 이전 날짜는 hoverable 제거
+                        if (currentFullDate < todayFullDate) {
+                            $(".day").eq(i).addClass("pastDate").removeClass("hoverable");
+                        } else {
+                            $(".day").eq(i).addClass("hoverable");
                         }
-                        else{
+
+                        // 오늘 날짜 표시
+                        if (
+                            currentYear === todayFullDate.getFullYear() &&
+                            currentMonth === todayFullDate.getMonth() + 1 &&
+                            dayCount === todayFullDate.getDate()
+                        ) {
+                            $(".day").eq(i).addClass("today");
+                        } else {
                             $(".day").eq(i).removeClass("today");
                         }
-                        dayCount -= 1;
+
+                        dayCount--;
+                    } else {
+                        // 이전 달 날짜
+                        $(".day").eq(i).text(prevLastDate + dayCount); // 이전 달 날짜
+                        $(".day").eq(i).addClass("prevMonth").removeClass("hoverable"); // hoverable 제거
+                        dayCount--;
                     }
-                    else{
-                        $(".day").eq(i).text(prevLastDate+dayCount);
-                        $(".day").eq(i).removeClass("today");
-                        $(".day").eq(i).addClass("prevMonth");
-                        dayCount -= 1;
-                    }
-                    
                 }
             }
         }
+
+
 
         function nextMonth(){
             if(currentMonth >= 12){
@@ -707,25 +747,64 @@
             dateInit();
             dateList();
         }
+        
+        
+        
+        $(function() {
+	    	// 초기 체크된 라디오 버튼 값 가져오기
+		    let $stayDay = $("input[name='select_night']:checked").val();
+		    	$(".state_night").text($stayDay + "박");    
+		    
+		    
+		    // 라디오 버튼 값이 변경될 때 가져오기
+		    $(".select_nigth_radio").on("click", function() {
+		        $stayDay = $("input[name='select_night']:checked").val();
+		        
+		        $(".state_night").text($stayDay + "박");
+		    });
+		    
+		    
+		    $(".hoverable").on("click", function() {
+		    	/*
+		    	let $today = $(this).text();
+		    	console.log($today);
+		    	$(".start_day").text($("#month").text() + "." + $today + )
+		    	*/
+		    	
+		    	let $today = $(this).text(); // 선택된 날짜
+		        let year = $("#year").text(); // 현재 연도
+		        let month = $("#month").text(); // 현재 월
+		        month = month.padStart(2, "0"); // 월을 2자리로 포맷 (예: 1 -> 01)
+
+		        // 선택된 날짜를 기준으로 Date 객체 생성
+		        let selectedDate = new Date(`\${year}-\${month}-\${$today.padStart(2, "0")}`);
+
+		        // 요일 배열 (SUN ~ SAT)
+		        const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
+		        let dayOfWeek = WEEKDAY[selectedDate.getDay()]; // 요일 인덱스를 기반으로 요일 값 가져오기
+
+		        console.log($today); // 선택된 날짜 확인
+		        console.log(dayOfWeek); // 선택된 날짜의 요일 확인
+
+		        // 시작 날짜에 월.일(요일) 형식으로 표시
+		        
+		        
+		        
+		    	
+		    });
+		    
+		    
+		
+
+		
+	});
+        
+        
+        
     </script>
     
     <script>
-    	$(function() {
-    		// 초기 체크된 라디오 버튼 값 가져오기
-    	    const $stayDay = $("input[name='select_night']:checked").val();
-    	    console.log("초기 선택된 값:", $stayDay);
-
-    	    // 라디오 버튼 값이 변경될 때 가져오기
-    	    $(".select_nigth_radio").on("change", function() {
-    	        $stayDay = $("input[name='select_night']:checked").val();
-    	        console.log("변경된 값:", $stayDay);
-    	    });
-
-    		
-    		
-    		
-    		
-    	});
+	    
     	
     </script>
     
