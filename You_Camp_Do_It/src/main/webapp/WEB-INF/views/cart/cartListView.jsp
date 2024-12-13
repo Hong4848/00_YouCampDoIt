@@ -274,179 +274,39 @@
 	                    <input type="checkbox">전체 선택
 	                </label>
 	            </div>
-	
 	            <div class="delete-checked">
-	                <button>선택 삭제</button>
+	                <button id="cart-list-delete-checked">선택 삭제</button>
 	            </div>
 	        </div>
-	    
+	    	
 	        <!-- Cart Items - 장바구니 목록조회 부분 -->
 	        <c:choose>
-	        	<c:when test="${ not empty sessionScope.list }">
-	        	
-		        	<div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 접이식 의자</h3>
-			                <p class="item-options">선택: 블랙</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="2" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>39,800원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			        
-			        <!-- 하드코딩 부분 -->
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 초경량 텐트</h3>
-			                <p class="item-options">선택: 2인용 / 블루</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>149,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			    
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 LED 랜턴</h3>
-			                <p class="item-options">선택: 충전식</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="3" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>29,700원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			    
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 방수 매트</h3>
-			                <p class="item-options">선택: 대형</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>59,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			    
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 아이스박스</h3>
-			                <p class="item-options">선택: 24L / 화이트</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>89,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			    
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 휴대용 화로</h3>
-			                <p class="item-options">선택: 스테인리스</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>119,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 휴대용 테이블</h3>
-			                <p class="item-options">선택: 알루미늄 소재</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>79,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			        
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 스테인리스 코펠 세트</h3>
-			                <p class="item-options">선택: 4인용</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>49,900원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
-			        
-			        <div class="cart-item">
-			            <input type="checkbox">
-			            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-			            <div class="item-details">
-			                <h3>캠핑용 휴대용 샤워기</h3>
-			                <p class="item-options">선택: 충전식 / 블루</p>
-			                <div class="item-quantity">
-			                    <span class="quantity-decrease">-</span>
-			                    <input type="text" value="1" class="quantity-input" readonly>
-			                    <span class="quantity-increase">+</span>
-			                </div>
-			            </div>
-			            <div class="item-price">
-			                <p>69,000원</p>
-			            </div>
-			            <button class="delete-btn">X</button>
-			        </div>
+	        	<c:when test="${ not empty requestScope.list }">
+	        		<c:forEach var="c" items="${ requestScope.list }">
+	        			<div class="cart-item">
+				            <input type="checkbox" value="${ c.cartNo }">
+				            <img src="https://via.placeholder.com/100" alt="상품 이미지">
+				            <div class="item-details">
+				                <h3>캠핑용 접이식 의자 ${ c.goods.goodsName }</h3>
+				                <p class="item-options">선택: 블랙 ${ c.goods.goodsInfo }</p>
+				                <div class="item-quantity">
+				                    <span class="quantity-decrease">-</span>
+				                    <input type="text" value="${ c.quantity }" class="quantity-input" readonly>
+				                    <span class="quantity-increase">+</span>
+				                </div>
+				            </div>
+				            <div class="item-price">
+				                <p>${ c.price } 원</p>
+				                <p>단가 체크 나중에 삭제 ${ c.goods.price } 원</p>
+				            </div>
+				            <button class="delete-btn" 
+				            		id="cart-list-delete"
+				            		onclick="deleteCart(${c.cartNo});">
+				            	X
+				            </button>
+				        </div>
+	        		</c:forEach>
 	        	</c:when>
-	        	
 	        	<c:otherwise>
 	        		<div class="cart-item">
 		        		<div style="text-align: center; 
@@ -485,6 +345,8 @@
     <jsp:include page="../common/footer.jsp" />
 
     <script>
+    
+    	// 수량 +- 메소드
         document.querySelectorAll('.quantity-decrease').forEach(button => {
             button.addEventListener('click', event => {
                 const input = event.target.nextElementSibling;
@@ -502,6 +364,90 @@
                 input.value = currentValue + 1;
             });
         });
+        
+        
+        
+        // 전체선택 체크박스 메소드
+        $(function () {
+            // 전체 선택 클릭 이벤트
+            $('.total-chcek input[type="checkbox"]').change(function () {
+                const isChecked = $(this).prop('checked');
+                $('.cart-item input[type="checkbox"]').prop('checked', isChecked);
+            });
+
+            // 개별 선택 시 실행 이벤트
+            $('.cart-item input[type="checkbox"]').change(function () {
+                const allChecked = $('.cart-item input[type="checkbox"]').length === 
+                	$('.cart-item input[type="checkbox"]:checked').length;
+                $('.total-chcek input[type="checkbox"]').prop('checked', allChecked);
+            });
+            
+        });
+        
+        
+    	  	
+    	
+    	// 장바구니 목록 삭제 메소드
+    	$(function() {
+    		
+    		// 선택삭제 버튼 클릭 이벤트
+    		$('#cart-list-delete-checked').on('click', function () {
+    			// 체크된 요소의 hidden input(cartNo) 값 문자열로 가져오기
+    			const $checkedCartItem = $('.cart-item input[type="checkbox"]:checked');
+    			
+    			// 체크된 항목이 없으면
+    			if($checkedCartItem.length === 0) {
+    				alertify.alert("Alert", "선택된 항목이 없습니다.");
+    		        return;
+    		    }
+    			
+    			// 체크된 항목이 있으면
+    			let cartNos = "";
+    			$checkedCartItem.each(function() {
+    				// 문자열로 연결하고,쉼표로 구문
+    				cartNos += $(this).val() + ",";
+    			});
+    			// 마지막 쉼표 빼기
+    			cartNos = cartNos.slice(0, -1); 
+    			
+    			//console.log(cartNos);
+    			
+    			// 카트번호 문자열로 넘기면서 Ajax 호출
+    			deleteCart(cartNos);
+    		});
+    		
+    		
+    		
+    	});
+    	
+    	// 삭제 Ajax
+		function deleteCart(cartNos){
+    		$.ajax({
+    			// 삭제할 카트번호 문자열로 넘기고
+    			// 쿼리문의 조건절에서 in 구문 사용
+    			url : "${pageContext.request.contextPath}/delete.ca",
+    			type : "post",
+    			data : { cartNos : cartNos },
+    			success : function(result){        				
+    				console.log(result);
+    				
+    				if(result == "success") {
+	    	            // 페이지 새로고침
+	    	            // 일단 새로고침으로 진행, 추후 목록뷰도 에이작스로 수정해야함
+	    	            location.reload();
+    				} else {
+    					alertify.alert("Alert", "장바구니 삭제 실패");
+    				}    
+    				
+    			},
+    			error : function(){
+    				console.log("장바구니 목록 삭제용 ajax 통신 실패!");
+    			}
+    			
+    		});
+    	}
+    	
+    
     </script>
     
 </body>

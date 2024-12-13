@@ -31,8 +31,11 @@ INSERT INTO CART(CART_NO
                , ?
                , ?)
             
-
-
+-- 장바구니 삭제용 쿼리문 > 여러 체크된 요소로 받아서 in 구문사용
+DELETE
+  FROM CART
+ WHERE CART_NO IN (?)
+ (${cartNo})
 ------------------------------------------
 -- 회원정보 수정용 쿼리문
 UPDATE MEMBER
@@ -47,54 +50,79 @@ UPDATE MEMBER
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ----------------------------------------------
 
 -- 대여용품 더미데이터
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '텐트', '캠핑용 4인용 텐트', NULL, '4인 가족이 사용할 수 있는 넉넉한 캠핑 텐트.', '4인용 텐트', NULL, 80000, 0, 0, SYSDATE, 10, 10, 'Y');
+( 1, '텐트', '캠핑용 4인용 텐트', NULL, '4인 가족이 사용할 수 있는 넉넉한 캠핑 텐트.', '4인용 텐트', NULL, 80000, 0, 0, SYSDATE, 10, 10, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '텐트', '2인용 초경량 텐트', NULL, '2인용 초경량 텐트로 가볍고 설치가 쉬움.', '초경량 2인용 텐트', NULL, 50000, 0, 0, SYSDATE, 15, 15, 'Y');
+( 2, '텐트', '2인용 초경량 텐트', NULL, '2인용 초경량 텐트로 가볍고 설치가 쉬움.', '초경량 2인용 텐트', NULL, 50000, 0, 0, SYSDATE, 15, 15, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '타프', '대형 타프', NULL, '햇빛을 차단할 수 있는 대형 타프.', '캠핑용 대형 타프', NULL, 40000, 0, 0, SYSDATE, 8, 8, 'Y');
+( 3, '타프', '대형 타프', NULL, '햇빛을 차단할 수 있는 대형 타프.', '캠핑용 대형 타프', NULL, 40000, 0, 0, SYSDATE, 8, 8, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '체어', '폴딩 캠핑 체어', NULL, '편안한 캠핑용 접이식 의자.', '접이식 캠핑 체어', NULL, 15000, 0, 0, SYSDATE, 30, 30, 'Y');
+( 4, '체어', '폴딩 캠핑 체어', NULL, '편안한 캠핑용 접이식 의자.', '접이식 캠핑 체어', NULL, 15000, 0, 0, SYSDATE, 30, 30, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '테이블', '접이식 캠핑 테이블', NULL, '다목적 접이식 테이블, 4인용.', '4인용 캠핑 테이블', NULL, 30000, 0, 0, SYSDATE, 20, 20, 'Y');
+( 5, '테이블', '접이식 캠핑 테이블', NULL, '다목적 접이식 테이블, 4인용.', '4인용 캠핑 테이블', NULL, 30000, 0, 0, SYSDATE, 20, 20, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '텐트', '6인용 대형 텐트', NULL, '대형 가족 캠핑에 적합한 6인용 텐트.', '대형 가족 텐트', NULL, 120000, 0, 0, SYSDATE, 5, 5, 'Y');
+( 6, '텐트', '6인용 대형 텐트', NULL, '대형 가족 캠핑에 적합한 6인용 텐트.', '대형 가족 텐트', NULL, 120000, 0, 0, SYSDATE, 5, 5, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '체어', '캠핑 리클라이너 체어', NULL, '편안한 캠핑 리클라이너 체어.', '리클라이너 캠핑 체어', NULL, 35000, 0, 0, SYSDATE, 25, 25, 'Y');
+( 7, '체어', '캠핑 리클라이너 체어', NULL, '편안한 캠핑 리클라이너 체어.', '리클라이너 캠핑 체어', NULL, 35000, 0, 0, SYSDATE, 25, 25, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '테이블', '롤업 캠핑 테이블', NULL, '간편히 접을 수 있는 롤업 테이블.', '롤업 테이블', NULL, 45000, 0, 0, SYSDATE, 15, 15, 'Y');
+( 8, '테이블', '롤업 캠핑 테이블', NULL, '간편히 접을 수 있는 롤업 테이블.', '롤업 테이블', NULL, 45000, 0, 0, SYSDATE, 15, 15, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '조명', 'LED 랜턴', NULL, '밝고 오래 지속되는 캠핑용 LED 랜턴.', '캠핑용 LED 랜턴', NULL, 20000, 0, 0, SYSDATE, 30, 30, 'Y');
+( 9, '조명', 'LED 랜턴', NULL, '밝고 오래 지속되는 캠핑용 LED 랜턴.', '캠핑용 LED 랜턴', NULL, 20000, 0, 0, SYSDATE, 30, 30, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '쿨러', '휴대용 캠핑 쿨러', NULL, '음식을 신선하게 보관할 수 있는 캠핑 쿨러.', '휴대용 쿨러', NULL, 55000, 0, 0, SYSDATE, 10, 10, 'Y');
+( 10, '쿨러', '휴대용 캠핑 쿨러', NULL, '음식을 신선하게 보관할 수 있는 캠핑 쿨러.', '휴대용 쿨러', NULL, 55000, 0, 0, SYSDATE, 10, 10, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '소모품', '캠핑용 장작', NULL, '건조된 장작으로 화력이 강하고 오래 타는 장작.', '캠핑용 장작', NULL, 10000, 0, 0, SYSDATE, 50, 50, 'Y');
+( 11, '소모품', '캠핑용 장작', NULL, '건조된 장작으로 화력이 강하고 오래 타는 장작.', '캠핑용 장작', NULL, 10000, 0, 0, SYSDATE, 50, 50, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '소모품', '이소가스', NULL, '휴대용 가스버너와 함께용하는 이소가스.', '캠핑용 이소가스', NULL, 5000, 0, 0, SYSDATE, 100, 100, 'Y');
+( 12, '소모품', '이소가스', NULL, '휴대용 가스버너와 함께용하는 이소가스.', '캠핑용 이소가스', NULL, 5000, 0, 0, SYSDATE, 100, 100, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '소모품', '캠핑용 일회용 접시', NULL, '캠핑에서 사용할 수 있는 가벼운 일회용 접시.', '일회용 접시', NULL, 3000, 0, 0, SYSDATE, 200, 200, 'Y');
+( 13, '소모품', '캠핑용 일회용 접시', NULL, '캠핑에서 사용할 수 있는 가벼운 일회용 접시.', '일회용 접시', NULL, 3000, 0, 0, SYSDATE, 200, 200, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '소모품', '캠핑용 휴대용 물통', NULL, '물을 보관할 수 있는 캠핑용 휴대용 물통.', '휴대용 물통', NULL, 8000, 0, 0, SYSDATE, 50, 50, 'Y');
+( 14, '소모품', '캠핑용 휴대용 물통', NULL, '물을 보관할 수 있는 캠핑용 휴대용 물통.', '휴대용 물통', NULL, 8000, 0, 0, SYSDATE, 50, 50, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( GOODS_SEQ.NEXTVAL, '소모품', '캠핑용 손난로', NULL, '추운 날씨에 적합한 휴대용 손난로.', '휴대용 손난로', NULL, 4000, 0, 0, SYSDATE, 100, 100, 'Y');
+( 15, '소모품', '캠핑용 손난로', NULL, '추운 날씨에 적합한 휴대용 손난로.', '휴대용 손난로', NULL, 4000, 0, 0, SYSDATE, 100, 100, 'Y');
 
 --------------------------------------------------------------
 --

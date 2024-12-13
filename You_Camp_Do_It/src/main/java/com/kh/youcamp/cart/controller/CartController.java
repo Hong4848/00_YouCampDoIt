@@ -1,13 +1,16 @@
 package com.kh.youcamp.cart.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.youcamp.cart.model.service.CartService;
@@ -31,19 +34,18 @@ public class CartController {
 								   HttpSession session) {
 		
 		// 세션에서 유저 번호 가져오기
-		Member loginMember = (Member) session.getAttribute("loginMember");
-		int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
-		System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
+		Member loginMember = 
+				(Member) session.getAttribute("loginMember");
+		int memberNo = 
+				(loginMember != null) ? loginMember.getMemberNo() : 0;
+//		System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
 
-		
 		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
 		ArrayList<Cart> list = cartService.selectList(memberNo);
-		// list 쿼리문 수정필요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
-		
+				
 		mv.addObject("list", list);
 		mv.setViewName("cart/cartListView");
-		System.out.println("카트 list 뷰 db 조회 후 컨트롤러 단" + list);
+//		System.out.println("카트 list 뷰 db 조회 후 컨트롤러 단" + list);
 		
 		 return mv;
 	}
@@ -69,6 +71,36 @@ public class CartController {
 		}
 		
 		
+	}
+	
+	/**
+	 * 24.12.13 윤홍문
+	 * 장바구니 삭제 메소드
+	 * @param cartNos 삭제할 카트 번호 - 문자열(숫자아님)
+	 * @return 쿼리문실행결과
+	 * 일단 쿼리문 in으로 처리
+	 * 나중에 배열, for 문으로 수정하기
+	 * 목록조회 ajax 로 바꿔야함
+	 * 배열로받는거 고려해야함
+	 */
+	@ResponseBody
+	@PostMapping(value="delete.ca",
+				 produces="text/html; charset=UTF-8")
+	public String AjaxDeleteCart(String cartNos) {
+		
+//		System.out.println(cartNos);
+
+		/*
+		String[] cartNoList = 
+				cartNos.isEmpty() ? new String[0] : cartNos.split(",");
+		
+		int result = 0;
+		for (int i = 0; i < cartNoList.length; i++) {
+			result = cartService.deleteCart(인덱스i번째);
+        }*/
+		int result = cartService.deleteCart(cartNos);
+		
+		return (result > 0) ? "success" : "fail";
 	}
 	
 	

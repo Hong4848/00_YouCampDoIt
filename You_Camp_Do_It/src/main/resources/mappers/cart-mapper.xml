@@ -2,21 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="cartMapper">
 	<resultMap id="cartResultSet" type="cart">
-		<id column="CART_NO" property="cartNo" />
-		<result column="QUANTITY" property="quantity" />
-		<result column="PRICE" property="price" />
-		<result column="ADDED_AT" property="addedAt" />
-		<result column="MEMBER_NO" property="memberNo" />
-		<result column="GOODS_NO" property="goodsNo" />
-		
-		<!-- list View 용 조인 컬럼들 -->
-		<result property="category" column="CATEGORY" />
-	    <result property="goodsName" column="GOODS_NAME" />
-	    <result property="goodsThumbnail" column="GOODS_THUMBNAIL" />
-	    <result property="goodsInfo" column="GOODS_INFO" />
-	    <result property="goodsPrice" column="GOODS_PRICE" />
+		<!-- CART 테이블 매핑 -->
+        <id column="CART_NO" property="cartNo" />
+        <result column="QUANTITY" property="quantity" />
+        <result column="CART_PRICE" property="price" />
+        <result column="ADDED_AT" property="addedAt" />
+        <result column="MEMBER_NO" property="memberNo" />
+        <result column="GOODS_NO" property="goodsNo" />
+
+        <!-- GOODS 테이블 매핑 -->
+	    <association property="goods" javaType="goods">
+	        <id column="GOODS_NO" property="goodsNo" />
+	        <result column="CATEGORY" property="category" />
+	        <result column="GOODS_NAME" property="goodsName" />
+	        <result column="GOODS_CONTENT" property="goodsContent" />
+	        <result column="MARK" property="mark" />
+	        <result column="GOODS_PRICE" property="price" />
+	        <result column="VIEWS" property="views" />
+	        <result column="ENROLL_DATE" property="enrollDate" />
+	        <result column="TOTAL_STOCK" property="totalStock" />
+	        <result column="REMAIN_STOCK" property="remainStock" />
+	        <result column="STATUS" property="status" />
+	    </association>
 	</resultMap>
 	
+	<!-- 장바구니 목록 조회용 쿼리문 -->
 	<select id="selectList" parameterType="int" resultMap="cartResultSet">
 		SELECT M.MEMBER_NO
 		     , C.CART_NO
@@ -35,6 +45,14 @@
 		 WHERE M.MEMBER_NO = #{memberNo}
 	</select>
 
+	<!-- 장바구니 삭제용 쿼리문 -->
+	<delete id="deleteCart"
+			parameterType="_int">
+		DELETE
+		  FROM CART
+		 <!-- WHERE CART_NO #{cartNo} -->
+		 WHERE CART_NO IN (${cartNo})
+	</delete>
 
 
 

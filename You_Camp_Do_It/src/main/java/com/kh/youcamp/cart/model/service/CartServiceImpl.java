@@ -1,6 +1,7 @@
 package com.kh.youcamp.cart.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,14 @@ public class CartServiceImpl implements CartService{
 	@Transactional
 	public int insertCart(Cart cart) {
 		return 0; //cartDao.insertCart(sqlSession, cart);
+	}
+
+	@Override
+	@Transactional
+	public int deleteCart(String cartNos) {
+	// public int deleteCart(String[] cartNoList) {
+		// return cartDao.deleteCart(sqlSession, cartNoList);
+		return cartDao.deleteCart(sqlSession, cartNos);
 	}
 
 }
