@@ -275,7 +275,10 @@
 	                </label>
 	            </div>
 	            <div class="delete-checked">
-	                <button id="cart-list-delete-checked">선택 삭제</button>
+	                <button id="cart-list-delete-checked"
+	                	    onclick="getCheckedCartNosAsString();">
+	                	선택 삭제
+	                </button>
 	            </div>
 	        </div>
 	    	
@@ -387,7 +390,8 @@
         
     	  	
     	
-    	// 장바구니 목록 삭제 메소드
+    	// 선택삭제할 장바구니 번호 데이터가공 메소드
+    	<%--
     	$(function() {
     		
     		// 선택삭제 버튼 클릭 이벤트
@@ -416,9 +420,35 @@
     			deleteCart(cartNos);
     		});
     		
-    		
-    		
     	});
+    	--%>
+    	
+    	function getCheckedCartNosAsString(){
+    		// 체크된 요소의 hidden input(cartNo) 값 문자열로 가져오기
+			const $checkedCartItem = $('.cart-item input[type="checkbox"]:checked');
+			
+			// 체크된 항목이 없으면
+			if($checkedCartItem.length === 0) {
+				alertify.alert("Alert", "선택된 항목이 없습니다.");
+		        return;
+		    }
+			
+			// 체크된 항목이 있으면
+			let cartNos = "";
+			$checkedCartItem.each(function() {
+				// 문자열로 연결하고,쉼표로 구문
+				cartNos += $(this).val() + ",";
+			});
+			// 마지막 쉼표 빼기
+			cartNos = cartNos.slice(0, -1); 
+			
+			//console.log(cartNos);
+			
+			// 카트번호 문자열로 넘기면서 Ajax 호출
+			deleteCart(cartNos);
+    	}
+    	
+    	
     	
     	// 삭제 Ajax
 		function deleteCart(cartNos){

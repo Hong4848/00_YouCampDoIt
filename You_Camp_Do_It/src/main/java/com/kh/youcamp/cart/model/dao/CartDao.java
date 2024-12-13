@@ -19,8 +19,8 @@ public class CartDao {
 //	public int deleteCart(SqlSessionTemplate sqlSession, String[] cartNoList) {
 //		return sqlSession.delete("cartMapper.deleteCart", cartNoList);
 //	}
-	public int deleteCart(SqlSessionTemplate sqlSession, String cartNos) {
-		return sqlSession.delete("cartMapper.deleteCart", cartNos);
+	public int deleteCart(SqlSessionTemplate sqlSession, int cartNo) {
+		return sqlSession.delete("cartMapper.deleteCart", cartNo);
 	}
 
 
