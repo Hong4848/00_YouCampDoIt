@@ -1,4 +1,4 @@
-package com.kh.youcamp.goods.controller;
+package com.kh.youcamp.admin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,23 +11,12 @@ import com.kh.youcamp.goods.model.service.GoodsService;
 import com.kh.youcamp.goods.model.vo.Goods;
 
 @Controller
-public class GoodsController
+public class PageManagerController
 {
-	@Autowired
-	private GoodsService goodsService;
-	
-	@GetMapping("product.gs")
-	public ModelAndView selectList(ModelAndView mv)
+	@GetMapping("manager.ma")
+	public ModelAndView adminPage1(ModelAndView mv)
 	{
-		// /WEB-INF/views/board/boardListView.jsp
-		mv.setViewName("goods/shoppingMall");
+		mv.setViewName("goods/addProduct");
 		return mv;
-	}
-	
-	@ResponseBody
-	@PostMapping(value="enrollGoods.gs", produces="text/html; charset=UTF-8")
-	public void insertGoods(Goods g)
-	{
-		int result = goodsService.insertGoods(g);
 	}
 }

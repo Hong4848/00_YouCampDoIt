@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="goodsMapper">
-  
+	<resultMap type="goods" id="goodsResultSet">
+		<id column="GOODS_NO" property="goodsNo" />
+ 		<result column="CATEGORY" property="category" />
+ 		<result column="GOODS_NAME" property="goodsName" />
+ 		<result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
+ 		<result column="GOODS_CONTENT" property="goodsContent" />
+ 		<result column="GOODS_INFO" property="goodsInfo" />
+ 		<result column="MARK" property="mark" />
+ 		<result column="PRICE" property="price" />
+ 		<result column="DISCOUNT" property="discount" />
+ 		<result column="VIEWS" property="views" />
+ 		<result column="ENROLL_DATE" property="enrollDate" />
+ 		<result column="TOTAL_STOCK" property="totalStock" />
+ 		<result column="REMAIN_STOCK" property="remainStock" />
+ 		<result column="STATUS" property="status" />
+	</resultMap>
+	
+	<!-- 
+		작성일 : 2024.12.12
+		작성자 : 박진홍
+		상품 등록 요청 쿼리문
+	-->
+	<insert id="insertGoods" parameterType="goods">
+ 		INSERT INTO GOODS(GOODS_NO
+                 , CATEGORY
+                 , GOODS_NAME
+                 , GOODS_THUMBNAIL
+                 , GOODS_CONTENT
+                 , GOODS_INFO
+                 , MARK
+                 , PRICE
+                 , TOTAL_STOCK
+                 , REMAIN_STOCK)
+            VALUES(GOODS_SEQ.NEXTVAL
+                 , #{category}
+                 , #{goodsName}
+                 , #{goodsThumbnail}
+                 , #{goodsContent}
+                 , #{goodsInfo}
+                 , #{mark}
+                 , #{price}
+                 , #{totalStock}
+                 , #{totalStock})
+ 	</insert>
 </mapper>

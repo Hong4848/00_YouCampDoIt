@@ -1,5 +1,8 @@
 package com.kh.youcamp.goods.model.service;
 
-public interface GoodsService {
+import com.kh.youcamp.goods.model.vo.Goods;
 
+public interface GoodsService {
+	
+	public int insertGoods(Goods g);
 }
