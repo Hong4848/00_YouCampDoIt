@@ -86,7 +86,7 @@ public class CartController {
 				 produces="text/html; charset=UTF-8")
 	public String AjaxDeleteCart(String cartNos) {
 		
-		System.out.println(cartNos);
+		// System.out.println(cartNos);
 		// null 또는 공백만있거나 또는 빈문자열"" 이면
 		// 빈배열 [] 할당
 		String[] cartNoList = 

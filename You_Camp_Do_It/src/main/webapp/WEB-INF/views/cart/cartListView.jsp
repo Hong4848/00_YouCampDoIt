@@ -404,7 +404,7 @@
     			// 마지막 쉼표 빼기
     			cartNos = cartNos.slice(0, -1); 
     			
-    			console.log(cartNos);
+    			// console.log(cartNos);
     			
     			// 카트번호 문자열로 넘기면서 Ajax 호출
     			deleteCart(cartNos);
@@ -416,7 +416,7 @@
             $(".delete-btn").click(function() {
             	// x 삭제버튼의 value 값 가져오기
             	const cartNo = $(this).val();
-            	console.log(cartNo);
+            	// console.log(cartNo);
             	// 카트번호 넘기면서 Ajax 호출
             	deleteCart(cartNo);
             });
