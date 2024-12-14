@@ -275,7 +275,8 @@
 	                </label>
 	            </div>
 	            <div class="delete-checked">
-	                <button id="cart-list-delete-checked">
+	                <button id="cart-list-delete-checked"
+	                	    onclick="getCheckedCartNosAsString();">
 	                	선택 삭제
 	                </button>
 	            </div>
@@ -303,7 +304,7 @@
 				            </div>
 				            <button class="delete-btn" 
 				            		id="cart-list-delete"
-				            		value="${c.cartNo}">
+				            		onclick="deleteCart(${c.cartNo});">
 				            	X
 				            </button>
 				        </div>
@@ -385,9 +386,19 @@
                 $('.total-chcek input[type="checkbox"]').prop('checked', allChecked);
             });
             
-            // 선택삭제 버트 클릭 이벤트 > 체크된 요소들의 cartNo 값 쉼표가 추가된 문자열로 가공
-            $("#cart-list-delete-checked").click(function() {
-            	const $checkedCartItem = $('.cart-item input[type="checkbox"]:checked');
+        });
+        
+        
+    	  	
+    	
+    	// 선택삭제할 장바구니 번호 데이터가공 메소드
+    	<%--
+    	$(function() {
+    		
+    		// 선택삭제 버튼 클릭 이벤트
+    		$('#cart-list-delete-checked').on('click', function () {
+    			// 체크된 요소의 hidden input(cartNo) 값 문자열로 가져오기
+    			const $checkedCartItem = $('.cart-item input[type="checkbox"]:checked');
     			
     			// 체크된 항목이 없으면
     			if($checkedCartItem.length === 0) {
@@ -404,55 +415,68 @@
     			// 마지막 쉼표 빼기
     			cartNos = cartNos.slice(0, -1); 
     			
-    			console.log(cartNos);
+    			//console.log(cartNos);
     			
     			// 카트번호 문자열로 넘기면서 Ajax 호출
     			deleteCart(cartNos);
-            });
-            
-            // 리스트뷰를 에이작스로 동적으로 생성한다면 코드 바꿔야 할거임 아마도?
-            // 각 목록의 X삭제버튼 클릭 이벤트 > cartNo 가져오고 넘기면서 삭제 ajax 실행
-            <%--$("#cart-list-delete").click(function() {--%>
-            $(".delete-btn").click(function() {
-            	// x 삭제버튼의 value 값 가져오기
-            	const cartNo = $(this).val();
-            	console.log(cartNo);
-            	// 카트번호 넘기면서 Ajax 호출
-            	deleteCart(cartNo);
-            });
-            
-            // 장바구니 목록 삭제 ajax
-            function deleteCart(cartNos){
-        		$.ajax({
-        			// 삭제할 카트번호 문자열로 넘기고
-        			// 쿼리문의 조건절에서 in 구문 사용
-        			url : "${pageContext.request.contextPath}/delete.ca",
-        			type : "post",
-        			data : { cartNos : cartNos },
-        			success : function(result){        				
-        				console.log(result);
-        				
-        				if(result == "success") {
-    	    	            // 페이지 새로고침
-    	    	            // 일단 새로고침으로 진행, 추후 목록뷰도 에이작스로 수정해야함
-    	    	            location.reload();
-        				} else {
-        					alertify.alert("Alert", "장바구니 삭제 실패");
-        				}    
-        				
-        			},
-        			error : function(){
-        				console.log("장바구니 목록 삭제용 ajax 통신 실패!");
-        			}
-        			
-        		});
-            }
-            
-            
-            
-        });
-        
- 
+    		});
+    		
+    	});
+    	--%>
+    	
+    	function getCheckedCartNosAsString(){
+    		// 체크된 요소의 hidden input(cartNo) 값 문자열로 가져오기
+			const $checkedCartItem = $('.cart-item input[type="checkbox"]:checked');
+			
+			// 체크된 항목이 없으면
+			if($checkedCartItem.length === 0) {
+				alertify.alert("Alert", "선택된 항목이 없습니다.");
+		        return;
+		    }
+			
+			// 체크된 항목이 있으면
+			let cartNos = "";
+			$checkedCartItem.each(function() {
+				// 문자열로 연결하고,쉼표로 구문
+				cartNos += $(this).val() + ",";
+			});
+			// 마지막 쉼표 빼기
+			cartNos = cartNos.slice(0, -1); 
+			
+			//console.log(cartNos);
+			
+			// 카트번호 문자열로 넘기면서 Ajax 호출
+			deleteCart(cartNos);
+    	}
+    	
+    	
+    	
+    	// 삭제 Ajax
+		function deleteCart(cartNos){
+    		$.ajax({
+    			// 삭제할 카트번호 문자열로 넘기고
+    			// 쿼리문의 조건절에서 in 구문 사용
+    			url : "${pageContext.request.contextPath}/delete.ca",
+    			type : "post",
+    			data : { cartNos : cartNos },
+    			success : function(result){        				
+    				console.log(result);
+    				
+    				if(result == "success") {
+	    	            // 페이지 새로고침
+	    	            // 일단 새로고침으로 진행, 추후 목록뷰도 에이작스로 수정해야함
+	    	            location.reload();
+    				} else {
+    					alertify.alert("Alert", "장바구니 삭제 실패");
+    				}    
+    				
+    			},
+    			error : function(){
+    				console.log("장바구니 목록 삭제용 ajax 통신 실패!");
+    			}
+    			
+    		});
+    	}
     	
     
     </script>
