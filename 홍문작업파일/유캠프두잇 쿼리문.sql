@@ -34,8 +34,7 @@ INSERT INTO CART(CART_NO
 -- 장바구니 삭제용 쿼리문 > 여러 체크된 요소로 받아서 in 구문사용
 DELETE
   FROM CART
- WHERE CART_NO IN (?, ?, ...)
- (${cartNo})
+ WHERE CART_NO = ?
 ------------------------------------------
 -- 회원정보 수정용 쿼리문
 UPDATE MEMBER
