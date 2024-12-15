@@ -1,6 +1,7 @@
 package com.kh.youcamp.notice.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -38,5 +39,22 @@ public class NoticeDao {
 		// select(단일행) : selectOne 메소드
 		return sqlSession.selectOne("noticeMapper.selectNotice", noticeNo);
 	}
+	
+	// 이전글 가져오기
+    public Notice getPreviousNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+        return sqlSession.selectOne("noticeMapper.getPreviousNotice", noticeNo);
+    }
+
+    // 다음글 가져오기
+    public Notice getNextNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+        return sqlSession.selectOne("noticeMapper.getNextNotice", noticeNo);
+    }
+
+    // 전체 공지사항 번호 가져오기 (옵션으로 유지)
+    public List<Integer> getAllNoticeNumbers(SqlSessionTemplate sqlSession) {
+        return sqlSession.selectList("noticeMapper.getAllNoticeNumbers");
+    }
+	
+
 
 }

@@ -53,5 +53,39 @@
 		 WHERE NOTICE_NO = #{noticeNo}
 		   AND STATUS = 'Y'
 	</select>
+	
+
+	<!-- 이전글 가져오기 -->
+    <select id="getPreviousNotice" parameterType="int" resultMap="noticeResultSet">
+        SELECT *
+        FROM (
+            SELECT *
+            FROM NOTICE
+            <![CDATA[WHERE NOTICE_NO < #{noticeNo}]]>
+              AND STATUS = 'Y'
+            ORDER BY NOTICE_NO DESC
+        )
+        WHERE ROWNUM = 1
+    </select>
+  
+    <!-- 다음글 가져오기 -->
+    <select id="getNextNotice" parameterType="int" resultMap="noticeResultSet">
+        SELECT *
+        FROM (
+            SELECT *
+            FROM NOTICE
+            WHERE NOTICE_NO > #{noticeNo}
+              AND STATUS = 'Y'
+            ORDER BY NOTICE_NO ASC
+        )
+        WHERE ROWNUM = 1
+    </select>
+    
+    <!-- 모든 공지사항 번호 가져오기 -->
+    <select id="getAllNoticeNumbers" resultType="int">
+        SELECT NOTICE_NO
+        FROM NOTICE
+        ORDER BY NOTICE_NO DESC
+    </select>
   
 </mapper>

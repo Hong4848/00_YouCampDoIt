@@ -231,19 +231,20 @@
             <script>
             	// 게시글 하나를 나타내는 tr 태그에 클릭이벤트 걸기
             	$(function() {
+            		
             		$("#noticeList>tbody>tr").click(function() {
+            			
             			// 글번호 뽑기
-            			// let nno = $(this).children().eq(0).text();
+            			// let bno = $(this).children().eq(0).text();
             			let nno = $(this).children(".nno").text();
-            			// console.log(bno);
             			
             			// 기존의 쿼리스트링 방식
-            			//location.href = "detail.no?nno=" + nno;
+            			location.href = "detail.no?nno=" + nno;
             			
-            			
-            			location.href = "notice/" + nno;
+            			// Path Variable 방식
+            			// location.href = "board/" + bno;
             			// > url 주소 상에 글번호를 은근히 같이 넘김
-            			//  (마치 경로인것 처럼)
+            			//   (마치 경로인것 처럼)
             		});
             	});
             </script>
