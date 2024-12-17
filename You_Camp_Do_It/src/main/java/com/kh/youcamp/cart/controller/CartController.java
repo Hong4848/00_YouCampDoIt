@@ -25,6 +25,8 @@ public class CartController {
 	private CartService cartService;
 	
 	
+	
+	
 	/**
 	 * 24.12.06 10시 윤홍문작성
 	 * 장바구니 목록조회 뷰 요청용 컨트롤러
@@ -81,13 +83,12 @@ public class CartController {
 		
 	}
 	
+	// 멤버 번호 넘겨서 쿼리문 조건문에 맴버 번호 넣기
 	/**
 	 * 24.12.13 윤홍문
 	 * 장바구니 삭제 메소드
 	 * @param cartNos 삭제할 카트 번호 - 쉼표가 포함된 문자열(숫자아님)
 	 * @return 쿼리문실행결과
-	 * 
-	 * 목록조회 ajax 로 바꿔야함
 	 */
 	@ResponseBody
 	@PostMapping(value="delete.ca",

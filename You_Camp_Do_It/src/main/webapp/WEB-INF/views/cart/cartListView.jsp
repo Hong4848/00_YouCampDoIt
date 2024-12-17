@@ -42,23 +42,7 @@
 	        </div>
 	    	
 	        <!-- Cart Items - 장바구니 목록조회 부분 -->
-			<!-- <div class="cart-item">
-				<input type="checkbox" value="${item.cartNo}">
-				<img src="https://via.placeholder.com/100" alt="상품 이미지">
-				<div class="item-details">
-					<h3>${item.goods.goodsName}</h3>
-					<p class="item-options">선택: ${item.goods.goodsInfo}</p>
-					<div class="item-quantity">
-						<span class="quantity-decrease">-</span>
-						<input type="text" value="${item.quantity}" class="quantity-input" readonly>
-						<span class="quantity-increase">+</span>
-					</div>
-				</div>
-				<div class="item-price">
-					<p>${formattedPrice} 원</p>
-				</div>
-				<button class="delete-btn" value="${item.cartNo}">X</button>
-			</div> -->
+			
 			
 	    </div>
 	    
@@ -76,10 +60,15 @@
 
 					order post 방식으로 할 방법 고민
 	             -->
-	            <a class="order-btn"
-	               href="${ pageContext.request.contextPath }/insert.or">
-	            	주문하기
-	            </a>
+				 <form id="orderForm" 
+				 	   action="${pageContext.request.contextPath}/insert.or" 
+					   method="POST">
+					<!-- 장바구니 데이터가 있는 경우 hidden input에 값을 추가해서 보낼 수 있음 -->
+					<input type="hidden" name="totalPrice" value="0">
+					<input type="hidden" name="itemCount" value="0">
+					
+					<button type="submit" class="order-btn">주문하기</button>
+				</form>
 	        </div>
 	    </div>
     

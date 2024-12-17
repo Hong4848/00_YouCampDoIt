@@ -176,7 +176,7 @@
 	                <img src="resources/images/member/PaymentDetailsIcon.png" alt="결제 내역 아이콘">
 	                <span>결제 내역</span>
 	            </a>
-	            <a href="${ pageContext.request.contextPath }/list.ca" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/listForm.ca" class="menu-item">
 	                <img src="resources/images/member/CartIcon.png" alt="장바구니 아이콘">
 	                <span>장바구니</span>
 	            </a>

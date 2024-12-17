@@ -177,6 +177,15 @@
     background-color: #fff;
 }
 
+/* 비활성화된 버튼 상태 */
+/* 안됨 */
+.quantity-decrease:disabled, 
+.quantity-increase:disabled {
+    cursor: not-allowed; /* 커서를 비활성화 아이콘으로 변경 */
+    pointer-events: none; /* 클릭 이벤트 차단 */
+    opacity: 0.5; /* 시각적으로 비활성화된 상태로 표시 (선택적) */
+}
+
 .item-price {
     font-size: 18px;
     font-weight: bold;

@@ -1,3 +1,8 @@
+// 체크가 되어있는 상태에서 수량변경 시 체크 풀리는 문제
+// 체크 상태가 기본상태로??
+// +- 비활성화 일때 커서 css 다르게 적용??
+// 체크된상태에서 선택삭제로 삭제 후 총 주문금액에 금액 남아있는 문제
+
 
 $(function () {
 
@@ -14,7 +19,6 @@ $(function () {
 	});
 	
 	// 각 카트 아이템 요소를 개별 선택 시 실행 이벤트
-	// 체크 선택이 기본상태로??
 	$('.cart-container').on('change', '.cart-item input[type="checkbox"]', function () {
 		const allChecked = $('.cart-item input[type="checkbox"]').length === 
 						   $('.cart-item input[type="checkbox"]:checked').length;
@@ -61,28 +65,7 @@ $(function () {
 	});
 	
 	// +- 버튼 수량변동 이벤트
-	// 페이지 로드 시 버튼 상태 초기화
-	$('.quantity-input').each(function () {
-        const currentValue = parseInt($(this).val(), 10);
-        const decreaseButton = $(this).siblings('.quantity-decrease');
-        const increaseButton = $(this).siblings('.quantity-increase');
-
-        // 수량이 1이면 - 버튼 비활성화
-        if (currentValue === 1) {
-            decreaseButton.prop('disabled', true);
-        }
-
-        // 수량이 99면 + 버튼 비활성화
-        if (currentValue === 99) {
-            increaseButton.prop('disabled', true);
-        }
-    });
-
 	// 수량 감소 버튼 클릭 이벤트
-	// 수량은 ajax 리스트뷰를 다시하니까 
-			// 수량가지고가서 업데이트하고 
-			// 업데이트한 수량 조회해서 출력하니까
-			// +- 버튼으로 수량이 바뀌는 구문을 지울것
 	$(document).on('click', '.quantity-decrease', function () {
 		const input = $(this).next('.quantity-input'); // 수량 input 요소 선택
 		const currentValue = parseInt(input.val(), 10);
@@ -92,7 +75,7 @@ $(function () {
 			input.val(currentValue - 1); // 값 감소
 		}
 		// 수량이 1인 경우 - 버튼 비활성화, 그 외 활성화
-		if (currentValue === 1) {
+		if (parseInt(input.val(), 10) === 1) {
 			$(this).prop('disabled', true); // - 버튼 비활성화
 		} else {
 			$(this).prop('disabled', false); // - 버튼 활성화
@@ -100,7 +83,7 @@ $(function () {
 
 		// 수량 값 가져오기
 		const quantity = input.val();
-		 console.log(quantity);
+		// console.log(quantity);
 
 		// 카트 번호 가져오기
 		const cartNo = $(this).closest('.cart-item') // 가장 가까운 .cart-item 부모 요소 선택
@@ -122,7 +105,7 @@ $(function () {
 			input.val(currentValue + 1); // 값 증가
 		}
 		// 수량이 99인 경우 + 버튼 비활성화, 그 외 활성화
-		if (currentValue === 99) {
+		if (parseInt(input.val(), 10) === 99) {
 			$(this).prop('disabled', true); // + 버튼 비활성화
 		} else {
 			$(this).prop('disabled', false); // + 버튼 활성화
@@ -130,7 +113,7 @@ $(function () {
 
 		// 수량 값 가져오기
 		const quantity = input.val();
-		console.log(quantity);
+		// console.log(quantity);
 		// 카트 번호 가져오기
 		const cartNo = $(this).closest('.cart-item') // 가장 가까운 .cart-item 부모 요소 선택
 							  .find('input[type="checkbox"]') // 체크박스 찾기
@@ -138,6 +121,31 @@ $(function () {
 		//console.log(cartNo);
 		// 변동된수량, 카트번호 넘기면서 수량변경 ajax 호출
 		updateCartQuantity(cartNo, quantity);
+	});
+
+	// 체크된 항목이 없거나, 장바구니가 비어있을 때 
+	// submit 막기
+	$(document).on('submit', '#orderForm', function (event) {
+		// 기본 동작 막기
+		event.preventDefault();
+	
+		const $cartItems = $('.cart-item'); // 장바구니 아이템 요소
+		const $checkedItems = $('.cart-item input[type="checkbox"]:checked'); // 체크된 요소
+	
+		// 장바구니에 아이템이 없는 경우
+		if ($cartItems.length === 0) {
+			alertify.alert("Alert", "장바구니가 비어있습니다.");
+			return;
+		}
+	
+		// 체크된 항목이 없는 경우
+		if ($checkedItems.length === 0) {
+			alertify.alert("Alert", "선택된 항목이 없습니다.");
+			return;
+		}
+	
+		// 위 두 조건을 통과한 경우만 폼 제출
+		this.submit();
 	});
 
 	
@@ -249,6 +257,28 @@ function renderCartItems(items) {
 			</div>`;
 		$cartContainer.append(cartItem);
 	});
+
+	// 수량 버튼 상태 초기화 (생성된 요소에 적용)
+	// css 도 적용하고 싶은데 안됨
+	$('.quantity-input').each(function () {
+        const currentValue = parseInt($(this).val(), 10);
+        const decreaseButton = $(this).siblings('.quantity-decrease');
+        const increaseButton = $(this).siblings('.quantity-increase');
+
+        // 수량이 1이면 - 버튼 비활성화
+        if (currentValue === 1) {
+            decreaseButton.prop('disabled', true);
+        } else {
+            decreaseButton.prop('disabled', false);
+        }
+
+        // 수량이 99면 + 버튼 비활성화
+        if (currentValue === 99) {
+            increaseButton.prop('disabled', true);
+        } else {
+            increaseButton.prop('disabled', false);
+        }
+    });
 }
 
 // 총 갯수 및 가격 변화 함수
