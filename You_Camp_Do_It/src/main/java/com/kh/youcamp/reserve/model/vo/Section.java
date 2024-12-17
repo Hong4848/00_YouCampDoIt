@@ -11,9 +11,11 @@ import lombok.ToString;
 @Setter // setter 메소드들
 @Getter // getter 메소드들
 @ToString // toString 메소드
-public class Secion {
+public class Section {
 	
 	private String section;
 	private String sectionDetail;
 
 }
+
+

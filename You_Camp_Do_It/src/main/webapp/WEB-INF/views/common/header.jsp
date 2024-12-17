@@ -243,7 +243,7 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">실시간 예약</a>
+                            <a href="${ pageContext.request.contextPath }/reserveDate.res">실시간 예약</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/reserveDate.res">실시간 예약</a>
