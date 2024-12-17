@@ -924,7 +924,8 @@
 		    		type : "get",
 		    		data : {
 		    			checkInDate : checkInFullDate,
-		    			checkOutDate : checkOutFullDate
+		    			checkOutDate : checkOutFullDate,
+		    			stayDays : stayDays
 		    		},
 		    		success : function(result) {
 		    			
