@@ -401,10 +401,15 @@
                 let goodsContent = $("#goodsContent").summernote('code');
 
                 let errorMsg = "";
-                if(goodsTitle == "" || category == ""){
+                if(goodsTitle == "" || category == "" || goodsTitle.length > 20){
                     if(goodsTitle == "")
                     {
                         errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
+                    }
+
+                    if(goodsTitle.length > 20)
+                    {
+                        errorMsg += "상품의 이름이 너무 깁니다. 20자로 제한해주세요.<br>";
                     }
 
                     if(category == "")

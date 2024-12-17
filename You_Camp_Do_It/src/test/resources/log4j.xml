@@ -6,16 +6,22 @@
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+			<param name="ConversionPattern" value="%-5p: %c - %m(%d{yyyy-MM-dd HH:mm:ss})%n" />/
 		</layout>
 	</appender>
 	
 	<!-- Application Loggers -->
 	<logger name="com.kh.youcamp">
-		<level value="info" />
+		<!--
+		개발단계라 debug로 배포시 수준 상향 필요 
+		<level value="info" /> 
+		 -->
+		 <level value="debug" /> 
 	</logger>
 	
+	
 	<!-- 3rdparty Loggers -->
+	<!-- 
 	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>	
@@ -31,10 +37,15 @@
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-
+	-->
+	 
 	<!-- Root Logger -->
 	<root>
-		<priority value="info" />
+		<!--
+		개발단계라 debug로 배포시 수준 상향 필요 
+		<priority value="info" /> 
+		-->
+		<priority value="debug" />
 		<appender-ref ref="console" />
 	</root>
 	

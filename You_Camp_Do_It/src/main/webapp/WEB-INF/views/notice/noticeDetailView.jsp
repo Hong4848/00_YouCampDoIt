@@ -93,7 +93,8 @@
 </style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp" />
+
+	<jsp:include page="../common/header.jsp" />
 	
 	<div class="content">
         <br><br>
@@ -113,7 +114,7 @@
                 <ul>
                     <li>홈</li>
                     <li>커뮤니티</li>
-                    <li>분실물게시판</li>
+                    <li>공지사항</li>
                 </ul>
             </div>
             
@@ -126,8 +127,8 @@
             	</tr>
 			    <tr>
 			        <th width="100">작성자</th>
-			        <td width="220">관리자</td>
-			        <th width="100">작성일시</th>
+			        <td width="220">관리자</td><!-- 그냥 하드코딩? -->
+			        <th width="100">작성일시</th><!-- 추후변경 -->
 			        <td width="220">${ requestScope.n.createDate }</td>
 			    </tr>
 
@@ -159,7 +160,7 @@
 
 			<c:if test="${ sessionScope.loginUser.userId eq requestScope.n.noticeWriter }">
 	            <div align="center" id="buttoncentroller">
-                    <a class="btn btn-warning btn-sm" href="../list.no">목록</a>
+                    <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.no">목록</a>
 	            </div>
 	            
 	            <form id="postForm" action="" method="post">
@@ -177,7 +178,7 @@
 	            		// 곧바로 submit 시키기!!
 	            		// attr : 기타 속성
 	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "../updateForm.no").submit();
+	            			$("#postForm").attr("action", "${pageContext.request.contextPath}/updateForm.no").submit();
 	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
 	            		} else { // 삭제하기를 클릭했을 경우
 	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.no").submit();
@@ -194,26 +195,37 @@
             <hr>
             <table id="writeArea" class="table">
 	            <div class="my-3 p-3 bg-white rounded shadow-sm">
-					<c:choose >
-					<c:when test="${move.next != 9999}">
-						다음글 |<a href="/board/readView?bno=${move.next}" style="color: black"> ${move.nexttitle} </a>
-					</c:when>
-					
-					<c:when test="${move.next == 9999}">
-						다음글이 없습니다
-					</c:when>
-					</c:choose>
-					<br/>
-					<c:choose>
-					<c:when test="${move.last != 9999}">
-						이전글 |<a href="/board/readView?bno=${move.last}" style="color: black"> ${move.lasttitle} </a>
-					</c:when>
-					
-					<c:when test="${move.last == 9999}">
-						이전글이 없습니다
-					</c:when>
-					</c:choose>
 				
+				    <!-- 다음글 -->
+				    <c:choose>
+				        <c:when test="${not empty nextNotice}">
+				            <div>
+				                다음글 | 
+				                <a href="${pageContext.request.contextPath}/detail.no?nno=${nextNotice.noticeNo}" style="color: black">
+				                    ${nextNotice.noticeTitle}
+				                </a>
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <div>다음글이 없습니다</div>
+				        </c:otherwise>
+				    </c:choose>
+				
+				    <!-- 이전글 -->
+				    <c:choose>
+				        <c:when test="${not empty previousNotice}">
+				            <div>
+				                이전글 | 
+				                <a href="${pageContext.request.contextPath}/detail.no?nno=${previousNotice.noticeNo}" style="color: black">
+				                    ${previousNotice.noticeTitle}
+				                </a>
+				            </div>
+				        </c:when>
+				        <c:otherwise>
+				            <div>이전글이 없습니다</div>
+				        </c:otherwise>
+				    </c:choose>
+				    
 				</div>
             </table>
             

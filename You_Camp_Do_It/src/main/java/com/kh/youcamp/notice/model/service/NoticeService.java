@@ -1,6 +1,7 @@
 package com.kh.youcamp.notice.model.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.notice.model.vo.Notice;
@@ -19,5 +20,14 @@ public interface NoticeService {
 	int increaseCount(int noticeNo);
 	// 2.게시글 상세조회 메소드
 	Notice selectNotice(int noticeNo);
-	
+
+	// 이전글 가져오기
+    Notice getPreviousNotice(int noticeNo);
+
+    // 다음글 가져오기
+    Notice getNextNotice(int noticeNo);
+
+    // 전체 공지사항 번호 가져오기
+    List<Integer> getAllNoticeNumbers();
+    
 }

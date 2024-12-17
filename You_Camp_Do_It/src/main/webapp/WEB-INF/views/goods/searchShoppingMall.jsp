@@ -111,10 +111,62 @@
 				z-index: 2;
 			}
 
+			#search_format{
+				margin: auto;
+				width: 80%;
+				height: 240px;
+				display: flex;
+				margin-top: 20px;
+				border: 3px solid rgba(110, 110, 110, 0.5);
+				padding: 20px;
+				position: relative;
+				z-index: 2;
+			}
+
+			.search_img img{
+				
+				height: 200px;
+			}
+			
+			.format_title{
+				text-align: right;
+				padding-left: 50px;
+				padding-top: 20px;
+				padding-right: 10px;
+				line-height: 200%;
+				font-weight: 800;
+			}
+
+			.format_content{
+				width: 40%;
+				height: 100%;
+				padding-left: 70px;
+				padding-top: 20px;
+				padding-right: 10px;
+				line-height: 200%;
+				font-weight: 800;
+			}
+
+			.price_range{
+				width: 112px;
+				height: 25px;
+				border: 1px solid rgba(110, 110, 110, 0.5);
+				display: inline;
+				font-weight: 400;
+				color: gray;
+			}
+
 			input::-webkit-outer-spin-button,
 			input::-webkit-inner-spin-button {
 			-webkit-appearance: none;
 			margin: 0;
+			}
+			.price_range>input{
+				width: 137px;
+				height: 20px;
+				
+				border: none;
+				outline: none;
 			}
 
 			#goods_content{
@@ -213,17 +265,31 @@
                 justify-content: space-evenly;
 				background-color: rgb(89, 131, 171);
 			}
+			
+			.category_set{
+				width: 80%;
+				height: 70px;
+				margin: auto;
+				margin-top: 50px;
+				border: 1px solid rgba(110, 110, 110, 0.5);
+				display: flex;
+				justify-content:space-evenly;
+				flex-wrap: wrap;
+			}
+
+			.category_set>div{
+				cursor: pointer;
+				text-align: center;
+				line-height: 65px;
+			}
 
 			#pagingArea{
 				width:fit-content;
 				margin:auto;
 			}
-
-			#searchingA{
-				cursor: pointer;
-			}
 		</style>
 	</head>
+	<body>
 		<!-- 헤더 추가 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div id="shoppingMall_index">
@@ -257,23 +323,74 @@
 			</div>
 			<div style="width: 10%;"></div>
 		</div>
-		
-		<div id="shoppingMall_header">
-			<div class="search">
-				<div style="width: 70%; margin: auto; text-align: center;">
-					자세한 사항은 전화/챗봇을 통해 상담하세요
+
+		<div id="search_title">
+			상품 검색
+		</div>
+		<div id="search_format">
+			<div style="width: 10%;"></div>
+			<div class="search_img">
+				<img src="resources/images/goods/검색_아이콘.png">
+			</div>
+			<div class="format_title">
+				상품분류 <br>
+				검색조건 <br>
+				가격범위 <br>
+				검색정렬기준 <br>
+ 			</div>
+			<div class="format_content">
+				<select name="" id="" style="width: 344px;">
+					<option value="">상품분류 선택</option>
+					<option value="">캠핑장비 패키지 세트 대여</option>
+					<option value="">캠핑용품대여</option>
+					<option value="">캠핑용품대여 ⮞ 쉘터/텐트</option>
+					<option value="">캠핑용품대여 ⮞ 침낭/방한용품</option>
+					<option value="">캠핑용품대여 ⮞ 의자/테이블</option>
+					<option value="">캠핑용품대여 ⮞ 화로/버너/전자</option>
+					<option value="">캠핑용품대여 ⮞ 식기/아이스박스</option>
+					<option value="">소비용품판매</option>
+					<option value="">소비용품판매 ⮞ 연료/가스</option>
+					<option value="">소비용품판매 ⮞ 식자재</option>
+					<option value="">소비용품판매 ⮞ 생활용품</option>
+				</select>
+				<br>
+				<select name="" id="" style="width: 120px;">
+					<option value="">검색조건 선택</option>
+					<option value="" selected>상품이름</option>
+					<option value="">브랜드</option>
+				</select>
+				<input type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;">
+				<br>
+				<div class="price_range">
+					<input type="number" min="0">원
 				</div>
-				<div class="search_content">
-					<input id="searchTitle" type="text" style="width: 350px; height: 30px; border: none; outline: none;">
-					<img id="searchingA" src="resources/images/goods/검색_아이콘.png" style="width: 5%; padding-bottom: 5px;">
+				&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
+				<div class="price_range">
+					<input type="number" min="0">원
 				</div>
+				<br>
+				<select name="" id="" style="width: 344px;">
+					<option value="">정렬기준 선택</option>
+					<option value="">신상품 순</option>
+					<option value="">상품명 순</option>
+					<option value="">낮은가격 순</option>
+					<option value="">높은가격 순</option>
+					<option value="">제조사명 순</option>
+					<option value="">조회수 순</option>
+				</select>
+				<div style="height: 10px;"></div>
+				<button class="btn btn-secondary" style="width: 150px;">검색하기</button>
 			</div>
 		</div>
-		<div id="search_title">
-			전체 상품 보기
+		<div class="category_set">
+			<div>텐트/쉘터(20)</div>
+			<div>침낭/난방기구(등록개수)</div>
+			<div>의자/테이블(10)</div>
+			<div>화로/버너/전자(20)</div>
+			<div>식기/아이스박스(5)</div>
 		</div>
 		<div id="goods_content">
-			<div style="margin: 10px; font-size: 17px;">등록 제품 : ${requestScope.pi.listCount}</div>
+			<div style="margin: 10px; font-size: 17px;">등록 제품 : 20</div>
 			<div class="goods_list">
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
@@ -369,29 +486,6 @@
 
 		<script>
 			$(".goods_img>img").css({"height" : 300, "margin" : 0});
-		</script>
-		<script>
-			$("#searchTitle").on("keyup", function(key){
-				if(key.keyCode == 13){
-					searching();
-				}
-			});
-
-			$("#searchingA").click(function(){
-				searching();
-			});
-			
-			function searching(){
-				let searchKeyword = $("#searchTitle").val();
-				if(searchKeyword.length > 0){
-					$(location).attr("href", "searching.gs?searchKeyword="+searchKeyword+"&condition=상품이름").click();
-				}
-				else{
-					errorMsg = "한 글자 이상 입력해야합니다."
-					alertify.alert('검색 오류', errorMsg);
-				}
-				
-			}
 		</script>
 	</body>
 </html>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,24 +41,45 @@
 	        </div>
 	    	
 	        <!-- Cart Items - 장바구니 목록조회 부분 -->
-			<!-- <div class="cart-item">
-				<input type="checkbox" value="${item.cartNo}">
-				<img src="https://via.placeholder.com/100" alt="상품 이미지">
-				<div class="item-details">
-					<h3>${item.goods.goodsName}</h3>
-					<p class="item-options">선택: ${item.goods.goodsInfo}</p>
-					<div class="item-quantity">
-						<span class="quantity-decrease">-</span>
-						<input type="text" value="${item.quantity}" class="quantity-input" readonly>
-						<span class="quantity-increase">+</span>
-					</div>
-				</div>
-				<div class="item-price">
-					<p>${formattedPrice} 원</p>
-				</div>
-				<button class="delete-btn" value="${item.cartNo}">X</button>
-			</div> -->
-			
+	        <c:choose>
+	        	<c:when test="${ not empty requestScope.list }">
+	        		<c:forEach var="c" items="${ requestScope.list }">
+	        			<div class="cart-item">
+				            <input type="checkbox" value="${ c.cartNo }">
+				            <img src="https://via.placeholder.com/100" alt="상품 이미지">
+				            <div class="item-details">
+				                <h3>캠핑용 접이식 의자 ${ c.goods.goodsName }</h3>
+				                <p class="item-options">선택: 블랙 ${ c.goods.goodsInfo }</p>
+				                <div class="item-quantity">
+				                    <span class="quantity-decrease">-</span>
+				                    <input type="text" value="${ c.quantity }" class="quantity-input" readonly>
+				                    <span class="quantity-increase">+</span>
+				                </div>
+				            </div>
+				            <div class="item-price">
+				                <p>${ c.price } 원</p>
+				                <p>단가 체크 나중에 삭제 ${ c.goods.price } 원</p>
+				            </div>
+				            <button class="delete-btn" 
+				            		id="cart-list-delete"
+				            		value="${c.cartNo}">
+				            	X
+				            </button>
+				        </div>
+	        		</c:forEach>
+	        	</c:when>
+	        	<c:otherwise>
+	        		<div class="cart-item">
+		        		<div style="text-align: center; 
+		        					font-size: 24px; 
+		        					font-weight: bold; 
+		        					line-height: 1.5;">
+						    장바구니에 담은 용품이 없습니다.
+						</div>
+	        		</div>
+	        	</c:otherwise>
+	        </c:choose>
+	        
 	    </div>
 	    
 	    <br><br><br><br>
@@ -73,8 +93,6 @@
 	            	
 	            	요소 밸류값은 cart 테이블에서 가져오기
 	            	요소 네임값은 order 로 저장해서 넘기기
-
-					order post 방식으로 할 방법 고민
 	             -->
 	            <a class="order-btn"
 	               href="${ pageContext.request.contextPath }/insert.or">
@@ -86,11 +104,9 @@
     </div>
     
     <jsp:include page="../common/footer.jsp" />
-	
 
-	<script src="${pageContext.request.contextPath}/resources/js/cart/cartListView.js"></script>
-	
-
+    <script src="${pageContext.request.contextPath}/resources/js/cart/cartListView.js"></script>
+    
 </body>
 </html>
     

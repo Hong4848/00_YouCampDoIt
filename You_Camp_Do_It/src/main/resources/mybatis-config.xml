@@ -35,6 +35,7 @@
 		<typeAlias type="com.kh.youcamp.order.model.vo.Order" alias="order" />
 		<typeAlias type="com.kh.youcamp.order.model.vo.OrderDetail" alias="orderDetail" />
 		<typeAlias type="com.kh.youcamp.goods.model.vo.Goods" alias="goods"/>
+		<typeAlias type="com.kh.youcamp.goods.model.vo.Search" alias="search"/>
 	</typeAliases>
 	
 	<mappers>

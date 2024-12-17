@@ -14,7 +14,9 @@ public interface CartService {
 	int insertCart(Cart cart);
 
 	// 장바구니 삭제용 서비스 Ajax
-	//int deleteCart(String[] cartNoList);
 	int deleteCart(int cartNo);
+	
+	// 장바구니 수량변경용 서비스 Ajax
+	int updateCartQuantity(Cart cart);
 	
 }

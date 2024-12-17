@@ -208,7 +208,7 @@
                     </div>
                     <div style="height: 40%;"></div>
                     <div id="convenience" class="quick_a">
-                        <a href="${ pageContext.request.contextPath }/list.ca">
+                        <a href="${ pageContext.request.contextPath }/listForm.ca">
                         	<img src="resources/images/mainPage/장바구니icon.png">
                         </a>
                         <a href="${ pageContext.request.contextPath }/myPage.me">
