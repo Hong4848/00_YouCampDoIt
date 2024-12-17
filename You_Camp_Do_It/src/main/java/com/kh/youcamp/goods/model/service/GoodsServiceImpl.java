@@ -1,11 +1,15 @@
 package com.kh.youcamp.goods.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.goods.model.dao.GoodsDao;
 import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Search;
 
 @Service
 public class GoodsServiceImpl implements GoodsService{
@@ -25,9 +29,45 @@ public class GoodsServiceImpl implements GoodsService{
 	 * g : 상품 객체
 	 */
 	@Override
-	public int insertGoods(Goods g) {
-		System.out.println(g);
+	public int insertGoods(Goods g)
+	{
 		return goodsDao.insertGoods(sqlSession, g);
+	}
+
+	/**
+	 * 작성일 : 2024.12.17
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.1
+	 * 내용 : 등록된 상품 개수를 반환하는 메소드
+	 */
+	@Override
+	public int selectListCount()
+	{
+		return goodsDao.selectListCount(sqlSession);
+	}
+
+	/**
+	 * 작성일 : 2024.12.17
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 등록된 모든 상품 정보를 페이징처리하여 반환하는 메소드
+	 */
+	@Override
+	public ArrayList<Goods> selectGoodsList(PageInfo pi)
+	{
+		return goodsDao.selectGoodsList(sqlSession, pi);
+	}
+
+	/**
+	 * 작성일 : 2024.12.17
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 검색 조건에 따른 상품리스트 검색
+	 */
+	@Override
+	public ArrayList<Goods> searchingGoods(Search search, PageInfo pi)
+	{
+		return goodsDao.searchingGoods(sqlSession, search, pi);
 	}
 
 }

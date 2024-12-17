@@ -8,7 +8,6 @@
 		<style>
 			div, canvas{
 				box-sizing: border-box;
-				border: 1px solid red;
 			}
 
 			#shoppingMall_index{
@@ -109,10 +108,10 @@
 			}
 
 			.magnifier {
-				width: 100px;
-				height: 100px;
+				width: 150px;
+				height: 150px;
 				position: absolute;
-				border-radius: 100%;
+				
 				box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 0 3px 3px rgba(0, 0, 0, 0.25);
 				display: none;
 			}
@@ -216,7 +215,7 @@
 		<div id="goodsExplain">
 			<div class="goodsSummary">
 				<div class="thumbnail">
-					<img class="target" src="resources/images/goods/텐트사진1.jpg">
+					<img class="target" src="resources/images/goods/텐트사진1.jpg" data-zoom="2">
 				</div>
 				<div class="sumUp">
 					<div style="display: flex; justify-content: space-between; height: 60px; padding-top: 5px;">
@@ -272,38 +271,43 @@
 	   </script>
 
 	   <script>
-			$(".thumbnail").on("mousemove", magnify).prepend("<div class='magnifier'></div>").children(".magnifier").css({
-				"background": "url('" + $(".target").attr("src") + "') no-repeat"
+			$(function(){
+				var target = $(".target");
+				var zoom = target.data('zoom');
+
+				$(".thumbnail").on("mousemove", magnify).prepend("<div class='magnifier'></div>").children(".magnifier").css({
+					"background": "url('" + $(".target").attr("src") + "') no-repeat",
+					"background-size": target.width() * zoom + "px " + target.height() * zoom+ "px"
+				});
+
+				var magnifier = $(".magnifier");
+
+				function magnify(e){
+					var mouseX = e.pageX - $(this).offset().left;
+					var mouseY = e.pageY - $(this).offset().top;
+
+					if(mouseX < $(this).width() && mouseY < $(this).height() && mouseX > 0 && mouseY > 0){
+						magnifier.fadeIn(10);
+					}
+					else{
+						magnifier.fadeOut(10);
+					}
+
+					if(magnifier.is(":visible")){
+						var rx = -(mouseX * zoom - magnifier.width() /2 );
+						var ry = -(mouseY * zoom - magnifier.height() /2 );
+
+						var px = mouseX - magnifier.width() / 2;
+						var py = mouseY - magnifier.height() / 2;
+
+						magnifier.css({
+							left: px,
+							top: py,
+							backgroundPosition: rx + "px " + ry + "px"
+						});
+					}
+				}
 			});
-
-			var target = $(".target");
-			var magnifier = $(".magnifier");
-
-			function magnify(e){
-				var mouseX = e.pageX - $(this).offset().left;
-				var mouseY = e.pageY - $(this).offset().top;
-
-				if(mouseX < $(this).width() && mouseY < $(this).height() && mouseX > 0 && mouseY > 0){
-					magnifier.fadeIn(10);
-				}
-				else{
-					magnifier.fadeOut(10);
-				}
-
-				if(magnifier.is(":visible")){
-					var rx = -(mouseX / target.width() * target[0].naturalWidth - magnifier.width() / 2);
-					var ry = -(mouseY / target.height() * target[0].naturalHeight - magnifier.height()  /2);
-
-					var px = mouseX - magnifier.width() / 2;
-					var py = mouseY - magnifier.height() / 2;
-
-					magnifier.css({
-						left: px,
-						top: py,
-						backgroundPosition: rx + "px " + ry + "px"
-					});
-				}
-			}
 	   </script>
 	</body>
 </html>
