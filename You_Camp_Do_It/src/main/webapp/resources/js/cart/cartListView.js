@@ -149,18 +149,63 @@ $(function () {
 		this.submit();
 	}); */
 	// 체크된 항목이 없거나, 장바구니가 비어있을 때 submit 막기
+	// orderDetail 데이터값 배열로 가공하기
 	$(document).on('submit', '#orderForm', function (event) {
 		const totalPrice = $('#totalPriceInput').val();
 		const itemCount = $('#itemCountInput').val();
-	
-		// 체크: 가격이 0이거나 선택된 항목이 없으면 폼 제출 방지
+
+		event.preventDefault();
+
+		// 체크: 가격이 0이거나 선택된 항목이 없거나 null이면 폼 제출 방지
 		if (totalPrice <= 0 || itemCount <= 0) {
-			alert('장바구니가 비어있거나 선택된 항목이 없습니다.');
-			event.preventDefault();
+			alertify.alert("Alert", "장바구니가 비어있거나 선택된 항목이 없습니다.");
+			
 			return;
 		}
+
+		// 체크된 항목 추출
+		const selectedItems = [];
+		$(".cart-item input[type='checkbox']:checked").each(function () {
+			// 체크된 항목의 부모 .cart-item 찾기
+			const $cartItem = $(this).closest(".cart-item"); 
+			// 수량
+			const quantity = $cartItem.find(".quantity-input").val(); 
+			// 항목당 총 금액
+			const totalPrice = parseInt(
+				$cartItem.find(".item-price p").text().replace(/,/g, "").replace(" 원", ""),
+				10
+			); 
+			// 상품 번호
+			const goodsNo = $cartItem.find("input[type='hidden']").val(); 
+
+			/* 이런식으로 배열로 처리해서 orderDetails 을 넘기지는 못하나??
+			const orderDetails = [
+				{ QUANTITY: 2, TOTAL_PRICE: 10000, GOODS_NO: 1 },
+				{ QUANTITY: 1, TOTAL_PRICE: 5000, GOODS_NO: 2 },
+				{ QUANTITY: 3, TOTAL_PRICE: 15000, GOODS_NO: 3 },
+			];*/
+
+			// JSON 객체로 추가
+			selectedItems.push({
+				QUANTITY: quantity,
+				TOTAL_PRICE: totalPrice,
+				GOODS_NO: goodsNo,
+			});
+		});
+
+		// JSON 데이터를 hidden input에 설정
+		const jsonData = JSON.stringify(selectedItems);
+		$("<input>")
+			.attr("type", "hidden")
+			.attr("name", "orderDetails")
+			.val(jsonData)
+			.appendTo("#orderForm");
 	
-		// 폼 제출 허용
+		// 폼 제출
+		this.submit();
+
+		console.log(jsonData);
+
 	});
 
 	
@@ -252,7 +297,7 @@ function renderCartItems(items) {
 		// 가격에 콤마 추가 (toLocaleString 사용)
 		const formattedPrice = item.price.toLocaleString();
 
-		// (동적으로 여러요소가 생기니까 id 값 줄수 없다)
+		// (동적으로 여러요소가 생기니까 id 속성 줄수 없다)
 		const cartItem = `
 			<div class="cart-item">
 				<input type="checkbox" value="${item.cartNo}">
@@ -318,7 +363,7 @@ function updateTotalPrice(){
 	
 	// hidden input에 총 가격과 총 아이템 개수를 설정
     $('#totalPriceInput').val(totalPrice); // 총 가격 업데이트
-    $('#itemCountInput').val(totalCount); // 아이템 개수 업데이트
+    $('#itemCountInput').val(totalCount); // 선택한 장바구니 수 (전체수량이 아님)
 }
 
 

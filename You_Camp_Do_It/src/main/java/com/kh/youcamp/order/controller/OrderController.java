@@ -9,10 +9,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.type.TypeReference;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +23,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.order.model.service.OrderService;
 import com.kh.youcamp.order.model.vo.Order;
-import com.kh.youcamp.order.model.vo.OrderDetail;
 import com.kh.youcamp.order.util.DataEncrypt;
 
 import lombok.extern.slf4j.Slf4j;
@@ -151,26 +154,60 @@ public class OrderController {
 	 * insert 와 select를 동시에 진행함
 	 */
 	@PostMapping("insert.or")
-	public String insertOrder(Model model, 
+	public String insertOrder(@RequestParam("orderDetails") String orderDetailsJson,
+							  Model model, 
 							  HttpSession session,
-							  Order order,
-							  OrderDetail orderDatail) {
+							  Order order) {
 		
 		Member loginMember = (Member) session.getAttribute("loginMember");
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 		
 	    order.setMemberNo(memberNo);
 	    
-	    log.debug("값 넘어오냐? " + order);
+	    log.debug("jsp 에서 값 넘어오냐? order : " + order);
 	    
-	    // order insert 쿼리문실행 and orderNo 반환
-	    // TOTAL_PRICE, MEMBER_NO insert + ORDER_NO 반환
-	    int orderNo = orderService.insertOrderAndReturnOrderNo(order);
+	    // order insert 쿼리문실행
+	    // TOTAL_PRICE, MEMBER_NO insert
+	    int result = orderService.insertOrder(order);
+	    log.debug("insertOrder 잘 실행 됐냐? 처리된 행 : " + result);
 	    
-	    log.debug("order INSERT 하고 order 갖고왓냐? " + orderNo);
-		
+	    if( !(result > 0)) {
+	    	// 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "주문하기 실패. 다시 시도해주세요");
+			
+			return "common/errorPage";
+	    } 
+	    
+	    // db에서 채번된 orderNo 가져오기
+	    int orderNo = orderService.selectGeneratedOrderNo();
+	    log.debug("채번한 번호 갖고 왔냐?? orderNo : " + orderNo);
+	    
 		// orderDetail insert
-		// 디테일은 arrayList 형태로 받아서 반복문 돌려야할거같은데
+	    // Json 형태 데이터 아니면 cart에서 셀렉해와서 orderDetail 에 insert 하기 ????????
+	    log.debug("jsp 에서 값 넘어오냐? orderDetailsJson  : " + orderDetailsJson);
+	    
+//	    for(OrderDetail orderDetail : orderDetailsJson) {
+//	    	orderDetail INSERT구문 반복실행
+//	    }
+	 // JSON 데이터를 파싱
+//	    ObjectMapper objectMapper = new ObjectMapper();
+//	    List<Map<String, Object>> orderDetails;
+//	    try {
+//	        orderDetails = objectMapper.readValue(orderDetailsJson, new TypeReference<List<Map<String, Object>>>() {});
+//	    } catch (JsonProcessingException e) {
+//	        e.printStackTrace();
+//	        return "errorPage"; // 에러 처리
+//	    }
+//	    
+//	    for (Map<String, Object> detail : orderDetails) {
+//	        System.out.println("상품 번호: " + detail.get("GOODS_NO"));
+//	        System.out.println("수량: " + detail.get("QUANTITY"));
+//	        System.out.println("총 금액: " + detail.get("TOTAL_PRICE"));
+//	    }
+	    
+	    
+	    // orderNo 기준으로 select 해오기 > orderForm 에 출력하고
+	    // 결제를위한 정보 넘기기위함
 		
 //		ORDER_NO 		채번
 //		PAYMENT_ID		결제완료후
@@ -182,11 +219,11 @@ public class OrderController {
 //		MEMBER_NO		컨트롤러단에서 세션에서 가져오기
 		
 //		ORDER_DETAIL_NO	채번
-//		QUANTITY		항목당 수량 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
-//		PRICE			단가 > 조인 또는 인라인뷰
-//		TOTAL_PRICE		항목당 가격 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
-//		GOODS_NO		인라인뷰 기준 카트번호..?
-//		ORDER_NO
+//		QUANTITY		cart의 항목당 수량 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
+//		PRICE			단가 > GOODS_NO로 조건
+//		TOTAL_PRICE		cart의 항목당 가격 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
+//		GOODS_NO		cart의 항목당 용품번호 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
+//		ORDER_NO		채번한거 커발로 가져옴
 		
 		// 1번주문에 텐트주문상세, 체어주문상세, ...
 		

@@ -74,12 +74,12 @@ INSERT INTO GOODS_ORDER(ORDER_NO
                       , MEMBER_NO) 
                 VALUES (ORDER_SEQ.NEXTVAL
                       , NULL
-                      , 10
+                      , ?
                       , SYSDATE
-                      , 'CARD'
+                      , NULL
                       , 'CREATED'
                       , NULL
-                      , 1)
+                      , ?)
 
 
 ---------------------------------------------
