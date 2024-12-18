@@ -42,6 +42,7 @@
 	        </div>
 	    	
 	        <!-- Cart Items - 장바구니 목록조회 부분 -->
+			<!-- ajax 로 동적생성 -->
 			
 			
 	    </div>
@@ -51,22 +52,19 @@
 	    <div class="floating-area">
 	        <div class="buy-area">
 	            <span class="total-price">총 0건 주문금액 0원</span>
-	            <!-- 
-	            	장바구니 항목이없거나, 주문금액이 0인 조건 활용해서
-	            	그땐 orderForm 페이지로 넘어가지 않게 처리
-	            	
-	            	요소 밸류값은 cart 테이블에서 가져오기
-	            	요소 네임값은 order 로 저장해서 넘기기
-
-					order post 방식으로 할 방법 고민
-	             -->
+	            
 				 <form id="orderForm" 
 				 	   action="${pageContext.request.contextPath}/insert.or" 
 					   method="POST">
 					<!-- 장바구니 데이터가 있는 경우 hidden input에 값을 추가해서 보낼 수 있음 -->
-					<input type="hidden" name="totalPrice" value="0">
-					<input type="hidden" name="itemCount" value="0">
-					
+					<input type="hidden" name="totalPrice" id="totalPriceInput" value="0">
+    				<input type="hidden" name="itemCount" id="itemCountInput" value="0">
+					<input type="hidden" name="totalCount" value="0">
+					<!--
+						주문결제에 필요한 데이터값 확인 추후 
+	            		요소 밸류값은 cart 테이블에서 가져오기
+	            		요소 네임값은 order 로 저장해서 넘기기
+	            	-->
 					<button type="submit" class="order-btn">주문하기</button>
 				</form>
 	        </div>

@@ -21,7 +21,29 @@
 	    <result column="GOODS_NO" property="goodsNo" />
 	    <result column="ORDER_NO" property="orderNo" />
 	</resultMap>
- 	
+	
+	<!-- order INSERT -->
+ 	<insert id="insertOrderAndReturnOrderNo" 
+ 			parameterType="order"
+ 			useGeneratedKeys="true" 
+ 			keyProperty="orderNo">
+ 		INSERT INTO GOODS_ORDER(ORDER_NO
+			                  , PAYMENT_ID
+			                  , TOTAL_PRICE
+			                  , CREATED_DATE
+			                  , PAYMENT_METHOD
+			                  , PAYMENT_STATUS
+			                  , UPDATED_DATE
+			                  , MEMBER_NO) 
+			            VALUES (ORDER_SEQ.NEXTVAL
+			                  , NULL
+			                  , #{totalPrice}
+			                  , SYSDATE
+			                  , 'CARD'
+			                  , 'CREATED'
+			                  , NULL
+			                  , #{memberNo})
+ 	</insert>
   
 	<!-- 주문 저장 -->
     <insert id="saveOrder" parameterType="Order">

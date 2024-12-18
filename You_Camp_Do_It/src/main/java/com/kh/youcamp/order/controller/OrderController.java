@@ -6,7 +6,6 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -23,17 +22,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.kh.youcamp.cart.model.vo.Cart;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.order.model.service.OrderService;
+import com.kh.youcamp.order.model.vo.Order;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 import com.kh.youcamp.order.util.DataEncrypt;
 
-// ?
-import java.security.MessageDigest;
-import org.apache.commons.codec.binary.Hex;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Controller
+@Slf4j
 public class OrderController {
 	
 	@Autowired
@@ -131,15 +130,47 @@ public class OrderController {
 	
 	// 여기까지 나이스페이 결제 유틸메소드들 --------------------------------------------------
 	
+	/*
+	 * cartListView 장바구니 에서 주문하기버튼
+	 * 장바구니 항목들로 order db insert 하고 insert 컨트롤러
+	 * (결제에필요한)응답데이터 넘기면서 orderForm 화면 포워딩
+	 * orderForm 화면에서 결제하기 버튼 > nicepayStart() 함수 호출 결제 진행
+	 * 나이스페이 결제창으로 결제완료되면, nicepaySubmit() 함수호출 > 
+	 * 결제결과 order db update 하고, 데이터 와 함께 payResult 화면 포워딩
+	 * 
+	 */
+	
 	/**
 	 * 24.12.10 17시 윤홍문작성
 	 * 주문 폼 및 order insert 컨트롤러 메소드
 	 * 나이스페이 결제 실행은 orderForm.jsp에서 js로 실행
 	 * 장바구니의 주문하기버튼 클릭 시 요청
 	 * @return
+	 * 
+	 * 메소드명 바꾸기
+	 * insert 와 select를 동시에 진행함
 	 */
 	@PostMapping("insert.or")
-	public String insertOrder(Model model) {
+	public String insertOrder(Model model, 
+							  HttpSession session,
+							  Order order,
+							  OrderDetail orderDatail) {
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+		
+	    order.setMemberNo(memberNo);
+	    
+	    log.debug("값 넘어오냐? " + order);
+	    
+	    // order insert 쿼리문실행 and orderNo 반환
+	    // TOTAL_PRICE, MEMBER_NO insert + ORDER_NO 반환
+	    int orderNo = orderService.insertOrderAndReturnOrderNo(order);
+	    
+	    log.debug("order INSERT 하고 order 갖고왓냐? " + orderNo);
+		
+		// orderDetail insert
+		// 디테일은 arrayList 형태로 받아서 반복문 돌려야할거같은데
 		
 //		ORDER_NO 		채번
 //		PAYMENT_ID		결제완료후
@@ -156,6 +187,9 @@ public class OrderController {
 //		TOTAL_PRICE		항목당 가격 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
 //		GOODS_NO		인라인뷰 기준 카트번호..?
 //		ORDER_NO
+		
+		// 1번주문에 텐트주문상세, 체어주문상세, ...
+		
 		// 카트리스트뷰에서 order, orderDetail에 필요한 데이터값가져오기
 		// order, orderDetail insert
 		

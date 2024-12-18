@@ -1,3 +1,12 @@
+-- 회원정보 수정용 쿼리문
+UPDATE MEMBER
+   SET BIRTH_DATE = #{birthDate}
+     , PHONE = #{phone}
+     , ADDRESS = #{address}
+ WHERE MEMBER_NO = #{memberNo}
+   AND STATUS = 'Y'
+
+
 -- 1. 장바구니 목록 조회용 쿼리문
 SELECT M.MEMBER_NO
      , C.CART_NO
@@ -54,13 +63,23 @@ WHERE MEMBER_NO = ?
  
  
 ------------------------------------------
--- 회원정보 수정용 쿼리문
-UPDATE MEMBER
-   SET BIRTH_DATE = #{birthDate}
-     , PHONE = #{phone}
-     , ADDRESS = #{address}
- WHERE MEMBER_NO = #{memberNo}
-   AND STATUS = 'Y'
+-- 주문 insert
+INSERT INTO GOODS_ORDER(ORDER_NO
+                      , PAYMENT_ID
+                      , TOTAL_PRICE
+                      , CREATED_DATE
+                      , PAYMENT_METHOD
+                      , PAYMENT_STATUS
+                      , UPDATED_DATE
+                      , MEMBER_NO) 
+                VALUES (ORDER_SEQ.NEXTVAL
+                      , NULL
+                      , 10
+                      , SYSDATE
+                      , 'CARD'
+                      , 'CREATED'
+                      , NULL
+                      , 1)
 
 
 ---------------------------------------------

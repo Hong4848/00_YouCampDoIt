@@ -2,6 +2,7 @@
 // 체크 상태가 기본상태로??
 // +- 비활성화 일때 커서 css 다르게 적용??
 // 체크된상태에서 선택삭제로 삭제 후 총 주문금액에 금액 남아있는 문제
+// 삭제 ajax 하기전에 '삭제 할거임?' 묻기??
 
 
 $(function () {
@@ -123,8 +124,8 @@ $(function () {
 		updateCartQuantity(cartNo, quantity);
 	});
 
-	// 체크된 항목이 없거나, 장바구니가 비어있을 때 
-	// submit 막기
+	// 체크된 항목이 없거나, 장바구니가 비어있을 때 submit 막기
+	/*
 	$(document).on('submit', '#orderForm', function (event) {
 		// 기본 동작 막기
 		event.preventDefault();
@@ -146,6 +147,20 @@ $(function () {
 	
 		// 위 두 조건을 통과한 경우만 폼 제출
 		this.submit();
+	}); */
+	// 체크된 항목이 없거나, 장바구니가 비어있을 때 submit 막기
+	$(document).on('submit', '#orderForm', function (event) {
+		const totalPrice = $('#totalPriceInput').val();
+		const itemCount = $('#itemCountInput').val();
+	
+		// 체크: 가격이 0이거나 선택된 항목이 없으면 폼 제출 방지
+		if (totalPrice <= 0 || itemCount <= 0) {
+			alert('장바구니가 비어있거나 선택된 항목이 없습니다.');
+			event.preventDefault();
+			return;
+		}
+	
+		// 폼 제출 허용
 	});
 
 	
@@ -237,9 +252,11 @@ function renderCartItems(items) {
 		// 가격에 콤마 추가 (toLocaleString 사용)
 		const formattedPrice = item.price.toLocaleString();
 
+		// (동적으로 여러요소가 생기니까 id 값 줄수 없다)
 		const cartItem = `
 			<div class="cart-item">
 				<input type="checkbox" value="${item.cartNo}">
+				<input type="hidden" name="" value="${item.goods.goodsNo}">
 				<img src="https://via.placeholder.com/100" alt="상품 이미지">
 				<div class="item-details">
 					<h3>${item.goods.goodsName}</h3>
@@ -298,7 +315,10 @@ function updateTotalPrice(){
 
     // 결과를 .total-price 요소에 표시
     $('.total-price').text(`총 ${totalCount}건 주문금액 ${totalPrice.toLocaleString()}원`);
-
+	
+	// hidden input에 총 가격과 총 아이템 개수를 설정
+    $('#totalPriceInput').val(totalPrice); // 총 가격 업데이트
+    $('#itemCountInput').val(totalCount); // 아이템 개수 업데이트
 }
 
 

@@ -58,7 +58,7 @@ public class CartController {
 	    return new Gson().toJson(list); // JSON 데이터 반환
 	}
 	
-	
+
 	/**
 	 * 장바구니 담기 요청 컨트롤러
 	 * @param cart
@@ -110,6 +110,8 @@ public class CartController {
 		return (result > 0) ? "success" : "fail";
 	}
 	
+	// jsp 단에서 goodsNo 인풋히든으로 너어놨으니까
+	// goodsNo 도 받아서 쿼리문 수정하기
 	/**
 	 * 24.12.17 윤홍문작성
 	 * 장바구니 수량 업데이트 요청 메소드

@@ -56,20 +56,20 @@
 
 	<update id="updateCartQuantity"
 			parameterType="cart">
-	UPDATE CART
-	   SET QUANTITY = #{quantity}
-	      , PRICE = (
-	                SELECT PRICE 
-	                  FROM GOODS 
-	                 WHERE GOODS_NO = (
-			                            SELECT GOODS_NO 
-			                              FROM CART 
-			                             WHERE CART_NO = #{cartNo}
-			                             )
-	                  ) * #{quantity}
-	      , ADDED_AT = SYSDATE
-	WHERE MEMBER_NO = #{memberNo}
-	  AND CART_NO = #{cartNo}
+		UPDATE CART
+		   SET QUANTITY = #{quantity}
+		      , PRICE = (
+		                SELECT PRICE 
+		                  FROM GOODS 
+		                 WHERE GOODS_NO = (
+				                            SELECT GOODS_NO 
+				                              FROM CART 
+				                             WHERE CART_NO = #{cartNo}
+				                             )
+		                  ) * #{quantity}
+		      , ADDED_AT = SYSDATE
+		WHERE MEMBER_NO = #{memberNo}
+		  AND CART_NO = #{cartNo}
 	</update>
 
 

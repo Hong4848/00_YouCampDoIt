@@ -18,6 +18,12 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private OrderDao orderDao;
+
+	@Override
+	@Transactional
+	public int insertOrderAndReturnOrderNo(Order order) {
+		return orderDao.insertOrderAndReturnOrderNo(sqlSession, order);
+	}
 	
 	 
 	 
