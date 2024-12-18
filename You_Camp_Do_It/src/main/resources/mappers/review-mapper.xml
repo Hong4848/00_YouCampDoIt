@@ -8,6 +8,7 @@
   	<result column="REVIEW_CONTENT" property="reviewContent" />
   	<result column="REVIEW_COUNT" property="reviewCount" />
   	<result column="CREATE_DATE" property="createDate" />
+  	<result column="MEMBER_NO" property="memberNo" />
   </resultMap>
   
   <resultMap id="reviewAttachmentResultSet" type="reviewAttachment">
@@ -22,16 +23,18 @@
   </resultMap>
   
   <!-- 게시글 작성용 쿼리문 -->
-  
-  
-  <insert id="insertReview" parameterType="review">
-  	INSERT INTO REVIEW(REVIEW_NO
-  					 , REVIEW_TITLE
-  					 , REVIEW_CONTENT)
-  				VALUES(REVIEW_SEQ.NEXTVAL
-  					 , #{reviewTitle}
-  					 , #{reviewContent})
+  <insert id="insertReview" parameterType="review">   
+  	  INSERT INTO REVIEW(REVIEW_NO
+  				   , REVIEW_TITLE
+  				   , REVIEW_CONTENT
+  				   , MEMBER_NO)
+			  VALUES(REVIEW_SEQ.NEXTVAL
+			  	   , #{reviewTitle}
+			  	   , #{reviewContent}
+			  	   , #{memberNo})
   </insert>
+  
+
   
   
   <!-- 게시글 작성용 쿼리문(첨부파일) -->
@@ -41,14 +44,22 @@
   							   , CHANGE_NAME
   							   , UPLOAD_DATE
   							   , FILE_PATH
+  							   , FILE_LEVEL
   							   , REVIEW_NO)
   					      VALUES(FILE_SEQ.NEXTVAL
   					      	   , #{originName}
   					      	   , #{changeName}
-  					      	   , #{uploadName}
-  					      	   , #{filePate}
+  					      	   , SYSDATE
+  					      	   , #{filePath}
+  					      	   , #{fileLevel}
   					      	   , #{reviewNo})
   </insert>
-   
+  
+  <select id="selectReviewList" resultMap="reviewResultSet">
+	  SELECT * FROM REVIEW
+	  WHERE STATUS = 'Y'
+	  ORDER BY REVIEW_NO DESC
+ </select>
+  
   
 </mapper>

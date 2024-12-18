@@ -2,14 +2,12 @@ package com.kh.youcamp.review.model.vo;
 
 import java.util.ArrayList;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @NoArgsConstructor
 @Setter
-@Getter
 @ToString
 public class Review {
 
@@ -19,8 +17,20 @@ public class Review {
 	private int count;
 	private String createDate;
 	private String status;
-	private int MemberNo;
-	public ArrayList<ReviewAttachment> reviewAtachments;
+	private int memberNo;	// MEMBER_NO 외래키
+	private ArrayList<ReviewAttachment> reviewAttachments; // Lombok으로 getter/setter 자동 생성
+	public ArrayList<ReviewAttachment> getReviewAttachments() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	public int getReviewNo() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+
+
 	
 	
 }
