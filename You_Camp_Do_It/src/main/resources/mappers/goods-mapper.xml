@@ -72,7 +72,7 @@
 		                  FROM GOODS
 		                 WHERE STATUS = 'Y'
 		                 <choose>
-		                 	<when test="searchCategory != '상품분류 선택'">
+		                 	<when test="searchCategory != '상품분류선택'">
 		                 		AND (
 		                 				<choose>
 		                 					<when test="searchCategory == '캠핑용품대여'">
@@ -87,22 +87,22 @@
 			                            		OR CATEGORY = '식자재'
 			                            		OR CATEGORY = '생활용품'
 		                 					</when>
-			                   				<when test="searchCategory == '쉘터/텐트'">
+			                   				<when test="searchCategory == '쉘터텐트'">
 			                   					CATEGORY = '쉘터/텐트'
 			                   				</when>
-			                   				<when test="searchCategory == '침낭/방한용품'">
+			                   				<when test="searchCategory == '침낭방한용품'">
 			                   					CATEGORY = '침낭/방한용품'
 			                   				</when>
-			                   				<when test="searchCategory == '의자/테이블'">
+			                   				<when test="searchCategory == '의자테이블'">
 			                   					CATEGORY = '의자/테이블'
 			                   				</when>
-			                   				<when test="searchCategory == '화로/버너/전자'">
+			                   				<when test="searchCategory == '화로버너전자'">
 			                   					CATEGORY = '화로/버너/전자'
 			                   				</when>
-			                   				<when test="searchCategory == '식기/아이스박스'">
+			                   				<when test="searchCategory == '식기아이스박스'">
 			                   					CATEGORY = '식기/아이스박스'
 			                   				</when>
-			                   				<when test="searchCategory == '연료/가스'">
+			                   				<when test="searchCategory == '연료가스'">
 			                   					CATEGORY = '연료/가스'
 			                   				</when>
 			                   				<when test="searchCategory == '식자재'">
@@ -112,7 +112,6 @@
 			                   					CATEGORY = '생활용품'
 			                   				</when>
 			                   				<otherwise>
-			                   					CATEGORY = '캠핑장비 패키지 세트'
 			                   				</otherwise>
 			                   			</choose>
 		                 		)
@@ -120,7 +119,7 @@
 		                 	<otherwise></otherwise>
 		                 </choose>
 		                 <choose>
-		                 	<when test="condition != '검색조건 선택'">
+		                 	<when test="condition != '검색조건선택' and searchKeyword != ''">
 		                 		AND (
 		                 			<choose>
 		                 				<when test="condition == '상품이름'">
@@ -132,10 +131,41 @@
 		                 			</choose>
 		                 		)
 		                 	</when>
-		                 	<otherwise></otherwise>
+		                 	<otherwise>
+		                 	</otherwise>
 		                 </choose>
-		              ORDER BY GOODS_NO DESC) G
+		          	<choose>
+		          		<when test="sort == '상품명순'">
+		          			ORDER BY GOODS_NAME) G
+		          		</when>
+		          		<when test="sort == '낮은가격순'">
+		          			ORDER BY PRICE) G
+		          		</when>
+		          		<when test="sort == '높은가격순'">
+		          			ORDER BY PRICE DESC) G
+		          		</when>
+		          		<when test="sort == '조회수순'">
+		          			ORDER BY VIEWS DESC) G
+		          		</when>
+		          		<otherwise>
+		          			ORDER BY GOODS_NO DESC) G
+		          		</otherwise>
+		          	</choose>
 		      )
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<update id="selectViewCount">
+ 		UPDATE GOODS
+		   SET VIEWS = VIEWS+1
+		 WHERE GOODS_NO = #{goodsNo}
+		   AND STATUS = 'Y'
+ 	</update>
+ 	
+ 	<select id="selectOneGoods" resultMap="goodsResultSet">
+ 		SELECT *
+		  FROM GOODS
+		 WHERE GOODS_NO = #{goodsNo}
+		   AND STATUS = 'Y'
  	</select>
 </mapper>

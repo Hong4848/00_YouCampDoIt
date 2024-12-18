@@ -55,4 +55,14 @@ public class GoodsDao {
 		
 		return (ArrayList)sqlSession.selectList("goodsMapper.searchingGoods", pageSE);
 	}
+
+	public int selectViewCount(SqlSessionTemplate sqlSession, int goods)
+	{
+		return sqlSession.update("goodsMapper.selectViewCount", goods);
+	}
+
+	public Goods selectOneGoods(SqlSessionTemplate sqlSession, int goods)
+	{
+		return sqlSession.selectOne("goodsMapper.selectOneGoods", goods);
+	}
 }

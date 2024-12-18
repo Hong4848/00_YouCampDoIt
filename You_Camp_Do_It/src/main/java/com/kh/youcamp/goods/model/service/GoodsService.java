@@ -15,4 +15,8 @@ public interface GoodsService {
 	public ArrayList<Goods> selectGoodsList(PageInfo pi);
 	
 	public ArrayList<Goods> searchingGoods(Search search, PageInfo pi);
+	
+	public int selectViewCount(int goods);
+	
+	public Goods selectOneGoods(int goods);
 }

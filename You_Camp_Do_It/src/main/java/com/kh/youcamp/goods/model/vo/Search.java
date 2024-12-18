@@ -14,9 +14,9 @@ import lombok.ToString;
 public class Search
 {
 	private String searchKeyword = "";
-	private String searchCategory = "상품분류 선택";
-	private String sort = "";
-	private String condition = "";
+	private String searchCategory = "상품분류선택";
+	private String sort = "신상품순";
+	private String condition = "상품이름";
 	private int startPrice = 0;
 	private int endPrice = 0;
 }
