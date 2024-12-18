@@ -31,10 +31,28 @@ INSERT INTO CART(CART_NO
                , ?
                , ?)
             
--- 장바구니 삭제용 쿼리문 > 여러 체크된 요소로 받아서 in 구문사용
+-- 장바구니 삭제용 쿼리문
 DELETE
   FROM CART
  WHERE CART_NO = ?
+ 
+-- 장바구니 수량변경+-버튼으로 수량변경 쿼리문
+UPDATE CART
+   SET QUANTITY = ?
+      , PRICE = (
+                SELECT PRICE 
+                  FROM GOODS 
+                 WHERE GOODS_NO = (
+                            SELECT GOODS_NO 
+                              FROM CART 
+                             WHERE CART_NO = ?
+                             )
+                  ) * ?
+      , ADDED_AT = SYSDATE
+WHERE MEMBER_NO = ?
+  AND CART_NO = ?
+ 
+ 
 ------------------------------------------
 -- 회원정보 수정용 쿼리문
 UPDATE MEMBER
@@ -146,13 +164,13 @@ INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUE
 (6, 1, 120000, SYSDATE, 1, 6);
 
 INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUES
-(7, 3, 105000, SYSDATE, 1, 7);
+(7, 98, 105000, SYSDATE, 1, 7);
 
 INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUES
 (8, 2, 90000, SYSDATE, 1, 8);
 
 INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUES
-(9, 3, 60000, SYSDATE, 1, 9);
+(9, 99, 60000, SYSDATE, 1, 9);
 
 INSERT INTO CART (CART_NO, QUANTITY, PRICE, ADDED_AT, MEMBER_NO, GOODS_NO) VALUES
 (10, 1, 55000, SYSDATE, 1, 10);

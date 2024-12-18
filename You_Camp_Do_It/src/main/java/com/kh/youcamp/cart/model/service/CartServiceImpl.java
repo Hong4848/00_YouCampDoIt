@@ -35,9 +35,16 @@ public class CartServiceImpl implements CartService{
 	@Override
 	@Transactional
 	public int deleteCart(int cartNo) {
-	// public int deleteCart(String[] cartNoList) {
-		// return cartDao.deleteCart(sqlSession, cartNoList);
 		return cartDao.deleteCart(sqlSession, cartNo);
 	}
+
+	@Override
+	@Transactional
+	public int updateCartQuantity(Cart cart) {
+		return cartDao.updateCartQuantity(sqlSession, cart);
+	}
+	
+	
+	
 
 }

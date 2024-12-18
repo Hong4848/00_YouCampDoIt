@@ -208,7 +208,7 @@
                     </div>
                     <div style="height: 40%;"></div>
                     <div id="convenience" class="quick_a">
-                        <a href="${ pageContext.request.contextPath }/list.ca">
+                        <a href="${ pageContext.request.contextPath }/listForm.ca">
                         	<img src="resources/images/mainPage/장바구니icon.png">
                         </a>
                         <a href="${ pageContext.request.contextPath }/myPage.me">
@@ -243,7 +243,7 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">실시간 예약</a>
+                            <a href="${ pageContext.request.contextPath }/reserveDate.res">실시간 예약</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/reserveDate.res">실시간 예약</a>

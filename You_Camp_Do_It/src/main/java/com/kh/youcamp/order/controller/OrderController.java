@@ -138,8 +138,24 @@ public class OrderController {
 	 * 장바구니의 주문하기버튼 클릭 시 요청
 	 * @return
 	 */
-	@GetMapping("insert.or")
+	@PostMapping("insert.or")
 	public String insertOrder(Model model) {
+		
+//		ORDER_NO 		채번
+//		PAYMENT_ID		결제완료후
+//		TOTAL_PRICE		jsp에서 넘겨받기
+//		CREATED_DATE	sysdate
+//		PAYMENT_METHOD	결제완료후 아니면 걍 card 로 일단 고정
+//		PAYMENT_STATUS	디폴트 created
+//		UPDATED_DATE	null값
+//		MEMBER_NO		컨트롤러단에서 세션에서 가져오기
+		
+//		ORDER_DETAIL_NO	채번
+//		QUANTITY		항목당 수량 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
+//		PRICE			단가 > 조인 또는 인라인뷰
+//		TOTAL_PRICE		항목당 가격 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
+//		GOODS_NO		인라인뷰 기준 카트번호..?
+//		ORDER_NO
 		// 카트리스트뷰에서 order, orderDetail에 필요한 데이터값가져오기
 		// order, orderDetail insert
 		

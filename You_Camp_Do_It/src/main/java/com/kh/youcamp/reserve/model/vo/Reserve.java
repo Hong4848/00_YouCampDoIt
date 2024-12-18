@@ -1,5 +1,7 @@
 package com.kh.youcamp.reserve.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +16,15 @@ import lombok.ToString;
 public class Reserve {
 	
 	private int reserveNo;
-	private String startDate;
-	private String endDate;
+	private Date startDate;
+	private Date endDate;
 	private int nights;
 	private String paymentId;
 	private int price;
-	private String paymentDate;
+	private Date paymentDate;
 	private String paymentMethod;
 	private String paymentStatus;
-	private String updateDate;
+	private Date updateDate;
 	private int memberNo;
 	private int campsiteId;
 

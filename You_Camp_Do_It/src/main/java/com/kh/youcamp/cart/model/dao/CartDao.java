@@ -16,11 +16,12 @@ public class CartDao {
 	    return (ArrayList) sqlSession.selectList("cartMapper.selectList", memberNo);
 	}
 
-//	public int deleteCart(SqlSessionTemplate sqlSession, String[] cartNoList) {
-//		return sqlSession.delete("cartMapper.deleteCart", cartNoList);
-//	}
 	public int deleteCart(SqlSessionTemplate sqlSession, int cartNo) {
 		return sqlSession.delete("cartMapper.deleteCart", cartNo);
+	}
+
+	public int updateCartQuantity(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.update("cartMapper.updateCartQuantity", cart);
 	}
 
 

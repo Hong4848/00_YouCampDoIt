@@ -81,7 +81,7 @@
         }
 
         .left_box {
-            width: 40%;
+            width: 39.9%;
             height: 75%;
             display: flex;
             flex-direction: column;
@@ -156,6 +156,7 @@
         .select_button {
             width: 100%;
             text-align: center;
+            cursor: pointer;
         }
 
         .select_button .btnSearch {
@@ -192,6 +193,7 @@
             position: relative;
             margin-bottom: 10px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 300px;
         }
 
         .site_day .start_day,
@@ -421,6 +423,35 @@
 		    
 		    pointer-events: none; /* hover 효과 및 클릭 차단 */
 		}
+		
+		.day.check-in {
+		    background-color: #5a4d2e; /* 체크인 날짜 */
+		    color: white;
+		    border-top-left-radius: 20px;
+		    border-bottom-left-radius: 20px;
+		    
+		}
+		
+		.day.check-out {
+		    background-color: #5a4d2e; /* 체크아웃 날짜 */
+		    color: white;
+		    border-top-right-radius: 20px;
+		    border-bottom-right-radius: 20px;
+		    
+		}
+		
+		.day.in-range {
+		    background-color: #5a4d2e; /* 범위 날짜 */
+		    color: white;
+		    border-radius: 0;
+		    
+		}
+		
+		.section-hidden {
+			visibility: hidden;
+		}
+		
+		
 		        
         
         
@@ -536,7 +567,7 @@
 	                </div>
 	                <!-- 예약가능 섹션 검색 -->
 	                <div class="section select_button">
-	                    <a href="" class="btnSearch">
+	                    <a class="btnSearch">
 	                        <span class="ico_search"></span>
 	                        예약가능 섹션 검색
 	                    </a>
@@ -548,18 +579,18 @@
 	                    <div class="start_day">
 	                        <span>체크인</span>
 	                        <strong id="txt-checkIn">
-	                            12.25(수)
+	                            
 	                        </strong>
 	                    </div>
 	                    <div class="state_night">1박</div>
 	                    <div class="end_day">
 	                        <span>체크아웃</span>
 	                        <strong id="txt-checkOut">
-	                            12.27(금)
+	                            
 	                        </strong>
 	                    </div>
 	                </div>
-	                <div class="section item_box">
+	                <div class="section item_box section-hidden">
 	                    <div class="item">
 	                    	<!-- 숙박일, 체크인/체크아웃 날짜, 섹션값 쿼리 스트링으로 추후에 넘겨줘야함!! -->
 	                        <a href="reserveDetail.res">
@@ -761,20 +792,24 @@
 		        $stayDay = $("input[name='select_night']:checked").val();
 		        
 		        $(".state_night").text($stayDay + "박");
+		        
+		        
 		    });
 		    
 		    
-		    $(".hoverable").on("click", function() {
-		    	/*
-		    	let $today = $(this).text();
-		    	console.log($today);
-		    	$(".start_day").text($("#month").text() + "." + $today + )
-		    	*/
+		    let checkInDate = null;
+		    
+		    
+		    $(".calendar-day").on("click", ".hoverable", function() {
+		    	
 		    	
 		    	let $today = $(this).text(); // 선택된 날짜
 		        let year = $("#year").text(); // 현재 연도
 		        let month = $("#month").text(); // 현재 월
 		        month = month.padStart(2, "0"); // 월을 2자리로 포맷 (예: 1 -> 01)
+		        $today = $today.padStart(2, "0");
+		        stayDays = parseInt($("input[name='select_night']:checked").val(), 10);
+		        
 
 		        // 선택된 날짜를 기준으로 Date 객체 생성
 		        let selectedDate = new Date(`\${year}-\${month}-\${$today.padStart(2, "0")}`);
@@ -783,30 +818,139 @@
 		        const WEEKDAY = ["일", "월", "화", "수", "목", "금", "토"];
 		        let dayOfWeek = WEEKDAY[selectedDate.getDay()]; // 요일 인덱스를 기반으로 요일 값 가져오기
 
-		        console.log($today); // 선택된 날짜 확인
-		        console.log(dayOfWeek); // 선택된 날짜의 요일 확인
-
 		        // 시작 날짜에 월.일(요일) 형식으로 표시
+		        $("#txt-checkIn").text(month + "." + $today + "(" + dayOfWeek + ")");
 		        
+		        resetCalendarStyles(); // 기존 스타일 초기화
+		        checkInDate = $(this);
+		        checkInDate.addClass("check-in"); // 체크인 스타일 적용
+		        
+		        // 체크아웃 날짜 계산
+		        let checkInIndex = $(".day").index(checkInDate);
+		        
+		        let checkOutIndex = checkInIndex + stayDays; // 체크아웃 날짜는 N일 후
+		        
+		        checkOutDate = $(".day").eq(checkOutIndex);
+		        
+		        if (checkOutDate.length) {
+		        	checkOutDate.addClass("check-out");
+		        	applyRangeStyles(checkInIndex, checkOutIndex);
+		        }
+		        // console.log(`체크인: \${checkInDate.text()}, 체크아웃: \${checkOutDate.text()}`);
+		        
+		        if($stayDay == 1) {
+		        	
+		        	// 선택된 날짜 + 1일 후 계산
+			        selectedDate.setDate(selectedDate.getDate() + 1);
+			        
+			        // 1일 후의 월, 일, 요일 가져오기
+			        let nextMonth = (selectedDate.getMonth() + 1).toString().padStart(2, "0"); 
+			        let nextDay = selectedDate.getDate().toString().padStart(2, "0");
+			        let nextDayOfWeek = WEEKDAY[selectedDate.getDay()];
+			        
+			        
+			        
+			        // console.log(`\${month}.\${$today}(\${dayOfWeek})`); // 선택된 날짜
+			        // console.log(`\${nextMonth}.\${nextDay}(\${nextDayOfWeek})`); // 1일 후 날짜
+			        
+			        $("#txt-checkOut").text(`\${nextMonth}.\${nextDay}(\${nextDayOfWeek})`); 
+			        
+			        
+		        	
+		        } else {
+		        	
+		        	// 선택된 날짜 + 2일 후 계산
+			        selectedDate.setDate(selectedDate.getDate() + 2);
+			        
+			        // 2일 후의 월, 일, 요일 가져오기
+			        let nextMonth = (selectedDate.getMonth() + 1).toString().padStart(2, "0"); 
+			        let nextDay = selectedDate.getDate().toString().padStart(2, "0");
+			        let nextDayOfWeek = WEEKDAY[selectedDate.getDay()];
+			        
+			        $("#txt-checkOut").text(`\${nextMonth}.\${nextDay}(\${nextDayOfWeek})`);
+		        	
+		        }
+		        
+		        
+		        
+		        
+		        
+		    });
+		    
+		    function applyRangeStyles(startIndex, endIndex) {
+		    	$(".day").slice(startIndex + 1, endIndex).addClass("in-range");
+		    }
+		    
+		    function resetCalendarStyles() {
+		    	$(".day").removeClass("check-in check-out in-range");
+		    }
+		    
+		    $(".btnSearch").on("click", function() {
+		    	
+		    	
+		    	if(!checkInDate) {
+		    		alert("날짜를 먼저 선택해주세요!");
+		    		return;
+		    	}
+		    	
+		    	console.log(checkInDate);
+		    	console.log(checkOutDate);
+		    	console.log(stayDays);
+		    	
+		    	$(".section-hidden").css("visibility", "visible");
+		    	
+		    	
+		    	let year = $("#year").text();
+		    	let month = $("#month").text();
+		    	let day = checkInDate.text();
+		    	let checkInFullDate = new Date(`\${year}-\${month}-\${day}`);
+		    	
+
+		        // 체크아웃 날짜 계산
+		        let checkOutFullDate = new Date(checkInFullDate);
+		        checkOutFullDate.setDate(checkOutFullDate.getDate() + stayDays); // N일 뒤 계산
+		        
+		        
+
+		        // 체크아웃 날짜에서 년, 월, 일 추출
+		        let checkOutYear = checkOutFullDate.getFullYear();
+		        let checkOutMonth = (checkOutFullDate.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작
+		        let checkOutDay = checkOutFullDate.getDate().toString().padStart(2, "0");
 		        
 		        
 		    	
+		    	$.ajax({
+		    		url : "getRestSite.res",
+		    		type : "get",
+		    		data : {
+		    			checkInDate : checkInFullDate,
+		    			checkOutDate : checkOutFullDate,
+		    			stayDays : stayDays
+		    		},
+		    		success : function(result) {
+		    			
+		    			
+		    		},
+		    		error : function() {
+		    			console.log("섹션별 자리 조회용 ajax 통신 실패!");
+		    		}
+		    		
+		    		
+		    	});
 		    });
 		    
 		    
-		
-
-		
-	});
+		    
+		    
+		    
+		    
+		});
         
         
         
     </script>
     
-    <script>
-	    
-    	
-    </script>
+    
     
     
     

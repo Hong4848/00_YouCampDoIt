@@ -74,6 +74,10 @@ public class ReserveController {
 	}
 	
 	
+	@GetMapping("getRestSite.res")
+	public 
+	
+	
 	
 	
 	
