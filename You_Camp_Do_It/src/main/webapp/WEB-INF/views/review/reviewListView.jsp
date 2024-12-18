@@ -248,143 +248,23 @@
                 <div class="content_sub_wrap_box">
                     <table class="listThmb">
                         <tbody>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot1">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글1">
-                                        <span class="date">2024. 10. 14</span>
-                                        <span class="title">재미있는 캠핑이였습니다. 하하하 호호호호 글씨가 넘어가나요???</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot2">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 2">
-                                        <span class="date">2024. 11. 01</span>
-                                        <span class="title">가을 풍경이 아름다웠어요.</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot3">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot4">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot5">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot6">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot7">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot8">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot9">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot10">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot11">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot12">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot13">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot14">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot15">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot16">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
+                <c:forEach items="${reviewList}" var="review" varStatus="status">
+                    <c:if test="${status.index % 4 == 0}">
+                        <tr>
+                    </c:if>
+                    <td>
+                        <a href="detail.re?reviewNo=${review.reviewNo}">
+                            <span class="tbumb_hover"></span>
+                            <img src="${review.reviewAttachments[0].filePath}${review.reviewAttachments[0].changeName}" alt="${review.reviewTitle}">
+                            <span class="date">${review.createDate}</span>
+                            <span class="title">${review.reviewTitle}</span>
+                        </a>
+                    </td>
+                    <c:if test="${status.index % 4 == 3 || status.last}">
+                        </tr>
+                    </c:if>
+                </c:forEach>
+            </tbody>
                     </table>
                 </div>
             </div>

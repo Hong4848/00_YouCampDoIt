@@ -165,9 +165,9 @@
         }
 
         .image-preview {
-            width: 100%;
-            height: 100%;
-            border: 2px dashed #ddd;
+            width: 100px;
+            height: 100px;
+            border: 1px dashed #ddd;
             border-radius: 5px;
             display: flex;
             justify-content: center;
@@ -241,13 +241,13 @@
 	        <form id="uploadForm" action="list.re" method="POST" enctype="multipart/form-data">
 			        <div id="contentcontroller">
 			            <div class="form-group">
-			                <label for="title">제목</label>
-			                <input type="text" id="title" name="title" required>
+			                <label for="reviewTitle">제목</label>
+			                <input type="text" id="reviewTitle" name="reviewTitle" required>
 			            </div>
 			
 			            <div class="form-group">
-			                <label for="content">내용</label>
-			                <textarea id="content" name="content" style="resize : none;" required></textarea>
+			                <label for="reviewContent">내용</label>
+			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required></textarea>
 			            </div>
 					</div>
 			        <div class="image-upload-section">
@@ -321,12 +321,8 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => {
             if (!response.ok) {
-                // 서버에서 오류가 발생했을 때 처리
-                return response.json().then(data => {
-                    throw new Error(data.error || '서버 오류');
-                });
+                return response.text().then(text => { throw new Error(text) });
             }
-            // 성공적으로 처리되면 list.re로 리다이렉트
             window.location.href = "list.re";
         })
         .catch(error => {
