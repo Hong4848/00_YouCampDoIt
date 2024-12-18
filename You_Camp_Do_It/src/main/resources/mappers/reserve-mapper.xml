@@ -1,5 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="reserveMapper">
+
+	<resultMap id="reserveResultSet" type="reserve">
+		<id column="RESERVE_NO" property="reserveNo" />
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+		<result column="NIGHTS" property="nights" />
+		<result column="PAYMENT_ID" property="paymentId" />
+		<result column="PRICE" property="price" />
+		<result column="PAYMENT_DATE" property="paymentDate" />
+		<result column="PAYMENT_METHOD" property="paymentMethod" />
+		<result column="PAYMENT_STATUS" property="paymentStatus" />
+		<result column="UPDATE_DATE" property="updateDate" />
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="CAMPSITE_ID" property="campsiteId" />
+	</resultMap>
+	
+	<resultMap id="restSiteResultSet" type="restsite">
+		<result column="SECTION" property="section" />
+		<result column="RESERVED_COUNT" property="restCount" />
+	</resultMap>
+	
+	
+	<!--  
+		24.12.18 정성민
+		남은 자리 조회용 쿼리문
+	-->
+	<select id="selectRestSite" parameterType="reserve" resultMap="restSiteResultSet">
+	    SELECT 
+		    C.SECTION AS SECTION,
+		    COUNT(C.CAMPSITE_ID) AS RESERVED_COUNT
+		FROM 
+		    CAMPSITE C
+		WHERE 
+		    NOT EXISTS (
+		        SELECT 1
+		        FROM RESERVE R
+		        WHERE R.CAMPSITE_ID = C.CAMPSITE_ID
+		          
+		          AND (
+		              TO_DATE(#{startDate}, 'YYYY-MM-DD') &lt; R.END_DATE
+		              AND TO_DATE(#{endDate}, 'YYYY-MM-DD') > R.START_DATE
+		          )
+		    )
+		GROUP BY 
+		    C.SECTION
+		ORDER BY 
+		    C.SECTION ASC
+	</select>
   
 </mapper>

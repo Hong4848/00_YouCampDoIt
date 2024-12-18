@@ -1,13 +1,24 @@
 package com.kh.youcamp.reserve.controller;
 
+import java.util.ArrayList;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.Gson;
 import com.kh.youcamp.reserve.model.service.ReserveService;
+import com.kh.youcamp.reserve.model.vo.Reserve;
+import com.kh.youcamp.reserve.model.vo.RestSite;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class ReserveController {
 
+	@Autowired
 	private ReserveService reserveService;
 	
 	
@@ -74,6 +85,28 @@ public class ReserveController {
 	}
 	
 	
+
+	/**
+	 * 24.12.18 정성민
+	 * 캠핑장 섹션별 남은 자리 갯수 조회요청용 컨트롤러
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="getRestSite.res", produces="application/json; charset=UTF-8")
+	public String selectRestSite(Reserve r) {
+		
+		System.out.println();
+		log.debug(r.getStartDate());
+		log.debug(r.getEndDate());
+		System.out.println(r);
+		
+		ArrayList<RestSite> restSite = reserveService.selectRestSite(r);
+	    
+		
+		return new Gson().toJson(restSite);
+		
+		
+	}
 
 	
 	

@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.youcamp.reserve.model.vo.Reserve" alias="reserve" />
 		<typeAlias type="com.kh.youcamp.reserve.model.vo.Campsite" alias="campsite" />
 		<typeAlias type="com.kh.youcamp.reserve.model.vo.Section" alias="section" />
+		<typeAlias type="com.kh.youcamp.reserve.model.vo.RestSite" alias="restsite" />
 		<typeAlias type="com.kh.youcamp.lost.model.vo.Lost" alias="lost" />
 		<typeAlias type="com.kh.youcamp.lost.model.vo.LostAttachment" alias="lostAttachment" />
 		<typeAlias type="com.kh.youcamp.notice.model.vo.Notice" alias="notice" />

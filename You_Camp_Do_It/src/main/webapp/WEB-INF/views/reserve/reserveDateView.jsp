@@ -885,6 +885,7 @@
 		    	$(".day").removeClass("check-in check-out in-range");
 		    }
 		    
+		    // 섹션 검색 버튼 누를 시 이벤트
 		    $(".btnSearch").on("click", function() {
 		    	
 		    	
@@ -893,41 +894,46 @@
 		    		return;
 		    	}
 		    	
-		    	console.log(checkInDate);
-		    	console.log(checkOutDate);
-		    	console.log(stayDays);
 		    	
 		    	$(".section-hidden").css("visibility", "visible");
 		    	
 		    	
 		    	let year = $("#year").text();
-		    	let month = $("#month").text();
-		    	let day = checkInDate.text();
+		    	let month = $("#month").text().padStart(2, "0");
+		    	let day = checkInDate.text().padStart(2, "0");
+		    	
+		    	// 체크인 날짜 객체 생성
 		    	let checkInFullDate = new Date(`\${year}-\${month}-\${day}`);
 		    	
-
 		        // 체크아웃 날짜 계산
 		        let checkOutFullDate = new Date(checkInFullDate);
 		        checkOutFullDate.setDate(checkOutFullDate.getDate() + stayDays); // N일 뒤 계산
 		        
+		        // 체크인 날짜를 yyyy-mm-dd 형식으로 변환
+		        let formattedCheckInDate = `\${checkInFullDate.getFullYear()}-\${(checkInFullDate.getMonth() + 1).toString().padStart(2, "0")}-\${checkInFullDate.getDate().toString().padStart(2, "0")}`;
 		        
+			    // 체크아웃 날짜를 yyyy-MM-dd 형식으로 변환
+			    let formattedCheckOutDate = `\${checkOutFullDate.getFullYear()}-\${(checkOutFullDate.getMonth() + 1).toString().padStart(2, "0")}-\${checkOutFullDate.getDate().toString().padStart(2, "0")}`;
 
-		        // 체크아웃 날짜에서 년, 월, 일 추출
-		        let checkOutYear = checkOutFullDate.getFullYear();
-		        let checkOutMonth = (checkOutFullDate.getMonth() + 1).toString().padStart(2, "0"); // 월은 0부터 시작
-		        let checkOutDay = checkOutFullDate.getDate().toString().padStart(2, "0");
-		        
+		        // 변환된 값 확인
+		        console.log("체크인 날짜:", formattedCheckInDate);
+		        console.log("체크아웃 날짜:", formattedCheckOutDate);
 		        
 		    	
 		    	$.ajax({
 		    		url : "getRestSite.res",
 		    		type : "get",
 		    		data : {
-		    			checkInDate : checkInFullDate,
-		    			checkOutDate : checkOutFullDate,
-		    			stayDays : stayDays
+		    			startDate : formattedCheckInDate,
+		    			endDate : formattedCheckOutDate,
+		    			nights : stayDays
 		    		},
 		    		success : function(result) {
+		    			console.log(result);
+		    			let resultStr = "";
+		    			for(let i = 0; i < result.length; i++) {
+		    				resultStr += ""
+		    			}
 		    			
 		    			
 		    		},
