@@ -308,8 +308,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-
-    // 폼 데이터 제출 처리
+ // 폼 데이터 제출 처리
     document.getElementById("uploadForm").addEventListener("submit", function (event) {
         event.preventDefault(); // 기본 폼 제출 방지
 
@@ -326,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
             window.location.href = "list.re";
         })
         .catch(error => {
-            console.error("전송 중 오류 발생:", error);
+            //console.error("전송 중 오류 발생:", error);
             alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
         });
 

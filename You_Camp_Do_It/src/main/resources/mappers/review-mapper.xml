@@ -2,64 +2,84 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="reviewMapper">
   
-  <resultMap id="reviewResultSet" type="review">
+  <resultMap id="reviewResultMap" type="review">
   	<id column="REVIEW_NO" property="reviewNo" />
   	<result column="REVIEW_TITLE" property="reviewTitle" />
   	<result column="REVIEW_CONTENT" property="reviewContent" />
   	<result column="REVIEW_COUNT" property="reviewCount" />
   	<result column="CREATE_DATE" property="createDate" />
-  	<result column="MEMBER_NO" property="memberNo" />
+  	<result column="REVIEW_WRITER" property="reviewWriter" />
+  	<collection property="reviewAttachments" ofType="ReviewAttachment">
+    	<result column="FILE_NO" property="fileNo" />
+	  	<result column="ORIGIN_NAME" property="originName" />
+	  	<result column="CHANGE_NAME" property="changeName" />
+	  	<result column="FILE_PATH" property="filePath" />
+	  	<result column="UPLOAD_DATE" property="uploadDate" />
+	  	<result column="FILE_LEVEL" property="fileLevel" />
+	  	<result column="REVIEW_NO" property="reviewNo" /> 
+    </collection>
   </resultMap>
-  
-  <resultMap id="reviewAttachmentResultSet" type="reviewAttachment">
-  	<result column="FILE_NO" property="fileNo" />
-  	<result column="ORIGIN_NAME" property="originName" />
-  	<result column="CHANGE_NAME" property="changeName" />
-  	<result column="FILE_PATH" property="filePath" />
-  	<result column="UPLOAD_DATE" property="uploadDate" />
-  	<result column="FILE_LEVEL" property="fileLevel" />
-  	<result column="REVIEW_NO" property="reviewNo" />
-  
-  </resultMap>
-  
-  <!-- 게시글 작성용 쿼리문 -->
-  <insert id="insertReview" parameterType="review">   
-  	  INSERT INTO REVIEW(REVIEW_NO
-  				   , REVIEW_TITLE
-  				   , REVIEW_CONTENT
-  				   , MEMBER_NO)
-			  VALUES(REVIEW_SEQ.NEXTVAL
-			  	   , #{reviewTitle}
-			  	   , #{reviewContent}
-			  	   , #{memberNo})
-  </insert>
   
 
   
-  
-  <!-- 게시글 작성용 쿼리문(첨부파일) -->
-  <insert id="insertReviewAttachment" parameterType="reviewAttachment">
-  	INSERT INTO REVIEWATTACHMENT(FILE_NO
-  							   , ORIGIN_NAME
-  							   , CHANGE_NAME
-  							   , UPLOAD_DATE
-  							   , FILE_PATH
-  							   , FILE_LEVEL
-  							   , REVIEW_NO)
-  					      VALUES(FILE_SEQ.NEXTVAL
-  					      	   , #{originName}
-  					      	   , #{changeName}
-  					      	   , SYSDATE
-  					      	   , #{filePath}
-  					      	   , #{fileLevel}
-  					      	   , #{reviewNo})
-  </insert>
-  
-  <select id="selectReviewList" resultMap="reviewResultSet">
-	  SELECT * FROM REVIEW
-	  WHERE STATUS = 'Y'
-	  ORDER BY REVIEW_NO DESC
- </select>
+   <select id="selectCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM REVIEW
+    </select>
+    
+    <select id="selectReviewList" resultMap="reviewResultMap">
+	    SELECT R.*, 
+	           A.FILE_NO,
+	           A.ORIGIN_NAME,
+	           A.CHANGE_NAME,
+	           A.FILE_PATH,
+	           A.UPLOAD_DATE,
+	           A.FILE_LEVEL,
+	           A.STATUS AS FILE_STATUS
+	    FROM REVIEW R
+	    LEFT JOIN REVIEW_ATTACHMENT A ON (R.REVIEW_NO = A.REVIEW_NO)
+	    ORDER BY R.REVIEW_NO DESC
+	</select>
+    
+    <insert id="insertReview" parameterType="review" useGeneratedKeys="true" keyProperty="reviewNo" keyColumn="REVIEW_NO">
+    INSERT INTO REVIEW (
+        REVIEW_NO,
+        REVIEW_TITLE,
+        REVIEW_CONTENT,
+        CREATE_DATE,
+        MEMBER_NO,
+        REVIEW_WRITER
+    ) VALUES (
+        REVIEW_SEQ.NEXTVAL,
+        #{reviewTitle},
+        #{reviewContent},
+        SYSDATE,
+        #{memberNo},
+        #{reviewWriter}
+    )
+</insert>
+    
+    <insert id="insertReviewAttachment" parameterType="ReviewAttachment">
+        INSERT INTO REVIEW_ATTACHMENT (
+        	FILE_NO,
+            ORIGIN_NAME,
+            CHANGE_NAME,
+            FILE_PATH,
+            UPLOAD_DATE,
+            FILE_LEVEL,
+            STATUS,
+            REVIEW_NO
+        ) VALUES (
+        	FILE_SEQ.NEXTVAL,
+            #{originName},
+            #{changeName},
+            #{filePath},
+            SYSDATE,
+            #{fileLevel},
+            'Y',
+            #{reviewNo}
+        )
+    </insert>
   
   
 </mapper>
