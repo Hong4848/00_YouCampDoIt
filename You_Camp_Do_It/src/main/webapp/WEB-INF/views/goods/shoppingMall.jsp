@@ -140,6 +140,10 @@
 				cursor: pointer;
 			}
 
+			.goods_number{
+				display: none;
+			}
+
 			.goods_img{
 				width: 320px;
 				height: 320px;
@@ -264,8 +268,10 @@
 					자세한 사항은 전화/챗봇을 통해 상담하세요
 				</div>
 				<div class="search_content">
-					<input id="searchTitle" type="text" style="width: 350px; height: 30px; border: none; outline: none;">
-					<img id="searchingA" src="resources/images/goods/검색_아이콘.png" style="width: 5%; padding-bottom: 5px;">
+					<form id="searchForm" action="searching.gs" method="get">
+						<input id="searchKeyword" name="searchKeyword" type="text" style="width: 350px; height: 30px; border: none; outline: none;">
+						<img id="searchingA" src="resources/images/goods/검색_아이콘.png" style="width: 5%; padding-bottom: 5px;">
+					</form>
 				</div>
 			</div>
 		</div>
@@ -277,6 +283,7 @@
 			<div class="goods_list">
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
+						<div class="goods_number">${g.goodsNo}</div>
 						<div class="goods_img">${g.goodsThumbnail}</div>
 						<div class=goods_title>
 							<div class="goods_name">${g.goodsName}</div>
@@ -363,7 +370,8 @@
 		</script>
 		<script>
 			$(".goods_container").click(function(){
-				location.href="goodsDetail.gs";
+				let goodsNo = $(this).children(".goods_number").text();
+				location.href="goodsDetail.gs?goodsNo="+goodsNo;
 			});
 		</script>
 
@@ -382,15 +390,7 @@
 			});
 			
 			function searching(){
-				let searchKeyword = $("#searchTitle").val();
-				if(searchKeyword.length > 0){
-					$(location).attr("href", "searching.gs?searchKeyword="+searchKeyword+"&condition=상품이름").click();
-				}
-				else{
-					errorMsg = "한 글자 이상 입력해야합니다."
-					alertify.alert('검색 오류', errorMsg);
-				}
-				
+				$("#searchForm").submit();
 			}
 		</script>
 	</body>

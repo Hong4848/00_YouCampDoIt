@@ -58,13 +58,19 @@
 					   method="POST">
 					<!-- 장바구니 데이터가 있는 경우 hidden input에 값을 추가해서 보낼 수 있음 -->
 					<input type="hidden" name="totalPrice" id="totalPriceInput" value="0">
-    				<input type="hidden" name="itemCount" id="itemCountInput" value="0">
-					<input type="hidden" name="totalCount" value="0">
+    				<!-- <input type="hidden" name="itemCount" id="itemCountInput" value="0"> 선택한 장바구니 수 (전체수량이 아님) -->
+					<!-- <input type="hidden" name="totalCount" value="0"> -->
+					
 					<!--
 						주문결제에 필요한 데이터값 확인 추후 
 	            		요소 밸류값은 cart 테이블에서 가져오기
 	            		요소 네임값은 order 로 저장해서 넘기기
-	            	-->
+
+						orderDtail 배열 형태로
+						[{QUANTITY, TOTAL_PRICE, GOODS_NO}, {QUANTITY, TOTAL_PRICE, GOODS_NO}, .... {}]
+	            	
+					
+						-->
 					<button type="submit" class="order-btn">주문하기</button>
 				</form>
 	        </div>

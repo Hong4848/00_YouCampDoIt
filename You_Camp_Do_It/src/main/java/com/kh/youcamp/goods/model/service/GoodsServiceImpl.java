@@ -70,4 +70,21 @@ public class GoodsServiceImpl implements GoodsService{
 		return goodsDao.searchingGoods(sqlSession, search, pi);
 	}
 
+	/**
+	 * 작성일 : 2024.12.18
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상세 보기 조회 수 증가용 쿼리문
+	 */
+	@Override
+	public int selectViewCount(int goods)
+	{
+		return goodsDao.selectViewCount(sqlSession, goods);
+	}
+
+	@Override
+	public Goods selectOneGoods(int goods)
+	{
+		return goodsDao.selectOneGoods(sqlSession, goods);
+	}
 }

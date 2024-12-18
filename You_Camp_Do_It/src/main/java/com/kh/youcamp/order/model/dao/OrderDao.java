@@ -8,8 +8,12 @@ import com.kh.youcamp.order.model.vo.Order;
 @Repository
 public class OrderDao {
 
-	public int insertOrderAndReturnOrderNo(SqlSessionTemplate sqlSession, Order order) {
-		return sqlSession.insert("orderMapper.insertOrderAndReturnOrderNo", order);
+	public int insertOrder(SqlSessionTemplate sqlSession, Order order) {
+		return sqlSession.insert("orderMapper.insertOrder", order);
+	}
+
+	public int selectGeneratedOrderNo(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("orderMapper.selectGeneratedOrderNo");
 	}
 
 	

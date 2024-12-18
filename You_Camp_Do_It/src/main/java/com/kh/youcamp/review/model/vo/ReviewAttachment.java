@@ -16,7 +16,7 @@ public class ReviewAttachment {
     private String changeName;   // 변경된 파일명
     private String filePath;     // 파일 경로
     private String uploadDate;   // 업로드 날짜
-    private int fileLevel;       // 파일 레벨
+    private int fileLevel;       // 파일 레벨 (1 : 썸네일, 2 : 상세이미지)
     private String status;       // 상태 (예: 활성화/비활성화)
     private int reviewNo;        // 리뷰 번호 (참조)
 }

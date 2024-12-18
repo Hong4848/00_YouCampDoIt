@@ -46,6 +46,10 @@
 				margin: auto;
 				border: 2px solid gray;
 			}
+
+			.goods_number{
+				display: none;
+			}
 			
 			#shoppingMall_index{
 				margin: auto;
@@ -339,61 +343,89 @@
 				검색정렬기준 <br>
  			</div>
 			<div class="format_content">
-				<select name="" id="" style="width: 344px;">
-					<option value="">상품분류 선택</option>
-					<option value="">캠핑장비 패키지 세트 대여</option>
-					<option value="">캠핑용품대여</option>
-					<option value="">캠핑용품대여 ⮞ 쉘터/텐트</option>
-					<option value="">캠핑용품대여 ⮞ 침낭/방한용품</option>
-					<option value="">캠핑용품대여 ⮞ 의자/테이블</option>
-					<option value="">캠핑용품대여 ⮞ 화로/버너/전자</option>
-					<option value="">캠핑용품대여 ⮞ 식기/아이스박스</option>
-					<option value="">소비용품판매</option>
-					<option value="">소비용품판매 ⮞ 연료/가스</option>
-					<option value="">소비용품판매 ⮞ 식자재</option>
-					<option value="">소비용품판매 ⮞ 생활용품</option>
-				</select>
-				<br>
-				<select name="" id="" style="width: 120px;">
-					<option value="">검색조건 선택</option>
-					<option value="" selected>상품이름</option>
-					<option value="">브랜드</option>
-				</select>
-				<input type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;">
-				<br>
-				<div class="price_range">
-					<input type="number" min="0">원
-				</div>
-				&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
-				<div class="price_range">
-					<input type="number" min="0">원
-				</div>
-				<br>
-				<select name="" id="" style="width: 344px;">
-					<option value="">정렬기준 선택</option>
-					<option value="">신상품 순</option>
-					<option value="">상품명 순</option>
-					<option value="">낮은가격 순</option>
-					<option value="">높은가격 순</option>
-					<option value="">제조사명 순</option>
-					<option value="">조회수 순</option>
-				</select>
+				<form id="searchForm" action="searching.gs" method="get">
+					<select name="searchCategory" id="searchCategory" style="width: 344px;">
+						<option value="상품분류선택">상품분류 선택</option>
+						<option value="캠핑용품대여">캠핑용품대여</option>
+						<option value="쉘터텐트">캠핑용품대여 ⮞ 쉘터/텐트</option>
+						<option value="침낭방한용품">캠핑용품대여 ⮞ 침낭/방한용품</option>
+						<option value="의자테이블">캠핑용품대여 ⮞ 의자/테이블</option>
+						<option value="화로버너전자">캠핑용품대여 ⮞ 화로/버너/전자</option>
+						<option value="식기아이스박스">캠핑용품대여 ⮞ 식기/아이스박스</option>
+						<option value="소비용품판매">소비용품판매</option>
+						<option value="연료가스">소비용품판매 ⮞ 연료/가스</option>
+						<option value="식자재">소비용품판매 ⮞ 식자재</option>
+						<option value="생활용품">소비용품판매 ⮞ 생활용품</option>
+					</select>
+					<br>
+					<select name="condition" id="condition" style="width: 120px;">
+						<option value="검색조건선택">검색조건 선택</option>
+						<option value="상품이름">상품이름</option>
+						<option value="브랜드">브랜드</option>
+					</select>
+					<input id="searchKeyword" name="searchKeyword" type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;" value="${requestScope.search.searchKeyword}">
+					<br>
+					<div class="price_range">
+						<input id="startPrice" type="number" min="0">원
+					</div>
+					&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
+					<div class="price_range">
+						<input id="endPrice" type="number" min="0">원
+					</div>
+					<br>
+					<select name="sort" id="sort" style="width: 344px;">
+						<option value="신상품순">신상품 순</option>
+						<option value="상품명순">상품명 순</option>
+						<option value="낮은가격순">낮은가격 순</option>
+						<option value="높은가격순">높은가격 순</option>
+						<option value="조회수순">조회수 순</option>
+					</select>
+				</form>
 				<div style="height: 10px;"></div>
-				<button class="btn btn-secondary" style="width: 150px;">검색하기</button>
+				<button id="searchBtn" class="btn btn-secondary" style="width: 150px;">검색하기</button>
 			</div>
 		</div>
+
 		<div class="category_set">
-			<div>텐트/쉘터(20)</div>
-			<div>침낭/난방기구(등록개수)</div>
-			<div>의자/테이블(10)</div>
-			<div>화로/버너/전자(20)</div>
-			<div>식기/아이스박스(5)</div>
+			<c:choose>
+				<c:when test="${(requestScope.search.searchCategory eq '캠핑용품대여')
+				or (requestScope.search.searchCategory eq '쉘터텐트')
+				or (requestScope.search.searchCategory eq '침낭방한용품')
+				or (requestScope.search.searchCategory eq '의자테이블')
+				or (requestScope.search.searchCategory eq '화로버너전자')
+				or (requestScope.search.searchCategory eq '식기아이스박스')}">
+					<div>텐트/쉘터</div>
+					<div>침낭/난방기구</div>
+					<div>의자/테이블</div>
+					<div>화로/버너/전자</div>
+					<div>식기/아이스박스</div>
+				</c:when>
+				<c:when test="${(requestScope.search.searchCategory eq '소비용품판매')
+				or (requestScope.search.searchCategory eq '연료가스')
+				or (requestScope.search.searchCategory eq '식자재')
+				or (requestScope.search.searchCategory eq '생활용품')}">
+					<div>연료/가스</div>
+					<div>식자재</div>
+					<div>생활용품</div>
+				</c:when>
+				<c:otherwise>
+					<div>텐트/쉘터</div>
+					<div>침낭/난방기구</div>
+					<div>의자/테이블</div>
+					<div>화로/버너/전자</div>
+					<div>식기/아이스박스</div>
+					<div>연료/가스</div>
+					<div>식자재</div>
+					<div>생활용품</div>
+				</c:otherwise>
+			</c:choose>
 		</div>
 		<div id="goods_content">
-			<div style="margin: 10px; font-size: 17px;">등록 제품 : 20</div>
+			<div style="margin: 10px; font-size: 17px;">등록 제품 : ${requestScope.pi.listCount}</div>
 			<div class="goods_list">
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
+						<div class="goods_number">${g.goodsNo}</div>
 						<div class="goods_img">${g.goodsThumbnail}</div>
 						<div class=goods_title>
 							<div class="goods_name">${g.goodsName}</div>
@@ -424,7 +456,7 @@
 		                </c:when>
 		                <c:otherwise>
 		                	<li class="page-item">
-		                    	<a class="page-link" href="product.gs?pageNumber=${ requestScope.pi.currentPage - 1 }">
+		                    	<a class="page-link" href="searching.gs?pageNumber=${ requestScope.pi.currentPage - 1 }">
 		                    		Previous
 		                    	</a>
 		                    </li>
@@ -435,14 +467,14 @@
                     	<c:choose>
                     		<c:when test="${ p ne requestScope.pi.currentPage }">			   
 			                    <li class="page-item">
-			                    	<a class="page-link" href="product.gs?pageNumber=${ p }">
+			                    	<a class="page-link" href="searching.gs?pageNumber=${ p }">
 			                    		${ p }
 			                    	</a>
 			                    </li>
 		                    </c:when>
 		                    <c:otherwise>
 		                    	<li class="page-item disabled">
-			                    	<a class="page-link" href="product.gs?pageNumber=${ p }">
+			                    	<a class="page-link" href="searching.gs?pageNumber=${ p }">
 			                    		${ p }
 			                    	</a>
 			                    </li>
@@ -453,7 +485,7 @@
                     <c:choose>
                     	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
                    			<li class="page-item">
-                   				<a class="page-link" href="product.gs?pageNumber=${ requestScope.pi.currentPage + 1 }">
+                   				<a class="page-link" href="searching.gs?pageNumber=${ requestScope.pi.currentPage + 1 }">
                    					Next
                    				</a>
                    			</li>
@@ -471,6 +503,18 @@
 			<div style="height: 100px;"></div>
 		</div>
 		<script>
+			$(function(){
+				selectedfunc();
+			});
+
+			function selectedfunc(){
+				$("#searchCategory option[value=${requestScope.search.searchCategory}]").attr("selected", true);
+				$("#condition option[value=${requestScope.search.condition}]").attr("selected", true);
+				$("#condition option[value=${requestScope.search.sort}]").attr("selected", true);
+			}
+		</script>
+
+		<script>
 			 $(".shoppingMall_category").hover(function(){
                 $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
             },
@@ -478,14 +522,33 @@
                 $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
             });
 		</script>
+
 		<script>
 			$(".goods_container").click(function(){
-				location.href="goodsDetail.gs";
+				let goodsNo = $(this).children(".goods_number").text();
+				location.href="goodsDetail.gs?goodsNo="+goodsNo;
 			});
 		</script>
 
 		<script>
 			$(".goods_img>img").css({"height" : 300, "margin" : 0});
 		</script>
+
+		<script>
+			$("#searchKeyword").on("keyup", function(key){
+				if(key.keyCode == 13){
+					searching();
+				}
+			});
+
+			$("#searchBtn").click(function(){
+				searching();
+			});
+
+			function searching(){
+				$("#searchForm").submit();
+			}
+		</script>
+		
 	</body>
 </html>

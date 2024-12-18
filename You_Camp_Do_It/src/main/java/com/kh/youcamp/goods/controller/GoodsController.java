@@ -80,29 +80,41 @@ public class GoodsController
 	}
 	
 	@GetMapping("goodsDetail.gs")
-	public ModelAndView goodsDetail(ModelAndView mv, HttpSession session)
+	public String goodsDetail(@RequestParam(value="goodsNo")int goodsNo, HttpSession session, Model model)
 	{
-		mv.setViewName("goods/goodsPage");
-		return mv;
+		int result = goodsService.selectViewCount(goodsNo);
+		Goods goods = null;
+		
+		if(result > 0){
+			goods = goodsService.selectOneGoods(goodsNo);
+			
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = goods.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			goods.setGoodsThumbnail(body);
+		}
+		
+		model.addAttribute("goods", goods);
+		return "goods/goodsPage";
 	}
 	
 	@GetMapping("searching.gs")
 	public String searchingGoods(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
 			Search search, HttpSession session, Model model)
 	{
-		System.out.println(search);
 		int listCount = goodsService.selectListCount();
 		int pageLimit = 5;
 		int boardLimit = 8;
-		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Goods> list = goodsService.searchingGoods(search, pi);
-		
-		for(Goods g : list)
-		{
-			System.out.println(g.getGoodsName());
-		}
 		
 		//섬네일 이미지 추출
 		for(Goods g : list)
@@ -120,10 +132,55 @@ public class GoodsController
 			g.setGoodsThumbnail(body);
 		}
 		
+		if(!(search.getSearchKeyword().equals("")))
+		{
+			pi.setListCount(list.size());
+		}
+		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
+		model.addAttribute("search", search);
 		
 		return "goods/searchShoppingMall";
 	}
 	
+	
+	/* 일단은 배제
+	@PostMapping("ajaxSearching.gs")
+	public String ajaxSearchingGoods(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
+			Search search, HttpSession session, Model model)
+	{
+		System.out.println(search);
+		int listCount = goodsService.selectListCount();
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Goods> list = goodsService.searchingGoods(search, pi);
+		
+		//섬네일 이미지 추출
+		for(Goods g : list)
+		{
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = g.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			g.setGoodsThumbnail(body);
+		}
+		
+		pi.setListCount(list.size());
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		model.addAttribute("search", search);
+		
+		return "goods/searchShoppingMall";
+	}
+	*/ 
 }

@@ -21,8 +21,13 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	@Transactional
-	public int insertOrderAndReturnOrderNo(Order order) {
-		return orderDao.insertOrderAndReturnOrderNo(sqlSession, order);
+	public int insertOrder(Order order) {
+		return orderDao.insertOrder(sqlSession, order);
+	}
+
+	@Override
+	public int selectGeneratedOrderNo() {
+		return orderDao.selectGeneratedOrderNo(sqlSession);
 	}
 	
 	 
