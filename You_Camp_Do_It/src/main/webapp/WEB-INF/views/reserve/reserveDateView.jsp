@@ -929,10 +929,45 @@
 		    			nights : stayDays
 		    		},
 		    		success : function(result) {
-		    			console.log(result);
+		    			
+		    			const items = $(".item");
 		    			let resultStr = "";
 		    			for(let i = 0; i < result.length; i++) {
-		    				resultStr += ""
+		    				
+		    				resultStr = ` (\${result[i].restCount} / 10)`;
+		    				
+		    				let targetItem = items.eq(i);
+		    				let remainSeats = targetItem.find(".remain-seats");
+		    				
+		    				remainSeats.text(resultStr);
+		    				
+		    				
+		    				let url = "";
+		    				
+		    				switch (i) {
+		    				case 0:
+		    					url = `reserveDetail.res?section=A&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=30000`;
+		    					console.log(url);
+		    					targetItem.find("a").attr("href", url);
+		    					break;
+		    				case 1:
+		    					url = `reserveDetail.res?section=B&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=40000`;
+		    					console.log(url);
+		    					targetItem.find("a").attr("href", url);
+		    					break;
+		    				case 2:
+		    					url = `reserveDetail.res?section=C&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=50000`;
+		    					console.log(url);
+		    					targetItem.find("a").attr("href", url);
+		    					break;
+		    				case 3:
+		    					url = `reserveDetail.res?section=D&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=60000`;
+		    					console.log(url);
+		    					targetItem.find("a").attr("href", url);
+		    					break;
+		    				
+		    				} 
+		    				
 		    			}
 		    			
 		    			

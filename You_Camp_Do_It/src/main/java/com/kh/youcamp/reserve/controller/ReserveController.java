@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.youcamp.reserve.model.service.ReserveService;
@@ -36,15 +37,22 @@ public class ReserveController {
 	
 	
 	/**
-	 * 24.12.09 정성민
+	 * 24.12.09 정성민 => 24.12.19
 	 * 캠핑장 자리선택 페이지 접속요청용 컨트롤러
 	 * (추후에 쿼리스트링으로 받아온 변수 처리 해줘야됨!!)@@@@@@@@
 	 * @return
 	 */
 	@GetMapping("reserveDetail.res")
-	public String toReserveDetail() {
+	public ModelAndView toReserveDetail(String section, String checkIn, String checkOut, String stay, String price, ModelAndView mv) {
 		
-		return "reserve/reserveDetailView";
+		mv.addObject("section", section)
+		  .addObject("checkIn", checkIn)
+		  .addObject("checkOut", checkOut)
+		  .addObject("stay", stay)
+		  .addObject("price", price)
+		  .setViewName("reserve/reserveDetailView");
+		
+		return mv;
 	}
 	
 	
@@ -96,17 +104,10 @@ public class ReserveController {
 	@GetMapping(value="getRestSite.res", produces="application/json; charset=UTF-8")
 	public String selectRestSite(Reserve r) {
 		
-		System.out.println();
-		log.debug(r.getStartDate());
-		log.debug(r.getEndDate());
-		System.out.println(r);
-		
 		ArrayList<RestSite> restSite = reserveService.selectRestSite(r);
 	    
 		
 		return new Gson().toJson(restSite);
-		
-		
 	}
 
 	

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -250,33 +251,6 @@
             margin-bottom: 10px;
         }
 
-        /*
-        .right_box .site_select ul {
-            list-style: none;
-            margin: 0;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-
-            background-color: #f8f8f8;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .right_box .site_select ul li {
-            display: flex;
-            align-items: center;
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #fff;
-            width: calc(50% - 10px); 
-        }
-        */
-
         .site_select ul {
             list-style: none; /* 기본 리스트 스타일 제거 */
             padding: 0;
@@ -397,9 +371,6 @@
         }
 
 
-
-        
-
         .right_box .reserve_guide .tit_h3 {
             font-size: 16px;
             font-weight: bold;
@@ -500,11 +471,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        
-        
-
-
-
     </style>
 </head>
 <body>
@@ -540,26 +506,114 @@
                         <!-- 캠핑 사이트 사진, 이용가능시설 -->
                         <div class="left_box">
                             <div class="section site_photo">
-                                <img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
+                            	<c:choose>
+                            		<c:when test="${ requestScope.section eq 'A' }">
+                            			<img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'B' }">
+                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'C' }">
+                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'D' }">
+                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="A섹션">
+                            		</c:when>
+                            	</c:choose>
+                            
                             </div>
+                            
                             <div class="section site_info">
-                                <div class="site_title">포레스트</div>
-                                <div class="site_option">
-                                    <ul>
-                                        <li><span class="option_txt">계곡</span></li>
-                                        <li><span class="option_txt">산책로</span></li>
-                                        <li><span class="option_txt">샤워실</span></li>
-                                        <li><span class="option_txt">개수대</span></li>
-                                        <li><span class="option_txt">수세식</span></li>
-                                        <li><span class="option_txt">전기</span></li>
-                                        <li><span class="option_txt">온수</span></li>
-                                        <li><span class="option_txt">불가능</span></li>
-                                        <li><span class="option_txt">파쇄석</span></li>
-                                    </ul>
-                                </div>
-                                <div class="site_person"> 
-                                    최대 이용인원 4명 
-                                </div>
+                            	
+                            	
+                            	<c:choose>
+                            		<c:when test="${ requestScope.section eq 'A' }">
+                            		
+                            			<div class="site_title">A 섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+		                                <div class="site_person"> 
+		                                    최대 이용인원 4명 
+		                                </div>
+                            			
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'B' }">
+                            		
+                            			<div class="site_title">B 섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+		                                <div class="site_person"> 
+		                                    최대 이용인원 4명 
+		                                </div>
+                            			
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'C' }">
+                            		
+                            			<div class="site_title">C 섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+		                                <div class="site_person"> 
+		                                    최대 이용인원 6명 
+		                                </div>
+                            			
+                            		</c:when>
+                            		<c:when test="${ requestScope.section eq 'D' }">
+                            		
+                            			<div class="site_title">D 섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+		                                <div class="site_person"> 
+		                                    최대 이용인원 6명 
+		                                </div>
+                            			
+                            		</c:when>
+                            	</c:choose>
+                            	
+                                
                             </div>
                         </div>
                         <!-- 체크인/아웃 날짜 및 사이트 가격, 주의사항 부분 -->
@@ -568,14 +622,14 @@
                                 <div class="start_day">
                                     <span>체크인</span>
                                     <strong id="txt-checkIn">
-                                        12.25(수)
+                                        
                                     </strong>
                                 </div>
-                                <div class="state_night">2박</div>
+                                <div class="state_night"><c:out value="${ requestScope.stay }" />박</div>
                                 <div class="end_day">
                                     <span>체크아웃</span>
                                     <strong id="txt-checkOut">
-                                        12.27(금)
+                                        
                                     </strong>
                                 </div>
                             </div>
@@ -730,6 +784,33 @@
     
     	$(function() {
     		
+    		// jstl 변수 가져오기
+    		let section = "${requestScope.section}";
+    		let checkIn = "${requestScope.checkIn}";
+    		let checkOut = "${requestScope.checkOut}";
+    		let stay = "${requestScope.stay}";
+    		let price = "${requestScope.price}";
+    		
+    		let date = new Date(checkIn);
+    		let checkInMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+    		let checkInDay = date.getDate().toString().padStart(2, "0");
+    		let weekDayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    		let weekDay = weekDayNames[date.getDay()];
+    		
+  			$("#txt-checkIn").text(`\${checkInMonth}.\${checkInDay}(\${weekDay})`);
+  			
+  			date = new Date(checkOut);
+  			let checkOutMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  			let checkOutDay = date.getDate().toString().padStart(2, "0");
+  			weekDay = weekDayNames[date.getDay()];
+  			
+  			$("#txt-checkOut").text(`\${checkOutMonth}.\${checkOutDay}(\${weekDay})`);
+  			
+    		
+    		
+    		
+    		
+    		
     		// "다음단계" 버튼 클릭 이벤트
             $(".btnNext").on("click", function (e) {
                 // 체크박스 선택 여부 확인
@@ -742,6 +823,10 @@
                 // 체크박스가 선택된 경우 요청 진행
                 location.href="reservePayment.res";
             });
+    		
+    		
+    		
+    		
     		
     		
     	});

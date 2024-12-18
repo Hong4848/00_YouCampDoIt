@@ -19,7 +19,7 @@
 	
 	<resultMap id="restSiteResultSet" type="restsite">
 		<result column="SECTION" property="section" />
-		<result column="RESERVED_COUNT" property="restCount" />
+		<result column="REST_COUNT" property="restCount" />
 	</resultMap>
 	
 	
@@ -28,26 +28,18 @@
 		남은 자리 조회용 쿼리문
 	-->
 	<select id="selectRestSite" parameterType="reserve" resultMap="restSiteResultSet">
-	    SELECT 
-		    C.SECTION AS SECTION,
-		    COUNT(C.CAMPSITE_ID) AS RESERVED_COUNT
-		FROM 
-		    CAMPSITE C
-		WHERE 
-		    NOT EXISTS (
-		        SELECT 1
-		        FROM RESERVE R
-		        WHERE R.CAMPSITE_ID = C.CAMPSITE_ID
-		          
-		          AND (
-		              TO_DATE(#{startDate}, 'YYYY-MM-DD') &lt; R.END_DATE
-		              AND TO_DATE(#{endDate}, 'YYYY-MM-DD') > R.START_DATE
-		          )
-		    )
-		GROUP BY 
-		    C.SECTION
-		ORDER BY 
-		    C.SECTION ASC
+		SELECT C.SECTION AS SECTION, COUNT(C.CAMPSITE_ID) AS REST_COUNT
+		  FROM CAMPSITE C
+		 WHERE C.CAMPSITE_ID NOT IN (
+		          SELECT R.CAMPSITE_ID
+		          FROM RESERVE R
+		          WHERE 
+		              TRUNC(R.START_DATE) &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') 
+		              AND TRUNC(R.END_DATE) > TO_DATE(#{startDate}, 'YYYY-MM-DD') 
+		       )
+		    
+		 GROUP BY C.SECTION
+		 ORDER BY C.SECTION
 	</select>
   
 </mapper>

@@ -20,10 +20,10 @@ public class ReserveDao {
 	 * @return
 	 */
 	public ArrayList<RestSite> selectRestSite(SqlSessionTemplate sqlSession, Reserve r) {
-		ArrayList<RestSite> rs = (ArrayList)sqlSession.selectList("reserveMapper.selectRestSite", r);
-		System.out.println(rs);
-		return rs;
+		return (ArrayList)sqlSession.selectList("reserveMapper.selectRestSite", r);
 	}
+	
+	
 	
 	
 
