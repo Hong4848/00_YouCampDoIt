@@ -218,7 +218,6 @@
                 <a href="list.lo">분실물게시판</a>
             </div>
         </div>
-        </div>
         <div class="main-content">
             <!--루트메뉴바-->
             <div class="breadcrumb">
@@ -248,46 +247,94 @@
                 <div class="content_sub_wrap_box">
                     <table class="listThmb">
                         <tbody>
-                <c:forEach items="${reviewList}" var="review" varStatus="status">
-                    <c:if test="${status.index % 4 == 0}">
-                        <tr>
-                    </c:if>
-                    <td>
-                        <a href="detail.re?reviewNo=${review.reviewNo}">
-                            <span class="tbumb_hover"></span>
-                            <img src="${review.reviewAttachments[0].filePath}${review.reviewAttachments[0].changeName}" alt="${review.reviewTitle}">
-                            <span class="date">${review.createDate}</span>
-                            <span class="title">${review.reviewTitle}</span>
-                        </a>
-                    </td>
-                    <c:if test="${status.index % 4 == 3 || status.last}">
-                        </tr>
-                    </c:if>
-                </c:forEach>
-            </tbody>
+			                <c:forEach items="${requestScope.list}" var="review" varStatus="status">
+			                    <c:if test="${status.index % 4 == 0}">
+			                        <tr>
+			                    </c:if>
+			                    <td>
+			                        <a href="detail.re?reviewNo=${review.reviewNo}">
+			                            <span class="tbumb_hover"></span>
+			                            <img src="${pageContext.request.contextPath}${review.mainImage}" alt="${review.reviewTitle}">
+			                            <span class="date">${review.createDate}</span>
+			                            <span class="title">${review.reviewTitle}</span>
+			                        </a>
+			                    </td>
+			                    <c:if test="${status.index % 4 == 3 || status.last}">
+			                        </tr>
+			                    </c:if>
+			                </c:forEach>
+			                
+            			</tbody>
                     </table>
                 </div>
             </div>
             <br>
             <!-- 페이징 바 와 글작성 버튼-->
-            <div id="area">
-                <div id="pagingArea">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </div>
+            <div id="pagingArea">
+                <ul class="pagination">
+	                
+	                <c:choose>
+	                	<c:when test="${ requestScope.pi.currentPage eq 1 }">
+		                    <li class="page-item disabled">
+		                    	<a class="page-link" href="#">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                	<li class="page-item">
+		                    	<a class="page-link" href="list.re?cpage=${ requestScope.pi.currentPage - 1 }">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:otherwise>
+	                </c:choose>
+                    
+                    <c:forEach var="p" begin="${ requestScope.pi.startPage }"
+                    				   end="${ requestScope.pi.endPage }" 
+                    				   step="1">
+                    	<c:choose>
+                    		<c:when test="${ p ne requestScope.pi.currentPage }">			   
+			                    <li class="page-item">
+			                    	<a class="page-link" href="list.re?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li class="page-item disabled">
+			                    	<a class="page-link" href="list.re?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+	                    	</c:otherwise>
+	                    </c:choose>
+                    </c:forEach>
+                    
+                    <c:choose>
+                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+                   			<li class="page-item">
+                   				<a class="page-link" href="list.re?cpage=${ requestScope.pi.currentPage + 1 }">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:when>
+                   		<c:otherwise>
+                   			<li class="page-item disabled">
+                   				<a class="page-link" href="#">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:otherwise>
+                   	</c:choose>
+                </ul>
+            </div>
+
                 <div id="writeBtn">
                 	<!-- 로그인 상태일 경우만 보여지는 글쓰기 버튼 -->
                	    <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.re'">글작성</button>
                 </div>
             </div> 
-        </div>
     </div> <!--content 영역 끝 -->
     
     <jsp:include page="../common/footer.jsp" />
