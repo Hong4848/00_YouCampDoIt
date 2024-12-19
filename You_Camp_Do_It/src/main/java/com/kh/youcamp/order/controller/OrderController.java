@@ -6,16 +6,15 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.ibatis.type.TypeReference;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +25,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.order.model.service.OrderService;
 import com.kh.youcamp.order.model.vo.Order;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 import com.kh.youcamp.order.util.DataEncrypt;
 
 import lombok.extern.slf4j.Slf4j;
@@ -152,6 +155,10 @@ public class OrderController {
 	 * 
 	 * 메소드명 바꾸기
 	 * insert 와 select를 동시에 진행함
+	 * orderDetail insert 할 때 데이터 가공해서 넘기기보다
+	 * 쿼리문에서 cart 쿼리문 인라인해봐서 넣는 방법 고민해 볼것
+	 * 
+	 * 여기도 insert 여러번 반복 시에 트랜잭션 처리 고민 필요
 	 */
 	@PostMapping("insert.or")
 	public String insertOrder(@RequestParam("orderDetails") String orderDetailsJson,
@@ -168,13 +175,12 @@ public class OrderController {
 	    
 	    // order insert 쿼리문실행
 	    // TOTAL_PRICE, MEMBER_NO insert
-	    int result = orderService.insertOrder(order);
-	    log.debug("insertOrder 잘 실행 됐냐? 처리된 행 : " + result);
+	    int result1 = orderService.insertOrder(order);
+	    log.debug("insertOrder 잘 실행 됐냐? 처리된 행 : " + result1);
 	    
-	    if( !(result > 0)) {
+	    if(!(result1 > 0)) {
 	    	// 에러 문구를 담아서 에러페이지로 포워딩
 			model.addAttribute("errorMsg", "주문하기 실패. 다시 시도해주세요");
-			
 			return "common/errorPage";
 	    } 
 	    
@@ -182,48 +188,46 @@ public class OrderController {
 	    int orderNo = orderService.selectGeneratedOrderNo();
 	    log.debug("채번한 번호 갖고 왔냐?? orderNo : " + orderNo);
 	    
+	    // -------------------------------------------------------------
 		// orderDetail insert
-	    // Json 형태 데이터 아니면 cart에서 셀렉해와서 orderDetail 에 insert 하기 ????????
-	    log.debug("jsp 에서 값 넘어오냐? orderDetailsJson  : " + orderDetailsJson);
+	    // Json 형태 데이터 아니면 cart에서 셀렉해와서 orderDetail 에 insert 하기 
+//	    log.debug("jsp 에서 값 넘어오냐? orderDetailsJson  : "  + orderDetailsJson);
 	    
-//	    for(OrderDetail orderDetail : orderDetailsJson) {
-//	    	orderDetail INSERT구문 반복실행
-//	    }
-	 // JSON 데이터를 파싱
-//	    ObjectMapper objectMapper = new ObjectMapper();
-//	    List<Map<String, Object>> orderDetails;
-//	    try {
-//	        orderDetails = objectMapper.readValue(orderDetailsJson, new TypeReference<List<Map<String, Object>>>() {});
-//	    } catch (JsonProcessingException e) {
-//	        e.printStackTrace();
-//	        return "errorPage"; // 에러 처리
-//	    }
-//	    
-//	    for (Map<String, Object> detail : orderDetails) {
-//	        System.out.println("상품 번호: " + detail.get("GOODS_NO"));
-//	        System.out.println("수량: " + detail.get("QUANTITY"));
-//	        System.out.println("총 금액: " + detail.get("TOTAL_PRICE"));
-//	    }
+	    
+	    ObjectMapper objectMapper = new ObjectMapper();
+	    List<OrderDetail> orderDetails = new ArrayList<>();
+		try {
+			orderDetails = 
+				objectMapper.readValue(orderDetailsJson, 
+									   new TypeReference<List<OrderDetail>>() {});
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		
+	    for (OrderDetail orderDetail : orderDetails) {
+	    	orderDetail.setOrderNo(orderNo);
+//	    	log.debug("insert 할 orderDetail  : "  + orderDetail);
+	        int result2 = orderService.insertOrderDetail(orderDetail);
+	        
+//	        log.debug("orderDetail INSERT 잘 됏냐? n번 반복됏나?");
+	    }
+	    
+	    //-------------------------------------------------
+	    // orderNo 기준으로
+	    // order, orderDetail 에서 결제에 필요한 정보 및 orderForm 뷰단에 필요한 정보 가져가기
+	    Order selectedOrder = orderService.selectOrder(orderNo);
+	    ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+	    log.debug("조회 잘 됏냐? selectedOrder : " + selectedOrder);
+//	    log.debug("조회 잘 됐냐? list : " + list);
+	    
+	    model.addAttribute("order", selectedOrder);
+	    model.addAttribute("list", list);
 	    
 	    
 	    // orderNo 기준으로 select 해오기 > orderForm 에 출력하고
 	    // 결제를위한 정보 넘기기위함
 		
-//		ORDER_NO 		채번
-//		PAYMENT_ID		결제완료후
-//		TOTAL_PRICE		jsp에서 넘겨받기
-//		CREATED_DATE	sysdate
-//		PAYMENT_METHOD	결제완료후 아니면 걍 card 로 일단 고정
-//		PAYMENT_STATUS	디폴트 created
-//		UPDATED_DATE	null값
-//		MEMBER_NO		컨트롤러단에서 세션에서 가져오기
-		
-//		ORDER_DETAIL_NO	채번
-//		QUANTITY		cart의 항목당 수량 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
-//		PRICE			단가 > GOODS_NO로 조건
-//		TOTAL_PRICE		cart의 항목당 가격 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
-//		GOODS_NO		cart의 항목당 용품번호 jsp에서 가져오기 항목당이라 배열로처리해야할거같은데
-//		ORDER_NO		채번한거 커발로 가져옴
+
 		
 		// 1번주문에 텐트주문상세, 체어주문상세, ...
 		
@@ -244,7 +248,10 @@ public class OrderController {
 		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
 		String merchantID 		= "nicepay00m"; 				// 상점아이디
 		String goodsName 		= "나이스페이"; 					// 결제상품명
-		String price 			= "1004"; 						// 결제상품금액	
+		// order에서 가져올꺼
+		// String price 			= "1004"; 						// 결제상품금액	
+		String price =  order.getTotalPrice()+"";
+		// 아래 세개는 view 단에서 session 에서 직접 출력
 		// String buyerName 		= "나이스"; 						// 구매자명
 		// String buyerTel 		= "01000000000"; 				// 구매자연락처
 		// String buyerEmail 		= "happy@day.co.kr"; 			// 구매자메일주소
@@ -265,7 +272,7 @@ public class OrderController {
 		model.addAttribute("merchantKey", merchantKey);
 		model.addAttribute("merchantID", merchantID);
 		model.addAttribute("goodsName", goodsName);
-		model.addAttribute("price", price);
+		// model.addAttribute("price", price);
 		// model.addAttribute("buyerName", buyerName);
 		// model.addAttribute("buyerTel", buyerTel);
 		// model.addAttribute("buyerEmail", buyerEmail);

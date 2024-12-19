@@ -124,30 +124,7 @@ $(function () {
 		updateCartQuantity(cartNo, quantity);
 	});
 
-	// 체크된 항목이 없거나, 장바구니가 비어있을 때 submit 막기
-	/*
-	$(document).on('submit', '#orderForm', function (event) {
-		// 기본 동작 막기
-		event.preventDefault();
 	
-		const $cartItems = $('.cart-item'); // 장바구니 아이템 요소
-		const $checkedItems = $('.cart-item input[type="checkbox"]:checked'); // 체크된 요소
-	
-		// 장바구니에 아이템이 없는 경우
-		if ($cartItems.length === 0) {
-			alertify.alert("Alert", "장바구니가 비어있습니다.");
-			return;
-		}
-	
-		// 체크된 항목이 없는 경우
-		if ($checkedItems.length === 0) {
-			alertify.alert("Alert", "선택된 항목이 없습니다.");
-			return;
-		}
-	
-		// 위 두 조건을 통과한 경우만 폼 제출
-		this.submit();
-	}); */
 	// 체크된 항목이 없거나, 장바구니가 비어있을 때 submit 막기
 	// orderDetail 데이터값 배열로 가공하기
 	$(document).on('submit', '#orderForm', function (event) {
@@ -163,7 +140,7 @@ $(function () {
 			return;
 		}
 
-		// 체크된 항목 추출
+		// 장바구니 항목 중 체크된 항목 추출
 		const selectedItems = [];
 		$(".cart-item input[type='checkbox']:checked").each(function () {
 			// 체크된 항목의 부모 .cart-item 찾기
@@ -178,33 +155,23 @@ $(function () {
 			// 상품 번호
 			const goodsNo = $cartItem.find("input[type='hidden']").val(); 
 
-			/* 이런식으로 배열로 처리해서 orderDetails 을 넘기지는 못하나??
-			const orderDetails = [
-				{ QUANTITY: 2, TOTAL_PRICE: 10000, GOODS_NO: 1 },
-				{ QUANTITY: 1, TOTAL_PRICE: 5000, GOODS_NO: 2 },
-				{ QUANTITY: 3, TOTAL_PRICE: 15000, GOODS_NO: 3 },
-			];*/
-
-			// JSON 객체로 추가
 			selectedItems.push({
-				QUANTITY: quantity,
-				TOTAL_PRICE: totalPrice,
-				GOODS_NO: goodsNo,
+				quantity: quantity,
+				totalPrice: totalPrice,
+				goodsNo: goodsNo,
 			});
 		});
+		// console.log("selectedItems : ", selectedItems);
 
-		// JSON 데이터를 hidden input에 설정
+		// JSON 데이터로 가공 및 hidden input에 추가
 		const jsonData = JSON.stringify(selectedItems);
-		$("<input>")
-			.attr("type", "hidden")
-			.attr("name", "orderDetails")
-			.val(jsonData)
-			.appendTo("#orderForm");
-	
+		// console.log("jsonData : ", jsonData);
+		$("#orderDetailsInput").val(jsonData);
+		// console.log("#orderDetailsInput : ", $("#orderDetailsInput").val());
+
+		
 		// 폼 제출
 		this.submit();
-
-		console.log(jsonData);
 
 	});
 
@@ -363,7 +330,7 @@ function updateTotalPrice(){
 	
 	// hidden input에 총 가격과 총 아이템 개수를 설정
     $('#totalPriceInput').val(totalPrice); // 총 가격 업데이트
-    $('#itemCountInput').val(totalCount); // 선택한 장바구니 수 (전체수량이 아님)
+    $('#totalCountInput').val(totalCount); // 선택한 장바구니 수 (전체수량이 아님)
 }
 
 

@@ -15,6 +15,7 @@
 	        <id column="GOODS_NO" property="goodsNo" />
 	        <result column="CATEGORY" property="category" />
 	        <result column="GOODS_NAME" property="goodsName" />
+	        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
 	        <result column="GOODS_CONTENT" property="goodsContent" />
 	        <result column="GOODS_INFO" property="goodsInfo" />
 	        <result column="MARK" property="mark" />

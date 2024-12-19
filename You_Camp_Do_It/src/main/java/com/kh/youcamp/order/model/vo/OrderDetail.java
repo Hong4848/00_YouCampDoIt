@@ -1,5 +1,7 @@
 package com.kh.youcamp.order.model.vo;
 
+import com.kh.youcamp.goods.model.vo.Goods;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,8 @@ public class OrderDetail {
 	private double totalPrice;   // TOTAL_PRICE NUMBER - 항목 별 총 금액
 	private int goodsNo;         // GOODS_NO NUMBER - 주문하고자 하는 제품 번호
 	private int orderNo;         // ORDER_NO NUMBER - 주문 번호
+	
+	// 조인된 GOODS 객체
+    private Goods goods;
 
 }
