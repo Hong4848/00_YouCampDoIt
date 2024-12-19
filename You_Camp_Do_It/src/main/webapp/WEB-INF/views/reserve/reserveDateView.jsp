@@ -483,11 +483,11 @@
 	                <div class="section select_night">
 	                    <ul>
 	                        <li>
-	                            <input type="radio" name="select_night" id="select_night_1" class="select_nigth_radio" value="1" checked>
+	                            <input type="radio" name="select_night" id="select_night_1" class="select_night_radio" value="1" checked>
 	                            <label for="select_night_1">1박</label>
 	                        </li>
 	                        <li>
-	                            <input type="radio" name="select_night" id="select_night_2" class="select_nigth_radio" value="2">
+	                            <input type="radio" name="select_night" id="select_night_2" class="select_night_radio" value="2">
 	                            <label for="select_night_2">2박</label>
 	                        </li>
 	                    </ul>
@@ -579,14 +579,14 @@
 	                    <div class="start_day">
 	                        <span>체크인</span>
 	                        <strong id="txt-checkIn">
-	                            
+	                            -
 	                        </strong>
 	                    </div>
 	                    <div class="state_night">1박</div>
 	                    <div class="end_day">
 	                        <span>체크아웃</span>
 	                        <strong id="txt-checkOut">
-	                            
+	                            -
 	                        </strong>
 	                    </div>
 	                </div>
@@ -788,7 +788,7 @@
 		    
 		    
 		    // 라디오 버튼 값이 변경될 때 가져오기
-		    $(".select_nigth_radio").on("click", function() {
+		    $(".select_night_radio").on("click", function() {
 		        $stayDay = $("input[name='select_night']:checked").val();
 		        
 		        $(".state_night").text($stayDay + "박");
@@ -916,8 +916,8 @@
 			    let formattedCheckOutDate = `\${checkOutFullDate.getFullYear()}-\${(checkOutFullDate.getMonth() + 1).toString().padStart(2, "0")}-\${checkOutFullDate.getDate().toString().padStart(2, "0")}`;
 
 		        // 변환된 값 확인
-		        console.log("체크인 날짜:", formattedCheckInDate);
-		        console.log("체크아웃 날짜:", formattedCheckOutDate);
+		        // console.log("체크인 날짜:", formattedCheckInDate);
+		        // console.log("체크아웃 날짜:", formattedCheckOutDate);
 		        
 		    	
 		    	$.ajax({
@@ -934,7 +934,12 @@
 		    			let resultStr = "";
 		    			for(let i = 0; i < result.length; i++) {
 		    				
-		    				resultStr = ` (\${result[i].restCount} / 10)`;
+		    				if(result[i].restCount == 0) {
+		    					resultStr = ` 예약 마감 `;
+		    				} else {
+		    					resultStr = ` (\${result[i].restCount} / 10)`;
+		    				}
+		    				
 		    				
 		    				let targetItem = items.eq(i);
 		    				let remainSeats = targetItem.find(".remain-seats");
@@ -947,22 +952,22 @@
 		    				switch (i) {
 		    				case 0:
 		    					url = `reserveDetail.res?section=A&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=30000`;
-		    					console.log(url);
+		    					
 		    					targetItem.find("a").attr("href", url);
 		    					break;
 		    				case 1:
 		    					url = `reserveDetail.res?section=B&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=40000`;
-		    					console.log(url);
+		    					
 		    					targetItem.find("a").attr("href", url);
 		    					break;
 		    				case 2:
 		    					url = `reserveDetail.res?section=C&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=50000`;
-		    					console.log(url);
+		    					
 		    					targetItem.find("a").attr("href", url);
 		    					break;
 		    				case 3:
 		    					url = `reserveDetail.res?section=D&checkIn=\${formattedCheckInDate}&checkOut=\${formattedCheckOutDate}&stay=\${stayDays}&price=60000`;
-		    					console.log(url);
+		    					
 		    					targetItem.find("a").attr("href", url);
 		    					break;
 		    				
@@ -986,6 +991,15 @@
 		    
 		    
 		});
+        
+        // 1박/2박 버튼 클릭 시 체크인/체크아웃 날짜 및 섹션 초기화
+        $(".select_night").on("click", function() {
+        	
+        	$("#txt-checkIn").text("-");
+        	$("#txt-checkOut").text("-");
+        	
+        	$(".section-hidden").css("visibility", "hidden");
+        });
         
         
         

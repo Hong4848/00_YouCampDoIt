@@ -81,25 +81,36 @@ UPDATE MEMBER
    
    
 -- 예약 관련 쿼리문들
--- 1. 섹션별 남은자리 조회용 쿼리문
+-- 1. 캠핑장 섹션별 남은자리 갯수 조회용 쿼리문
 SELECT C.SECTION AS SECTION, COUNT(C.CAMPSITE_ID) AS REST_COUNT
   FROM CAMPSITE C
  WHERE C.CAMPSITE_ID NOT IN (
           SELECT R.CAMPSITE_ID
           FROM RESERVE R
           WHERE 
-              TRUNC(R.START_DATE) < TO_DATE('2024-12-25', 'YYYY-MM-DD') -- 체크아웃 날짜와 겹치는 경우
-              AND TRUNC(R.END_DATE) > TO_DATE('2024-12-23', 'YYYY-MM-DD') -- 체크인 날짜와 겹치는 경우
+              TRUNC(R.START_DATE) < TO_DATE('2024-12-25', 'YYYY-MM-DD') 
+              AND TRUNC(R.END_DATE) > TO_DATE('2024-12-23', 'YYYY-MM-DD') 
+            AND PAYMENT_STATUS = 'PAID'
        )
     
  GROUP BY C.SECTION
  ORDER BY C.SECTION
+ 
 
 
 
-
-
-
+-- 2. 캠핑장 예약가능한 남은자리 조회용 쿼리문
+SELECT SPOT_NO
+  FROM CAMPSITE C
+ WHERE C. CAMPSITE_ID NOT IN (
+          SELECT R.CAMPSITE_ID
+            FROM RESERVE R
+           WHERE TRUNC(R.START_DATE) < TO_DATE('2025-01-08', 'YYYY-MM-DD')
+             AND TRUNC(R.END_DATE) > TO_DATE('2025-01-06', 'YYYY-MM-DD')
+             AND PAYMENT_STATUS = 'PAID'
+       )   
+   AND C.SECTION = 'B'
+ ORDER BY C.SPOT_NO ASC
 
 
 

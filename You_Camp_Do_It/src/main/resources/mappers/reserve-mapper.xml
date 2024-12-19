@@ -22,12 +22,19 @@
 		<result column="REST_COUNT" property="restCount" />
 	</resultMap>
 	
+	<resultMap id="campsiteResultSet" type="campsite">
+		<id column="CAMPSITE_ID" property="campsiteId" />
+		<result column="SPOT_NO" property="spotNo" />
+		<result column="PRICE" property="price" />
+		<result column="SECTION" property="section" />
+	</resultMap>
+	
 	
 	<!--  
 		24.12.18 정성민
-		남은 자리 조회용 쿼리문
+		섹션별 남은자리 갯수 조회용 쿼리문
 	-->
-	<select id="selectRestSite" parameterType="reserve" resultMap="restSiteResultSet">
+	<select id="selectRestSiteCounts" parameterType="reserve" resultMap="restSiteResultSet">
 		SELECT C.SECTION AS SECTION, COUNT(C.CAMPSITE_ID) AS REST_COUNT
 		  FROM CAMPSITE C
 		 WHERE C.CAMPSITE_ID NOT IN (
@@ -36,10 +43,32 @@
 		          WHERE 
 		              TRUNC(R.START_DATE) &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD') 
 		              AND TRUNC(R.END_DATE) > TO_DATE(#{startDate}, 'YYYY-MM-DD') 
+		              AND PAYMENT_STATUS = 'PAID'
 		       )
 		    
 		 GROUP BY C.SECTION
 		 ORDER BY C.SECTION
 	</select>
+	
+	<!--  
+		24.12.19 정성민
+		남은자리 조회용 쿼리문
+	-->
+	<select id="selectRestSites" parameterType="reserve" resultMap="campsiteResultSet">
+		SELECT CAMPSITE_ID, SPOT_NO, PRICE, SECTION
+		  FROM CAMPSITE C
+		 WHERE C. CAMPSITE_ID NOT IN (
+		          SELECT R.CAMPSITE_ID
+		            FROM RESERVE R
+		           WHERE TRUNC(R.START_DATE) &lt; TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		             AND TRUNC(R.END_DATE) > TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		             AND PAYMENT_STATUS = 'PAID'
+		       )   
+		   AND C.SECTION = #{section}
+		 ORDER BY C.SPOT_NO ASC
+	</select>
+	
+	
+	
   
 </mapper>

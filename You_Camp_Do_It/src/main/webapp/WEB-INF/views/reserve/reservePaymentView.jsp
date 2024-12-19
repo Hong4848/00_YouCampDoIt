@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -154,7 +155,7 @@
             padding-top: 10px;
         }
 
-        .left_box .site_person #avail_num {
+        .left_box .site_person .avail_num {
             font-size: 16px;
             font-family: bold;
             font-weight: 600;
@@ -595,6 +596,17 @@
 </head>
 <body>
 
+	<!-- 전달값들 뽑기 -->
+	<c:set var="nights" value="${ requestScope.r.nights }" />
+	<c:set var="section" value="${ requestScope.r.section }" />
+	<c:set var="startDate" value="${ requestScope.r.startDate }" />
+	<c:set var="endDate" value="${ requestScope.r.endDate }" />
+	<c:set var="price" value="${ requestScope.r.price }" />
+	<c:set var="campsiteId" value="${ requestScope.r.campsiteId }" />
+	<c:set var="spotNo" value="${ requestScope.r.spotNo }" />
+	
+	
+
 	<jsp:include page="../common/header.jsp" />
 
 	<div class="wrap-reservePayment">
@@ -614,45 +626,130 @@
         <div id="content_2">
             <fieldset>
                 <legend style="display: none;">실시간예약</legend>
-                <form id="orderInfoForm" name="orderInfoForm" action="payment" method="post">
-                    <input type="hidden" name="orderNum" value="">
-                    <input type="hidden" name="room_area_no" value="">
-                    <input type="hidden" name="room_no" value="">
-                    <input type="hidden" name="stay_cnt" value="">
-                    <input type="hidden" name="check_in" value=""><!-- 체크인 날짜 -->
-                    <input type="hidden" name="check_out" value=""><!-- 체크아웃 날짜 -->
-                    <!-- ===== nicePay ===== -->
-                    <input type="hidden" name="GoodsName" value="포레스트-11 1박2일">
-                    <input type="hidden" name="GoodsCnt" value="2">
-                    <input type="hidden" name="Amt" value="60000">
-                    <input type="hidden" name="BuyerName" id="BuyerName">
-                    <input type="hidden" name="BuyerTel" id="BuyerTel">
-                    <input type="hidden" name="Moid" value="0040720332">
-                    <input type="hidden" name="MID" id="MID">
+                <form id="orderInfoForm" name="orderInfoForm" action="reserveRequirePay.res" method="post">
+                    
+                    <input type="hidden" name="startDate" value="${ requestScope.r.startDate }">
+                    <input type="hidden" name="endDate" value="${ requestScope.r.endDate }">
+                    <input type="hidden" name="nights" value="${ requestScope.r.nights }">
+                    <input type="hidden" name="price" value="">
+                    <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
+                    <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
+                    
 
                     <div class="pc_wrap">
                         <!-- 캠핑 사이트 사진, 이용가능시설-->
                         <div class="left_box">
                             <div class="section site_photo">
-                                <img src="resources/images/reserve/reservePayment/forest.jpg" width="700px" alt="A섹션">
+                                <c:choose>
+                            		<c:when test="${ requestScope.r.section eq 'A' }">
+                            			<img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'B' }">
+                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'C' }">
+                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="A섹션">
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'D' }">
+                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="A섹션">
+                            		</c:when>
+                            	</c:choose>
                             </div>
                             <div class="section site_info">
-                                <div class="site_title">포레스트</div>
-                                <div class="site_option">
-                                    <ul>
-                                        <li><span class="option_txt">계곡</span></li>
-                                        <li><span class="option_txt">산책로</span></li>
-                                        <li><span class="option_txt">샤워실</span></li>
-                                        <li><span class="option_txt">개수대</span></li>
-                                        <li><span class="option_txt">수세식</span></li>
-                                        <li><span class="option_txt">전기</span></li>
-                                        <li><span class="option_txt">온수</span></li>
-                                        <li><span class="option_txt">불가능</span></li>
-                                        <li><span class="option_txt">파쇄석</span></li>
-                                    </ul>
-                                </div>
+                            	<c:choose>
+                            		<c:when test="${ requestScope.r.section eq 'A' }">
+                            			<div class="site_title">A섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+                            	
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'B' }">
+                            			<div class="site_title">B섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+                            	
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'C' }">
+                            			<div class="site_title">C섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+                            	
+                            		</c:when>
+                            		<c:when test="${ requestScope.r.section eq 'D' }">
+                            			<div class="site_title">D섹션</div>
+		                                <div class="site_option">
+		                                    <ul>
+		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li><span class="option_txt">산책로</span></li>
+		                                        <li><span class="option_txt">샤워실</span></li>
+		                                        <li><span class="option_txt">개수대</span></li>
+		                                        <li><span class="option_txt">수세식</span></li>
+		                                        <li><span class="option_txt">전기</span></li>
+		                                        <li><span class="option_txt">온수</span></li>
+		                                        <li><span class="option_txt">불가능</span></li>
+		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                    </ul>
+		                                </div>
+                            	
+                            		</c:when>
+                            	</c:choose>
+                            	
+                            
+                                
                                 <div class="site_person"> 
-                                    <span id="avail_num">기준 이용인원 4명 / 최대 이용인원 4명</span>
+                                	
+                                	<c:choose>
+	                            		<c:when test="${ requestScope.r.section eq 'A' }">
+	                            			
+	                            			<span class="avail_num">기준 이용인원 4명 / 최대 이용인원 4명</span>
+	                            		</c:when>
+	                            		<c:when test="${ requestScope.r.section eq 'B' }">
+	                            			
+	                            			<span class="avail_num">기준 이용인원 4명 / 최대 이용인원 4명</span>
+	                            		</c:when>
+	                            		<c:when test="${ requestScope.r.section eq 'C' }">
+	                            			
+	                            			<span class="avail_num">기준 이용인원 6명 / 최대 이용인원 6명</span>
+	                            		</c:when>
+	                            		<c:when test="${ requestScope.r.section eq 'D' }">
+	                            			
+	                            			<span class="avail_num">기준 이용인원 6명 / 최대 이용인원 6명</span>
+	                            		</c:when>
+	                            	</c:choose>
+                                    
                                     <div class="reserv_guide_txt">
                                         <span style="font-weight:bolder;">[입, 퇴실시간 안내]</span><br> 
                                         · 일~목요일 입실 15:00 이후, 퇴실 11:00 이전<br> 
@@ -682,14 +779,14 @@
                                 <div class="start_day">
                                     <span>체크인</span>
                                     <strong id="txt-checkIn">
-                                        12.25(수)
+                                        
                                     </strong>
                                 </div>
-                                <div class="state_night">2박</div>
+                                <div class="state_night"><c:out value="${ requestScope.r.nights }" />박</div>
                                 <div class="end_day">
                                     <span>체크아웃</span>
                                     <strong id="txt-checkOut">
-                                        12.27(금)
+                                        
                                     </strong>
                                 </div>
                             </div>
@@ -912,22 +1009,47 @@
                                 </div>
                                 <div class="amount_box">
                                     <div class="amount_item">
-                                        <ul>
-                                            <li>
-                                                <span class="date">12.17</span>
-                                                <span class="item">A섹션-3</span>
-                                                <span class="price">
-                                                    <strong>30,000원</strong>
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="date">12.18</span>
-                                                <span class="item">A섹션-3</span>
-                                                <span class="price">
-                                                    <strong>30,000원</strong>
-                                                </span>
-                                            </li>
-                                        </ul>
+                                    
+                                    	<c:choose>
+                                    		<c:when test="${ requestScope.r.nights eq 1 }">
+                                    			<ul>
+		                                            <li>
+		                                                <span class="date"></span>
+		                                                <span class="item">
+		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo }" />
+		                                                </span>
+		                                                <span class="price">
+		                                                    <strong>30,000원</strong>
+		                                                </span>
+		                                            </li>
+		                                        </ul>
+                                    		</c:when>
+                                    		<c:otherwise>
+                                    			<ul>
+		                                            <li>
+		                                                <span class="date"></span>
+		                                                <span class="item">
+		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo }" />
+		                                                </span>
+		                                                <span class="price">
+		                                                    <strong>30,000원</strong>
+		                                                </span>
+		                                            </li>
+		                                            <li>
+		                                                <span class="date"></span>
+		                                                <span class="item">
+		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo}" />
+		                                                </span>
+		                                                <span class="price">
+		                                                    <strong>30,000원</strong>
+		                                                </span>
+		                                            </li>
+		                                        </ul>
+                                    		</c:otherwise>
+                                    	
+                                    	</c:choose>
+                                        
+                                        
                                     </div>
                                     <input type="hidden" name="roomNoArr" value="3,3">
                                     <input type="hidden" name="roomDateArr" value="20241217,20241218">
@@ -964,7 +1086,7 @@
 
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">취소</a>
-                                <button type="button" class="wid_70 btnPay">결제</button>
+                                <button type="submit" class="wid_70 btnPay">결제</button>
                             </div>
 
 
@@ -1017,12 +1139,67 @@
             });
             
             
+            // 받아온 전달값들 뽑기
+            let nights = "${requestScope.r.nights}";
+            let startDate = "${requestScope.r.startDate}";
+            let endDate = "${requestScope.r.endDate}";
+            let price = "${requestScope.r.price}";
+            let campsiteId = "${requestScope.r.campsiteId}";
+            let section = "${requestScope.r.section}";
+            let spotNo = "${requestScope.r.spotNo}";
+            
+            
+            
+            let date = new Date(startDate);
+    		let checkInMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+    		let checkInDay = date.getDate().toString().padStart(2, "0");
+    		let weekDayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    		let weekDay = weekDayNames[date.getDay()];
+    		
+  			$("#txt-checkIn").text(`\${checkInMonth}.\${checkInDay}(\${weekDay})`);
+  			
+  			
+  			date = new Date(endDate);
+  			let checkOutMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  			let checkOutDay = date.getDate().toString().padStart(2, "0");
+  			weekDay = weekDayNames[date.getDay()];
+  			
+  			$("#txt-checkOut").text(`\${checkOutMonth}.\${checkOutDay}(\${weekDay})`);
+  			
+  			date = new Date(startDate);
+  			date.setDate(date.getDate() + 1);
+  			
+  			let centerMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  			let centerDay = date.getDate().toString().padStart(2, "0");
+  			
+  			
+  			// 하루 숙박 가격 표시
+  			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+            
+            
+            // 1박/2박 여부에 따라 case 갈림
+            
+            if(nights == 1) {
+            	
+            	$(".date").text(`\${checkInMonth}.\${checkInDay}`);
+            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+            	$("input[name='price']").val(price);
+            	
+            } else {
+            	
+            	let totalPrice = price * nights;
+            	console.log(totalPrice);
+            	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
+            	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
+            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
+            	$("input[name='price']").val(totalPrice);
+            }
+            
+            // console.log($("input[name='price']").val());
             
         });
         
-        function goToComplete() {
-        	location.href="reserveComplete.res";
-        }
+        
         
         
     </script>

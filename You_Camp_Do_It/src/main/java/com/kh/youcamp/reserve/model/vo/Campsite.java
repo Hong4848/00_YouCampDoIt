@@ -16,7 +16,7 @@ public class Campsite {
 	private int campsiteId;
 	private int spotNo;
 	private int price;
-	private String secion;
+	private String section;
 	
 
 }

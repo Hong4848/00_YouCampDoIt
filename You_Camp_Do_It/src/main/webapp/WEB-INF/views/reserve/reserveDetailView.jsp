@@ -495,12 +495,14 @@
         <div id="content_2">
             <fieldset> <!-- 사진, 자리선택 div 모두 포함 -->
                 <legend style="display: none;">실시간예약</legend>
-                <form id="productSelectForm" action="reservation" method="post">
-                    <input type="hidden" name="room_area_no" value="">
-                    <input type="hidden" name="room_no" value="">
-                    <input type="hidden" name="stay_cnt" value="">
-                    <input type="hidden" name="check_in" value=""><!-- 체크인 날짜 -->
-                    <input type="hidden" name="check_out" value=""><!-- 체크아웃 날짜 -->
+                <form id="productSelectForm" action="reservePayment.res" method="post">
+                    <input type="hidden" name="nights" value="${ requestScope.stay }">
+                    <input type="hidden" name="startDate" value="${ requestScope.checkIn }">
+                    <input type="hidden" name="endDate" value="${ requestScope.checkOut }">
+                    <input type="hidden" name="price" value="${ requestScope.price }">
+                    <input type="hidden" name="campsiteId" value="">
+                    <input type="hidden" name="section" value="${ requestScope.section }">
+                    <input type="hidden" name="spotNo" value="">
 
                     <div class="pc_wrap">
                         <!-- 캠핑 사이트 사진, 이용가능시설 -->
@@ -640,108 +642,27 @@
                                 </div>
                                 
                                 <ul>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_1" value="1">
-                                        <label for="room_1">
-                                             A섹션 - 1
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_2" value="2">
-                                        <label for="room_2">
-                                             A섹션 - 2
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_3" value="3">
-                                        <label for="room_3">
-                                             A섹션 - 3
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_4" value="4">
-                                        <label for="room_4">
-                                             A섹션 - 4
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_5" value="5">
-                                        <label for="room_5">
-                                             A섹션 - 5
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_6" value="6">
-                                        <label for="room_6">
-                                             A섹션 - 6
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_7" value="7">
-                                        <label for="room_7">
-                                             A섹션 - 7
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_8" value="8">
-                                        <label for="room_8">
-                                             A섹션 - 8
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_9" value="9">
-                                        <label for="room_9">
-                                             A섹션 - 9
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input type="checkbox" name="roomNoArr" id="room_10" value="10">
-                                        <label for="room_10">
-                                             A섹션 - 10
-                                            <span class="price">
-                                                <span class="state state_night">1박</span>
-                                                30,000원
-                                            </span>
-                                        </label>
-                                    </li>
+                                
+                                	<c:forEach var="c" items="${ requestScope.restSites }" varStatus="status">
+                                		
+	                                    <li>
+	                                        <input type="checkbox" name="roomNoArr" class="romms" id="room_${ status.count }" value="${ status.count }">
+	                                        <label for="room_${ status.count }">
+	                                             A섹션 - <c:out value="${ c.spotNo }" />
+	                                            <span class="price">
+	                                                <span class="state state_night">
+	                                                	<c:out value="${ requestScope.stay }" />박
+	                                                </span>
+	                                                <input type="hidden" name="hidden-site" value="${ c.campsiteId }">
+	                                                <input type="hidden" name="hidden-spot" value="${ c.spotNo }">
+	                                            </span>
+	                                        </label>
+	                                    </li>
+                                    
+                                    </c:forEach>
                                     
                                 </ul>
+                                
                             </div>
                             <div class="section bg_none reserve_guide">
                                 <div class="tit_h3">
@@ -770,7 +691,7 @@
                             </div>
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid30">취소</a>
-                                <button type="button" class="wid_70 btnNext" >다음단계</button>
+                                <button type="submit" class="wid_70 btnNext" >다음단계</button>
                             </div>
                         </div>
                     </div>
@@ -791,6 +712,14 @@
     		let stay = "${requestScope.stay}";
     		let price = "${requestScope.price}";
     		
+    		// 가격 * 숙박일
+    		let totalPrice = Number(stay) * Number(price);
+    		totalPrice = new Intl.NumberFormat('ko-KR').format(totalPrice);
+    		
+    		$(".price").append(" " + totalPrice + "원");
+    		
+    		
+    		// 체크아웃
     		let date = new Date(checkIn);
     		let checkInMonth = (date.getMonth() + 1).toString().padStart(2, "0");
     		let checkInDay = date.getDate().toString().padStart(2, "0");
@@ -807,10 +736,27 @@
   			$("#txt-checkOut").text(`\${checkOutMonth}.\${checkOutDay}(\${weekDay})`);
   			
     		
+    		// 사용자가 체크한 체크박스 선택시 발생하는 이벤트
+    		$("input[name='roomNoArr']").on("click", function() {
+    			let checkedSite = $(this);
+    			
+    			let hiddenInput1 = checkedSite.closest("li").find("input[name='hidden-site']");
+    			let campsiteId = hiddenInput1.val();
+    			let hiddenInput2 = checkedSite.closest("li").find("input[name='hidden-spot']");
+    			let spotNo = hiddenInput2.val();
+    			
+    			$("input[name='campsiteId']").val(campsiteId);
+    			$("input[name='spotNo']").val(spotNo);
+    			
+    			
+    		});
     		
     		
     		
     		
+    		
+  			
+  			
     		// "다음단계" 버튼 클릭 이벤트
             $(".btnNext").on("click", function (e) {
                 // 체크박스 선택 여부 확인
@@ -820,8 +766,7 @@
                     return false; // 요청 차단
                 }
                 
-                // 체크박스가 선택된 경우 요청 진행
-                location.href="reservePayment.res";
+                
             });
     		
     		

@@ -1,7 +1,5 @@
 package com.kh.youcamp.reserve.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,5 +25,8 @@ public class Reserve {
 	private String updateDate;
 	private int memberNo;
 	private int campsiteId;
+	// 값 넘기기 위한 section, spotNo 변수 추가
+	private String section;
+	private int spotNo;
 
 }
