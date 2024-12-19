@@ -1,5 +1,7 @@
 package com.kh.youcamp.order.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,22 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public int selectGeneratedOrderNo() {
 		return orderDao.selectGeneratedOrderNo(sqlSession);
+	}
+
+	@Override
+	@Transactional
+	public int insertOrderDetail(OrderDetail orderDetail) {
+		return orderDao.insertOrderDetail(sqlSession, orderDetail);
+	}
+
+	@Override
+	public Order selectOrder(int orderNo) {
+		return orderDao.selectOrder(sqlSession, orderNo);
+	}
+
+	@Override
+	public ArrayList<OrderDetail> selectOrederDetailList(int orderNo) {
+		return orderDao.selectOrederDetailList(sqlSession, orderNo);
 	}
 	
 	 

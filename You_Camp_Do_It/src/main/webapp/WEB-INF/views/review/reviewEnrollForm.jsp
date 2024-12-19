@@ -150,36 +150,27 @@
         }
 
 		.image-upload-section {
-            margin-bottom: 2rem;
-        }
-
-        .image-grid {
-            display: flex;
-            gap: 1rem;
-            margin-top: 0.5rem;
-        }
-
-        .image-upload {
-            flex: 1;
-            height: 100px; /* 내용 입력칸의 반 정도 크기로 조정 */
-        }
-
-        .image-preview {
-            width: 100px;
-            height: 100px;
-            border: 1px dashed #ddd;
-            border-radius: 5px;
             display: flex;
             justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            background-size: cover;
-            background-position: center;
-            transition: all 0.3s ease;
+            gap : 20px; /* 각 이미지 간격 */
         }
-
-        .image-preview:hover {
-            border-color: #f7b500;
+        .image-upload {
+            margin-bottom: 15px;
+        }
+        .image-preview {
+            border: 1px solid #ccc;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow : hidden;
+            cursor: pointer;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit:cover;
         }
 
         .upload-icon {
@@ -250,31 +241,35 @@
 			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required></textarea>
 			            </div>
 					</div>
+					
+					
+			         
 			        <div class="image-upload-section">
-		                <div class="image-grid">
-		                    <div class="image-upload">
-		                        <label>대표이미지</label>
-		                        <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;">
-		                        <div class="image-preview" onclick="document.getElementById('mainImage').click()">
-		                            <span class="upload-icon">+</span>
-		                        </div>
-		                    </div>
-		                    <div class="image-upload">
-		                        <label>상세이미지 1</label>
-		                        <input type="file" name="upfile" id="detailImage1" accept="image/*" style="display: none;">
-		                        <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
-		                            <span class="upload-icon">+</span>
-		                        </div>
-		                    </div>
-		                    <div class="image-upload">
-		                        <label>상세이미지 2</label>
-		                        <input type="file" name="upfile" id="detailImage2" accept="image/*" style="display: none;">
-		                        <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
-		                            <span class="upload-icon">+</span>
-		                        </div>
-		                    </div>
-		                </div>
-		            </div>
+			        	<!-- 대표 이미지 -->
+			            <div class="image-upload">
+			                <label>대표 이미지</label>
+			                <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
+			                <div class="image-preview" onclick="document.getElementById('mainImage').click()">
+			                   <img src="/resources/images/review/plus-icon.jpg" id="mainImagePreview" />
+			                </div>
+			            </div>
+			
+			            <!-- 상세 이미지 -->
+			            <div class="image-upload">
+						    <label for="detailImage1">상세 이미지 1</label>
+						    <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview1')"/>
+						    <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
+						    	 <img src="/resources/images/review/plus-icon.jpg"  id="detailImagePreview1"  /> 
+							</div>
+						</div>
+						<div class="image-upload">
+						    <label for="detailImage2">상세 이미지 2</label>
+						    <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview2')"/>
+						    <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
+						    	<img src="/resources/images/review/plus-icon.jpg"  id="detailImagePreview2" /> 
+						    </div>
+						</div>
+			        </div>
 					
 					<br>
 					<div id="btncontroller">
@@ -285,53 +280,58 @@
 	  
 	</div>
 	
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const fileInputs = document.querySelectorAll('input[type="file"]');
-
-    fileInputs.forEach((input) => {
-        input.addEventListener("change", function (event) {
+	<script>
+	
+        // 대표 이미지 미리보기 기능
+        document.getElementById('mainImage').addEventListener('change', function(event) {
             const file = event.target.files[0];
-            const preview = event.target.nextElementSibling;
-
-            if (file && preview && file.type.startsWith("image/")) {
+            if (file) {
                 const reader = new FileReader();
-                reader.onload = function (e) {
-                    console.log("파일 읽기 성공:", e.target.result); // 디버깅용
-                    preview.style.backgroundImage = `url(${e.target.result})`;
-                    const icon = preview.querySelector(".upload-icon");
-                    if (icon) icon.style.display = "none";
+                reader.onload = function(e) {
+                    document.getElementById('mainImagePreview').src = e.target.result;
                 };
                 reader.readAsDataURL(file);
-            } else {
-                alert("이미지 파일만 업로드할 수 있습니다.");
             }
         });
-    });
- // 폼 데이터 제출 처리
-    document.getElementById("uploadForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
 
-        const formData = new FormData(this);
+     	// 상세 이미지 미리보기
+        function previewImage(event, previewId) {
+	        const file = event.target.files[0];
+	        if (file) {
+	            const reader = new FileReader();
+	            reader.onload = function(e) {
+	                const preview = document.getElementById(previewId);
+	                preview.src = e.target.result;
+	            }
+	            reader.readAsDataURL(file);
+	        }
+    	}
+     	
+     	
+        // 폼 데이터 제출 처리
+        document.getElementById("uploadForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // 기본 폼 제출 방지
 
-        fetch("insert.re", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.text().then(text => { throw new Error(text) });
-            }
-            window.location.href = "list.re";
-        })
-        .catch(error => {
-            //console.error("전송 중 오류 발생:", error);
-            alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
+            const formData = new FormData(this);
+
+            fetch("insert.re", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => { throw new Error(text) });
+                }
+                window.location.href = "list.re";
+            })
+            .catch(error => {
+                //console.error("전송 중 오류 발생:", error);
+                alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
+            });
+
         });
-
-    });
-});
-</script>
+    
+    </script>
 
 
 	 

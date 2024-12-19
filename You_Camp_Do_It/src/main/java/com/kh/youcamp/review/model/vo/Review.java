@@ -23,5 +23,18 @@ public class Review {
 	private String reviewWriter;
 	private ArrayList<ReviewAttachment> reviewAttachments; 
 	
+	// 실제 Review 테이블에 없는 컬럼이지만 필드로 추가 하여 썸네일 이미지 경로와 수정파일명 담을 필드 
+		private String mainImage; 
+		
+
+		
+		public String getMainImage() {
+			return mainImage;
+		}
+		
+		public void setMainImage(String mainImage) {
+			this.mainImage = mainImage;
+		}
+	
 	
 }

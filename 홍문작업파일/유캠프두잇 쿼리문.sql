@@ -80,7 +80,35 @@ INSERT INTO GOODS_ORDER(ORDER_NO
                       , 'CREATED'
                       , NULL
                       , ?)
+-- 주문상세 insert
+INSERT INTO ORDER_DETAIL(ORDER_DETAIL_NO
+                       , QUANTITY
+                       , PRICE
+                       , TOTAL_PRICE
+                       , GOODS_NO
+                       , ORDER_NO)
+                  VALUES(ORD_DETAIL_SEQ.NEXTVAL
+                       , ?
+                       , (SELECT PRICE FROM GOODS WHERE GOODS_NO = ?)
+                       , ?
+                       , ?
+                       , ?)
+                       
 
+
+-- 주문화면 및 결제하기 위한 order 조회
+SELECT *
+  FROM GOODS_ORDER
+ WHERE ORDER_NO = ?
+-- 주문화면 및 결제하기 위한 orderDetail 
+-- goodsName goodsInfo 조회해가야함
+SELECT OD.*
+     , G.GOODS_NAME
+     , G.GOODS_INFO
+     , G.GOODS_THUMBNAIL
+  FROM ORDER_DETAIL OD
+  JOIN GOODS G ON (OD.GOODS_NO = G.GOODS_NO)
+ WHERE ORDER_NO = ?
 
 ---------------------------------------------
 

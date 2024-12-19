@@ -20,9 +20,26 @@
 	    <result column="TOTAL_PRICE" property="totalPrice" />
 	    <result column="GOODS_NO" property="goodsNo" />
 	    <result column="ORDER_NO" property="orderNo" />
+	    
+	    <!-- GOODS 테이블 매핑 -->
+	    <association property="goods" javaType="goods">
+	        <id column="GOODS_NO" property="goodsNo" />
+	        <result column="CATEGORY" property="category" />
+	        <result column="GOODS_NAME" property="goodsName" />
+	        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
+	        <result column="GOODS_CONTENT" property="goodsContent" />
+	        <result column="GOODS_INFO" property="goodsInfo" />
+	        <result column="MARK" property="mark" />
+	        <result column="GOODS_PRICE" property="price" />
+	        <result column="VIEWS" property="views" />
+	        <result column="ENROLL_DATE" property="enrollDate" />
+	        <result column="TOTAL_STOCK" property="totalStock" />
+	        <result column="REMAIN_STOCK" property="remainStock" />
+	        <result column="STATUS" property="status" />
+	    </association>
 	</resultMap>
 	
-	<!-- 주문정보 생성용 쿼리문 -->
+	<!-- 주문정보 생성용 order insert 쿼리문 -->
  	<insert id="insertOrder" 
  			parameterType="order">
  		INSERT INTO GOODS_ORDER(ORDER_NO
@@ -43,14 +60,48 @@
 			                  , #{memberNo})
  	</insert>
  	
+ 	<!-- 채번한 orderNo 가져오기 -->
  	<select id="selectGeneratedOrderNo" 
  			resultType="_int">
  		SELECT ORDER_SEQ.CURRVAL FROM DUAL
  	</select>
+ 	
+ 	<!-- 주문정보 생성용 orderDetail insert 쿼리문 -->
+ 	<insert id="insertOrderDetail" 
+ 			parameterType="orderDetail">
+ 		INSERT INTO ORDER_DETAIL(ORDER_DETAIL_NO
+		                       , QUANTITY
+		                       , PRICE
+		                       , TOTAL_PRICE
+		                       , GOODS_NO
+		                       , ORDER_NO)
+		                  VALUES(ORD_DETAIL_SEQ.NEXTVAL
+		                       , #{quantity}
+		                       , (SELECT PRICE FROM GOODS WHERE GOODS_NO = #{goodsNo})
+		                       , #{totalPrice}
+		                       , #{goodsNo}
+		                       , #{orderNo})
+ 	</insert>
   
-	
+  	<!-- 주문화면 및 결제하기 위한 order 정보 조회용 -->
+	<select id="selectOrder" resultType="_int"
+			resultMap="orderResultSet">
+		SELECT *
+		  FROM GOODS_ORDER
+		 WHERE ORDER_NO = #{orderNo}
+	</select>
   
-  
+  	<!-- 주문화면 및 결제하기 위한 order 정보 조회용 -->
+	<select id="selectOrederDetailList" resultType="_int"
+			resultMap="orderDetailResultSet">
+		SELECT OD.*
+		     , G.GOODS_NAME
+		     , G.GOODS_INFO
+		     , G.GOODS_THUMBNAIL
+		  FROM ORDER_DETAIL OD
+		  JOIN GOODS G ON (OD.GOODS_NO = G.GOODS_NO)
+		 WHERE ORDER_NO = #{orderNo}
+	</select>
   
   
   
