@@ -210,6 +210,12 @@ public class OrderController {
 	        int result2 = orderService.insertOrderDetail(orderDetail);
 	        
 //	        log.debug("orderDetail INSERT 잘 됏냐? n번 반복됏나?");
+	        
+	        if(!(result2 > 0)) {
+		    	// 에러 문구를 담아서 에러페이지로 포워딩
+				model.addAttribute("errorMsg", "주문하기 실패. 다시 시도해주세요");
+				return "common/errorPage";
+		    } 
 	    }
 	    
 	    //-------------------------------------------------
@@ -222,19 +228,6 @@ public class OrderController {
 	    
 	    model.addAttribute("order", selectedOrder);
 	    model.addAttribute("list", list);
-	    
-	    
-	    // orderNo 기준으로 select 해오기 > orderForm 에 출력하고
-	    // 결제를위한 정보 넘기기위함
-		
-
-		
-		// 1번주문에 텐트주문상세, 체어주문상세, ...
-		
-		// 카트리스트뷰에서 order, orderDetail에 필요한 데이터값가져오기
-		// order, orderDetail insert
-		
-		// order list, orderDetail list 가져오기 및 jsp 단으로 넘기기
 		
 		
 		/*
@@ -256,7 +249,7 @@ public class OrderController {
 		// String buyerTel 		= "01000000000"; 				// 구매자연락처
 		// String buyerEmail 		= "happy@day.co.kr"; 			// 구매자메일주소
 		String moid 			= "mnoid1234567890"; 			// 상품주문번호	
-		String returnURL 		= "http://localhost:8080/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
+		// String returnURL 		= "http://localhost:8080/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
 
 		/*
 		*******************************************************
@@ -277,15 +270,11 @@ public class OrderController {
 		// model.addAttribute("buyerTel", buyerTel);
 		// model.addAttribute("buyerEmail", buyerEmail);
 		model.addAttribute("moid", moid);
-		model.addAttribute("returnURL", returnURL);
+		// model.addAttribute("returnURL", returnURL);
 		model.addAttribute("ediDate", ediDate);
 		model.addAttribute("hashString", hashString);
 		
-		// order, orderDetail 테이블 값넘기면서
-		// 주문폼테이블에 출력
-		// > 결제에 필요한값들
 		return "order/orderForm";
-		
 	}
 	
 	

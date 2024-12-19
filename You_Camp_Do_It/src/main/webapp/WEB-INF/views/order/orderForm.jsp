@@ -8,6 +8,7 @@
     
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,12 +43,17 @@
 							<th><span>결제 수단</span></th>
 							<td><input type="text" name="PayMethod" value="CARD"></td>
 						</tr>
-						<!-- 다 건 주문 시 상품명 어떻게..? -->
+						<!-- 다 건 주문시 첫 번째 항목의 제품명 가져옴 -->
 						<tr hidden>
 							<th><span>결제 상품명</span></th>
-							<td><input type="text" name="GoodsName" value="${goodsName}"></td>
-							<%-- <td><input type="text" name="GoodsName" value="${ requestScope.list.goodsName }"></td> --%>
-							<!-- list 로 받은 것 중에 첫번째 배열의 goodsName 받고싶은데 -->
+							<c:choose>
+								<c:when test="${not empty requestScope.list[0]}">
+									<td><input type="text" name="GoodsName" value="${requestScope.list[0].goods.goodsName}"></td>
+								</c:when>
+								<c:otherwise>
+									<td><input type="text" name="GoodsName" value="데이터 없음"></td>
+								</c:otherwise>
+							</c:choose>
 						</tr>
 						<tr hidden>
 							<th><span>결제 상품금액</span></th>
@@ -110,7 +116,7 @@
 						</div>
 					</div>
 					<div class="item-price">
-						<p><fmt:formatNumber value="${od.price}" type="number" />원</p>
+						<p><fmt:formatNumber value="${od.totalPrice}" type="number" />원</p>
 					</div>
 				</div>
 			</c:forEach>	
@@ -122,7 +128,9 @@
 	    <div class="floating-area">
 	        <div class="buy-area">
 				<span class="total-price">
-					총 0 건 주문금액 <fmt:formatNumber value="${requestScope.order.totalPrice}" type="number" />원
+					총 
+            		<c:out value="${fn:length(requestScope.list)}" /> 건 주문금액 
+					<fmt:formatNumber value="${requestScope.order.totalPrice}" type="number" />원
 				</span>
 	            <a class="order-btn" onClick="nicepayStart();"
 	               href="#">
