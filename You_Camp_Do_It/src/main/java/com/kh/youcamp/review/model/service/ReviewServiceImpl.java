@@ -46,6 +46,13 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewDao.selectCount(sqlSession);
     }
 
+    // 상세조회 서비스 메소드
+	@Override
+	public Review selectReview(int rno) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 }
 

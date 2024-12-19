@@ -9,16 +9,19 @@
   	<result column="REVIEW_COUNT" property="reviewCount" />
   	<result column="CREATE_DATE" property="createDate" />
   	<result column="REVIEW_WRITER" property="reviewWriter" />
-  	<collection property="reviewAttachments" ofType="ReviewAttachment">
-    	<result column="FILE_NO" property="fileNo" />
+  	<result column="MAINIMAGE" property="mainImage" />
+  </resultMap>
+  	
+ 	<resultMap id="reviewAttachments" type="reviewAttachment">
+	   	<result column="FILE_NO" property="fileNo" />
 	  	<result column="ORIGIN_NAME" property="originName" />
 	  	<result column="CHANGE_NAME" property="changeName" />
 	  	<result column="FILE_PATH" property="filePath" />
 	  	<result column="UPLOAD_DATE" property="uploadDate" />
 	  	<result column="FILE_LEVEL" property="fileLevel" />
 	  	<result column="REVIEW_NO" property="reviewNo" /> 
-    </collection>
-  </resultMap>
+   </resultMap>
+  
   
 
   
@@ -27,21 +30,24 @@
         FROM REVIEW
     </select>
     
+    <!-- 목록조회 -->
     <select id="selectReviewList" resultMap="reviewResultMap">
-	    SELECT R.*, 
-	           A.FILE_NO,
-	           A.ORIGIN_NAME,
-	           A.CHANGE_NAME,
-	           A.FILE_PATH,
-	           A.UPLOAD_DATE,
-	           A.FILE_LEVEL,
-	           A.STATUS AS FILE_STATUS
-	    FROM REVIEW R
-	    LEFT JOIN REVIEW_ATTACHMENT A ON (R.REVIEW_NO = A.REVIEW_NO)
-	    ORDER BY R.REVIEW_NO DESC
+	    SELECT R.REVIEW_NO
+		      , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+		      , REVIEW_TITLE
+		      , CHANGE_NAME AS "MAINIMAGE"
+		  FROM REVIEW R
+		  JOIN REVIEW_ATTACHMENT A ON (R.REVIEW_NO = A.REVIEW_NO)
+		 WHERE R.STATUS = 'Y'
+		   AND FILE_LEVEL = 1
+		 ORDER BY REVIEW_NO DESC
 	</select>
     
-    <insert id="insertReview" parameterType="review" useGeneratedKeys="true" keyProperty="reviewNo" keyColumn="REVIEW_NO">
+    <!-- 이벤트 게시글 등록 -->
+    <insert id="insertReview" parameterType="review">
+    <selectKey keyProperty="reviewNo" resultType="int" order="BEFORE">
+        SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+    </selectKey>
     INSERT INTO REVIEW (
         REVIEW_NO,
         REVIEW_TITLE,
@@ -50,7 +56,7 @@
         MEMBER_NO,
         REVIEW_WRITER
     ) VALUES (
-        REVIEW_SEQ.NEXTVAL,
+        #{reviewNo},
         #{reviewTitle},
         #{reviewContent},
         SYSDATE,
@@ -59,7 +65,8 @@
     )
 </insert>
     
-    <insert id="insertReviewAttachment" parameterType="ReviewAttachment">
+    <!-- 이벤트 게시글 첨부파일 등록 -->
+    <insert id="insertReviewAttachment" parameterType="reviewAttachment">
         INSERT INTO REVIEW_ATTACHMENT (
         	FILE_NO,
             ORIGIN_NAME,

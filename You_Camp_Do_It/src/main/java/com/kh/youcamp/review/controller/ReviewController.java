@@ -38,6 +38,7 @@ public class ReviewController {
         return "review/reviewEnrollForm";
     }
 
+    // 게시글 작성 요청
     @PostMapping("insert.re")
     public String insertReview(Review r, 
                              @RequestParam("upfile") MultipartFile[] upfiles,
@@ -63,9 +64,15 @@ public class ReviewController {
 
                 ReviewAttachment at = new ReviewAttachment();
                 at.setOriginName(upfile.getOriginalFilename());
-                at.setChangeName(changeName);
-                at.setFilePath("/resources/images/review_upfiles/");
-                at.setFileLevel(i);
+                at.setChangeName("/resources/images/review_upfiles/" + changeName);
+                at.setFilePath(changeName);
+                
+                // fileLevel 설정
+                if (i == 0) {
+                    at.setFileLevel(1); // mainImage는 fileLevel 1
+                } else {
+                    at.setFileLevel(2); // detailImage1, detailImage2는 fileLevel 2
+                }
 
                 attachments.add(at);
                 log.debug("attachment:{}", at);
@@ -74,10 +81,12 @@ public class ReviewController {
 
         r.setReviewAttachments(attachments);
         reviewService.insertReview(r);
+        //reviewService.insertReviewWithAttachments(r, attachments);
 
         return "redirect:/list.re";
     }
     
+    // 목록조회 요청용 메소드
     @GetMapping("list.re")
     public ModelAndView selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
                                  ModelAndView mv) {
@@ -85,7 +94,7 @@ public class ReviewController {
         int listCount = reviewService.selectCount();
         
         int pageLimit = 5;
-        int boardLimit = 5;
+        int boardLimit = 16;
         
         PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
         List<Review> list = reviewService.selectReviewList(pi);
@@ -93,6 +102,9 @@ public class ReviewController {
         mv.addObject("pi", pi)
           .addObject("list", list)
           .setViewName("review/reviewListView");
+        
+        System.out.println(list);
+        System.out.println(list.size());
         
         return mv;
     }
@@ -108,10 +120,19 @@ public class ReviewController {
         try {
             upfile.transferTo(new File(savePath + changeName));
         } catch (IllegalStateException | IOException e) {
-            log.error("File upload error: ", e);
+        	e.printStackTrace();
         }
         
         return changeName;
+    }
+    
+    public ModelAndView selectReview(int rno, ModelAndView mv) {
+    	
+    	Review r = reviewService.selectReview(rno);
+    	
+    	mv.addObject("r", r).setViewName("review/reviewDetailView");
+    	
+    	return mv;
     }
     
     
