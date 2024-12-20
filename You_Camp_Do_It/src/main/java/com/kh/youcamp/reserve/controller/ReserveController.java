@@ -7,12 +7,16 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.kh.youcamp.common.model.vo.PageInfo;
+import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.reserve.model.service.ReserveService;
 import com.kh.youcamp.reserve.model.vo.Campsite;
@@ -85,7 +89,7 @@ public class ReserveController {
 		
 		int memberNo = ((Member)session.getAttribute("loginMember")).getMemberNo();
 		
-		System.out.println(r.getSpotNo());
+		
 		
 		mv.addObject("r", r)
 		  .addObject("memberNo", memberNo)
@@ -97,45 +101,61 @@ public class ReserveController {
 	
 	/**
 	 * 24.12.10 정성민
-	 * 캠핑장 결제 요청 페이지 접속요청 컨트롤러
+	 * 캠핑장 결제 요청 나이스페이 페이지 접속요청 컨트롤러
 	 * 
 	 * @return
 	 */
+	
+	/*
 	@PostMapping("reserveRequirePay.res")
-	public String reserveRequirePayment(Reserve r) {
+	public ModelAndView reserveRequirePayment(Reserve r, ModelAndView mv, HttpSession session) {
 		
-		System.out.println(r);
 		
-		return "";
+		
+		// 결제 요청 처리 @@@@@@@@@@@@@@@@@@@@@@@
+		
+		
+		
+		
+		
 	}
+	*/
 	
-	/**
-	 * @return
-	 */
-	@GetMapping("reserveComplete.res")
-	public String toReserveComplete(HttpSession session) {
-		
-		int memberNo = ((Member)session.getAttribute("loginMember")).getMemberNo();
-		
-		Reserve r = reserveService.selectReserve(memberNo);
-		
-		return "reserve/reserveCompleteView";
-	}
 	
 	
 	/**
-	 * 24.12.10 정성민
-	 * 캠핑장 예약 내역 페이지 접속요청용 컨트롤러
+	 * 24.12.20 정성민
+	 * 캠핑장 결제 완료 후 예약 확인 페이지 접속요청 컨트롤러
 	 * @return
 	 */
-	@GetMapping("reserveList.res")
-	public String toReserveList() {
+	@PostMapping("reserveComplete.res")
+	public ModelAndView toReserveComplete(Reserve r, ModelAndView mv, HttpSession session) {
 		
+		// 예약 정보 insert 하기
+		int result = reserveService.insertReserve(r);
+		if(result > 0) {
+			
+			// 방금 insert 한 예약 데이터의 예약번호 가져오기
+			int rNum = reserveService.selectReserveNo();
+			
+			// 예약 번호에 맞는 예약 정보 조회해오기
+			Reserve reserveInfo = reserveService.selectAfterReserve(rNum);
+			
+			session.setAttribute("alertMsg", "캠핑장 예약에 성공했습니다!");
+			
+			mv.addObject(reserveInfo)
+			   .setViewName("reserve/reserveCompleteView");
+			
+		} else {
+			
+			mv.addObject("errorMsg", "결제 실패!")
+			  .setViewName("common/errorPage");
+			
+		}
 		
+		return mv;
 		
-		return "reserve/reserveListView";
 	}
-	
 	
 
 	/**
@@ -147,15 +167,67 @@ public class ReserveController {
 	@GetMapping(value="getRestSite.res", produces="application/json; charset=UTF-8")
 	public String selectRestSite(Reserve r) {
 		
+		System.out.println(r);
 		ArrayList<RestSite> restSite = reserveService.selectRestSiteCounts(r);
 	    
-		
+		System.out.println(restSite);
 		return new Gson().toJson(restSite);
 	}
 
+
+	/**
+	 * 24.12.10 정성민
+	 * 캠핑장 예약 내역 목록 페이지 접속요청용 컨트롤러
+	 * @return
+	 */
+	@GetMapping("reserveList.res")
+	public String toReserveList(@RequestParam(value="cpage", defaultValue="1")int currentPage, Model model, HttpSession session) {
+		
+		// 회원번호 가져오기
+		int memberNo = ((Member)session.getAttribute("loginMember")).getMemberNo();
+		
+		// 페이징 처리용 변수 7개
+		int listCount = reserveService.selectListCount(memberNo);
+		
+		int pageLimit = 5;
+		int boardLimit = 5;
+		
+		
+		PageInfo pi 
+		= Pagination.getPageInfo(listCount, currentPage, 
+								 pageLimit, boardLimit);
+	
+		ArrayList<Reserve> list = reserveService.selectList(pi, memberNo);
+		
+		// 응답데이터로 목록 및 페이징바 관련 객체를 넘기고
+		// 게시글 목록 조회 페이지를 포워딩
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
+		return "reserve/reserveListView";
+	}
 	
 	
-	
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약내역 상세조회 요청용 컨트롤러
+	 * @param rno
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("reserveComplete.res")
+	public ModelAndView selectReserve(int rno, ModelAndView mv) {
+		
+		System.out.println(rno);
+		
+		Reserve r = reserveService.selectReserve(rno);
+		
+		mv.addObject("r", r)
+		  .setViewName("reserve/reserveCompleteView");
+		
+		
+		return mv;
+	}
 	
 	
 	

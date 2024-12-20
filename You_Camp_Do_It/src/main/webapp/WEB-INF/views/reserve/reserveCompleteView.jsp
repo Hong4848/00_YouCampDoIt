@@ -495,31 +495,27 @@
                                         <ul>
                                             <li>
                                                 <span class="title">예약번호</span>
-                                                0098274
+                                                ${ requestScope.r.reserveNo }
                                             </li>
                                             <li>
                                                 <span class="title">결제일시</span>
-                                                2024-12-09 18:08:20
+                                                ${ requestScope.r.paymentDate }
                                             </li>
                                             <li>
                                                 <span class="title">예약일자</span>
-                                                2024.12.30(1박2일)
+                                                ${ requestScope.r.startDate }
                                             </li>
                                             <li>
                                                 <span class="title">결제수단</span>
-                                                카카오머니 (일시불)
-                                            </li>
-                                            <li>
-                                                <span class="title">승인번호</span>
-                                                1234
+                                                ${ requestScope.r.paymentMethod }
                                             </li>
                                             <li>
                                                 <span class="title">이용금액</span>
-                                                30,000원
+                                                ${ requestScope.r.price }
                                             </li>
                                             <li>
                                                 <span class="title">결제금액</span>
-                                                30,000원
+                                                ${ requestScope.r.price }
                                             </li>
                                         </ul>
                                     </div>
@@ -649,6 +645,75 @@
 			
 			location.href="reserveList.res";
 		}
+		
+		
+		$(function() {
+			let nights = "${requestScope.r.nights}";
+            let startDate = "${requestScope.r.startDate}";
+            let endDate = "${requestScope.r.endDate}";
+            let price = "${requestScope.r.price}";
+            let campsiteId = "${requestScope.r.campsiteId}";
+            let section = "${requestScope.r.section}";
+            let spotNo = "${requestScope.r.spotNo}";
+			
+            console.log(startDate);
+            console.log(endDate);
+            
+			let memberName = "${sessionScope.loginMember.memberName}";
+			let birthDate = "${sessionScope.loginMember.birthDate}";
+			let phone = "${sessionScope.loginMember.phone}";
+			
+			let date = new Date(startDate);
+    		let checkInMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+    		let checkInDay = date.getDate().toString().padStart(2, "0");
+    		let weekDayNames = ["일", "월", "화", "수", "목", "금", "토"];
+    		let weekDay = weekDayNames[date.getDay()];
+    		
+  			$("#txt-checkIn").text(`\${checkInMonth}.\${checkInDay}(\${weekDay})`);
+  			
+  			
+  			date = new Date(endDate);
+  			let checkOutMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  			let checkOutDay = date.getDate().toString().padStart(2, "0");
+  			weekDay = weekDayNames[date.getDay()];
+  			
+  			$("#txt-checkOut").text(`\${checkOutMonth}.\${checkOutDay}(\${weekDay})`);
+			
+  			date = new Date(startDate);
+  			date.setDate(date.getDate() + 1);
+  			
+  			let centerMonth = (date.getMonth() + 1).toString().padStart(2, "0");
+  			let centerDay = date.getDate().toString().padStart(2, "0");
+  			
+  			
+  			// 하루 숙박 가격 표시
+  			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+  			
+			// 1박/2박 여부에 따라 case 갈림
+            
+            if(nights == 1) {
+            	
+            	$(".date").text(`\${checkInMonth}.\${checkInDay}`);
+            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+            	$("input[name='price']").val(price);
+            	
+            } else {
+            	
+            	let totalPrice = price * nights;
+            	
+            	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
+            	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
+            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
+            	$("input[name='price']").val(totalPrice);
+            }
+  			
+		});
+		
+		
+		
+		
+		
+		
 	</script>
 
 </body>

@@ -7,6 +7,7 @@
 		<result column="START_DATE" property="startDate" />
 		<result column="END_DATE" property="endDate" />
 		<result column="NIGHTS" property="nights" />
+		<result column="MEMBER_COUNT" property="memberCount" />		
 		<result column="PAYMENT_ID" property="paymentId" />
 		<result column="PRICE" property="price" />
 		<result column="PAYMENT_DATE" property="paymentDate" />
@@ -66,6 +67,90 @@
 		       )   
 		   AND C.SECTION = #{section}
 		 ORDER BY C.SPOT_NO ASC
+	</select>
+	
+	<!--  
+		24.12.20 정성민
+		예약 insert 용 쿼리문
+	-->
+	<insert id="insertReserve" parameterType="reserve">
+		INSERT INTO RESERVE(RESERVE_NO, 
+		                    START_DATE, 
+		                    END_DATE, 
+		                    NIGHTS, 
+		                    MEMBER_COUNT,
+		                    PAYMENT_ID, 
+		                    PRICE, 
+		                    PAYMENT_DATE,
+		                    PAYMENT_METHOD, 
+		                    PAYMENT_STATUS,
+		                    MEMBER_NO, 
+		                    CAMPSITE_ID)
+		             VALUES(RESERVE_SEQ.NEXTVAL,
+		                    #{startDate},
+		                    #{endDate},
+		                    #{nights},
+		                    #{memberCount},
+		                    '12345',
+		                    #{price},
+		                    SYSDATE,
+		                    'CARD',
+		                    'PAID',
+		                    #{memberNo},
+		                    #{campsiteId})
+	</insert>
+	
+	<!--  
+		24.12.20 정성민
+		결제후 예약번호 조회용 쿼리문
+	-->
+	<select id="selectReserveNo" resultType="_int">
+		SELECT RESERVE_SEQ.CURRVAL FROM DUAL
+	</select>
+	
+	<!--  
+		24.12.20 정성민
+		결제후 예약 상세조회용 쿼리문
+	-->
+	<select id="selectAfterReserve" parameterType="reserve" resultMap="reserveResultSet">
+		SELECT *
+		  FROM RESERVE
+		 WHERE RESERVE_NO = #{rNum}
+		   AND PAYMENT_STATUS = 'PAID'
+	</select>
+	
+	<!--  
+		24.12.20 정성민
+		예약내역 총 갯수 조회용 쿼리문
+	-->
+	<select id="selectListCount" parameterType="_int" resultType="_int">
+		SELECT COUNT(*) 
+		  FROM RESERVE
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND PAYMENT_STATUS IN ('PAID', 'CANCELED', 'REFUNDED')
+	</select>
+
+	<!--  
+		24.12.20 정성민
+		예약내역 목록조회용 쿼리문
+	-->
+	<select id="selectList" parameterType="_int" resultMap="reserveResultSet">
+		SELECT RESERVE_NO, PAYMENT_DATE, PRICE, PAYMENT_STATUS
+		  FROM RESERVE
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND PAYMENT_STATUS IN ('PAID', 'CANCELED', 'REFUNDED')
+		 ORDER BY RESERVE_NO DESC
+	</select>
+	
+	<!--  
+		24.12.20 정성민
+		예약내역 상세조회용 쿼리문
+	-->
+	
+	<select id="selectReserve" parameterType="_int" resultMap="reserveResultSet">
+		SELECT RESERVE_NO, PAYMENT_DATE, START_DATE, END_DATE, PAYMENT_METHOD, PRICE, MEMBER_COUNT
+		  FROM RESERVE
+		 WHERE RESERVE_NO = #{rno}
 	</select>
 	
 	

@@ -123,10 +123,12 @@
 			<mapping path="/myPage.me" />
 			<mapping path="/updateForm.me" />
 			<mapping path="/changeMemberPwd.me" />
+			<!--  
 			<mapping path="/reserveDate.res" />
 			<mapping path="/reserveDetail.res" />
 			<mapping path="/reservePayment.res" />
 			<mapping path="/reserveComplete.res" />
+			-->
 			<beans:bean class="com.kh.youcamp.common.intercepter.LoginInterceptor" 
 						id="loginInterceptor" />
 		</interceptor>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,7 @@
         background-color: #f8f8f8;
         box-sizing: border-box;
         width: 100%;
-        height: 580px;
+        height: 700px;
     }
 
     * {
@@ -34,6 +36,7 @@
         margin: 0 auto;
         padding: 20px;
         padding-top: 0px;
+        height: 80%;
         
     }
 
@@ -47,6 +50,7 @@
         background-color: white;
         width: 100%;
         margin: 0 auto;
+        
         
     }
 
@@ -93,10 +97,10 @@
         font-size: 15px; /* 글자 크기 */
         font-weight:520; /* 텍스트 굵게 */
         color: #333; /* 텍스트 색상 */
-        margin-bottom: 10px; /* 아래 여백 */
         border-left: 4px solid #6c5e37; /* 왼쪽에 포인트 색상 바 */
         padding-left: 10px; /* 텍스트와 포인트 바 간격 */
         margin-top: 10px;
+        margin-bottom: 20px;
     }
 
     .reserv_wrap {
@@ -105,7 +109,8 @@
         align-items: center;
         margin: auto;
         height: 400px;
-        padding-top: 70px;
+        padding-top: 0px;
+        margin-top: 0px;
         
         
         
@@ -163,6 +168,29 @@
         cursor: pointer;
         background-color: #cfc9c9;
     }
+    
+    .table-wrap {
+	    width: 90%;
+	    margin: auto;
+	    height: 300px; /* 고정 높이 */
+	    display: flex;
+	    flex-direction: column; /* 자식 요소를 세로로 배치 */
+	}
+	
+	
+	
+	.table_basic td {
+		height: 18px;
+	}
+	
+	.select_button {
+	    height: 60px; /* 버튼 고정 높이 */
+	    margin-top: 10px; /* 테이블과 버튼 간 간격 */
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	}
+    
 
     .select_button .wid_100 {
         display: flex; /* 버튼 내부에서 수직 중앙 정렬 활성화 */
@@ -179,11 +207,17 @@
         font-size: 16px; /* 글자 크기 */
         color: white; /* 텍스트 색상 */
         height: 45px;
-        margin-top: 30px;    
+        margin-top: 0px;    
     }
 
     .select_button .wid_100:hover {
         background-color: #6c5e37
+    }
+    
+    #pagingArea {
+    	display: flex;
+    	margin-top: 50px;
+    	justify-content: center;
     }
 
 </style>
@@ -191,6 +225,7 @@
 <body>
 
 	<jsp:include page="../common/header.jsp" />
+	
 
     <div class="wrap-reserveList">
 
@@ -207,7 +242,12 @@
                 <div class="tit_h3" style="margin-top: 10px;">
                     예약현황
                 </div>
+                
+                <div class="table-wrap">
+                
+                
                 <table class="table_basic" border="1">
+                
                     <thead>
                         <tr>
                             <th>예약번호</th>
@@ -217,19 +257,107 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>0998473</td>
-                            <td>2024-12-09</td>
-                            <td>30,000원</td>
-                            <td>
-                                <span class="state state_point">예약</span>
-                            </td>
-                        </tr>
+                    
+                    	<c:forEach var="r" items="${ requestScope.list }">
+                    	
+	                        <tr>
+	                            <td>${ r.reserveNo }</td>
+	                            <td>${ r.paymentDate.substring(0, 10) }</td>
+	                            <td><fmt:formatNumber value="${r.price}" type="number" pattern="#,###" /></td>
+	                            <td>
+	                            	
+	                            	<c:choose>
+	                                	<c:when test="${ r.paymentStatus eq 'PAID' }">
+	                                		<span class="state state_point">예약 완료</span>
+	                                	</c:when>
+	                                	
+	                                	<c:when test="${ r.paymentStatus eq 'CANCELED' }">
+	                                		<span class="state state_point">취소 완료</span>
+	                                	</c:when>
+	                                	
+	                                	<c:when test="${ r.paymentStatus eq 'REFUNDED' }">
+	                                		<span class="state state_point">취소 진행중</span>
+	                                	</c:when>
+	                                	
+	                                </c:choose>
+	                                
+	                            </td>
+	                        </tr>
+                        
+                        </c:forEach>
+                        
                     </tbody>
                 </table>
-                <div class="section select_button">
+                </div>
+                
+                
+                
+                
+                <div id="pagingArea">
+	                <ul class="pagination">
+		                
+		                <c:choose>
+		                	<c:when test="${ requestScope.pi.currentPage eq 1 }">
+			                    <li class="page-item disabled">
+			                    	<a class="page-link" href="#">
+			                    		Previous
+			                    	</a>
+			                    </li>
+			                </c:when>
+			                <c:otherwise>
+			                	<li class="page-item">
+			                    	<a class="page-link" href="reserveList.res?cpage=${ requestScope.pi.currentPage - 1 }">
+			                    		Previous
+			                    	</a>
+			                    </li>
+			                </c:otherwise>
+		                </c:choose>
+	                    
+	                    <c:forEach var="p" begin="${ requestScope.pi.startPage }"
+	                    				   end="${ requestScope.pi.endPage }" 
+	                    				   step="1">
+	                    	<c:choose>
+	                    		<c:when test="${ p ne requestScope.pi.currentPage }">			   
+				                    <li class="page-item">
+				                    	<a class="page-link" href="reserveList.res?cpage=${ p }">
+				                    		${ p }
+				                    	</a>
+				                    </li>
+			                    </c:when>
+			                    <c:otherwise>
+			                    	<li class="page-item disabled">
+				                    	<a class="page-link" href="reserveList.res?cpage=${ p }">
+				                    		${ p }
+				                    	</a>
+				                    </li>
+		                    	</c:otherwise>
+		                    </c:choose>
+	                    </c:forEach>
+	                    
+	                    <c:choose>
+	                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+	                   			<li class="page-item">
+	                   				<a class="page-link" href="reserveList.res?cpage=${ requestScope.pi.currentPage + 1 }">
+	                   					Next
+	                   				</a>
+	                   			</li>
+	                   		</c:when>
+	                   		<c:otherwise>
+	                   			<li class="page-item disabled">
+	                   				<a class="page-link" href="#">
+	                   					Next
+	                   				</a>
+	                   			</li>
+	                   		</c:otherwise>
+	                   	</c:choose>
+	                </ul>
+	            </div>
+	            
+	            <div class="section select_button">
                     <a href="#" onclick="history.back();" class="wid_100">이전</a>
                 </div>
+	            
+                
             </div>
         </div>
     </div>
@@ -238,11 +366,11 @@
         $(function() {
             $(".table_basic>tbody>tr").click(function() {
 
-                // let rno = $(this).children().eq(0).text();
+                let rno = $(this).children().eq(0).text();
 
-                // location.href="reserveComplete.res?rno=" + rno;
+                location.href="reserveComplete.res?rno=" + rno;
 
-                location.href="reserveComplete.res";
+                
             })
 
         });

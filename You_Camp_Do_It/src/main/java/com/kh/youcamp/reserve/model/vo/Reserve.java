@@ -17,6 +17,7 @@ public class Reserve {
 	private String startDate;
 	private String endDate;
 	private int nights;
+	private int memberCount;
 	private String paymentId;
 	private int price;
 	private String paymentDate;

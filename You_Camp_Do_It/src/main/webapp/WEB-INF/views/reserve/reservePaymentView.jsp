@@ -590,6 +590,109 @@
         .agree_box label {
         	margin-bottom: 0px;
         }
+        
+        
+        .custom-dropdown {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 60px;
+            
+        }
+        
+        .wrap_select_userNo {
+        	margin-bottom: 0px;
+        	height: 95px;
+        }
+        
+		/* 드롭다운 메뉴 */
+		.custom-dropdown {
+		    display: flex;
+		    width: 100%;
+		    font-family: Arial, sans-serif;
+		    margin-bottom: 20px;
+		    align-items: center;
+		    gap: 60px;
+		    
+		}
+		
+		.custom-dropdown label {
+		    display: block;
+		    margin-bottom: 5px;
+		    font-size: 14px;
+		    color: #555;
+		    white-space: nowrap;
+		    margin: 0px;
+		}
+		
+		.dropdown {
+		    position: relative;
+		    width: 100%;
+		}
+		
+		.dropdown-toggle {
+		    width: 150px;
+		    padding: 10px;
+		    font-size: 16px;
+		    text-align: left;
+		    background: #fff;
+		    border: 1px solid #ccc;
+		    border-radius: 4px;
+		    cursor: pointer;
+		    position: relative;
+		    font-size: 14px;
+		    
+		}
+		
+		.dropdown-toggle::after {
+		    content: "▼";
+		    position: absolute;
+		    right: 10px;
+		    top: 50%;
+		    transform: translateY(-50%);
+		    font-size: 12px;
+		    color: #aaa;
+		}
+		
+		.dropdown-menu {
+		    display: none;
+		    position: absolute;
+		    width: 100%;
+		    border: 1px solid #ccc;
+		    background: #fff;
+		    z-index: 10;
+		    border-radius: 4px;
+		    margin-top: 5px;
+		    padding: 0;
+		    list-style: none;
+		    max-height: 150px;
+		    overflow-y: auto;
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+		
+		.dropdown-menu li {
+		    padding: 10px;
+		    cursor: pointer;
+		    font-size: 14px;
+		}
+		
+		.dropdown-menu li:hover {
+		    background: #f0f0f0;
+		}
+		
+		.dropdown-menu li.active {
+		    background: #007bff;
+		    color: #fff;
+		}
+		
+		
+
 
         
     </style>
@@ -634,7 +737,7 @@
                     <input type="hidden" name="price" value="">
                     <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
-                    
+                    <input type="hidden" name="memberCount" value="">
 
                     <div class="pc_wrap">
                         <!-- 캠핑 사이트 사진, 이용가능시설-->
@@ -984,9 +1087,6 @@
                             </div>
                             
                             
-                        
-                            
-                            
                             <div class="section reserv_agree2">
                                 <div class="agree_box">
                                     <input type="checkbox" name="agree2" id="agree2" class="custum_checkbox">
@@ -1002,7 +1102,49 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            
                             </div>
+                            
+                            
+                            <div class="section wrap_select_userNo">
+                            	<div class="tit_h3">
+	                                이용인원 선택
+	                            </div>
+	                            
+	                            	
+	                            	<div class="custom-dropdown">
+									    <label for="dropdown">캠핑장 이용인원을 선택해주세요</label>
+									    <div class="dropdown">
+									        <button type="button" class="dropdown-toggle">선택해주세요</button>
+									        <ul class="dropdown-menu">
+									        	<c:choose>
+									        		<c:when test="${ requestScope.r.section eq 'A' || requestScope.r.section eq 'B' }">
+									        			<li data-value="1">1명</li>
+											            <li data-value="2">2명</li>
+											            <li data-value="3">3명</li>
+											            <li data-value="4">4명</li>
+									        		</c:when>
+									        		<c:when test="${ requestScope.r.section eq 'C' || requestScope.r.section eq 'D' }">
+									        			<li data-value="1">1명</li>
+											            <li data-value="2">2명</li>
+											            <li data-value="3">3명</li>
+											            <li data-value="4">4명</li>
+											            <li data-value="5">5명</li>
+											            <li data-value="6">6명</li>
+											            
+									        		</c:when>
+									        	</c:choose>
+									            
+									        </ul>
+									        <input type="hidden" id="dropdown" name="dropdown" value="">
+									    </div>
+									</div>
+
+	                            	
+	                            
+                            </div>
+                            
                             <div class="section bg_none reserve_amount">
                                 <div class="tit_h3">
                                     결제예정 금액
@@ -1016,10 +1158,10 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
-		                                                    <strong>30,000원</strong>
+		                                                    <strong></strong>
 		                                                </span>
 		                                            </li>
 		                                        </ul>
@@ -1029,19 +1171,19 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
-		                                                    <strong>30,000원</strong>
+		                                                    <strong></strong>
 		                                                </span>
 		                                            </li>
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션-<c:out value="${ requestScope.r.spotNo}" />
+		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo}" />
 		                                                </span>
 		                                                <span class="price">
-		                                                    <strong>30,000원</strong>
+		                                                    <strong></strong>
 		                                                </span>
 		                                            </li>
 		                                        </ul>
@@ -1122,18 +1264,20 @@
 		    });
             
             $(".btnPay").on("click", function(e) {
-            	if (!$("#agree1").is(":checked")) {
+           	    if (!$("#agree1").is(":checked")) {
             		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
             		return false;
             	} else if (!$("#agree2").is(":checked")) {
             		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
+            		return false;
+            	} else if ($(".dropdown-toggle").text() == "선택해주세요") {
+            		alert("캠핑장 이용인원을 선택해주세요!");
             		return false;
             	} else if (!$("#agree3").is(":checked")) {
             		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
             		return false;
             	} 
             	
-            	location.href="reserveComplete.res";
             	
             	
             });
@@ -1149,7 +1293,7 @@
             let spotNo = "${requestScope.r.spotNo}";
             
             
-            
+            // 체크인/체크아웃 날짜 표시
             let date = new Date(startDate);
     		let checkInMonth = (date.getMonth() + 1).toString().padStart(2, "0");
     		let checkInDay = date.getDate().toString().padStart(2, "0");
@@ -1188,7 +1332,7 @@
             } else {
             	
             	let totalPrice = price * nights;
-            	console.log(totalPrice);
+            	
             	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
@@ -1196,6 +1340,43 @@
             }
             
             // console.log($("input[name='price']").val());
+            
+            
+            
+            // 드롭다운 메뉴 열기/닫기
+            $(".dropdown-toggle").on("click", function () {
+                $(this).next(".dropdown-menu").toggle(); // 메뉴 보이기/숨기기
+            });
+
+            // 옵션 선택 시
+            $(".dropdown-menu li").on("click", function () {
+                let value = $(this).data("value");
+                let text = $(this).text();
+
+                // 선택된 값 버튼에 표시
+                $(this).closest(".dropdown").find(".dropdown-toggle").text(text);
+
+                // 선택된 값 hidden input에 저장
+                $(this).closest(".dropdown").find("input[type='hidden']").val(value);
+
+                // 메뉴 닫기
+                $(this).parent().hide();
+                
+                $("input[name='memberCount']").val(text.replace("명", ""));
+                
+                
+                
+                
+            });
+
+            // 페이지 다른 곳 클릭 시 메뉴 닫기
+            $(document).on("click", function (e) {
+                if (!$(e.target).closest(".dropdown").length) {
+                    $(".dropdown-menu").hide();
+                }
+            });
+
+
             
         });
         

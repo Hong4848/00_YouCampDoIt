@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.reserve.model.dao.ReserveDao;
 import com.kh.youcamp.reserve.model.vo.Campsite;
 import com.kh.youcamp.reserve.model.vo.Reserve;
@@ -39,7 +40,70 @@ public class ReserveServiceImpl implements ReserveService {
 		
 		return reserveDao.selectRestSites(sqlSession, r);
 	}
+
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약 insert 용 서비스 메소드
+	 */
+	@Override
+	public int insertReserve(Reserve r) {
+		return reserveDao.insertReserve(sqlSession, r);
+	}
 	
+	/**
+	 * 24.12.20 정성민
+	 * 결제후 예약번호 조회용 쿼리문
+	 */
+	@Override
+	public int selectReserveNo() {
+		return reserveDao.selectReserveNo(sqlSession);
+	}
+	
+	/**
+	 * 24.12.20 정성민
+	 * 결제후 예약 상세조회용 서비스 메소드
+	 */
+	@Override
+	public Reserve selectAfterReserve(int rNum) {
+		return reserveDao.selectAfterReserve(sqlSession, rNum);
+	}
+
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약 목록조회용 서비스 메소드
+	 */
+	@Override
+	public ArrayList<Reserve> selectReserveList(int memberNo) {
+		return null;
+	}
+
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약내역 총 갯수 조회용 서비스 메소드
+	 */
+	@Override
+	public int selectListCount(int memberNo) {
+		return reserveDao.selectListCount(sqlSession, memberNo);
+	}
+
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약내역 목록 조회용 서비스 메소드
+	 */
+	@Override
+	public ArrayList<Reserve> selectList(PageInfo pi, int memberNo) {
+		return reserveDao.selectList(sqlSession, pi, memberNo);
+	}
+
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약내역 상세 조회용 서비스 메소드
+	 */
+	@Override
+	public Reserve selectReserve(int rno) {
+		return reserveDao.selectReserve(sqlSession, rno);
+	}
+
 	
 	
 
