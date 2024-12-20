@@ -252,7 +252,7 @@
 			                        <tr>
 			                    </c:if>
 			                    <td>
-			                        <a href="detail.re?reviewNo=${review.reviewNo}">
+ 			                        <a href="${pageContext.request.contextPath }/detail.re?reviewNo=${review.reviewNo}">
 			                            <span class="tbumb_hover"></span>
 			                            <img src="${pageContext.request.contextPath}${review.mainImage}" alt="${review.reviewTitle}">
 			                            <span class="date">${review.createDate}</span>

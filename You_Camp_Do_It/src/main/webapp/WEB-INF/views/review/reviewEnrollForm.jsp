@@ -250,23 +250,22 @@
 			                <label>대표 이미지</label>
 			                <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
 			                <div class="image-preview" onclick="document.getElementById('mainImage').click()">
-			                   <img src="/resources/images/review/plus-icon.jpg" id="mainImagePreview" />
+			                   <img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png" id="mainImagePreview" style="width : 20px; height : 20px" />
 			                </div>
 			            </div>
-			
 			            <!-- 상세 이미지 -->
 			            <div class="image-upload">
 						    <label for="detailImage1">상세 이미지 1</label>
 						    <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview1')"/>
 						    <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
-						    	 <img src="/resources/images/review/plus-icon.jpg"  id="detailImagePreview1"  /> 
+						    	 <img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png"  id="detailImagePreview1" style="width : 20px; height : 20px" /> 
 							</div>
 						</div>
 						<div class="image-upload">
 						    <label for="detailImage2">상세 이미지 2</label>
 						    <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview2')"/>
 						    <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
-						    	<img src="/resources/images/review/plus-icon.jpg"  id="detailImagePreview2" /> 
+						    	<img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png"  id="detailImagePreview2" style="width : 20px; height : 20px"/> 
 						    </div>
 						</div>
 			        </div>
@@ -310,26 +309,37 @@
      	
         // 폼 데이터 제출 처리
         document.getElementById("uploadForm").addEventListener("submit", function (event) {
-            event.preventDefault(); // 기본 폼 제출 방지
-
-            const formData = new FormData(this);
-
-            fetch("insert.re", {
-                method: "POST",
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.text().then(text => { throw new Error(text) });
-                }
-                window.location.href = "list.re";
-            })
-            .catch(error => {
-                //console.error("전송 중 오류 발생:", error);
-                alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
-            });
-
-        });
+		    event.preventDefault();
+		
+		    const formData = new FormData();
+		    
+		    // 제목과 내용 추가
+		    formData.append("reviewTitle", document.getElementById("reviewTitle").value);
+		    formData.append("reviewContent", document.getElementById("reviewContent").value);
+		    
+		    // 파일들 추가
+		    const mainImage = document.getElementById("mainImage").files[0];
+		    const detailImage1 = document.getElementById("detailImage1").files[0];
+		    const detailImage2 = document.getElementById("detailImage2").files[0];
+		    
+		    if (mainImage) formData.append("upfile", mainImage);
+		    if (detailImage1) formData.append("upfile", detailImage1);
+		    if (detailImage2) formData.append("upfile", detailImage2);
+		
+		    fetch("insert.re", {
+		        method: "POST",
+		        body: formData
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error("서버 오류가 발생했습니다.");
+		        }
+		        window.location.href = "list.re";
+		    })
+		    .catch(error => {
+		        alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
+		    });
+		});
     
     </script>
 

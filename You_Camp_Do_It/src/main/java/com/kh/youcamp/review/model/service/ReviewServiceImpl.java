@@ -1,5 +1,6 @@
 package com.kh.youcamp.review.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -48,10 +49,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     // 상세조회 서비스 메소드
 	@Override
-	public Review selectReview(int rno) {
-		// TODO Auto-generated method stub
-		return null;
+	public Review selectReview(int reviewNo) {
+		return reviewDao.selectReview(sqlSession, reviewNo);
 	}
+
+	@Override
+	public ArrayList<ReviewAttachment> selectReviewAttachment(int reviewNo) {
+		return reviewDao.selectReviewAttachment(sqlSession, reviewNo);
+	}
+
+    
+
 
 
 }

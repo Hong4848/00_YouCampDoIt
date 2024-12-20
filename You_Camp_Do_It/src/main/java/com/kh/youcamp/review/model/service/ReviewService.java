@@ -1,9 +1,11 @@
 package com.kh.youcamp.review.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.review.model.vo.Review;
+import com.kh.youcamp.review.model.vo.ReviewAttachment;
 
 public interface ReviewService {
 	
@@ -16,7 +18,9 @@ public interface ReviewService {
     int selectCount();
 
     // 상세조회 서비스 메소드
-	Review selectReview(int rno);
+	Review selectReview(int reviewNo);
+
+	ArrayList<ReviewAttachment> selectReviewAttachment(int reviewNo);
 
 	
 }
