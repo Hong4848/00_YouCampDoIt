@@ -331,6 +331,26 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- 장바구니 담기 및 구매 버튼 추가 24.12.20 윤홍문 -->
+						<div id="cart-order-forms">
+							<form action="${pageContext.request.contextPath}/insert.ca" 
+								  method="post"
+								  id="cart-insert-form">
+								<input type="hidden" id="" 
+									   name="goodsNo" value="${requestScope.goods.goodsNo}">
+								<input type="hidden" id="quantity-input"
+									   name="quantity" value="">
+								<button type="submit" id="cart-insert-btn">장바구니 담기</button>
+							</form>
+							<!-- 
+							바로 구매는 여유있으면 구현 예정
+							
+							<form action="">
+								<button>구매하기</button>
+							</form>
+							-->
+						</div>
 					</div>
 				</div>
 				<div style="border-bottom: 1px solid rgba(128, 128, 128, 0.3); height: 30px; margin-top: 30px; margin-bottom: 30px;"></div>
@@ -340,6 +360,19 @@
 				<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 			</div>
 		</div>
+		
+		<script>
+			// cart insert form 의 btn 클릭 시 수량값을 가져오는 함수
+			$(function(){
+				$(document).on('submit', '#cart-insert-form', function (event) {
+					let amount = parseInt($("#priceEA").val());
+					// console.log(amount);
+					$("#quantity-input").val(amount);
+				});
+
+
+			});
+		</script>
 		<script>
 			$(function(){
 				let height = $(".sumUpContent").css("height");
@@ -370,6 +403,9 @@
 					reckoning();
 				}
 			});
+
+
+
 		</script>
 
 		<script>

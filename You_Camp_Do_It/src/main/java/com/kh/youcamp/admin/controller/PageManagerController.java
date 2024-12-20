@@ -13,10 +13,17 @@ import com.kh.youcamp.goods.model.vo.Goods;
 @Controller
 public class PageManagerController
 {
-	@GetMapping("manager.ma")
-	public ModelAndView adminPage1(ModelAndView mv)
+	@GetMapping("addProduct.ma")
+	public ModelAndView addProduct(ModelAndView mv)
 	{
 		mv.setViewName("goods/addProduct");
+		return mv;
+	}
+	
+	@GetMapping("Management.ma")
+	public ModelAndView productManagement(ModelAndView mv)
+	{
+		mv.setViewName("goods/productManagement");
 		return mv;
 	}
 }

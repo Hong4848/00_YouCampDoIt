@@ -53,9 +53,9 @@
 	        <div class="buy-area">
 	            <span class="total-price">총 0건 주문금액 0원</span>
 	            
-				 <form id="orderForm" 
-				 	   action="${pageContext.request.contextPath}/insert.or" 
-					   method="POST">
+				<form id="orderForm" 
+				 	  action="${pageContext.request.contextPath}/insert.or" 
+					  method="POST">
 					<!-- 장바구니 데이터가 있는 경우 hidden input에 값을 추가해서 데이터 전송 -->
 					<input type="hidden" name="totalPrice" id="totalPriceInput" value="0">
     				<!-- <input type="hidden" name="totalCount" id="totalCountInput" value="0"> 선택한 장바구니 수 (전체수량이 아님) -->

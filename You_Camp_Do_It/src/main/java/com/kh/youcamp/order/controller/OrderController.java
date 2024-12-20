@@ -28,6 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kh.youcamp.cart.model.service.CartService;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.order.model.service.OrderService;
 import com.kh.youcamp.order.model.vo.Order;
@@ -43,6 +44,9 @@ public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private CartService cartService;
 	
 	// nicePay util 메소드들 ------------------------------------------------------
 	public final synchronized String getyyyyMMddHHmmss(){
@@ -291,7 +295,9 @@ public class OrderController {
 	 * @throws Exception
 	 */
 	@PostMapping(value="update.or")
-	public String updateOrder(HttpServletRequest request, Model model) throws Exception {
+	public String updateOrder(HttpServletRequest request, 
+							  Model model,
+							  int orderNo) throws Exception {
 		
 		// request.setCharacterEncoding("utf-8"); 
 		
@@ -400,8 +406,8 @@ public class OrderController {
 				TID       	= (String)resultData.get("TID");		// 거래번호
 				// Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
 				// 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
-				/*Signature = (String)resultData.get("Signature");
-				paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey);*/
+				/* Signature = (String)resultData.get("Signature");
+				paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey); */
 				
 				/*
 				*************************************************************************************
@@ -423,6 +429,42 @@ public class OrderController {
 						if(ResultCode.equals("0000")) paySuccess = true; // 계좌간편결제(정상 결과코드:0000)
 					}
 				}
+				
+				// ----------------------------------------------------------------------
+				if(paySuccess = true) { // 결제완료
+					
+					log.debug("결제 완료 후 orderNo 잘 넘어오나? : " + orderNo);
+					// 결제 완료 후 order UPDATE > orderNo 기준
+					Order order = new Order();
+					order.setOrderNo(orderNo);
+					order.setPaymentId(TID);
+					order.setPaymentMethod(PayMethod);
+					log.debug("오더 업데이트 직전 : " + order);
+					int resultUpdateOrder = orderService.updateOrder(order);
+					log.debug("오더 업데이트 됏냐? resultUpdateOrder : " + resultUpdateOrder);
+					
+					// 결제 완료된 장바구니 삭제
+					// 오더넘버 > 주문상세의 상품번호 > 상품번호 기준 장바구니 삭제
+					int resultDeleteCart = cartService.deleteCartByOrderNo(orderNo);
+					log.debug("카트 딜리트 됏냐? resultUpdateOrder : " + resultDeleteCart);
+					
+					// 결제완료한 상품 orderDetail select > orderNo 기준
+					ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+					
+					model.addAttribute("list", list);
+					
+					model.addAttribute("resultJsonStr", resultJsonStr);
+					model.addAttribute("ResultCode", ResultCode);
+				    model.addAttribute("ResultMsg", ResultMsg);
+				    model.addAttribute("PayMethod", PayMethod);
+				    model.addAttribute("GoodsName", GoodsName);
+				    model.addAttribute("Amt", Amt);
+				    model.addAttribute("TID", TID);
+					
+					return "order/payResult";
+				}
+				// --------------------------------------------------------------------------
+				
 			}
 		}else/*if(authSignature.equals(authComparisonSignature))*/{
 			ResultCode 	= authResultCode; 	
@@ -433,17 +475,10 @@ public class OrderController {
 		}*/
 		
 		
-		model.addAttribute("resultJsonStr", resultJsonStr);
-		model.addAttribute("ResultCode", ResultCode);
-	    model.addAttribute("ResultMsg", ResultMsg);
-	    model.addAttribute("PayMethod", PayMethod);
-	    model.addAttribute("GoodsName", GoodsName);
-	    model.addAttribute("Amt", Amt);
-	    model.addAttribute("TID", TID);
-	    
-	    
+	    // 결제 실패 경우
+	    model.addAttribute("errorMsg", "결제 실패. 다시 시도해주세요");
+		return "common/errorPage";
 		
-		return "order/payResult";
 	}
 	
 	

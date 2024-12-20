@@ -154,7 +154,7 @@
 				display: flex;
 				flex-wrap: wrap;
 				overflow: hidden;
-				transition: all 0.5s;
+				transition: all 1s;
 
 				border-width: 0px 4px 0px 0px ;
   				border-style: solid;
@@ -208,16 +208,14 @@
                 </div>
                 <div style="height: 20px;"></div>
 
-                <div class="head_node">
+                <div class="head_node" id="Product">
                     <div class="head_node_left"><img src="resources/images/admin/상품관리.png" alt=""></div>
                     <div class="head_node_mid">상품관리</div>
                     <div class="head_node_right">▶</div>
                 </div>
                 <div class="mid_node">
-                    <div class="leaf_node" id="ProductList"><a>◈ 상품목록일람</a></div>
-                    <div class="leaf_node" id="RegistrationProduct"><a>◈ 상품정보등록</a></div>
-                    <div class="leaf_node"><a>◈ 상품정보수정</a></div>
-                    <div class="leaf_node"><a>◈ 상품재고관리</a></div>
+                    <div class="leaf_node" id="ProductRegister"><a href="${ pageContext.request.contextPath }/addProduct.ma">◈ 상품정보등록</a></div>
+					<div class="leaf_node" id="ProductList"><a href="${ pageContext.request.contextPath }/Management.ma">◈ 상품정보관리</a></div>
                     <div class="leaf_node"><a>◈ 상품주문관리</a></div>
                     <div class="leaf_node"><a>◈ 상품주문통계</a></div>
                 </div>
@@ -254,7 +252,6 @@
             </div>
         </div>
         <script>
-
 			$(".head_node").click(function(){
 				if($(this).children(".head_node_right").text() === "▶")
 				{
@@ -271,11 +268,6 @@
 					$(this).children(".head_node_right").text("▶");
 					$(this).next().css("height", 0);	
 				}
-			});
-
-			$(".leaf_node").click(function(){
-				$(".leaf_node").children().css("color", "rgb(236, 240, 241)");
-				$(this).children().css("color","red");
 			});
 		</script>
 	</body>

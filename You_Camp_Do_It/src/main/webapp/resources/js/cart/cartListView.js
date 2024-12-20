@@ -136,7 +136,6 @@ $(function () {
 		// 체크: 가격이 0이거나 선택된 항목이 없거나 null이면 폼 제출 방지
 		if (totalPrice <= 0 || itemCount <= 0) {
 			alertify.alert("Alert", "장바구니가 비어있거나 선택된 항목이 없습니다.");
-			
 			return;
 		}
 
@@ -169,7 +168,6 @@ $(function () {
 		$("#orderDetailsInput").val(jsonData);
 		// console.log("#orderDetailsInput : ", $("#orderDetailsInput").val());
 
-		
 		// 폼 제출
 		this.submit();
 
@@ -269,7 +267,9 @@ function renderCartItems(items) {
 			<div class="cart-item">
 				<input type="checkbox" value="${item.cartNo}">
 				<input type="hidden" name="" value="${item.goods.goodsNo}">
-				<img src="https://via.placeholder.com/100" alt="상품 이미지">
+				<div>
+					<img src="https://via.placeholder.com/100" alt="상품 이미지">
+				</div>	
 				<div class="item-details">
 					<h3>${item.goods.goodsName}</h3>
 					<p class="item-options">선택: ${item.goods.goodsInfo}</p>

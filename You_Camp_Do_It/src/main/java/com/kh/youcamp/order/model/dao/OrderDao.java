@@ -31,6 +31,10 @@ public class OrderDao {
 		return (ArrayList)sqlSession.selectList("orderMapper.selectOrederDetailList", orderNo);
 	}
 
+	public int updateOrder(SqlSessionTemplate sqlSession, Order order) {
+		return sqlSession.update("orderMapper.updateOrder", order);
+	}
+
 	
 
 }

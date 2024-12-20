@@ -103,7 +103,16 @@
 		 WHERE ORDER_NO = #{orderNo}
 	</select>
   
-  
+  	<!-- 결제 완료 후 결제 데이터 update 용 -->
+	<update id="updateOrder"
+			parameterType="order">
+		UPDATE GOODS_ORDER
+	       SET PAYMENT_ID = #{paymentId}
+	         , PAYMENT_METHOD = #{paymentMethod}
+	         , PAYMENT_STATUS = 'PAID'
+	         , UPDATED_DATE = SYSDATE
+	     WHERE ORDER_NO = #{orderNo}
+	</update>
   
   
   

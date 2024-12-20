@@ -47,6 +47,12 @@ public class OrderServiceImpl implements OrderService {
 	public ArrayList<OrderDetail> selectOrederDetailList(int orderNo) {
 		return orderDao.selectOrederDetailList(sqlSession, orderNo);
 	}
+
+	@Override
+	@Transactional
+	public int updateOrder(Order order) {
+		return orderDao.updateOrder(sqlSession, order);
+	}
 	
 	 
 	 

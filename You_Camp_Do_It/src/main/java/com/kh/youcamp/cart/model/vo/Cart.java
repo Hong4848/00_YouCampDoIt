@@ -26,5 +26,11 @@ public class Cart {
 	
 	// 조인된 GOODS 객체
     private Goods goods;
+    
+    // 장바구니 중복 확인용 필드
+    private int count;
+    
+    // 각 화면에서 썸네일 불러오는 용도
+    private String goodsThumbnail;
 
 }

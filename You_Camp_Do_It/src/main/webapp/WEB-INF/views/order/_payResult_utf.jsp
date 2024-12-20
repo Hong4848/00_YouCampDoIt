@@ -154,7 +154,7 @@ if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignatu
 <html>
 <head>
 <title>NICEPAY PAY RESULT(UTF-8)</title>
-<m eta charset="utf-8">
+<meta charset="utf-8">
 </head>
 <body>
 	<table>

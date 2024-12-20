@@ -24,5 +24,17 @@ public class CartDao {
 		return sqlSession.update("cartMapper.updateCartQuantity", cart);
 	}
 
+	public int deleteCartByOrderNo(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.delete("cartMapper.deleteCartByOrderNo", orderNo);
+	}
+
+	public int insertCart(SqlSessionTemplate sqlSession, Cart cart) {
+		return sqlSession.insert("cartMapper.insertCart", cart);
+	}
+
+	public int selectCartCount(SqlSessionTemplate sqlSession, int goodsNo) {
+		return sqlSession.selectOne("cartMapper.selectCartCount", goodsNo);
+	}
+
 
 }

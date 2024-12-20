@@ -27,7 +27,6 @@
 	    <div class="order-container">
 			
 			<div class="payResult-info">
-			<!-- 여기 el 구문들 어디서 갖고온거????? -->
 				<h3>결제정보</h3>
 				<table class="payResult-info-table">
 				   <c:choose>
@@ -46,7 +45,7 @@
 				               <th>결제수단</th>
 				               <td>${PayMethod}</td>
 				           </tr>
-				           <tr>
+				           <tr hidden>
 				               <th>상품명</th>
 				               <td>${GoodsName}</td>
 				           </tr>
@@ -81,29 +80,40 @@
 			
 			<p>*테스트 아이디인경우 당일 오후 11시 30분에 취소됩니다.</p>
 
+			<%--
+			<c:choose>
+				<c:when test="${pageContext.request.method == 'GET'}">
+					<p>이 페이지는 GET 요청입니다.</p>
+				</c:when>
+				<c:when test="${pageContext.request.method == 'POST'}">
+					<p>이 페이지는 POST 요청입니다.</p>
+				</c:when>
+				<c:otherwise>
+					<p>이 페이지는 다른 요청 방식입니다: ${pageContext.request.method}</p>
+				</c:otherwise>
+			</c:choose>
+			--%>
+
 			<!-- Order Items - 주문테이블 목록조회 부분 -->
-			<!-- 어디서 포워딩하지?? 데이터 어디서 넘겨야함????? -->
-        	<div class="order-item">
-	            <img src="https://via.placeholder.com/100" alt="상품 이미지">
-	            <div class="item-details">
-	                <h3>캠핑용 접이식 의자</h3>
-	                <p class="item-options">선택: 블랙</p>
-	                <div class="item-quantity">
-	                    <input type="text" value="2" class="quantity-input" readonly>
-	                </div>
-	            </div>
-	            <div class="item-price">
-	                <p>39,800원</p>
-	            </div>
-	        </div>
-			        
-	        	
+        	<c:forEach var="od" items="${ requestScope.list }">
+				<div class="order-item">
+					<img src="https://via.placeholder.com/100" alt="상품 이미지">
+					<div class="item-details">
+						<h3>${od.goods.goodsName}</h3>
+						<p class="item-options">${od.goods.goodsInfo}</p>
+						<div class="item-quantity">
+							<input type="text" value="${od.quantity}" class="quantity-input" readonly>
+						</div>
+					</div>
+					<div class="item-price">
+						<p><fmt:formatNumber value="${od.totalPrice}" type="number" />원</p>
+					</div>
+				</div>
+			</c:forEach>
 	        
 	    </div>
 	    
-	    <br><br><br><br>
-	
-	    
+	    <br><br>
     
     </div>
     

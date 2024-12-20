@@ -29,7 +29,7 @@ public class CartServiceImpl implements CartService{
 	@Override
 	@Transactional
 	public int insertCart(Cart cart) {
-		return 0; //cartDao.insertCart(sqlSession, cart);
+		return cartDao.insertCart(sqlSession, cart);
 	}
 
 	@Override
@@ -42,6 +42,17 @@ public class CartServiceImpl implements CartService{
 	@Transactional
 	public int updateCartQuantity(Cart cart) {
 		return cartDao.updateCartQuantity(sqlSession, cart);
+	}
+
+	@Override
+	@Transactional
+	public int deleteCartByOrderNo(int orderNo) {
+		return cartDao.deleteCartByOrderNo(sqlSession, orderNo);
+	}
+
+	@Override
+	public int selectCartCount(int goodsNo) {
+		return cartDao.selectCartCount(sqlSession, goodsNo);
 	}
 	
 	
