@@ -82,9 +82,81 @@ public class GoodsServiceImpl implements GoodsService{
 		return goodsDao.selectViewCount(sqlSession, goods);
 	}
 
+	/**
+	 * 작성일 : 2024.12.19
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상세 보기 데이터 조회용 쿼리문
+	 */
 	@Override
 	public Goods selectOneGoods(int goods)
 	{
 		return goodsDao.selectOneGoods(sqlSession, goods);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 내용 데이터 조회용 쿼리문
+	 */
+	@Override
+	public ArrayList<Goods> ajaxGoodsSelect(Search search, PageInfo pi) {
+		return goodsDao.ajaxGoodsSelect(sqlSession, search, pi);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 내용 데이터 조회용 쿼리문
+	 */
+	@Override
+	public int ajaxSelectListCount() {
+		return goodsDao.ajaxSelectListCount(sqlSession);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 전체 개수 조회용 쿼리문
+	 */
+	@Override
+	public int totalCount(Search search) {
+		return goodsDao.totalCount(sqlSession, search);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 판매중 개수 조회용 쿼리문
+	 */
+	@Override
+	public int onSaleCount(Search search) {
+		return goodsDao.onSaleCount(sqlSession, search);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 품절 개수 조회용 쿼리문
+	 */
+	@Override
+	public int offSaleCount(Search search) {
+		return goodsDao.offSaleCount(sqlSession, search);
+	}
+
+	/**
+	 * 작성일 : 2024.12.20
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 숨김 개수 조회용 쿼리문
+	 */
+	@Override
+	public int hideCount(Search search) {
+		return goodsDao.hideCount(sqlSession, search);
 	}
 }

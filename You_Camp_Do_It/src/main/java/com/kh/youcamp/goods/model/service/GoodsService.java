@@ -19,4 +19,13 @@ public interface GoodsService {
 	public int selectViewCount(int goods);
 	
 	public Goods selectOneGoods(int goods);
+	
+	public int totalCount(Search search);
+	public int onSaleCount(Search search);
+	public int offSaleCount(Search search);
+	public int hideCount(Search search);
+	
+	public int ajaxSelectListCount();
+	
+	public ArrayList<Goods> ajaxGoodsSelect(Search search, PageInfo pi);
 }

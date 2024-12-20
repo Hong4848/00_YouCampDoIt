@@ -291,162 +291,182 @@
                 </div>
 			</div>
         </div>
-        <script>
-            $(".productInput").on("focus", function(){
-                $(this).css("border-color", "rgb(28, 89, 255)");
-            });
-
-            $(".productInput").on("blur", function(){
-                $(this).css("border-color", "rgb(141, 171, 255)");
-            });
-        </script>
-
-        <script>
-            $("#category").on("focus", function(){
-                $(".select_Category").css("padding-top", 20).css("border", "1px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "5px 5px 5px rgba(128, 128, 128, 0.363)").css("height", 328);
-                
-            });
-
-            $("#category").on("blur", function(){
-                $(".select_Category").css("padding-top", 0).css("border", "0px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "0px 0px 0px rgba(128, 128, 128, 0.363)").css("height", 0);
-            });
-
-            $(".category_body").on("click", function(){
-                let selectC = $(this).children(".val").text();
-                console.log(selectC);
-                $("#category").val(selectC);
-            });
-           
-        </script>
-
-        <script>
-            function onImg(){
-				let myInput = document.getElementById("fileCall");
-				myInput.click();
-			}
-
-            function loadImg(inputFile)
-			{
-				let reader = new FileReader();
-				reader.readAsDataURL(inputFile.files[0]);
-				reader.onload = function(e)
-				{
-					var createImg = document.createElement("img");
-                    var createDiv = document.createElement("div");
-					createImg.src = e.target.result;
-                    createDiv.id = "Thumbnail_Img"
-                    $("#Thumbnail_Area").children().remove();
-                    document.getElementById("Thumbnail_Area").appendChild(createDiv);
-                    document.getElementById("Thumbnail_Img").appendChild(createImg);
-                    $("#Thumbnail_Img").css("width", "100%").css("height", 260).css("margin-top", 10).css("cursor", "pointer");
-                    $("#Thumbnail_Img>img").css("height", "170px").css("margin-top", 30);
-                    $("#Thumbnail_Img").click(function(){
-                        onImg();
-                    });
-				}
-			}
-        </script>
-
-        <script>
-            $(function () {
-	            $("#goodsInfo").summernote({
-                    lang: 'ko-KR',
-	                width: '100%',   //가로값 설정
-	                height: 100,    // 높이값 설정
-	                toolbar: [
-                        // [groupName, [list of button]]
-                        ['fontname', ['fontname']],
-                        ['fontsize', ['fontsize']],
-                        ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-                        ['color', ['forecolor','color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['height', ['height']],
-                    ],
-                    fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-                    fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-                    disableResizeEditor: true
-                });
-	        });
-
-	        $(function () {
-	            $("#goodsContent").summernote({
-                    lang: 'ko-KR',
-	                width: '100%',   //가로값 설정
-	                height: 340,    // 높이값 설정
-	                toolbar: [
-                        // [groupName, [list of button]]
-                        ['fontname', ['fontname']],
-                        ['fontsize', ['fontsize']],
-                        ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
-                        ['color', ['forecolor','color']],
-                        ['para', ['ul', 'ol', 'paragraph']],
-                        ['height', ['height']],
-                        ['insert',['picture','link','video']],
-                    ],
-                    fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
-                    fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
-                    disableResizeEditor: true
-                });
-	        });
-        </script>
-        <script>
-            $("#submit").click(function(){
-                let productThumbnail = $("#Thumbnail_Area").html();
-                let goodsTitle = $("#goodsTitle").val();
-                let goodsInfo = $("#goodsInfo").summernote('code');
-                let category = $("#category").val();
-                let brand = $("#brand").val();
-                let price = $("#price").val();
-                let totalStock = $("#totalStock").val();
-                let goodsContent = $("#goodsContent").summernote('code');
-
-                let errorMsg = "";
-                if(goodsTitle == "" || category == "" || goodsTitle.length > 20){
-                    if(goodsTitle == "")
-                    {
-                        errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
-                    }
-
-                    if(goodsTitle.length > 20)
-                    {
-                        errorMsg += "상품의 이름이 너무 깁니다. 20자로 제한해주세요.<br>";
-                    }
-
-                    if(category == "")
-                    {
-                        errorMsg += "상품이 분류되지 않았습니다.<br>";
-                    }
-                    
-                    alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
-                }
-                else{
-                    let formData = new FormData();
-                    formData.append('goodsThumbnail', productThumbnail);
-                    formData.append('goodsName', goodsTitle);
-                    formData.append('goodsInfo', goodsInfo);
-                    formData.append('category', category);
-                    formData.append('mark', brand);
-                    formData.append('price', price);
-                    formData.append('totalStock', totalStock);
-                    formData.append('goodsContent', goodsContent);
-
-                    $.ajax({
-                        url : "enrollGoods.gs",
-                        type : "post",
-                        data : formData,
-                        contentType: false,
-                        processData: false,
-                        success : function(result)
-                        {
-                            location.replace(result);
-                        },
-                        error : function()
-                        {
-                            console.log("실패");
-                        }
-                    });
-                }
-            });
-        </script>
     </body>
+    <!-- 시작 시 현재 메뉴 부분 강조 -->
+    <script>
+        let imgSwitch = false;
+	    $(document).ready(function(){
+	        let count = $("#Product").next().children().length;
+	        $("#Product").next().css("border-color", "rgb(26, 187, 156, 1.0)");
+			$("#Product").children(".head_node_right").text("▼");
+			$("#Product").next().css("height", count*35);
+	
+			$("#ProductRegister").children().css("color","red");
+	    });
+    </script>
+    
+    <!-- 인풋 요소 강조 -->
+    <script>
+	    $(".productInput").on("focus", function(){
+	        $(this).css("border-color", "rgb(28, 89, 255)");
+	    });
+	
+	    $(".productInput").on("blur", function(){
+	        $(this).css("border-color", "rgb(141, 171, 255)");
+	    });
+	</script>
+	
+	<!-- 카테고리 드롭바 관련 -->
+	<script>
+	    $("#category").on("focus", function(){
+	        $(".select_Category").css("padding-top", 20).css("border", "1px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "5px 5px 5px rgba(128, 128, 128, 0.363)").css("height", 328);
+	        
+	    });
+	
+	    $("#category").on("blur", function(){
+	        $(".select_Category").css("padding-top", 0).css("border", "0px solid rgba(156, 156, 156, 0.3)").css("box-shadow", "0px 0px 0px rgba(128, 128, 128, 0.363)").css("height", 0);
+	    });
+	
+	    $(".category_body").on("click", function(){
+	        let selectC = $(this).children(".val").text();
+	        console.log(selectC);
+	        $("#category").val(selectC);
+	    });
+	   
+	</script>
+	
+    <!-- 섬네일 이미지 등록 -->
+	<script>
+	    function onImg(){
+		    let myInput = document.getElementById("fileCall");
+		    myInput.click();
+	    }
+	
+	    function loadImg(inputFile)
+	    {
+            let reader = new FileReader();
+            reader.readAsDataURL(inputFile.files[0]);
+            reader.onload = function(e)
+            {
+                var createImg = document.createElement("img");
+                var createDiv = document.createElement("div");
+                createImg.src = e.target.result;
+                createDiv.id = "Thumbnail_Img"
+                $("#Thumbnail_Area").children().remove();
+                document.getElementById("Thumbnail_Area").appendChild(createDiv);
+                document.getElementById("Thumbnail_Img").appendChild(createImg);
+                $("#Thumbnail_Img").css("width", "100%").css("height", 260).css("margin-top", 10).css("cursor", "pointer");
+                $("#Thumbnail_Img>img").css("height", "170px").css("margin-top", 30);
+                $("#Thumbnail_Img").click(function(){
+                    onImg();
+                });
+                
+                imgSwitch = true;
+            }
+        }
+	</script>
+	
+    <!-- 상품 기본 내용 서머노트 -->
+	<script>
+	    $(function () {
+	        $("#goodsInfo").summernote({
+	            lang: 'ko-KR',
+                width: '100%',   //가로값 설정
+                height: 100,    // 높이값 설정
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                    ['color', ['forecolor','color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                ],
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+                disableResizeEditor: true
+            });
+	    });
+	
+        $(function () {
+            $("#goodsContent").summernote({
+                lang: 'ko-KR',
+                width: '100%',   //가로값 설정
+                height: 340,    // 높이값 설정
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['fontname', ['fontname']],
+                    ['fontsize', ['fontsize']],
+                    ['style', ['bold', 'italic', 'underline','strikethrough', 'clear']],
+                    ['color', ['forecolor','color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']],
+                    ['insert',['picture','link','video']],
+                ],
+                fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New','맑은 고딕','궁서','굴림체','굴림','돋움체','바탕체'],
+                fontSizes: ['8','9','10','11','12','14','16','18','20','22','24','28','30','36','50','72'],
+                disableResizeEditor: true
+            });
+        });
+	</script>
+	<script>
+	    $("#submit").click(function(){
+	        let productThumbnail = $("#Thumbnail_Area").html();
+	        let goodsTitle = $("#goodsTitle").val();
+	        let goodsInfo = $("#goodsInfo").summernote('code');
+	        let category = $("#category").val();
+	        let brand = $("#brand").val();
+	        let price = $("#price").val();
+	        let totalStock = $("#totalStock").val();
+	        let goodsContent = $("#goodsContent").summernote('code');
+	
+	        let errorMsg = "";
+	        if(goodsTitle == "" || category == "" || goodsTitle.length > 20 || imgSwitch == false){
+	            if(goodsTitle == ""){
+	                errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
+	            }
+	
+	            if(goodsTitle.length > 20){
+	                errorMsg += "상품의 이름이 너무 깁니다. 20자로 제한해주세요.<br>";
+	            }
+	
+	            if(category == ""){
+	                errorMsg += "상품이 분류되지 않았습니다.<br>";
+	            }
+
+                if(imgSwitch == false){
+                    errorMsg += "상품의 섬네일 이미지가 등록되지 않았습니다.<br>";
+                }
+	            
+	            alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
+	        }
+	        else{
+	            let formData = new FormData();
+	            formData.append('goodsThumbnail', productThumbnail);
+	            formData.append('goodsName', goodsTitle);
+	            formData.append('goodsInfo', goodsInfo);
+	            formData.append('category', category);
+	            formData.append('mark', brand);
+	            formData.append('price', price);
+	            formData.append('totalStock', totalStock);
+	            formData.append('goodsContent', goodsContent);
+	
+	            $.ajax({
+	                url : "enrollGoods.gs",
+	                type : "post",
+	                data : formData,
+	                contentType: false,
+	                processData: false,
+	                success : function(result)
+	                {
+	                    location.replace(result);
+	                },
+	                error : function()
+	                {
+	                    console.log("실패");
+	                }
+	            });
+	        }
+	    });
+	</script>
 </html>

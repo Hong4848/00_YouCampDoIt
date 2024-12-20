@@ -168,4 +168,46 @@
 		 WHERE GOODS_NO = #{goodsNo}
 		   AND STATUS = 'Y'
  	</select>
+ 	
+ 	<!-- 관리자 페이지 전체 리스트 개수 -->
+ 	<select id="ajaxSelectListCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+ 	</select>
+ 	<!-- 관리자 페이지 전체 리스트 조회 -->
+ 	<select id="ajaxGoodsSelect" resultMap="goodsResultSet">
+ 		SELECT GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, MARK, PRICE, DISCOUNT, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS
+		  FROM( SELECT ROWNUM GOODSLIST, G.*
+		          FROM( SELECT *
+		                  FROM GOODS
+		              ORDER BY GOODS_NO DESC) G
+		      )
+		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<!-- 관리자 페이지 용 전체 수 조회 -->
+ 	<select id="totalCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+ 	</select>
+ 	
+ 	<select id="onSaleCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE STATUS = 'Y'
+		   AND REMAIN_STOCK > 0
+ 	</select>
+ 	
+ 	<select id="offSaleCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE STATUS = 'Y'
+		   AND REMAIN_STOCK = 0
+ 	</select>
+ 	
+ 	<select id="hideCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE STATUS = 'N'
+ 	</select>
 </mapper>
