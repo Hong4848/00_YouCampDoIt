@@ -1,6 +1,8 @@
 package com.kh.youcamp.goods.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,8 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.goods.model.service.GoodsService;
@@ -72,13 +74,13 @@ public class GoodsController
 		{
 			// 성공
 			session.setAttribute("alertMsg", "상품 등록에 성공했습니다");
-			return "manager.ma";
+			return "addProduct.ma";
 		}
 		else
 		{
 			// 실패
 			session.setAttribute("errorMsg", "상품 등록에 실패했습니다");
-			return "manager.ma";
+			return "addProduct.ma";
 		}
 	}
 	
@@ -147,6 +149,58 @@ public class GoodsController
 		return "goods/searchShoppingMall";
 	}
 	
+	@ResponseBody
+	@GetMapping(value="ajaxTotalListCount.ma", produces="application/json; charset=UTF-8")
+	public String ajaxTotalListCount(Search search, HttpSession session) {
+		
+		int totalCount = goodsService.totalCount(search);
+		int onSaleCount = goodsService.onSaleCount(search);
+		int offSaleCount = goodsService.offSaleCount(search);
+		int hideCount = goodsService.hideCount(search);
+		
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("onSaleCount", onSaleCount);
+		ajaxList.put("offSaleCount", offSaleCount);
+		ajaxList.put("hideCount", hideCount);
+		
+		return new Gson().toJson(ajaxList);
+	}
+	
+	@ResponseBody
+	@GetMapping(value="ajaxGoodsManagement.ma", produces="application/json; charset=UTF-8")
+	public String ajaxGoodsSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, Search search, HttpSession session)
+	{
+		int listCount = goodsService.ajaxSelectListCount();
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Goods> list = goodsService.ajaxGoodsSelect(search, pi);
+		
+		//섬네일 이미지 추출
+		for(Goods g : list)
+		{
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = g.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			g.setGoodsThumbnail(body);
+		}
+		
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("list", list);
+		ajaxList.put("pi", pi);
+		ajaxList.put("search", search);
+
+		return new Gson().toJson(ajaxList);
+	}
 	
 	/* 일단은 배제
 	@PostMapping("ajaxSearching.gs")

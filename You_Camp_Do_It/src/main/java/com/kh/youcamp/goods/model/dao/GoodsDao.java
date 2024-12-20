@@ -65,4 +65,42 @@ public class GoodsDao {
 	{
 		return sqlSession.selectOne("goodsMapper.selectOneGoods", goods);
 	}
+
+	public ArrayList<Goods> ajaxGoodsSelect(SqlSessionTemplate sqlSession, Search search, PageInfo pi) {
+		Map<String, Object> pageSE = new HashMap<>();
+		
+		int start = (pi.getCurrentPage() - 1) * pi.getBoardLimit()+1;
+		int end = start+pi.getBoardLimit()-1;
+		
+		pageSE.put("start", start);
+		pageSE.put("end", end);
+		pageSE.put("searchKeyword", search.getSearchKeyword());
+		pageSE.put("searchCategory", search.getSearchCategory());
+		pageSE.put("sort", search.getSort());
+		pageSE.put("condition", search.getCondition());
+		pageSE.put("startPrice", search.getStartPrice());
+		pageSE.put("endPrice", search.getEndPrice());
+		
+		return (ArrayList)sqlSession.selectList("goodsMapper.ajaxGoodsSelect", pageSE);
+	}
+
+	public int ajaxSelectListCount(SqlSessionTemplate sqlSession){
+		return sqlSession.selectOne("goodsMapper.ajaxSelectListCount");
+	}
+
+	public int totalCount(SqlSessionTemplate sqlSession, Search search){
+		return sqlSession.selectOne("goodsMapper.totalCount");
+	}
+
+	public int onSaleCount(SqlSessionTemplate sqlSession, Search search) {
+		return sqlSession.selectOne("goodsMapper.onSaleCount");
+	}
+
+	public int offSaleCount(SqlSessionTemplate sqlSession, Search search) {
+		return sqlSession.selectOne("goodsMapper.offSaleCount");
+	}
+
+	public int hideCount(SqlSessionTemplate sqlSession, Search search) {
+		return sqlSession.selectOne("goodsMapper.hideCount");
+	}
 }
