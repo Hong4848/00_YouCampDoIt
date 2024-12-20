@@ -277,6 +277,7 @@ CREATE TABLE RESERVE
     START_DATE      DATE                    NOT NULL,
     END_DATE        DATE                    NOT NULL,
     NIGHTS          NUMBER CHECK(NIGHTS IN(1, 2)) NOT NULL,
+    MEMBER_COUNT    NUMBER                  NOT NULL,
     --------------------------------------------------------------------------------------------------------
     PAYMENT_ID      VARCHAR2(60)            NOT NULL,
     PRICE           NUMBER                  NOT NULL,
@@ -296,6 +297,7 @@ COMMENT ON COLUMN RESERVE.RESERVE_NO IS '예약번호. 시퀀스로 채번';
 COMMENT ON COLUMN RESERVE.START_DATE IS '체크인 날짜. 년월일시분초를 포함한 날짜 타입';
 COMMENT ON COLUMN RESERVE.END_DATE IS '체크아웃 날짜. 년월일시분초를 포함한 날짜 타입';
 COMMENT ON COLUMN RESERVE.NIGHTS IS '숙박일수';
+COMMENT ON COLUMN RESERVE.MEMBER_COUNT IS '이용자수';
 COMMENT ON COLUMN RESERVE.PAYMENT_ID IS '결제 식별자';
 COMMENT ON COLUMN RESERVE.PRICE IS '총 결제 금액';
 COMMENT ON COLUMN RESERVE.PAYMENT_DATE IS '결제 날짜';
