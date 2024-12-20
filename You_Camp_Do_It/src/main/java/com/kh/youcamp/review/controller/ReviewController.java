@@ -32,13 +32,13 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    /*게시글등록*/
+    /*게시글등록 요청 메소드*/
     @GetMapping("enrollForm.re")
     public String enrollForm() {
         return "review/reviewEnrollForm";
     }
 
-    // 게시글 작성 요청
+    // 게시글 작성 요청 메소드
     @PostMapping("insert.re")
     public String insertReview(Review r, 
                              @RequestParam("upfile") MultipartFile[] upfiles,
@@ -68,25 +68,31 @@ public class ReviewController {
                 at.setFilePath(changeName);
                 
                 // fileLevel 설정
+                /*
                 if (i == 0) {
                     at.setFileLevel(1); // mainImage는 fileLevel 1
                 } else {
                     at.setFileLevel(2); // detailImage1, detailImage2는 fileLevel 2
                 }
+                */
+                
+                // 첫 번째 파일은 대표이미지(fileLevel=1)
+                // 나머지는 상세이미지(fileLevel=2)로 설정
+                at.setFileLevel(i == 0 ? 1 : 2);
+                
 
                 attachments.add(at);
                 log.debug("attachment:{}", at);
             }
         }
 
-        r.setReviewAttachments(attachments);
-        reviewService.insertReview(r);
-        //reviewService.insertReviewWithAttachments(r, attachments);
+        r.setReviewAttachments(attachments); // 첨부파일 리스트 설정
+        reviewService.insertReview(r); // 서비스 호출
 
-        return "redirect:/list.re";
+        return "redirect:/list.re"; // 후기게시판 목록으로 이동
     }
     
-    // 목록조회 요청용 메소드
+    // 목록조회 요청 메소드
     @GetMapping("list.re")
     public ModelAndView selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
                                  ModelAndView mv) {
@@ -109,6 +115,8 @@ public class ReviewController {
         return mv;
     }
     
+    // --- 일반메소드 ---
+    // 현재 넘어온 첨부파일 그 자체를 서버의 폴더에 저장시키는 역할~
     private String saveFile(MultipartFile upfile, String savePath) {
         String originName = upfile.getOriginalFilename();
         String currentTime = new java.text.SimpleDateFormat("yyyyMMddHHmmss")
@@ -126,17 +134,49 @@ public class ReviewController {
         return changeName;
     }
     
-    public ModelAndView selectReview(int rno, ModelAndView mv) {
+    // 게시글 상세보기 요청 메소드
+    @GetMapping("detail.re")
+    public ModelAndView selectReview(int reviewNo, ModelAndView mv) {
+    	System.out.println(reviewNo);
+    	// 게시글 정보, 첨부파일 정보 조회
+    	Review r = reviewService.selectReview(reviewNo);
     	
-    	Review r = reviewService.selectReview(rno);
+    	// 게시글 정보 첨부파일 정보 조회 후 상세페이지 포워딩
+    	ArrayList<ReviewAttachment> list = reviewService.selectReviewAttachment(reviewNo);
     	
-    	mv.addObject("r", r).setViewName("review/reviewDetailView");
+    	// 조회된 데이터들 담아서 응답페이지로 포워딩
+    	mv.addObject("r", r).addObject("list",list).setViewName("review/reviewDetailView");
     	
     	return mv;
     }
     
+    /*
+    
+    // 게시글 삭제하기 요청 메소드
+    public String deleteReview(int reviewNo, String filePath, Model model, HttpSession session) {
+    	
+    	int result = reviewService.deleteReview(reviewNo);
+    	
+    	if(result > 0) { // 성공
+    		// 첨부파일이 있었을 경우는 실제 서버에 저장된 파일을 삭제시키기
+    		if(!filePath.equals("")) {
+    			// 기존의 첨부파일이 있을 경우
+    			String realPath = session.getServletContext().getRealPath(filePath);
+    			// c 드라이브에서 부터 시작되는 (루트디렉토리) 절대경로 뽑아오는 것
+    			new File(realPath).delete(); // 실제로 타겟삼아 삭제하는 메소드
+    		}
+    		// 일회성 알람문구를 담아서 
+    	}
+    	
+    }
+    
+    */
+    
+    // 게시글 수정하기 요청 메소드
     
     
+    
+
 
 }
 

@@ -1,5 +1,6 @@
 package com.kh.youcamp.review.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -34,6 +35,16 @@ public class ReviewDao {
     public int selectCount(SqlSessionTemplate sqlSession) {
     	return sqlSession.selectOne("reviewMapper.selectCount");
     }
+
+	public Review selectReview(SqlSessionTemplate sqlSession, int reviewNo) {
+		// select문 (단일행) : selectOne 메소드
+		return sqlSession.selectOne("reviewMapper.selectReview", reviewNo);
+	}
+
+	public ArrayList<ReviewAttachment> selectReviewAttachment(SqlSessionTemplate sqlSession, int reviewNo) {
+		// select문(여러행) selectList 메소드
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectReviewAttachment", reviewNo);
+	}
         
 
 

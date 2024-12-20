@@ -10,6 +10,7 @@
   	<result column="CREATE_DATE" property="createDate" />
   	<result column="REVIEW_WRITER" property="reviewWriter" />
   	<result column="MAINIMAGE" property="mainImage" />
+  	<result column="MEMBER_NO" property="memberNo" />
   </resultMap>
   	
  	<resultMap id="reviewAttachments" type="reviewAttachment">
@@ -45,25 +46,25 @@
     
     <!-- 이벤트 게시글 등록 -->
     <insert id="insertReview" parameterType="review">
-    <selectKey keyProperty="reviewNo" resultType="int" order="BEFORE">
-        SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
-    </selectKey>
-    INSERT INTO REVIEW (
-        REVIEW_NO,
-        REVIEW_TITLE,
-        REVIEW_CONTENT,
-        CREATE_DATE,
-        MEMBER_NO,
-        REVIEW_WRITER
-    ) VALUES (
-        #{reviewNo},
-        #{reviewTitle},
-        #{reviewContent},
-        SYSDATE,
-        #{memberNo},
-        #{reviewWriter}
-    )
-</insert>
+	    <selectKey keyProperty="reviewNo" resultType="int" order="BEFORE">
+	        SELECT REVIEW_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO REVIEW (
+	        REVIEW_NO,
+	        REVIEW_TITLE,
+	        REVIEW_CONTENT,
+	        CREATE_DATE,
+	        MEMBER_NO,
+	        REVIEW_WRITER
+	    ) VALUES (
+	        #{reviewNo},
+	        #{reviewTitle},
+	        #{reviewContent},
+	        SYSDATE,
+	        #{memberNo},
+	        #{reviewWriter}
+	    )
+	</insert>
     
     <!-- 이벤트 게시글 첨부파일 등록 -->
     <insert id="insertReviewAttachment" parameterType="reviewAttachment">
@@ -88,5 +89,31 @@
         )
     </insert>
   
-  
+
+	<!-- 상세조회 쿼리문 -->
+	<select id="selectReview" parameterType="_int" resultMap="reviewResultMap">
+		SELECT REVIEW_NO
+		     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+		     , REVIEW_TITLE
+		     , REVIEW_CONTENT
+		     , MEMBER_ID AS "REPLY_WIRTER"
+		  FROM REVIEW R
+		  JOIN MEMBER M ON (R.MEMBER_NO = M.MEMBER_NO)
+		 WHERE REVIEW_NO = #{reviewNo}
+		   AND R.STATUS = 'Y'
+	</select>
+	
+	<select id="selectReviewAttachment" resultMap="reviewAttachments">
+		SELECT FILE_NO
+		     , ORIGIN_NAME
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , FILE_LEVEL
+		  FROM REVIEW_ATTACHMENT
+		 WHERE REVIEW_NO = #{reviewNo}
+		   AND STATUS = 'Y'
+		 ORDER BY FILE_LEVEL ASC
+	</select>
+	
+	
 </mapper>

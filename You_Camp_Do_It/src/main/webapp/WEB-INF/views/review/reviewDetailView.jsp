@@ -136,64 +136,44 @@
             <table id="contentArea" align="center" class="table table-bordered">
             	<tr>
             		<th>제목</th>
+            		<td colspan="3">${ requestScope.r.reviewTitle }</td>
             	</tr>
 			    <tr>
 			        <th width="100">작성자</th>
-			        <td width="220">관리자</td>
+			        <td width="220">${requestScope.r.reviewWriter}</td>
 			        <th width="100">작성일시</th>
-			        <td width="220">2024-12-02</td>
+			        <td width="220">${ requestScope.r.createDate }</td>
 			    </tr>
 			    <tr>
-			        <th>첨부파일</th>
-			        <td colspan="3">
-			            <a href="첨부파일경로" download>첨부파일이름.png</a>
-			        </td>
-			    </tr>
-    			 <!--
-                <tr>
-                    <th>첨부파일</th>
-                    <td colspan="3">
-                       
-                    	<c:choose>
-                    		<c:when test="${ empty requestScope.b.originName }">
-                        		첨부파일이 없습니다.
-                        	</c:when>
-                        	<c:otherwise>
-                        		<a href="${ pageContext.request.contextPath }/${ requestScope.b.changeName }" download="${ requestScope.b.originName }">
-                        			${ requestScope.b.originName }
-                        		</a>
-                        	</c:otherwise>
-                        </c:choose>
-                       
+                    <th>내용</th>
+                    <td colspan="3">                       
+                    	<c:forEach var="file" items="${ requestScope.list }">
+                    		<div class="review-image">
+                    			<c:if test="${file.fileLevel eq 1}">
+						            <!-- 썸네일 이미지 -->
+						            <img src="${pageContext.request.contextPath}${file.changeName}" class="thumbnail-image">
+						        </c:if>
+						        <c:if test="${file.fileLevel eq 2}">
+						            <!-- 상세 이미지 -->
+						            <img src="${pageContext.request.contextPath}${file.changeName}" class="detail-image">
+						        </c:if>                   			
+                    		</div>	
+                        </c:forEach>
+                        <p>${ requestScope.r.reviewContent }</p>                      
                     </td>
                 </tr>
-                 -->
-			    <tr>
-			        <th>내용</th>
-			        <td colspan="3">
-			
-			            <p><b>상품 설명:</b> 맑은오토캠핑리조트 / 자연캠핑장 전세</p>
-			            <p><b>이용 안내:</b> 매월 14박 이상 예약 시 이용 가능 (예약 접수 가능 시간: 매일 09:00~18:00)</p>
-			            <ul>
-			                <li>현장 추가 할인: 매월 최대 30%, 추가 할인 적용</li>
-			                <li>결제 방식: 카드 결제 가능</li>
-			                <li>취소 및 환불: 소비자보호법 기준에 따라 진행</li>
-			            </ul>
-			            <p><b>유의 사항:</b> 취소 시 소정의 취소 수수료 발생</p>
-			        </td>
-			    </tr>
             </table>
 
-			<c:if test="${ sessionScope.loginUser.userId eq requestScope.b.boardWriter }">
+			<c:if test="${ sessionScope.loginUser.memberId eq requestScope.r.reviewWriter }">
 	            <div align="center" id="buttoncentroller">
 	                <!-- 
 	                	수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 
-	                	또한, url 주소상에 해당 게시글의 bno 가 보여지면 안됨~ 그래서 POST방식
+	                	또한, url 주소상에 해당 게시글의 rno 가 보여지면 안됨~ 그래서 POST방식
 	                	으로 변경해주어야 한다~~
 	                -->
                     <a class="btn btn-danger btn-sm">
                         <span class="material-symbols-outlined">
-                        heart_check
+                        	heart_check
                         </span>
                     </a>
 	                <a class="btn btn-success btn-sm" onclick="postFormSubmit(1);">
@@ -205,31 +185,32 @@
                     <a class="btn btn-warning btn-sm" href="">목록</a>
 
 	            </div>
+            </c:if>
 	            
 	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="bno" value="${ requestScope.b.boardNo }">
-	            	<input type="hidden" name="filePath" value="${ requestScope.b.changeName }">
+	            	<input type="hidden" name="rno" value="${ requestScope.r.reviewNo }">
+	            	<input type="hidden" name="filePath" value="${ requestScope.r.changeName }">
 	            </form>
 	            
 	            <script>
 	            	function postFormSubmit(num) {
 	            		// console.log(num);
-	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.bo)
-	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.bo)
+	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.re)
+	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.re)
 	            		
 	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
 	            		// 곧바로 submit 시키기!!
 	            		// attr : 기타 속성
 	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "../updateForm.bo").submit();
+	            			$("#postForm").attr("action", "../updateForm.re").submit();
 	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
 	            		} else { // 삭제하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.bo").submit();
+	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.re").submit();
 	            		}
 	            	}
 	            </script>
 	            
-            </c:if>
+         
             
             <br><br>
 
