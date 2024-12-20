@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.kh.youcamp.cart.model.service.CartService;
 import com.kh.youcamp.cart.model.vo.Cart;
+import com.kh.youcamp.common.model.vo.PageInfo;
+import com.kh.youcamp.common.template.Pagination;
+import com.kh.youcamp.goods.model.service.GoodsService;
+import com.kh.youcamp.goods.model.vo.Goods;
 import com.kh.youcamp.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +29,8 @@ public class CartController {
 	@Autowired
 	private CartService cartService;
 	
-	
+	@Autowired
+	private GoodsService goodsService;
 	
 	
 	/**
@@ -53,33 +59,81 @@ public class CartController {
 	    log.debug("장바구니 리스트뷰 컨트롤러 회원번호 : " + memberNo);
 
 	    ArrayList<Cart> list = cartService.selectList(memberNo);
-//	    log.debug("장바구니 AJAX 목록 조회 결과: " + list);
+	    
+	    log.debug("장바구니 AJAX 목록 조회 결과: " + list);
+	    
+	    /*
+	    int listCount = goodsService.selectListCount();
+		int pageLimit = 5;
+		int boardLimit = 8;
+		int currentPage = 1;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+	    
+	    ArrayList<Goods> glist = goodsService.selectGoodsList(pi);
+		System.out.println(glist);
+		*/
+	    
+	    // 썸네일컬럼 img 부터 짤라서 div에 넣기
+	    
+		//섬네일 이미지 추출
+		for(Cart cart : list){
+			
+			System.out.println(cart.getGoodsThumbnail());
+			
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = cart.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			cart.setGoodsThumbnail(body);
+		}
 
 	    return new Gson().toJson(list); // JSON 데이터 반환
 	}
 	
 
 	/**
+	 * 24.12.20 16시 윤홍문
 	 * 장바구니 담기 요청 컨트롤러
 	 * @param cart
 	 */
-	@GetMapping("insert.ca")
-	public void insertCart(Cart cart) {
+	@PostMapping("insert.ca")
+	public String insertCart(Cart cart,
+						     HttpSession session,
+						     Model model) {
 		
-		// post 방식으로 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@
 		// 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
-		// 로그인한 유저번호 세션에서 
-		// 장바구니 담기를 누른 페이지의 상품번호, 페이지에서 선택한 수량 쿼리스트링으로
+		
+		Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+	    cart.setMemberNo(memberNo);
+	    log.debug("cart : " + cart);
+	    
+	    // 장바구니에 중복으로 담는지 확인
+	    int count = cartService.selectCartCount(cart.getGoodsNo());
+	    if(count > 0) { // 장바구니 중복
+	    	session.setAttribute("alertMsg", "장바구니에서 수량을 변경해주세요");
+			return "redirect:/product.gs";
+	    }
 		
 		int result = cartService.insertCart(cart);
+		log.debug("certINSERT 됐냐? result : " + result);
 		
 		if(result > 0) { // 성공
-			// alert?, modal? 장바구니 담았고, 용품 더볼래? 아님 장바구니 갈래?
-			
+			// 넣기완료 (장바구니갈래? 모달로 띄우기???????)
+			session.setAttribute("alertMsg", "장바구니 담기 성공");
+			return "redirect:/product.gs";
 		} else {
-			// 장바구니 담기 실패 다시해줘
+			// 에러 문구를 담아서 에러페이지로 포워딩
+			model.addAttribute("errorMsg", "장바구니 담기 실패");
+			return "common/errorPage";
 		}
-		
 		
 	}
 	
@@ -120,8 +174,6 @@ public class CartController {
 		return (result > 0) ? "success" : "fail";
 	}
 	
-	// jsp 단에서 goodsNo 인풋히든으로 너어놨으니까
-	// goodsNo 도 받아서 쿼리문 수정하기
 	/**
 	 * 24.12.17 윤홍문작성
 	 * 장바구니 수량 업데이트 요청 메소드

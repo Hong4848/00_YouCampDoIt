@@ -36,10 +36,13 @@ public class GoodsController
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Goods> list = goodsService.selectGoodsList(pi);
+		System.out.println(list);
 		
 		//섬네일 이미지 추출
 		for(Goods g : list)
 		{
+			System.out.println(g.getGoodsThumbnail());
+			
 			String s = "<img src="; // 이미지 태그 찾기
 			String body = g.getGoodsThumbnail();
 			int start = 0;

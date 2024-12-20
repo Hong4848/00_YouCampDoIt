@@ -21,6 +21,9 @@ public interface OrderService {
 
 	// orderDetail 조회용
 	ArrayList<OrderDetail> selectOrederDetailList(int orderNo);
+
+	// 결제 완료 후 order 테이블에 결제정보 update 용
+	int updateOrder(Order order);
 	
 	
 	

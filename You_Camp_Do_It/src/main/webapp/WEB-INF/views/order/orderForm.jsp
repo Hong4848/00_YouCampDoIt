@@ -98,6 +98,11 @@
 						<!-- 변경 불가능 -->
 						<input type="hidden" name="EdiDate" value="${ediDate}"/>			<!-- 전문 생성일시 -->
 						<input type="hidden" name="SignData" value="${hashString}"/>	<!-- 해쉬값 -->
+
+						<!-- order UPDATE에 필요한 정보 -->
+						<input type="hidden" name="orderNo" 
+							   value="${requestScope.order.orderNo}"/>
+
 					</table>
 					<!-- <a href="#" class="btn_blue" onClick="nicepayStart();">요 청</a> -->
 				</form>	
@@ -124,7 +129,8 @@
 	    </div>
 	    
 	    <br><br>
-		
+
+		<!-- 결제시 약관 동의 등 체크 요소 넣기 ???? -->
 	    <div class="floating-area">
 	        <div class="buy-area">
 				<span class="total-price">

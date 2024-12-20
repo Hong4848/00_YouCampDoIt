@@ -6,7 +6,7 @@ UPDATE MEMBER
  WHERE MEMBER_NO = #{memberNo}
    AND STATUS = 'Y'
 
-
+---------------------------------------------------------------
 -- 1. 장바구니 목록 조회용 쿼리문
 SELECT M.MEMBER_NO
      , C.CART_NO
@@ -17,12 +17,13 @@ SELECT M.MEMBER_NO
      , G.CATEGORY
      , G.GOODS_NAME
      , G.GOODS_THUMBNAIL
-     , G.GOODS_INFO
      , G.PRICE AS GOODS_PRICE
   FROM CART C
   JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
   JOIN GOODS G ON C.GOODS_NO = G.GOODS_NO
- WHERE M.MEMBER_NO = ?
+ WHERE M.MEMBER_NO = 1
+ 
+ commit
  
 
   
@@ -39,6 +40,11 @@ INSERT INTO CART(CART_NO
                , SYSDATE
                , ?
                , ?)
+
+-- 장바구니 중복확인
+SELECT COUNT(*) AS COUNT
+  FROM CART
+ WHERE GOODS_NO = ?
             
 -- 장바구니 삭제용 쿼리문
 DELETE
@@ -60,6 +66,14 @@ UPDATE CART
       , ADDED_AT = SYSDATE
 WHERE MEMBER_NO = ?
   AND CART_NO = ?
+  
+-- 결제 완료 후 orderNo 기준으로 장바구니 삭제
+-- orderNo > orderDetail테이블 > goodsNo > 카트 삭제
+DELETE FROM CART
+ WHERE GOODS_NO 
+    IN (SELECT GOODS_NO
+          FROM ORDER_DETAIL
+         WHERE ORDER_NO = ?)
  
  
 ------------------------------------------
@@ -110,6 +124,13 @@ SELECT OD.*
   JOIN GOODS G ON (OD.GOODS_NO = G.GOODS_NO)
  WHERE ORDER_NO = ?
 
+UPDATE GOODS_ORDER
+   SET PAYMENT_ID = ?
+     , PAYMENT_METHOD = ?
+     , PAYMENT_STATUS = 'PAID'
+     , UPDATED_DATE = SYSDATE
+ WHERE ORDER_NO = ?
+  
 ---------------------------------------------
 
 
@@ -153,7 +174,7 @@ INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTEN
 ( 3, '타프', '대형 타프', NULL, '햇빛을 차단할 수 있는 대형 타프.', '캠핑용 대형 타프', NULL, 40000, 0, 0, SYSDATE, 8, 8, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
-( 4, '체어', '폴딩 캠핑 체어', NULL, '편안한 캠핑용 접이식 의자.', '접이식 캠핑 체어', NULL, 15000, 0, 0, SYSDATE, 30, 30, 'Y');
+( 11, '체어', '폴딩 캠핑 체어', NULL, '편안한 캠핑용 접이식 의자.', '접이식 캠핑 체어', NULL, 15000, 0, 0, SYSDATE, 30, 30, 'Y');
 
 INSERT INTO GOODS (GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, GOODS_CONTENT, GOODS_INFO, MARK, PRICE, DISCOUNT, VIEWS, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS) VALUES
 ( 5, '테이블', '접이식 캠핑 테이블', NULL, '다목적 접이식 테이블, 4인용.', '4인용 캠핑 테이블', NULL, 30000, 0, 0, SYSDATE, 20, 20, 'Y');
