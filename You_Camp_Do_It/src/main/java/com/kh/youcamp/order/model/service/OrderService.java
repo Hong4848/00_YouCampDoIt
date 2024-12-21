@@ -25,6 +25,12 @@ public interface OrderService {
 	// 결제 완료 후 order 테이블에 결제정보 update 용
 	int updateOrder(Order order);
 	
+	// 결제 내역 조회 용
+	ArrayList<Order> selectOrederWithDetailListByMemberNo(int memberNo);
+
+	// 결제내용 조회용 썸네일까지
+	ArrayList<Order> selectOrederListByMemberNo(int memberNo);
+	
 	
 	
 }

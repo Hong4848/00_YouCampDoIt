@@ -1,6 +1,9 @@
 package com.kh.youcamp.order.model.vo;
 
 import java.sql.Date;
+import java.util.List;
+
+import com.kh.youcamp.goods.model.vo.Goods;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +27,10 @@ public class Order {
 	// CREATED: 사용자 결제 요청, PAID: 사용자 결제 완료, CANCELED: 사용자의 주문 취소 요청 시REFUNDED: 관리자 취소 승인
 	private Date updatedDate;        // UPDATED_DATE DATE - 결제 상태 수정 날짜
 	private int memberNo;            // MEMBER_NO NUMBER - 주문한 회원 번호
+	
+	// 조인된 association GOODS 객체
+    private Goods goods; 
+	//collection 매핑용
+	private List<OrderDetail> orderDetail; // 1:N 관계
 	
 }

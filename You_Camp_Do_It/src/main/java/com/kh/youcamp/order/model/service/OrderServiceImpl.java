@@ -53,6 +53,16 @@ public class OrderServiceImpl implements OrderService {
 	public int updateOrder(Order order) {
 		return orderDao.updateOrder(sqlSession, order);
 	}
+
+	@Override
+	public ArrayList<Order> selectOrederWithDetailListByMemberNo(int memberNo) {
+		return orderDao.selectOrederWithDetailListByMemberNo(sqlSession, memberNo);
+	}
+
+	@Override
+	public ArrayList<Order> selectOrederListByMemberNo(int memberNo) {
+		return orderDao.selectOrederListByMemberNo(sqlSession, memberNo);
+	}
 	
 	 
 	 

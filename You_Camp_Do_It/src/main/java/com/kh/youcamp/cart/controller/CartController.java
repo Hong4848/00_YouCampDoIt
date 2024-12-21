@@ -102,7 +102,7 @@ public class CartController {
 		Member loginMember = (Member) session.getAttribute("loginMember");
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 	    cart.setMemberNo(memberNo);
-	    log.debug("cart : " + cart);
+//	    log.debug("cart : " + cart);
 	    
 	    // 장바구니에 중복으로 담는지 확인
 	    int count = cartService.selectCartCount(cart.getGoodsNo());
@@ -180,7 +180,7 @@ public class CartController {
 		
 	    cart.setMemberNo(memberNo);
 		
-		log.debug("장바구니 수량업데이트 메소드, cart : " + cart);
+//		log.debug("장바구니 수량업데이트 메소드, cart : " + cart);
 		
 		int result = cartService.updateCartQuantity(cart);
 		

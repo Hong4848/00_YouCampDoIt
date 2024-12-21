@@ -181,7 +181,7 @@ public class OrderController {
 		
 	    order.setMemberNo(memberNo);
 	    
-	    log.debug("jsp 에서 값 넘어오냐? order : " + order);
+//	    log.debug("jsp 에서 값 넘어오냐? order : " + order);
 	    
 	    // order insert 쿼리문실행
 	    // TOTAL_PRICE, MEMBER_NO insert
@@ -255,7 +255,7 @@ public class OrderController {
 	        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
 	    }
 	    
-	    log.debug("조회 잘 됏냐? selectedOrder : " + selectedOrder);
+//	    log.debug("조회 잘 됏냐? selectedOrder : " + selectedOrder);
 //	    log.debug("조회 잘 됐냐? list : " + list);
 	    
 	    model.addAttribute("order", selectedOrder);
@@ -468,14 +468,14 @@ public class OrderController {
 					order.setOrderNo(orderNo);
 					order.setPaymentId(TID);
 					order.setPaymentMethod(PayMethod);
-					log.debug("오더 업데이트 직전 : " + order);
+					
 					int resultUpdateOrder = orderService.updateOrder(order);
-					log.debug("오더 업데이트 됏냐? resultUpdateOrder : " + resultUpdateOrder);
+					log.debug("결제 완료 후 오더 업데이트 됏냐? resultUpdateOrder : " + resultUpdateOrder);
 					
 					// 결제 완료된 장바구니 삭제
 					// 오더넘버 > 주문상세의 상품번호 > 상품번호 기준 장바구니 삭제
 					int resultDeleteCart = cartService.deleteCartByOrderNo(orderNo);
-					log.debug("카트 딜리트 됏냐? resultUpdateOrder : " + resultDeleteCart);
+					log.debug("결제 완료 후 카트 딜리트 됏냐? resultUpdateOrder : " + resultDeleteCart);
 					
 					// 결제완료한 상품 orderDetail select > orderNo 기준
 					ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
@@ -548,16 +548,44 @@ public class OrderController {
 		// 세션에서 유저 번호 가져오기
 		Member loginMember = (Member) session.getAttribute("loginMember");
 		int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
-		// System.out.println("장바구니 리스트뷰 컨트롤러 : " + memberNo);
-
+		log.debug("결제내역 리스트뷰 컨트롤러, memberNo : " + memberNo);
 		
 		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
-		// ArrayList<Order> list = orderService.selectList(memberNo);
-		// list 쿼리문 수정필요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		// 주문(결제)한 내용 memberNo > order테이블 > 
+//		ArrayList<Order> list = 
+//				orderService.selectOrederWithDetailListByMemberNo(memberNo);
+//		log.debug("결제내역 잘 갖고왔나, list : " + list);
+		ArrayList<Order> list = 
+				orderService.selectOrederListByMemberNo(memberNo);
+		log.debug("결제내역 잘 갖고왔나, list : " + list);
+//		// 결제완료된 상품 썸네일
+//		ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByMemberNo(memberNo);
+//	    
+//	    for(Goods g : gList){
+//			String s = "<img src="; // 이미지 태그 찾기
+//			String body = g.getGoodsThumbnail();
+//			int start = 0;
+//			int end = 0;
+//			
+//			start = body.indexOf(s);
+//			body = body.substring(start);
+//			end = body.indexOf(">");
+//			body = body.substring(0, end+1);
+//			
+//			g.setGoodsThumbnail(body);
+//		}
+//	    
+//	    Map<Integer, String> thumbnailMap = new HashMap<>();
+//	    for (Goods goods : gList) {
+//	        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
+//	    }
+//		
+		model.addAttribute("list", list);
+//		model.addAttribute("thumbnailMap", thumbnailMap);
 		
-		// mv.addObject("list", list);
+		
 		mv.setViewName("order/orderListView");
-		// System.out.println("카트 list 뷰 db 조회 후 컨트롤러 단" + list);
+		
 		
 		 return mv;
 	}

@@ -11,6 +11,35 @@
 	    <result column="PAYMENT_STATUS" property="paymentStatus" />
 	    <result column="UPDATED_DATE" property="updatedDate" />
 	    <result column="MEMBER_NO" property="memberNo" />
+	    
+	    <!-- association GOODS 테이블 매핑 -->
+	    <association property="goods" javaType="goods">
+	        <id column="GOODS_NO" property="goodsNo" />
+	        <result column="CATEGORY" property="category" />
+	        <result column="GOODS_NAME" property="goodsName" />
+	        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
+	        <result column="GOODS_CONTENT" property="goodsContent" />
+	        <result column="GOODS_INFO" property="goodsInfo" />
+	        <result column="MARK" property="mark" />
+	        <result column="GOODS_PRICE" property="price" />
+	        <result column="VIEWS" property="views" />
+	        <result column="ENROLL_DATE" property="enrollDate" />
+	        <result column="TOTAL_STOCK" property="totalStock" />
+	        <result column="REMAIN_STOCK" property="remainStock" />
+	        <result column="STATUS" property="status" />
+	    </association>
+	    
+	    <!-- OrderDetail 컬렉션 -->
+	    <collection property="orderDetail" ofType="orderDetail">
+	        <id column="ORDER_DETAIL_NO" property="orderDetailNo" />
+	        <result column="QUANTITY" property="quantity" />
+	        <result column="PRICE" property="price" />
+	        <result column="TOTAL_PRICE" property="totalPrice" />
+	        <result column="GOODS_NO" property="goodsNo" />
+	        <result column="ORDER_NO" property="orderNo" />
+	    </collection>
+	    
+	    
 	</resultMap>
 	 
  	<resultMap id="orderDetailResultSet" type="orderDetail">
@@ -114,7 +143,30 @@
 	     WHERE ORDER_NO = #{orderNo}
 	</update>
   
-  
+	<!-- 결제완료 후 결제내역 총 조회용 -->
+	<select id="selectOrederWithDetailListByMemberNo" resultType="_int"
+			resultMap="orderResultSet">
+		SELECT G.*
+		     , OD.*
+		  FROM GOODS_ORDER G
+		  JOIN ORDER_DETAIL OD ON (G.ORDER_NO = OD.ORDER_NO)
+		 WHERE G.MEMBER_NO = #{memberNo}
+		   AND NOT PAYMENT_STATUS = 'CREATED'
+	</select>
+	
+	<!-- 결제완료 후 결제내역 총 조회용 -->
+	<select id="selectOrederListByMemberNo" resultType="_int"
+			resultMap="orderResultSet">
+		SELECT O.*
+		     , OD.*
+		     , G.GOODS_THUMBNAIL
+		  FROM GOODS_ORDER O
+		  JOIN ORDER_DETAIL OD ON O.ORDER_NO = OD.ORDER_NO 
+		  JOIN GOODS G ON OD.GOODS_NO = G.GOODS_NO
+		 WHERE O.MEMBER_NO = 1
+		   AND NOT PAYMENT_STATUS = 'CREATED'
+		 ORDER BY O.ORDER_NO
+	</select>
   
   
   

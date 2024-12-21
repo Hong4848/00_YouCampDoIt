@@ -344,72 +344,7 @@ function updateQuantityButtonState() {
         }
     });
 }
-/*
-// 장바구니 목록 렌더링 함수
-function renderCartItems(items) {
-	const $cartContainer = $(".cart-container");
-	$cartContainer.find(".cart-item").remove(); // 기존 목록 초기화
 
-	if (items.length === 0) {
-		$cartContainer.append(`
-			<div style="text-align: center; font-size: 24px; font-weight: bold;">
-				장바구니에 담은 용품이 없습니다.
-			</div>`);
-		return;
-	}
-	
-	items.forEach(item => {
-		// 가격에 콤마 추가 (toLocaleString 사용)
-		const formattedPrice = item.price.toLocaleString();
-
-		// (동적으로 여러요소가 생기니까 id 속성 줄수 없다)
-		const cartItem = `
-			<div class="cart-item">
-				<input type="checkbox" value="${item.cartNo}">
-				<input type="hidden" name="" value="${item.goods.goodsNo}">
-				<div>
-					<img src="https://via.placeholder.com/100" alt="상품 이미지">
-				</div>	
-				<div class="item-details">
-					<h3>${item.goods.goodsName}</h3>
-					<p class="item-options">선택: ${item.goods.goodsInfo}</p>
-					<div class="item-quantity">
-						<span class="quantity-decrease">-</span>
-						<input type="text" value="${item.quantity}" class="quantity-input" readonly>
-						<span class="quantity-increase">+</span>
-					</div>
-				</div>
-				<div class="item-price">
-					<p>${formattedPrice} 원</p>
-				</div>
-				<button class="delete-btn" value="${item.cartNo}">X</button>
-			</div>`;
-		$cartContainer.append(cartItem);
-	}); 
-
-	
-	// 수량 버튼 상태 초기화 (생성된 요소에 적용)
-	// css 도 적용하고 싶은데 안됨
-	$('.quantity-input').each(function () {
-        const currentValue = parseInt($(this).val(), 10);
-        const decreaseButton = $(this).siblings('.quantity-decrease');
-        const increaseButton = $(this).siblings('.quantity-increase');
-
-        // 수량이 1이면 - 버튼 비활성화
-        if (currentValue === 1) {
-            decreaseButton.prop('disabled', true);
-        } else {
-            decreaseButton.prop('disabled', false);
-        }
-
-        // 수량이 99면 + 버튼 비활성화
-        if (currentValue === 99) {
-            increaseButton.prop('disabled', true);
-        } else {
-            increaseButton.prop('disabled', false);
-        }
-    });
-}*/
 
 // 총 갯수 및 가격 변화 함수
 function updateTotalPrice(){

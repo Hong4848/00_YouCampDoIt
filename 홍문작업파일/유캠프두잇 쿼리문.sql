@@ -31,14 +31,14 @@ SELECT M.MEMBER_NO
 		 		  FROM CART
 		 		 WHERE MEMBER_NO = ?
 		 )
- SELECT GOODS_NO
-     		 , GOODS_THUMBNAIL
-		  FROM GOODS
-		 WHERE GOODS_NO IN (
-		 		SELECT GOODS_NO
-		 		  FROM ORDER_DETAIL
-		 		 WHERE ORDER_NO = ?
-		 )
+SELECT GOODS_NO
+     , GOODS_THUMBNAIL
+  FROM GOODS
+ WHERE GOODS_NO IN (
+            SELECT GOODS_NO
+              FROM ORDER_DETAIL
+             WHERE ORDER_NO = ?
+         )
 
   
 -- 2. 장바구니 추가용 쿼리문
@@ -144,7 +144,31 @@ UPDATE GOODS_ORDER
      , PAYMENT_STATUS = 'PAID'
      , UPDATED_DATE = SYSDATE
  WHERE ORDER_NO = ?
-  
+
+-- 총 주문결제내역 조회
+SELECT G.*
+     , OD.*
+  FROM GOODS_ORDER G
+  JOIN ORDER_DETAIL OD ON (G.ORDER_NO = OD.ORDER_NO)
+ WHERE G.MEMBER_NO = 1
+   AND NOT PAYMENT_STATUS = 'CREATED'
+
+-- 총 주문결제내역 썸네일가져오기
+SELECT GOODS_NO
+     , GOODS_THUMBNAIL
+     , ORDER_DETAIL_NO
+     , ORDER_NO
+  FROM GOODS JOIN ORDER_DETAIL USING (GOODS_NO)
+ WHERE GOODS_NO IN (
+        SELECT GOODS_NO
+          FROM ORDER_DETAIL
+         WHERE ORDER_NO IN (SELECT ORDER_NO
+                             FROM GOODS_ORDER
+                            WHERE MEMBER_NO = 1
+                              AND NOT PAYMENT_STATUS = 'CREATED')
+ )
+ ORDER BY ORDER_DETAIL_NO
+ 멤버번호 > 주문번호 > 주문디테일테이블 > 상품번호
 ---------------------------------------------
 
 
