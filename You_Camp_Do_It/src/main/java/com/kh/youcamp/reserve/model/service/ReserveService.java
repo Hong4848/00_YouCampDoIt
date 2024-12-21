@@ -39,5 +39,8 @@ public interface ReserveService {
 
 	// 예약내역 상세조회용 서비스 메소드
 	Reserve selectReserve(int rno);
+
+	// 예약취소 요청용 서비스 메소드
+	int deleteReserveRequest(int reserveNo);
 	
 }

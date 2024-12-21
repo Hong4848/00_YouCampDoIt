@@ -143,8 +143,11 @@ public class ReserveController {
 			
 			session.setAttribute("alertMsg", "캠핑장 예약에 성공했습니다!");
 			
-			mv.addObject(reserveInfo)
-			   .setViewName("reserve/reserveCompleteView");
+			String afterPayment = "o";
+			
+			mv.addObject("r", reserveInfo)
+			  .addObject("afterPayment", afterPayment)
+			  .setViewName("reserve/reserveCompleteView");
 			
 		} else {
 			
@@ -218,8 +221,6 @@ public class ReserveController {
 	@GetMapping("reserveComplete.res")
 	public ModelAndView selectReserve(int rno, ModelAndView mv) {
 		
-		System.out.println(rno);
-		
 		Reserve r = reserveService.selectReserve(rno);
 		
 		mv.addObject("r", r)
@@ -230,8 +231,49 @@ public class ReserveController {
 	}
 	
 	
+	/**
+	 * 24.12.21 정성민 
+	 * 캠핑장 예약취소 페이지 요청용 컨트롤러
+	 * @param reserveNo
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("reserveCancel.res")
+	public ModelAndView toReserveCancel(int reserveNo, ModelAndView mv) {
+		
+		Reserve r = reserveService.selectReserve(reserveNo);
+		
+		mv.addObject("r", r)
+		  .setViewName("reserve/reserveCancelView");
+		
+		return mv;
+	}
 	
-	
+	/**
+	 * 24.12.22 정성민
+	 * 캠핑장 예약취소 요청 처리용 컨트롤러
+	 * @param reserveNo
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("reserveCancelRequest.res")
+	public ModelAndView deleteReserveRequest(int reserveNo, ModelAndView mv, HttpSession session) {
+		
+		
+		int result = reserveService.deleteReserveRequest(reserveNo);
+		
+		if(result > 0) {
+			session.setAttribute("alertMsg", "캠핑장 예약에 성공했습니다!");
+			
+			mv.setViewName("redirect:/reservelist.res");
+			
+		} else {
+			mv.addObject("errorMsg", "예약 취소 실패!")
+			  .setViewName("common/errorPage");
+		}
+		
+		return mv;
+	}
 	
 	
 }

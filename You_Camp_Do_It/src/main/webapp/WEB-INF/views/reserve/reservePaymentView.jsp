@@ -371,11 +371,11 @@
             align-items: center; /* 세로축 중앙 정렬 */
             justify-content: space-between; /* 좌우 정렬 */
             font-size: 15px; /* 글자 크기 */
-            font-weight:520; /* 텍스트 굵게 */
             color: #333; /* 텍스트 색상 */
             margin-bottom: 10px; /* 아래 여백 */
             border-left: 4px solid #6c5e37; /* 왼쪽에 포인트 색상 바 */
             padding-left: 10px; /* 텍스트와 포인트 바 간격 */
+            font-weight: bold;
         }
 
         .amount_box {
@@ -1198,7 +1198,7 @@
                                     <div class="amount_sum">
                                         <span class="title">합계</span>
                                         <span class="price">
-                                            <strong>60,000원</strong>
+                                            <strong></strong>
                                         </span>
                                     </div>
                                 </div>

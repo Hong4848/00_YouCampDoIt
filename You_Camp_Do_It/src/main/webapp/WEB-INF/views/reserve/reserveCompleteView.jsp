@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +48,8 @@
         background-color: white;
         width: 100%;
         margin: 0 auto;
-        
+       
+
     }
 
     .reserve_wrap {
@@ -72,6 +75,8 @@
     .reserve_wrap a:hover {
         color: #f7b500;
     }
+    
+    
 
     #content_2 {
         display: flex;
@@ -82,6 +87,9 @@
         overflow: hidden;
         padding: 20px;
         font-weight: 400;
+        
+        
+        
     }
 
     
@@ -441,6 +449,23 @@
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
     
+    #content_thank {
+    	
+        
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        overflow: hidden;
+        padding-top: 35px;
+        font-weight: 400;
+        height: 130px;
+        text-align: center;
+        margin-bottom: 30px;
+        
+    }
+    
+    
+    
 </style>
 </head>
 <body>
@@ -459,6 +484,21 @@
         
         <div class="content">
 		    
+		    <c:choose>
+		    	<c:when test="${ not empty requestScope.afterPayment }">
+		    		<div id="content_thank">
+				    	<h4>감사합니다. 예약이 완료되었습니다.</h4>
+				    	<span>캠핑장 이용시 본인 확인을 위해 신분증을 반드시 지참해 주시기 바랍니다.</span>
+				    	
+				    </div>
+		    	</c:when>
+		    	<c:when test="${ empty requestScope.afterPayment }">
+		    	
+		    	</c:when>
+		    	
+		    </c:choose>
+		    
+		    
             <div id="content_2">
                 <fieldset>
                     <legend style="display: none;">실시간예약</legend>
@@ -474,14 +514,14 @@
                                     <div class="start_day">
                                         <span>체크인</span>
                                         <strong id="txt-checkIn">
-                                            12.25(수)
+                                            
                                         </strong>
                                     </div>
-                                    <div class="state_night">2박</div>
+                                    <div class="state_night">${ requestScope.r.nights }박</div>
                                     <div class="end_day">
                                         <span>체크아웃</span>
                                         <strong id="txt-checkOut">
-                                            12.27(금)
+                                            
                                         </strong>
                                     </div>
                                 </div>
@@ -499,24 +539,40 @@
                                             </li>
                                             <li>
                                                 <span class="title">결제일시</span>
-                                                ${ requestScope.r.paymentDate }
+                                                ${ requestScope.r.paymentDate.substring(0, 10) }
                                             </li>
                                             <li>
                                                 <span class="title">예약일자</span>
-                                                ${ requestScope.r.startDate }
+                                                ${ requestScope.r.startDate.substring(0, 10) }
                                             </li>
                                             <li>
                                                 <span class="title">결제수단</span>
                                                 ${ requestScope.r.paymentMethod }
                                             </li>
-                                            <li>
-                                                <span class="title">이용금액</span>
-                                                ${ requestScope.r.price }
-                                            </li>
-                                            <li>
-                                                <span class="title">결제금액</span>
-                                                ${ requestScope.r.price }
-                                            </li>
+                                            
+                                            <c:choose>
+                                            	<c:when test="${ requestScope.r.nights eq 1}">
+		                                            <li>
+		                                                <span class="title">이용금액</span>
+		                                                <fmt:formatNumber value="${ requestScope.r.price }" pattern="#,###" />원
+		                                            </li>
+		                                            <li>
+		                                                <span class="title">결제금액</span>
+		                                                <fmt:formatNumber value="${ requestScope.r.price }" pattern="#,###" />원
+		                                            </li>
+                                            	</c:when>
+                                            	<c:when test="${ requestScope.r.nights eq 2}">
+                                            		<li>
+		                                                <span class="title">이용금액</span>
+		                                                <fmt:formatNumber value="${ requestScope.r.price * 2 }" pattern="#,###" />원
+		                                            </li>
+		                                            <li>
+		                                                <span class="title">결제금액</span>
+		                                                <fmt:formatNumber value="${ requestScope.r.price * 2 }" pattern="#,###" />원
+		                                            </li>
+                                            		
+                                            	</c:when>
+                                            </c:choose>
                                         </ul>
                                     </div>
                                 </div>
@@ -530,19 +586,19 @@
                                         <ul>
                                             <li>
                                                 <span class="title">예약자명</span>
-                                                정성민
+                                                ${ sessionScope.loginMember.memberName }
                                             </li>
                                             <li>
                                                 <span class="title">예약인원</span>
-                                                4명
+                                                ${ requestScope.r.memberCount }
                                             </li>
                                             <li>
                                                 <span class="title">생년월일</span>
-                                                20000124
+                                                ${ sessionScope.loginMember.birthDate }
                                             </li>
                                             <li>
                                                 <span class="title">휴대폰</span>
-                                                &nbsp;&nbsp;&nbsp;&nbsp;010-9077-5766
+                                                &nbsp;&nbsp;&nbsp;&nbsp;${ sessionScope.loginMember.phone }
                                             </li>
                                         </ul>
                                     </div>
@@ -555,48 +611,155 @@
 
                         <div class="right_box">
                             <div class="section bg_none reserve_amount">
-                                <div class="tit_h3">
-                                    결제예정 금액
-                                </div>
-                                <div class="amount_box">
-                                    <div class="amount_item">
-                                        <ul>
-                                            <li>
-                                                <span class="date">12.17</span>
-                                                <span class="item">A섹션-3</span>
-                                                <span class="price">
-                                                    <strong>30,000원</strong>
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="date">12.18</span>
-                                                <span class="item">A섹션-3</span>
-                                                <span class="price">
-                                                    <strong>30,000원</strong>
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <input type="hidden" name="roomNoArr" value="3,3">
-                                    <input type="hidden" name="roomDateArr" value="20241217,20241218">
-                                    <div class="amount_sum">
-                                        <span class="title">합계</span>
-                                        <span class="price">
-                                            <strong>60,000원</strong>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="section bg_none reserve_amount">
-                                <div class="tit_h3">
-                                    취소내역
-                                </div>
-                                <div class="cancel_content">
-                                	<span>취소 내역이 없습니다.</span>
-                                </div>
+                            
+                            	<c:choose>
+                            		<c:when test="${ requestScope.r.paymentStatus eq 'PAID' || requestScope.r.paymentStatus eq 'CANCELED' || requestScope.r.paymentStatus eq 'CREATED' }">
+                            			<div class="tit_h3">
+		                                    결제예정 금액
+		                                </div>
+		                                <div class="amount_box">
+		                                    <div class="amount_item">
+		                                        <c:choose>
+		                                    		<c:when test="${ requestScope.r.nights eq 1 }">
+		                                    			<ul>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                        </ul>
+		                                    		</c:when>
+		                                    		<c:otherwise>
+		                                    			<ul>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo}" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                        </ul>
+		                                    		</c:otherwise>
+		                                    	
+		                                    	</c:choose>
+		                                    </div>
+		                                    <input type="hidden" name="roomNoArr" value="3,3">
+		                                    <input type="hidden" name="roomDateArr" value="20241217,20241218">
+		                                    <div class="amount_sum">
+		                                        <span class="title">합계</span>
+		                                        <span class="price">
+		                                            <strong></strong>
+		                                        </span>
+		                                    </div>
+		                                </div>
+                            			
+                            		</c:when>
+                            		
+                            		<c:when test="${ requestScope.r.paymentStatus eq 'REFUNDED' }">
+                            			<div class="tit_h3">
+		                                    취소내역
+		                                </div>
+		                                <div class="amount_box">
+		                                    <div class="amount_item">
+		                                        <c:choose>
+		                                    		<c:when test="${ requestScope.r.nights eq 1 }">
+		                                    			<ul>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                        </ul>
+		                                    		</c:when>
+		                                    		<c:otherwise>
+		                                    			<ul>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                            <li>
+				                                                <span class="date"></span>
+				                                                <span class="item">
+				                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo}" />
+				                                                </span>
+				                                                <span class="price">
+				                                                    <strong></strong>
+				                                                </span>
+				                                            </li>
+				                                        </ul>
+		                                    		</c:otherwise>
+		                                    	
+		                                    	</c:choose>
+		                                    </div>
+                            				<input type="hidden" name="roomNoArr" value="3,3">
+		                                    <input type="hidden" name="roomDateArr" value="20241217,20241218">
+		                                    <div class="amount_sum">
+		                                        <span class="title">합계</span>
+		                                        <span class="price">
+		                                            <strong></strong>
+		                                        </span>
+		                                    </div>
+		                                </div>
+                            		
+                            		</c:when>
+                            	
+                            	</c:choose>
+                            	
                                 
+                                    
+                                    
+                                    
+                                    
                             </div>
+							
+							
+							<c:choose>
+							
+								<c:when test="${ requestScope.r.paymentStatus eq 'PAID' || requestScope.r.paymentStatus eq 'CANCELED' || requestScope.r.paymentStatus eq 'CREATED' }">
+									<div class="section bg_none reserve_amount">
+		                                <div class="tit_h3">
+		                                    취소내역
+		                                </div>
+		                                <div class="cancel_content">
+		                                	<span>취소 내역이 없습니다.</span>
+		                                </div>
+		                                
+		                            </div>
+								</c:when>
+								<c:when test="${ requestScope.r.paymentStatus eq 'REFUNDED' }">
+									
+								
+								</c:when>
+							
+							</c:choose>
+
+                            
+                            
+                            
 
                             <div class="section bg_none reserve_guide">
                                 <div class="tit_h3">
@@ -623,10 +786,36 @@
                                     <p>· 동일 거주지 영유아 포함된 5인 이상 직계가족은 가족관계증명서 지참 바랍니다.</p>
                                 </div>
                             </div>
-                            <div class="section select_button">
-                                <a href="#cancel" class="btn_cancel wid30">예약취소</a>
-                                <button type="button" class="wid_70 btnNext" onclick="goToList();">목록보기</button>
-                            </div>
+                            
+                            <c:choose>
+                            	
+                            	<c:when test="${ not empty requestScope.afterPayment }">
+                            		<div class="section select_button">
+		                                <a href="${ pageContext.request.contextPath }/" class="btn_cancel wid30">메인으로</a>
+		                                <button type="button" class="wid_70 btnNext" onclick="goToList();">목록보기</button>
+		                            </div>
+                            		
+                            	</c:when>
+                            	
+                            	<c:otherwise>
+                            		<c:choose>
+                            			<c:when test="${ requestScope.r.paymentStatus eq 'PAID' || requestScope.r.paymentStatus eq 'CANCELED' || requestScope.r.paymentStatus eq 'CREATED' }">
+		                            		<div class="section select_button">
+				                                <a href="reserveCancel.res?reserveNo=${ requestScope.r.reserveNo }" class="btn_cancel wid30">예약취소</a>
+				                                <button type="button" class="wid_70 btnNext" onclick="goToList();">목록보기</button>
+				                            </div>
+		                            	</c:when>
+		                            	<c:when test="${ requestScope.r.paymentStatus eq 'REFUNDED' }">
+		                            		<div class="section select_button">
+				                                
+				                                <button type="button" class="wid_70 btnNext" onclick="goToList();">목록보기</button>
+				                            </div>
+		                            	</c:when>
+                            		</c:choose>
+                            	</c:otherwise>
+                            </c:choose>
+                        		
+                            
                             
                         </div>
                     </div>
@@ -656,8 +845,7 @@
             let section = "${requestScope.r.section}";
             let spotNo = "${requestScope.r.spotNo}";
 			
-            console.log(startDate);
-            console.log(endDate);
+            console.log(nights);
             
 			let memberName = "${sessionScope.loginMember.memberName}";
 			let birthDate = "${sessionScope.loginMember.birthDate}";

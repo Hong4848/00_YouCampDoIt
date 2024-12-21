@@ -104,6 +104,15 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.selectReserve(sqlSession, rno);
 	}
 
+	/**
+	 * 24.12.22 정성민
+	 * 캠핑장 예약취소 요청용 서비스 메소드
+	 */
+	@Override
+	public int deleteReserveRequest(int reserveNo) {
+		return reserveDao.deleteReserveRequest(sqlSession, reserveNo);
+	}
+
 	
 	
 

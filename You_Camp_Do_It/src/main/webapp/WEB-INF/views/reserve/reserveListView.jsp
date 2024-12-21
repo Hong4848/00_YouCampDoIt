@@ -272,11 +272,11 @@
 	                                	</c:when>
 	                                	
 	                                	<c:when test="${ r.paymentStatus eq 'CANCELED' }">
-	                                		<span class="state state_point">취소 완료</span>
+	                                		<span class="state state_point">취소 진행중</span>
 	                                	</c:when>
 	                                	
 	                                	<c:when test="${ r.paymentStatus eq 'REFUNDED' }">
-	                                		<span class="state state_point">취소 진행중</span>
+	                                		<span class="state state_point">취소 완료</span>
 	                                	</c:when>
 	                                	
 	                                </c:choose>

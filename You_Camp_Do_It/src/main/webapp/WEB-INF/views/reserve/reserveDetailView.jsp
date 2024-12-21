@@ -388,7 +388,7 @@
             align-items: center; /* 세로축 중앙 정렬 */
             justify-content: space-between; /* 좌우 정렬 */
             font-size: 15px; /* 글자 크기 */
-            font-weight:520; /* 텍스트 굵게 */
+
             color: #333; /* 텍스트 색상 */
             margin-bottom: 10px; /* 아래 여백 */
             border-left: 4px solid #6c5e37; /* 왼쪽에 포인트 색상 바 */

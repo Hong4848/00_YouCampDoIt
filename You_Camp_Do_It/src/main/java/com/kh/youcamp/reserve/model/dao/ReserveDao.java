@@ -107,6 +107,17 @@ public class ReserveDao {
 		return sqlSession.selectOne("reserveMapper.selectReserve", rno);
 	}
 
+	/**
+	 * 24.12.20 정성민
+	 * 캠핑장 예약취소 요청용 쿼리문
+	 * @param sqlSession
+	 * @param reserveNo
+	 * @return
+	 */
+	public int deleteReserveRequest(SqlSessionTemplate sqlSession, int reserveNo) {
+		return sqlSession.update("reserveMapper.deleteReserveRequest", reserveNo);
+	}
+
 	
 
 	

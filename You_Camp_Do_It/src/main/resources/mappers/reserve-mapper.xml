@@ -16,6 +16,8 @@
 		<result column="UPDATE_DATE" property="updateDate" />
 		<result column="MEMBER_NO" property="memberNo" />
 		<result column="CAMPSITE_ID" property="campsiteId" />
+		<result column="SPOT_NO" property="spotNo" />
+		<result column="SECTION" property="section" />
 	</resultMap>
 	
 	<resultMap id="restSiteResultSet" type="restsite">
@@ -148,12 +150,22 @@
 	-->
 	
 	<select id="selectReserve" parameterType="_int" resultMap="reserveResultSet">
-		SELECT RESERVE_NO, PAYMENT_DATE, START_DATE, END_DATE, PAYMENT_METHOD, PRICE, MEMBER_COUNT
-		  FROM RESERVE
+		SELECT R.RESERVE_NO, R.PAYMENT_DATE, R.START_DATE, R.END_DATE, R.PAYMENT_METHOD, R.PAYMENT_STATUS, R.PRICE, R.MEMBER_COUNT, R.NIGHTS, C.SPOT_NO, C.SECTION
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
 		 WHERE RESERVE_NO = #{rno}
 	</select>
 	
-	
+	<!--  
+		24.12.22 정성민
+		예약 취소요청 요청용 쿼리문
+	-->
+	<update id="deleteReserveRequest" parameterType="_int">
+		UPDATE RESERVE
+		   SET PAYMENT_STATUS = 'CANCELED'
+		 WHERE RESERVE_NO = #{reserveNo}
+		   AND PAYMENT_STATUS = 'PAID'
+	</update>
 	
   
 </mapper>
