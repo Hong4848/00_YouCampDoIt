@@ -1,6 +1,8 @@
 package com.kh.youcamp.cart.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.kh.youcamp.cart.model.service.CartService;
 import com.kh.youcamp.cart.model.vo.Cart;
-import com.kh.youcamp.common.model.vo.PageInfo;
-import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.goods.model.service.GoodsService;
 import com.kh.youcamp.goods.model.vo.Goods;
 import com.kh.youcamp.member.model.vo.Member;
@@ -58,31 +58,16 @@ public class CartController {
 	    
 	    log.debug("장바구니 리스트뷰 컨트롤러 회원번호 : " + memberNo);
 
-	    ArrayList<Cart> list = cartService.selectList(memberNo);
-	    
-	    log.debug("장바구니 AJAX 목록 조회 결과: " + list);
-	    
-	    /*
-	    int listCount = goodsService.selectListCount();
-		int pageLimit = 5;
-		int boardLimit = 8;
-		int currentPage = 1;
+	    ArrayList<Cart> cList = cartService.selectList(memberNo);
+//	    log.debug("장바구니 AJAX 목록 조회 결과: " + cList);
 		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-	    
-	    ArrayList<Goods> glist = goodsService.selectGoodsList(pi);
-		System.out.println(glist);
-		*/
-	    
+	    // 썸네일가져오기
+	    ArrayList<Goods> gList = goodsService.selectGoodsThumbnailList(memberNo);
 	    // 썸네일컬럼 img 부터 짤라서 div에 넣기
-	    
 		//섬네일 이미지 추출
-		for(Cart cart : list){
-			
-			System.out.println(cart.getGoodsThumbnail());
-			
+	    for(Goods g : gList){
 			String s = "<img src="; // 이미지 태그 찾기
-			String body = cart.getGoodsThumbnail();
+			String body = g.getGoodsThumbnail();
 			int start = 0;
 			int end = 0;
 			
@@ -91,10 +76,14 @@ public class CartController {
 			end = body.indexOf(">");
 			body = body.substring(0, end+1);
 			
-			cart.setGoodsThumbnail(body);
+			g.setGoodsThumbnail(body);
 		}
-
-	    return new Gson().toJson(list); // JSON 데이터 반환
+	    
+	    Map<String, Object> result = new HashMap<>();
+	    result.put("cartList", cList);
+	    result.put("goodsList", gList);
+	    
+	    return new Gson().toJson(result); // JSON 데이터 반환
 	}
 	
 

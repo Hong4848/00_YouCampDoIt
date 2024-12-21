@@ -103,4 +103,12 @@ public class GoodsDao {
 	public int hideCount(SqlSessionTemplate sqlSession, Search search) {
 		return sqlSession.selectOne("goodsMapper.hideCount");
 	}
+
+	public ArrayList<Goods> selectGoodsThumbnailList(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("goodsMapper.selectGoodsThumbnailList", memberNo);
+	}
+
+	public ArrayList<Goods> selectGoodsThumbnailListByOrderNo(SqlSessionTemplate sqlSession, int orderNo) {
+		return (ArrayList)sqlSession.selectList("goodsMapper.selectGoodsThumbnailListByOrderNo", orderNo);
+	}
 }

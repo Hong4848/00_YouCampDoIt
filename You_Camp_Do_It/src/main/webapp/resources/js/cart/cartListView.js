@@ -3,6 +3,8 @@
 // +- 비활성화 일때 커서 css 다르게 적용??
 // 체크된상태에서 선택삭제로 삭제 후 총 주문금액에 금액 남아있는 문제
 // 삭제 ajax 하기전에 '삭제 할거임?' 묻기??
+// x버튼 위치수정
+// 상품사진 사이즈 수정
 
 
 $(function () {
@@ -237,6 +239,8 @@ function loadCartItems() {
 		dataType: "json",
 		success: function (data) {
 			// console.log("AJAX 요청 성공:", data);
+			// console.log("Cart List:", data.cartList);
+            // console.log("Goods List:", data.goodsList);
 			renderCartItems(data);
 		},
 		error: function () {
@@ -245,6 +249,102 @@ function loadCartItems() {
 	});
 }
 
+// 장바구니 목록 렌더링 함수
+function renderCartItems(data) {
+    const $cartContainer = $(".cart-container");
+
+    // 기존 목록 초기화
+    $cartContainer.find(".cart-item").remove();
+
+    const cartList = data.cartList;
+    const goodsList = data.goodsList;
+
+    // goodsList를 Map 형태로 변환 (goodsNo 기준)
+    const goodsMap = new Map();
+    goodsList.forEach(goods => {
+        goodsMap.set(goods.goodsNo, goods.goodsThumbnail);
+    });
+
+    // 장바구니에 데이터가 없는 경우 처리
+    if (cartList.length === 0) {
+        $cartContainer.append(`
+            <div style="text-align: center; font-size: 24px; font-weight: bold;">
+                장바구니에 담은 용품이 없습니다.
+            </div>`);
+        return;
+    }
+
+    // 데이터 렌더링
+    cartList.forEach((item, index) => {
+        console.log(`렌더링 중 - Index: ${index}, Item:`, item);
+
+        // 섬네일 찾기 (goodsNo 기준)
+        const thumbnail = goodsMap.get(item.goods.goodsNo) || "<img src='https://via.placeholder.com/100' alt='기본 이미지'>";
+
+        // 가격에 콤마 추가
+        const formattedPrice = item.price.toLocaleString();
+
+        // 동적 HTML 생성
+        const cartItem = `
+            <div class="cart-item">
+                <!-- 체크박스 -->
+                <input type="checkbox" value="${item.cartNo}">
+                <!-- 숨겨진 상품 번호 -->
+                <input type="hidden" name="goodsNo" value="${item.goods.goodsNo}">
+                <!-- 상품 이미지 -->
+                <div class="thumbnail">
+                    ${thumbnail}
+                </div>
+                <!-- 상품 상세 정보 -->
+                <div class="item-details">
+                    <h3>${item.goods.goodsName || "상품 정보 없음"}</h3>
+					<br>
+                    <!-- <p class="item-options">선택: ${item.goods.goodsInfo || "정보 없음"}</p> -->
+                    <div class="item-quantity">
+                        <span class="quantity-decrease">-</span>
+                        <input type="text" value="${item.quantity}" class="quantity-input" readonly>
+                        <span class="quantity-increase">+</span>
+                    </div>
+                </div>
+                <!-- 상품 가격 -->
+                <div class="item-price">
+                    <p>${formattedPrice} 원</p>
+                </div>
+                <!-- 삭제 버튼 -->
+                <button class="delete-btn" value="${item.cartNo}">X</button>
+            </div>`;
+        
+        // 컨테이너에 추가
+        $cartContainer.append(cartItem);
+    });
+
+    // 수량 버튼 상태 초기화
+    updateQuantityButtonState();
+}
+
+// 수량 버튼 상태 업데이트 함수
+function updateQuantityButtonState() {
+    $('.quantity-input').each(function () {
+        const currentValue = parseInt($(this).val(), 10);
+        const decreaseButton = $(this).siblings('.quantity-decrease');
+        const increaseButton = $(this).siblings('.quantity-increase');
+
+        // 수량이 1이면 - 버튼 비활성화
+        if (currentValue === 1) {
+            decreaseButton.prop('disabled', true);
+        } else {
+            decreaseButton.prop('disabled', false);
+        }
+
+        // 수량이 99면 + 버튼 비활성화
+        if (currentValue === 99) {
+            increaseButton.prop('disabled', true);
+        } else {
+            increaseButton.prop('disabled', false);
+        }
+    });
+}
+/*
 // 장바구니 목록 렌더링 함수
 function renderCartItems(items) {
 	const $cartContainer = $(".cart-container");
@@ -257,7 +357,7 @@ function renderCartItems(items) {
 			</div>`);
 		return;
 	}
-
+	
 	items.forEach(item => {
 		// 가격에 콤마 추가 (toLocaleString 사용)
 		const formattedPrice = item.price.toLocaleString();
@@ -285,8 +385,9 @@ function renderCartItems(items) {
 				<button class="delete-btn" value="${item.cartNo}">X</button>
 			</div>`;
 		$cartContainer.append(cartItem);
-	});
+	}); 
 
+	
 	// 수량 버튼 상태 초기화 (생성된 요소에 적용)
 	// css 도 적용하고 싶은데 안됨
 	$('.quantity-input').each(function () {
@@ -308,7 +409,7 @@ function renderCartItems(items) {
             increaseButton.prop('disabled', false);
         }
     });
-}
+}*/
 
 // 총 갯수 및 가격 변화 함수
 function updateTotalPrice(){

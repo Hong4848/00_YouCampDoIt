@@ -31,6 +31,6 @@ public class Cart {
     private int count;
     
     // 각 화면에서 썸네일 불러오는 용도
-    private String goodsThumbnail;
+    // private String goodsThumbnail;
 
 }

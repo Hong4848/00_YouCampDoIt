@@ -20,7 +20,7 @@
 	
         <div class="order-header">
             <div class="order-header-wrap">
-                <a href="">주문완료(결제완료) 내역</a>
+                <a href="#">주문완료(결제완료) 내역</a>
             </div>
         </div>
 	   
@@ -97,10 +97,12 @@
 			<!-- Order Items - 주문테이블 목록조회 부분 -->
         	<c:forEach var="od" items="${ requestScope.list }">
 				<div class="order-item">
-					<img src="https://via.placeholder.com/100" alt="상품 이미지">
+					<div class="thumbnail">
+						${thumbnailMap[od.goods.goodsNo]}
+					</div>
 					<div class="item-details">
 						<h3>${od.goods.goodsName}</h3>
-						<p class="item-options">${od.goods.goodsInfo}</p>
+						<!-- <p class="item-options">${od.goods.goodsInfo}</p> -->
 						<div class="item-quantity">
 							<input type="text" value="${od.quantity}" class="quantity-input" readonly>
 						</div>

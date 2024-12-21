@@ -210,4 +210,31 @@
 		  FROM GOODS
 		 WHERE STATUS = 'N'
  	</select>
+ 	
+ 	<!-- cart 목록 뷰 시 썸네일 -->
+ 	<select id="selectGoodsThumbnailList" parameterType="_int"
+ 			resultMap="goodsResultSet">
+ 		SELECT GOODS_NO
+     		 , GOODS_THUMBNAIL
+		  FROM GOODS
+		 WHERE GOODS_NO IN (
+		 		SELECT GOODS_NO
+		 		  FROM CART
+		 		 WHERE MEMBER_NO = #{memberNo}
+		 )
+ 	</select>
+ 	<!-- 주문정보 생성 시 썸네일 -->
+ 	<select id="selectGoodsThumbnailListByOrderNo" parameterType="_int"
+ 			resultMap="goodsResultSet">
+ 		SELECT GOODS_NO
+     		 , GOODS_THUMBNAIL
+		  FROM GOODS
+		 WHERE GOODS_NO IN (
+		 		SELECT GOODS_NO
+		 		  FROM GOODS_ORDER
+		 		 WHERE ORDER_NO = #{orderNo}
+		 )
+ 	</select>
+ 	
+ 	
 </mapper>

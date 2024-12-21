@@ -28,35 +28,34 @@
 	    </association>
 	</resultMap>
 	
-	
-		<resultMap id="cartListResultSet" type="cart">
-			<!-- CART 테이블 매핑 -->
-	        <id column="CART_NO" property="cartNo" />
-	        <result column="QUANTITY" property="quantity" />
-	        <result column="CART_PRICE" property="price" />
-	        <result column="ADDED_AT" property="addedAt" />
-	        <result column="MEMBER_NO" property="memberNo" />
-	        <result column="GOODS_NO" property="goodsNo" />
-	
-	        
-	        
-	        <result column="GOODS_NO" property="goodsNo" />
-	        <result column="CATEGORY" property="category" />
-	        <result column="GOODS_NAME" property="goodsName" />
-	        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
-	        <result column="GOODS_CONTENT" property="goodsContent" />
-	        <result column="GOODS_INFO" property="goodsInfo" />
-	        <result column="MARK" property="mark" />
-	        <result column="GOODS_PRICE" property="price" />
-	        <result column="VIEWS" property="views" />
-	        <result column="ENROLL_DATE" property="enrollDate" />
-	        <result column="TOTAL_STOCK" property="totalStock" />
-	        <result column="REMAIN_STOCK" property="remainStock" />
-	        <result column="STATUS" property="status" />
-		</resultMap>
+	<resultMap id="cartListResultSet" type="cart">
+		<!-- CART 테이블 매핑 -->
+        <id column="CART_NO" property="cartNo" />
+        <result column="QUANTITY" property="quantity" />
+        <result column="CART_PRICE" property="price" />
+        <result column="ADDED_AT" property="addedAt" />
+        <result column="MEMBER_NO" property="memberNo" />
+        <result column="GOODS_NO" property="goodsNo" />
+
+        
+        
+        <result column="GOODS_NO" property="goodsNo" />
+        <result column="CATEGORY" property="category" />
+        <result column="GOODS_NAME" property="goodsName" />
+        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
+        <result column="GOODS_CONTENT" property="goodsContent" />
+        <result column="GOODS_INFO" property="goodsInfo" />
+        <result column="MARK" property="mark" />
+        <result column="GOODS_PRICE" property="price" />
+        <result column="VIEWS" property="views" />
+        <result column="ENROLL_DATE" property="enrollDate" />
+        <result column="TOTAL_STOCK" property="totalStock" />
+        <result column="REMAIN_STOCK" property="remainStock" />
+        <result column="STATUS" property="status" />
+	</resultMap>
 	
 	<!-- 장바구니 목록 조회용 쿼리문 -->
-	<!--
+	
 	<select id="selectList" parameterType="_int" resultMap="cartResultSet">
 		SELECT M.MEMBER_NO
 		     , C.CART_NO
@@ -66,15 +65,15 @@
 		     , G.GOODS_NO
 		     , G.CATEGORY
 		     , G.GOODS_NAME
-		     , G.GOODS_THUMBNAIL
+		     <!--  , G.GOODS_THUMBNAIL -->
 		     , G.PRICE AS GOODS_PRICE
 		  FROM CART C
 		  JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
 		  JOIN GOODS G ON C.GOODS_NO = G.GOODS_NO
 		 WHERE M.MEMBER_NO = #{memberNo}
 	</select>
-	-->
 	
+	<!-- 
 	<select id="selectList" parameterType="_int" resultMap="cartListResultSet">
 		SELECT M.MEMBER_NO
 		     , C.CART_NO
@@ -90,7 +89,7 @@
 		  JOIN MEMBER M ON C.MEMBER_NO = M.MEMBER_NO
 		  JOIN GOODS G ON C.GOODS_NO = G.GOODS_NO
 		 WHERE M.MEMBER_NO = #{memberNo}
-	</select>
+	</select> -->
 
 	<!-- 장바구니 삭제용 쿼리문 -->
 	<delete id="deleteCart"

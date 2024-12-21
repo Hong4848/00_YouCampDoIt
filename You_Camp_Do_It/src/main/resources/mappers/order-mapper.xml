@@ -96,8 +96,8 @@
 			resultMap="orderDetailResultSet">
 		SELECT OD.*
 		     , G.GOODS_NAME
-		     , G.GOODS_INFO
-		     , G.GOODS_THUMBNAIL
+		     <!-- , G.GOODS_INFO
+		     , G.GOODS_THUMBNAIL  -->
 		  FROM ORDER_DETAIL OD
 		  JOIN GOODS G ON (OD.GOODS_NO = G.GOODS_NO)
 		 WHERE ORDER_NO = #{orderNo}

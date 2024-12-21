@@ -28,4 +28,9 @@ public interface GoodsService {
 	public int ajaxSelectListCount();
 	
 	public ArrayList<Goods> ajaxGoodsSelect(Search search, PageInfo pi);
+
+	// 카트리스트조회 시 썸네일만 가져오는 용도
+	public ArrayList<Goods> selectGoodsThumbnailList(int memberNo);
+	// 주문 정보 생성 시 썸네일만 가져오는 용도
+	public ArrayList<Goods> selectGoodsThumbnailListByOrderNo(int orderNo);
 }

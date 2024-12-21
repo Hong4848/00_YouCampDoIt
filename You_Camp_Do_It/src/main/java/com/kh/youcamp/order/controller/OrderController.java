@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -29,6 +30,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kh.youcamp.cart.model.service.CartService;
+import com.kh.youcamp.goods.model.service.GoodsService;
+import com.kh.youcamp.goods.model.vo.Goods;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.order.model.service.OrderService;
 import com.kh.youcamp.order.model.vo.Order;
@@ -47,6 +50,9 @@ public class OrderController {
 	
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private GoodsService goodsService;
 	
 	// nicePay util 메소드들 ------------------------------------------------------
 	public final synchronized String getyyyyMMddHHmmss(){
@@ -227,12 +233,35 @@ public class OrderController {
 	    // order, orderDetail 에서 결제에 필요한 정보 및 orderForm 뷰단에 필요한 정보 가져가기
 	    Order selectedOrder = orderService.selectOrder(orderNo);
 	    ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+	    // 굿즈섬네일가져오기, 오더번호 > 오더디테일테이블 > 굿즈넘버 > 섬네일 셀렉
+	    ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByOrderNo(orderNo);
+	    
+	    for(Goods g : gList){
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = g.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			g.setGoodsThumbnail(body);
+		}
+	    
+	    Map<Integer, String> thumbnailMap = new HashMap<>();
+	    for (Goods goods : gList) {
+	        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
+	    }
+	    
 	    log.debug("조회 잘 됏냐? selectedOrder : " + selectedOrder);
 //	    log.debug("조회 잘 됐냐? list : " + list);
 	    
 	    model.addAttribute("order", selectedOrder);
 	    model.addAttribute("list", list);
-		
+	    // model.addAttribute("gList", gList);
+	    model.addAttribute("thumbnailMap", thumbnailMap);
 		
 		/*
 		*******************************************************
@@ -450,8 +479,30 @@ public class OrderController {
 					
 					// 결제완료한 상품 orderDetail select > orderNo 기준
 					ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+					// 결제완료된 상품 썸네일
+					ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByOrderNo(orderNo);
+				    
+				    for(Goods g : gList){
+						String s = "<img src="; // 이미지 태그 찾기
+						String body = g.getGoodsThumbnail();
+						int start = 0;
+						int end = 0;
+						
+						start = body.indexOf(s);
+						body = body.substring(start);
+						end = body.indexOf(">");
+						body = body.substring(0, end+1);
+						
+						g.setGoodsThumbnail(body);
+					}
+				    
+				    Map<Integer, String> thumbnailMap = new HashMap<>();
+				    for (Goods goods : gList) {
+				        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
+				    }
 					
 					model.addAttribute("list", list);
+					model.addAttribute("thumbnailMap", thumbnailMap);
 					
 					model.addAttribute("resultJsonStr", resultJsonStr);
 					model.addAttribute("ResultCode", ResultCode);

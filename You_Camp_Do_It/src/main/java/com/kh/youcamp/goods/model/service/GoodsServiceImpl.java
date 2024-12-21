@@ -159,4 +159,23 @@ public class GoodsServiceImpl implements GoodsService{
 	public int hideCount(Search search) {
 		return goodsDao.hideCount(sqlSession, search);
 	}
+
+	
+	/**
+	 * 카트리스트 조회 시 썸네일 가져오는 용도
+	 * 24.12.21 윤홍문
+	 */
+	@Override
+	public ArrayList<Goods> selectGoodsThumbnailList(int memberNo) {
+		return goodsDao.selectGoodsThumbnailList(sqlSession, memberNo);
+	}
+
+	/**
+	 * 주문정보 생성 시 썸네일
+	 * 24.12.21 윤홍문
+	 */
+	@Override
+	public ArrayList<Goods> selectGoodsThumbnailListByOrderNo(int orderNo) {
+		return goodsDao.selectGoodsThumbnailListByOrderNo(sqlSession, orderNo);
+	}
 }
