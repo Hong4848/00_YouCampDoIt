@@ -319,6 +319,7 @@
             margin: 0px;
             padding: 0px;
             
+            
         }
         .ico_show_arrow {
             display: inline-block;
@@ -327,6 +328,7 @@
             height: 8px;
             border: solid #666;
             border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
         }
         .ico_show_arrow.down {
             transform: rotate(45deg);
@@ -587,6 +589,10 @@
             margin-bottom: 0px;
         }
         
+        .agree_box {
+        	width: 100%;
+        }
+        
         .agree_box label {
         	margin-bottom: 0px;
         }
@@ -689,6 +695,63 @@
 		.dropdown-menu li.active {
 		    background: #007bff;
 		    color: #fff;
+		}
+		
+		
+		.table-container {
+		    max-height: 200px; /* 테이블 높이 제한 */
+		    overflow-y: auto; /* 세로 스크롤 추가 */
+		    border: 1px solid #ddd; /* 테이블 컨테이너 외곽선 */
+		    border-radius: 5px; /* 테두리 둥글게 */
+		    padding: 10px; /* 내부 여백 */
+		    background-color: #fff; /* 배경색 */
+		    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+		    font-weight: 400;
+		}
+		
+		.table_basic {
+		    width: 100%;
+		    border-collapse: collapse;
+		    text-align: center;
+		    font-size: 14px;
+		}
+		
+		.table_basic thead {
+			background-color: #d1d1d1;
+		}
+		
+		.table_basic thead th {
+		    background-color: #d9d9d9; /* 헤더 배경색 */
+		    font-weight: bold; /* 글자 굵게 */
+		    color: #333; /* 글자색 */
+		    padding: 10px;
+		    border-bottom: 2px solid #ddd; /* 헤더 아래쪽 테두리 */
+		    
+		}
+		.table_basic thead td {
+		    
+		    padding: 10px;
+		    background-color
+		}
+		
+		.table_basic tbody td {
+		    padding: 10px;
+		    border-bottom: 1px solid #ddd; /* 셀 아래쪽 테두리 */+
+		    color: #555; /* 글자색 */
+		}
+		
+		.table_basic tbody tr:hover {
+		    background-color: #f1f1f1; /* 행에 마우스 오버 시 배경색 */
+		}
+		
+		
+		
+		.refund {
+		    display: block;
+		    margin-top: 10px;
+		    font-size: 12px;
+		    color: #666;
+		    
 		}
 		
 		
@@ -1097,7 +1160,49 @@
                                     </a>
                                     <div class="agree_txt">
                                         <div class="use_content3">
-                                            <em>※ 예약당일 취소는 전액 환급</em>
+                                        	<table class="table_basic mb20">
+                                        		<colgroup>
+                                        			<col style="width:30%">
+                                        			<col style="width:35%">
+                                        			<col style="width:35%">
+                                        		</colgroup>
+                                        		<thead>
+                                        			<tr>
+                                        				<td>구분</td>
+                                        				<td>주중</td>
+                                        				<td>주말</td>
+                                        			</tr>
+                                        		</thead>
+                                        		<tbody>
+                                        			<tr>
+                                        				<td>10일전</td>
+                                        				<td>전액환급</td>
+                                        				<td>전액환급</td>
+                                        			</tr>
+                                        			<tr>
+                                        				<td>9~7일전</td>
+                                        				<td>10% 공제</td>
+                                        				<td>10% 공제</td>
+                                        			</tr>
+                                        			<tr>
+                                        				<td>6~5일전</td>
+                                        				<td>30% 공제</td>
+                                        				<td>30% 공제</td>
+                                        			</tr>
+                                        			<tr>
+                                        				<td>4~3일전</td>
+                                        				<td>50% 공제</td>
+                                        				<td>50% 공제</td>
+                                        			</tr>
+                                        			<tr>
+                                        				<td>2일전~당일</td>
+                                        				<td>80% 공제</td>
+                                        				<td>80% 공제</td>
+                                        			</tr>
+                                        		</tbody>
+                                        	</table>
+                                        	
+                                            <span class="refund">※ 예약당일 취소는 전액 환급</span>
                                         </div>
                                     </div>
                                 </div>

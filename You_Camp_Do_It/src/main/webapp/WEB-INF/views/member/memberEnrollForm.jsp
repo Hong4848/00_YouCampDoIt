@@ -143,7 +143,7 @@
 	        <form action="insert.me" method="post" id="enrollForm" >
 	            <!-- 아이디 -->
 	            <label for="memberId">아이디*</label>
-	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="아이디를 입력하세요(첫글자는 반드시 영문자이고 영문자, 숫자 포함 5~12자)" required>
+	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="첫글자는 반드시 영문자이고 영문자, 숫자 포함 5~12자" required>
 	            
 	            <div id="checkResult" style="font-size: 0.8em; display: none;">
 	            
@@ -151,7 +151,7 @@
 	
 	            <!-- 비밀번호 -->
 	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
-	            <input type="password" id="memberPwd" name="memberPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자)" required>
+	            <input type="password" id="memberPwd" name="memberPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자" required>
 	
 	            <!-- 비밀번호 확인 -->
 	            <label for="checkPwd">비밀번호 확인*</label>
@@ -159,7 +159,7 @@
 	
 	            <!-- 이름 -->
 	            <label for="memberName">이름*</label>
-	            <input type="text" id="memberName" name="memberName" placeholder="한글 2자 이상" required>
+	            <input type="text" id="memberName" name="memberName" placeholder="영문 대소문자/한글 2자 이상" required>
 	
 	            <!-- 이메일 -->
 	            <label for="email">이메일 주소*</label>
@@ -367,6 +367,8 @@
     	}
     	
     	
+    	
+    	
     	// 유효성 검사, 아이디 중복체크 및 인증번호 인증 여부 검사
         function signupValidate() {
     		
@@ -375,6 +377,7 @@
     		let memberPwd = $("#enrollForm input[name=memberPwd]").val();
     		let checkPwd = $("#enrollForm input[name=checkPwd]").val();
     		let memberName = $("#enrollForm input[name=memberName]").val();
+    		let email = $("#enrollForm input[name=email]").val();
     		let phone = $("#enrollForm input[name=phone]").val();
     		
     		
@@ -382,6 +385,7 @@
     		let regex = /^[a-zA-Z][a-zA-Z0-9]{4,11}$/;
     		if(!regex.test(memberId)) {
     			alert("형식에 맞는 아이디를 입력해주세요!");
+    			$("#enrollForm input[name=memberId]").focus();
     			return false;
     		} 
     		
@@ -393,28 +397,40 @@
         	}
     		
     		// 비밀번호 유효성 검사
-    		regex = /^[0-9a-zA-Z!@#$%^&]{8,15}$/;
+    		regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/;
     		if(!regex.test(memberPwd)) {
     			alert("형식에 맞는 비밀번호를 입력해주세요!");
+    			$("#enrollForm input[name=memberPwd]").focus();
     			return false;
     		}
     		
     		// 비밀번호, 비밀번호 확인 일치 검사
     		if(memberPwd != checkPwd) {
     			alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요!");
+    			$("#enrollForm input[name=checkPwd]").focus();
     			return false;
     		}
     		
     		// 회원 이름 유효성 검사
-    		regex = /^[가-힣]{2,}$/;
+    		regex = /^[A-Za-z가-힣]{2,}$/;
     		if(!regex.test(memberName)) {
     			alert("2글자 이상의 이름을 입력해주세요!");
+    			$("#enrollForm input[name=memberName]").focus();
     			return false;
+    		}
+    		
+    		// 이메일 유효성 검사
+    		regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    		if (!regex.test(email)) {
+    		    alert("형식에 맞는 이메일 주소를 입력해주세요!");
+    		    $("#enrollForm input[name=email]").focus();
+    		    return false;
     		}
     		
     		// 이메일 인증 여부 검사
     		if(isCertChecked == false) {
     			alert("이메일 인증을 반드시 해야합니다!");
+    			
     			return false;
     		}
     		
@@ -422,18 +438,10 @@
     		regex = /^\d{3}-\d{4}-\d{4}$/;
     		if(!regex.test(phone)) {
     			alert("형식에 맞는 전화번호를 입력해주세요!");
+    			$("#enrollForm input[name=phone]").focus();
     			return false;
     		}
     		
-    		
-    		
-
-    		
-    		
-    		
-    		
-    		
-        	
         }
     	
     	
@@ -444,6 +452,31 @@
                 $("#verificationFields").removeClass("hidden");
                 // $(".wrap-signup").css("height", "1300px");
             });
+            
+            const $emailInput = $("#email");
+            const $sendCodeButton = $("#sendCodeButton");
+
+            // 이메일 유효성 검사 함수
+            function isEmailValid(email) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 정규표현식
+                return regex.test(email);
+            }
+
+            // 이메일 입력 시 유효성 검사
+            $emailInput.on("input", function () {
+                const emailValue = $(this).val().trim();
+
+                if (isEmailValid(emailValue)) {
+                    $sendCodeButton.prop("disabled", false); // 유효한 경우 버튼 활성화
+                    $emailInput.css("border-color", "green"); // 입력 필드 강조
+                } else {
+                    $sendCodeButton.prop("disabled", true); // 유효하지 않으면 버튼 비활성화
+                    $emailInput.css("border-color", "red"); // 입력 필드 강조
+                }
+            });
+
+            // 초기 상태에서 버튼 비활성화
+            $sendCodeButton.prop("disabled", true);
             
             
             // 아이디 중복체크 이벤트

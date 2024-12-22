@@ -170,10 +170,10 @@ public class ReserveController {
 	@GetMapping(value="getRestSite.res", produces="application/json; charset=UTF-8")
 	public String selectRestSite(Reserve r) {
 		
-		System.out.println(r);
+		
 		ArrayList<RestSite> restSite = reserveService.selectRestSiteCounts(r);
 	    
-		System.out.println(restSite);
+		
 		return new Gson().toJson(restSite);
 	}
 
