@@ -45,6 +45,12 @@ public class ReviewDao {
 		// select문(여러행) selectList 메소드
 		return (ArrayList)sqlSession.selectList("reviewMapper.selectReviewAttachment", reviewNo);
 	}
+
+	// 수정하기
+	public int updateReview(SqlSessionTemplate sqlSession, Review r) {
+		// update문 : update 메소드
+		return sqlSession.update("reviewMapper.updateReview", r);
+	}
         
 
 

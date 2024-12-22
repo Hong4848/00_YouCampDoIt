@@ -58,6 +58,13 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.selectReviewAttachment(sqlSession, reviewNo);
 	}
 
+	// 게시글 수정 서비스 메소드
+	@Override
+	@Transactional
+	public int updateReview(Review r) {
+		return reviewDao.updateReview(sqlSession, r);
+	}
+
     
 
 

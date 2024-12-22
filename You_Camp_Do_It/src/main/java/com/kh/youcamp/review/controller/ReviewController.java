@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -149,6 +150,51 @@ public class ReviewController {
     	
     	return mv;
     }
+    
+    // 게시글 수정하기 페이지 요청
+    @PostMapping("updateForm.re")
+    public String updateForm(int reviewNo, Model model) {
+    	Review r = reviewService.selectReview(reviewNo);
+    	
+    	model.addAttribute("r", r);
+    	
+    	return "review/reviewUpdateForm";
+    }
+    
+    
+    // 게시글 수정 요청
+    @PostMapping("update.re")
+    public String updateReview(Review r, ReviewAttachment re, MultipartFile reupFile, HttpSession session, Model model) {
+    	
+    	if(!reupFile.getOriginalFilename().equals("")) {
+    		// 기존에 첨부파일이 있었을 경우
+    		if(re.getOriginName() != null) {
+    			String realPath = session.getServletContext().getRealPath(re.getChangeName());
+    			new File(realPath).delete();
+    		}
+    		
+    		// 새로 넘어온 첨부파일의 이름을 수정하고 서버에 업로드 시켜주기
+    		//String changeName = saveFile(reupFile, session);
+    		
+    		// re 에 새로 넘어온 첨부파일에 대한 원본파일명, 경로를 포함한 수정파일명 필드 담아주기
+    		re.setOriginName(reupFile.getOriginalFilename());
+    		//re.setChangeName("resources/uploadFiles/" + changeName);
+ 
+    	}
+    	int result = reviewService.updateReview(r);
+    	
+    	if(result > 0) {
+    		session.setAttribute("alertMsg", "게시글 수정 성공");
+    		
+    		return "redirect:/list.re";
+    	} else {
+    		model.addAttribute("errorMsg", "게시글 수정에 실패하였습니다.");
+    		
+    		return "common/errorPage";
+    	}
+    }
+    
+    
     
     /*
     

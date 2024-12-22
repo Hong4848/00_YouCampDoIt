@@ -115,5 +115,16 @@
 		 ORDER BY FILE_LEVEL ASC
 	</select>
 	
+	<!-- 수정하기 쿼리문 -->
+	<update id="updateReview" parameterType="review">
+		UPDATE REVIEW
+		   SET REVIEW_TITLE = #{reviewTitle}
+		     , REVIEW_CONTENT = #{reviewContent}
+		     , ORIGIN_NAME = #{originName}
+		     , CHANGE_NAME = #{changeName}
+		 WHERE REVIEW_NO = #{reviewNo}
+		   AND STATUS = 'Y'
+	</update>
+	
 	
 </mapper>

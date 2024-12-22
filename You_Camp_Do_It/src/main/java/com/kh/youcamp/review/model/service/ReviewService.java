@@ -19,8 +19,9 @@ public interface ReviewService {
 
     // 상세조회 서비스 메소드
 	Review selectReview(int reviewNo);
-
 	ArrayList<ReviewAttachment> selectReviewAttachment(int reviewNo);
 
+	// 게시글 수정 서비스
+	int updateReview(Review r);
 	
 }
