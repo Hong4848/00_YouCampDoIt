@@ -51,6 +51,19 @@ public class ReviewDao {
 		// update문 : update 메소드
 		return sqlSession.update("reviewMapper.updateReview", r);
 	}
+	
+    public int updateReviewAttachment(SqlSessionTemplate sqlSession, ReviewAttachment attachment) {
+        return sqlSession.update("reviewMapper.updateReviewAttachment", attachment);
+    }
+    
+
+	
+	// 삭제하기
+	public int deleteReview(SqlSessionTemplate sqlSession, int reviewNo) {
+		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
+	}
+
+
         
 
 

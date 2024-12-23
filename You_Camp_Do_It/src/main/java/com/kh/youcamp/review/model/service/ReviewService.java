@@ -24,4 +24,9 @@ public interface ReviewService {
 	// 게시글 수정 서비스
 	int updateReview(Review r);
 	
+	// 게시글 삭제 서비스
+	int deleteReview(int reviewNo);
+
+	
+	
 }

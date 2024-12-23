@@ -168,8 +168,8 @@
             cursor: pointer;
         }
         .image-preview img {
-            max-width: 100%;
-            max-height: 100%;
+            max-width: auto;
+            max-height: auto;
             object-fit:cover;
         }
 
@@ -283,15 +283,18 @@
 	
         // 대표 이미지 미리보기 기능
         document.getElementById('mainImage').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('mainImagePreview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+		    const file = event.target.files[0];
+		    if (file) {
+		        const reader = new FileReader();
+		        reader.onload = function(e) {
+		            const preview = document.getElementById('mainImagePreview');
+		            preview.src = e.target.result;
+		            preview.style.width = '100%'; // 추가: 크기를 동적으로 설정
+		            preview.style.height = '100%'; // 추가: 크기를 동적으로 설정
+		        };
+		        reader.readAsDataURL(file);
+		    }
+		});
 
      	// 상세 이미지 미리보기
         function previewImage(event, previewId) {
@@ -301,6 +304,8 @@
 	            reader.onload = function(e) {
 	                const preview = document.getElementById(previewId);
 	                preview.src = e.target.result;
+	                preview.style.width = '100%';
+                    preview.style.height = '100%';
 	            }
 	            reader.readAsDataURL(file);
 	        }

@@ -157,7 +157,7 @@
         .image-upload {
             margin-bottom: 15px;
         }
-        .image-preview {
+		.image-preview {
             border: 1px solid #ccc;
             width: 150px;
             height: 150px;
@@ -229,48 +229,63 @@
 		<br>
 	     <div class="container">
 	        <h1>후기게시판 수정하기</h1>
-	        <form id="uploadForm" action="update.re" method="POST" enctype="multipart/form-data">
+	        <form id="uploadForm" action="updateForm.re" method="POST" enctype="multipart/form-data">
 			     <!-- 게시글 번호 넘기기 -->
 			     <input type="hidden" name="reviewNo" value="${ requestScope.r.reviewNo }">   
 			        <div id="contentcontroller">
 			            <div class="form-group">
 			                <label for="reviewTitle">제목</label>
-			                <input type="text" id="reviewTitle" name="reviewTitle" required>
+			                <input type="text" id="reviewTitle" name="reviewTitle" value="${r.reviewTitle }" required>
 			            </div>
 			
 			            <div class="form-group">
 			                <label for="reviewContent">내용</label>
-			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required></textarea>
+			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required>${r.reviewContent }</textarea>
 			            </div>
 					</div>
+					 
 					
-					
-			         
-			        <div class="image-upload-section">
-			        	<!-- 대표 이미지 -->
-			            <div class="image-upload">
-			                <label>대표 이미지</label>
-			                <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
-			                <div class="image-preview" onclick="document.getElementById('mainImage').click()">
-			                   <img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png" id="mainImagePreview" style="width : 20px; height : 20px" />
-			                </div>
-			            </div>
-			            <!-- 상세 이미지 -->
-			            <div class="image-upload">
-						    <label for="detailImage1">상세 이미지 1</label>
-						    <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview1')"/>
-						    <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
-						    	 <img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png"  id="detailImagePreview1" style="width : 20px; height : 20px" /> 
-							</div>
-						</div>
-						<div class="image-upload">
-						    <label for="detailImage2">상세 이미지 2</label>
-						    <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview2')"/>
-						    <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
-						    	<img src="${pageContext.request.contextPath}/resources/images/review/plus-icon.png"  id="detailImagePreview2" style="width : 20px; height : 20px"/> 
-						    </div>
-						</div>
-			        </div>
+			       <div class="image-upload-section">
+    <!-- 대표 이미지 -->
+    <div class="image-upload">
+        <label>대표 이미지</label>
+        <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
+        <div class="image-preview" onclick="document.getElementById('mainImage').click()">
+            <img 
+                                src="${not empty r.reviewAttachments[0].changeName ? contextPath + '' + r.reviewAttachments[0].filePath + r.reviewAttachments[0].changeName : contextPath + '/resources/images/review/plus-icon.png'}"
+                id="mainImagePreview"
+                style="width: ${not empty r.reviewAttachments[0].changeName ? '100%' : '20px'}; 
+                       height: ${not empty r.reviewAttachments[0].changeName ? '100%' : '20px'}; 
+                       object-fit: cover;" />
+        </div>
+    </div>
+
+    <!-- 상세 이미지 1 -->
+    <div class="image-upload">
+        <label for="detailImage1">상세 이미지 1</label>
+        <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview1')"/>
+        <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
+            <img 
+                src="${not empty r.reviewAttachments[1].changeName ? contextPath + '' + r.reviewAttachments[0].filePath + r.reviewAttachments[1].changeName : contextPath + '/resources/images/review/plus-icon.png'}"
+                id="detailImagePreview1"
+                style="width: ${not empty r.reviewAttachments[1].changeName ? '100%' : '20px'}; 
+                       height: ${not empty r.reviewAttachments[1].changeName ? '100%' : '20px'}" /> 
+        </div>
+        System.out.println("Attachments: " + r.getReviewAttachments());
+    </div>
+
+    <!-- 상세 이미지 2 -->
+    <div class="image-upload">
+        <label for="detailImage2">상세 이미지 2</label>
+        <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview2')"/>
+        <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
+            <img 
+                src="${not empty r.reviewAttachments[2].changeName ? contextPath.concat(r.reviewAttachments[2].filePath).concat(r.reviewAttachments[2].changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}"
+                id="detailImagePreview2"
+                style="width: ${not empty r.reviewAttachments[2].changeName ? '100%' : '20px'}; height: ${not empty r.reviewAttachments[2].changeName ? '100%' : '20px'}"/> 
+        </div>
+    </div>
+</div>
 					
 					<br>
 					<div id="btncontroller">
@@ -283,68 +298,46 @@
 	</div>
 	
 	<script>
-	
-        // 대표 이미지 미리보기 기능
-        document.getElementById('mainImage').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.getElementById('mainImagePreview').src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
+	// 대표 이미지 미리보기 기능
+	document.getElementById('mainImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('mainImagePreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+	});
 
-     	// 상세 이미지 미리보기
-        function previewImage(event, previewId) {
-	        const file = event.target.files[0];
-	        if (file) {
-	            const reader = new FileReader();
-	            reader.onload = function(e) {
-	                const preview = document.getElementById(previewId);
-	                preview.src = e.target.result;
-	            }
-	            reader.readAsDataURL(file);
-	        }
-    	}
-     	
-     	
-        // 폼 데이터 제출 처리
-        document.getElementById("uploadForm").addEventListener("submit", function (event) {
-		    event.preventDefault();
-		
-		    const formData = new FormData();
-		    
-		    // 제목과 내용 추가
-		    formData.append("reviewTitle", document.getElementById("reviewTitle").value);
-		    formData.append("reviewContent", document.getElementById("reviewContent").value);
-		    
-		    // 파일들 추가
-		    const mainImage = document.getElementById("mainImage").files[0];
-		    const detailImage1 = document.getElementById("detailImage1").files[0];
-		    const detailImage2 = document.getElementById("detailImage2").files[0];
-		    
-		    if (mainImage) formData.append("upfile", mainImage);
-		    if (detailImage1) formData.append("upfile", detailImage1);
-		    if (detailImage2) formData.append("upfile", detailImage2);
-		
-		    fetch("update.re", {
-		        method: "POST",
-		        body: formData
-		    })
-		    .then(response => {
-		        if (!response.ok) {
-		            throw new Error("서버 오류가 발생했습니다.");
-		        }
-		        window.location.href = "list.re"; // 수정 완료 후 리스트로 이동
-		    })
-		    .catch(error => {
-		        alert("서버 오류가 발생했습니다. 다시 시도해 주세요.");
-		    });
-		});
-    
-    </script>
+	// 상세 이미지 1 미리보기
+	document.getElementById('detailImage1').addEventListener('change', function(event) {
+	    const file = event.target.files[0];
+	    if (file) {
+	        const reader = new FileReader();
+	        reader.onload = function(e) {
+	            document.getElementById('detailImagePreview1').src = e.target.result;
+	            document.getElementById('detailImagePreview1').style.width = '100%';
+	            document.getElementById('detailImagePreview1').style.height = '100%';
+	        };
+	        reader.readAsDataURL(file);
+	    }
+	});
+
+	// 상세 이미지 2 미리보기
+	document.getElementById('detailImage2').addEventListener('change', function(event) {
+	    const file = event.target.files[0];
+	    if (file) {
+	        const reader = new FileReader();
+	        reader.onload = function(e) {
+	            document.getElementById('detailImagePreview2').src = e.target.result;
+	            document.getElementById('detailImagePreview2').style.width = '100%';
+	            document.getElementById('detailImagePreview2').style.height = '100%';
+	        };
+	        reader.readAsDataURL(file);
+	    }
+	});
+	</script>
 
 
 	 

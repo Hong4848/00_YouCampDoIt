@@ -120,11 +120,24 @@
 		UPDATE REVIEW
 		   SET REVIEW_TITLE = #{reviewTitle}
 		     , REVIEW_CONTENT = #{reviewContent}
-		     , ORIGIN_NAME = #{originName}
-		     , CHANGE_NAME = #{changeName}
 		 WHERE REVIEW_NO = #{reviewNo}
 		   AND STATUS = 'Y'
 	</update>
 	
+	<update id="updateReviewAttachment" parameterType="reviewAttachment">
+        UPDATE REVIEW_ATTACHMENT
+           SET ORIGIN_NAME = #{originName},
+               CHANGE_NAME = #{changeName},
+               FILE_PATH = #{filePath},
+               FILE_LEVEL = #{fileLevel}
+         WHERE FILE_NO = #{fileNo}
+    </update>
+	
+	<!-- 삭제하기 쿼리문 -->
+	<update id="deleteReview" parameterType="_int">
+	    UPDATE REVIEW
+	    SET STATUS = 'N'
+	    WHERE REVIEW_NO = #{reviewNo}
+	</update>
 	
 </mapper>

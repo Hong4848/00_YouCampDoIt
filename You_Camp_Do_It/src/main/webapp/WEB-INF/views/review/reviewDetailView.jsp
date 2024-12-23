@@ -182,12 +182,12 @@
 	                <a class="btn btn-info btn-sm" onclick="postFormSubmit(2);">
 	                	삭제
 	                </a>
-                    <a class="btn btn-warning btn-sm" href="">목록</a>
+                    <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.re">목록</a>
 
 	            </div>
-            </c:if>
+           
 	            
-	            <form id="postForm" action="" method="post">
+	            <form id="postForm" action="updateForm.re" method="post">
 	            	<input type="hidden" name="rno" value="${ requestScope.r.reviewNo }">
 	            	<input type="hidden" name="filePath" value="${ requestScope.r.changeName }">
 	            </form>
@@ -202,14 +202,14 @@
 	            		// 곧바로 submit 시키기!!
 	            		// attr : 기타 속성
 	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "../updateForm.re").submit();
+	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/updateForm.re").submit();
 	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
 	            		} else { // 삭제하기를 클릭했을 경우
 	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.re").submit();
 	            		}
 	            	}
 	            </script>
-	            
+	          </c:if>
          
             
             <br><br>

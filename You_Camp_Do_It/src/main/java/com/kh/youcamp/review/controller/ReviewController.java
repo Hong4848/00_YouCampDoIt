@@ -2,6 +2,8 @@ package com.kh.youcamp.review.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,6 +137,8 @@ public class ReviewController {
         return changeName;
     }
     
+    
+    
     // 게시글 상세보기 요청 메소드
     @GetMapping("detail.re")
     public ModelAndView selectReview(int reviewNo, ModelAndView mv) {
@@ -153,72 +157,121 @@ public class ReviewController {
     
     // 게시글 수정하기 페이지 요청
     @PostMapping("updateForm.re")
-    public String updateForm(int reviewNo, Model model) {
+    public String updateForm(@RequestParam("rno") int reviewNo, Model model) {
+        // 리뷰 정보 가져오기
     	Review r = reviewService.selectReview(reviewNo);
     	
-    	model.addAttribute("r", r);
-    	
-    	return "review/reviewUpdateForm";
+    	// 첨부파일 리스트 가져오기
+    	List<ReviewAttachment> attachments = reviewService.selectReviewAttachment(reviewNo);
+        
+    	 // FILE_LEVEL에 따라 분류
+        ReviewAttachment mainImage = null;
+        ReviewAttachment detailImage1 = null;
+        ReviewAttachment detailImage2 = null;
+
+        for (ReviewAttachment attachment : attachments) {
+            if (attachment.getFileLevel() == 1) {
+                mainImage = attachment; // 대표 이미지
+            } else if (attachment.getFileLevel() == 2 && detailImage1 == null) {
+                detailImage1 = attachment; // 상세 이미지 1
+            } else if (attachment.getFileLevel() == 2) {
+                detailImage2 = attachment; // 상세 이미지 2
+            }
+        }
+
+    	// model 에 데이터 추가
+        model.addAttribute("r", r);
+        model.addAttribute("mainImage", mainImage);
+        model.addAttribute("detailImage1", detailImage1);
+        model.addAttribute("detailImage2", detailImage2);
+        
+        return "review/reviewUpdateForm";
     }
+   
     
     
     // 게시글 수정 요청
     @PostMapping("update.re")
-    public String updateReview(Review r, ReviewAttachment re, MultipartFile reupFile, HttpSession session, Model model) {
-    	
-    	if(!reupFile.getOriginalFilename().equals("")) {
-    		// 기존에 첨부파일이 있었을 경우
-    		if(re.getOriginName() != null) {
-    			String realPath = session.getServletContext().getRealPath(re.getChangeName());
-    			new File(realPath).delete();
-    		}
-    		
-    		// 새로 넘어온 첨부파일의 이름을 수정하고 서버에 업로드 시켜주기
-    		//String changeName = saveFile(reupFile, session);
-    		
-    		// re 에 새로 넘어온 첨부파일에 대한 원본파일명, 경로를 포함한 수정파일명 필드 담아주기
-    		re.setOriginName(reupFile.getOriginalFilename());
-    		//re.setChangeName("resources/uploadFiles/" + changeName);
- 
-    	}
-    	int result = reviewService.updateReview(r);
-    	
-    	if(result > 0) {
-    		session.setAttribute("alertMsg", "게시글 수정 성공");
-    		
-    		return "redirect:/list.re";
-    	} else {
-    		model.addAttribute("errorMsg", "게시글 수정에 실패하였습니다.");
-    		
-    		return "common/errorPage";
-    	}
+    public String updateReview(Review r, 
+                               @RequestParam(value="upfile", required=false) MultipartFile[] upfiles,
+                               HttpSession session, 
+                               Model model) {
+        
+        // 로그인한 사용자 정보 가져오기
+        Member loginUser = (Member) session.getAttribute("loginMember");
+        r.setMemberNo(loginUser.getMemberNo());
+        
+        String savePath = session.getServletContext().getRealPath("/resources/images/review_upfiles/");
+        
+        // 기존 첨부파일 정보 가져오기
+        ArrayList<ReviewAttachment> existingAttachments = reviewService.selectReviewAttachment(r.getReviewNo());
+        
+        ArrayList<ReviewAttachment> newAttachments = new ArrayList<>();
+
+        for (int i = 0; i < upfiles.length; i++) {
+            MultipartFile upfile = upfiles[i];
+            
+            if (!upfile.getOriginalFilename().isEmpty()) {
+                String changeName = saveFile(upfile, savePath);
+                
+                // 새 첨부파일 정보 생성
+                ReviewAttachment at = new ReviewAttachment();
+                at.setOriginName(upfile.getOriginalFilename());
+                at.setChangeName("/resources/images/review_upfiles/" + changeName);
+                at.setFilePath(changeName);
+                at.setFileLevel(i == 0 ? 1 : 2);
+                at.setReviewNo(r.getReviewNo());
+                
+                newAttachments.add(at);
+                
+                // 기존 첨부파일이 있다면 삭제
+                if (i < existingAttachments.size()) {
+                    String realPath = session.getServletContext().getRealPath(existingAttachments.get(i).getChangeName());
+                    new File(realPath).delete();
+                }
+            }
+        }
+        
+        r.setReviewAttachments(newAttachments);
+        
+        // 게시글 수정 서비스 호출
+        int result = reviewService.updateReview(r);
+        
+        if (result > 0) {
+            session.setAttribute("alertMsg", "게시글 수정 성공");
+            return "redirect:detail.re?reviewNo=" + r.getReviewNo();
+        } else {
+            model.addAttribute("errorMsg", "게시글 수정에 실패하였습니다.");
+            return "common/errorPage";
+        }
     }
-    
-    
-    
-    /*
-    
+
     // 게시글 삭제하기 요청 메소드
-    public String deleteReview(int reviewNo, String filePath, Model model, HttpSession session) {
-    	
-    	int result = reviewService.deleteReview(reviewNo);
-    	
-    	if(result > 0) { // 성공
-    		// 첨부파일이 있었을 경우는 실제 서버에 저장된 파일을 삭제시키기
-    		if(!filePath.equals("")) {
-    			// 기존의 첨부파일이 있을 경우
-    			String realPath = session.getServletContext().getRealPath(filePath);
-    			// c 드라이브에서 부터 시작되는 (루트디렉토리) 절대경로 뽑아오는 것
-    			new File(realPath).delete(); // 실제로 타겟삼아 삭제하는 메소드
-    		}
-    		// 일회성 알람문구를 담아서 
-    	}
-    	
+    @PostMapping("delete.re")
+    public String deleteReview(@RequestParam("reviewNo") int reviewNo, 
+                               HttpSession session, 
+                               Model model) {
+        
+        // 첨부파일 정보 가져오기
+        ArrayList<ReviewAttachment> attachments = reviewService.selectReviewAttachment(reviewNo);
+        
+        int result = reviewService.deleteReview(reviewNo);
+        
+        if (result > 0) {
+            // 첨부파일이 있었을 경우 실제 서버에 저장된 파일을 삭제
+            for (ReviewAttachment attachment : attachments) {
+                String realPath = session.getServletContext().getRealPath(attachment.getChangeName());
+                new File(realPath).delete();
+            }
+            
+            session.setAttribute("alertMsg", "게시글이 성공적으로 삭제되었습니다.");
+            return "redirect:list.re";
+        } else {
+            model.addAttribute("errorMsg", "게시글 삭제에 실패하였습니다.");
+            return "common/errorPage";
+        }
     }
-    
-    */
-    
-    // 게시글 수정하기 요청 메소드
+
     
     
     

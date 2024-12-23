@@ -62,8 +62,21 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	@Transactional
 	public int updateReview(Review r) {
+		
 		return reviewDao.updateReview(sqlSession, r);
 	}
+	
+
+
+	// 게시글 삭제 서비스 메소드
+	@Override
+	public int deleteReview(int reviewNo) {
+		return reviewDao.deleteReview(sqlSession, reviewNo);
+	}
+
+
+
+
 
     
 
