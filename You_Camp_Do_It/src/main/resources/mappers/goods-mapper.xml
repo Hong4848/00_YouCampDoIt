@@ -46,10 +46,11 @@
                  , #{totalStock})
  	</insert>
  	
+ 	<!-- 판매중 및 품절 개수 -->
  	<select id="selectListCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM GOODS
-		 WHERE STATUS = 'Y'
+		 WHERE STATUS IN ('Y', 'N')
  	</select>
  	
  	<!-- 전체 리스트 조회 -->
@@ -58,7 +59,7 @@
 		  FROM( SELECT ROWNUM GOODSLIST, G.*
 		          FROM( SELECT *
 		                  FROM GOODS
-		                 WHERE STATUS = 'Y'
+		                 WHERE STATUS IN ('Y', 'N')
 		              ORDER BY GOODS_NO DESC) G
 		      )
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
@@ -70,7 +71,7 @@
 		  FROM( SELECT ROWNUM GOODSLIST, G.*
 		          FROM( SELECT *
 		                  FROM GOODS
-		                 WHERE STATUS = 'Y'
+		                 WHERE STATUS IN ('Y', 'N')
 		                 <choose>
 		                 	<when test="searchCategory != '상품분류선택'">
 		                 		AND (
@@ -155,42 +156,71 @@
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>
  	
+ 	<!-- 조회수 증가용 -->
  	<update id="selectViewCount">
  		UPDATE GOODS
 		   SET VIEWS = VIEWS+1
 		 WHERE GOODS_NO = #{goodsNo}
-		   AND STATUS = 'Y'
+		   AND STATUS IN ('Y', 'N')
  	</update>
  	
+ 	<!-- 상세페이지 조회 -->
  	<select id="selectOneGoods" resultMap="goodsResultSet">
  		SELECT *
 		  FROM GOODS
 		 WHERE GOODS_NO = #{goodsNo}
-		   AND STATUS = 'Y'
+		   AND STATUS IN ('Y', 'N')
  	</select>
  	
- 	<!-- 관리자 페이지 전체 리스트 개수 -->
+ 	<!-- 관리자 페이지 선택적 리스트 개수 -->
  	<select id="ajaxSelectListCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM GOODS
+		  <choose>
+	        <when test="state == '품절'">
+		 		WHERE STATUS = 'N'
+		 	</when>
+		 	<when test="state == '숨김'">
+		 		WHERE STATUS = 'H'
+		 	</when>
+		 	<when test="state == '판매중'">
+		 		WHERE STATUS = 'Y'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
  	</select>
- 	<!-- 관리자 페이지 전체 리스트 조회 -->
+ 	
+ 	<!-- 관리자 페이지 리스트 조회 -->
  	<select id="ajaxGoodsSelect" resultMap="goodsResultSet">
  		SELECT GOODS_NO, CATEGORY, GOODS_NAME, GOODS_THUMBNAIL, MARK, PRICE, DISCOUNT, ENROLL_DATE, TOTAL_STOCK, REMAIN_STOCK, STATUS
 		  FROM( SELECT ROWNUM GOODSLIST, G.*
 		          FROM( SELECT *
 		                  FROM GOODS
+		                 <choose>
+		                 	<when test="state == '품절'">
+						 		WHERE STATUS = 'N'
+						 	</when>
+						 	<when test="state == '숨김'">
+						 		WHERE STATUS = 'H'
+						 	</when>
+						 	<when test="state == '판매중'">
+						 		WHERE STATUS = 'Y'
+						 	</when>
+						 	<otherwise>
+						 	</otherwise>
+		                 </choose>
 		              ORDER BY GOODS_NO DESC) G
 		      )
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>
  	
- 	<!-- 관리자 페이지 용 전체 수 조회 -->
+ 	<!-- 관리자 페이지 전체 수 조회 -->
  	<select id="totalCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM GOODS
  	</select>
  	
+ 	<!-- 관리자 페이지 판매중 수 조회 -->
  	<select id="onSaleCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM GOODS
@@ -198,18 +228,37 @@
 		   AND REMAIN_STOCK > 0
  	</select>
  	
+ 	<!-- 관리자 페이지 품절 수 조회 -->
  	<select id="offSaleCount" resultType="_int">
- 		SELECT COUNT(*)
-		  FROM GOODS
-		 WHERE STATUS = 'Y'
-		   AND REMAIN_STOCK = 0
- 	</select>
- 	
- 	<select id="hideCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM GOODS
 		 WHERE STATUS = 'N'
  	</select>
+ 	
+ 	<!-- 관리자 페이지 숨김 수 조회 -->
+ 	<select id="hideCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE STATUS = 'H'
+ 	</select>
+ 	
+ 	<!-- 관리자 페이지 상세 정보 조회 -->
+ 	<select id="ajaxGoodsDetail" resultMap = "goodsResultSet">
+ 		SELECT GOODS_NO, GOODS_NAME, PRICE, DISCOUNT, TOTAL_STOCK, REMAIN_STOCK, STATUS
+  		  FROM GOODS
+ 		 WHERE GOODS_NO = #{goodsNo}
+ 	</select>
+ 	
+ 	<!-- 관리자 페이지 상세 정보 수정 -->
+ 	<update id="ajaxGoodsDetailUpdate" parameterType="goods">
+ 		UPDATE GOODS
+		   SET PRICE = #{price}
+		     , DISCOUNT = #{discount}
+		     , TOTAL_STOCK = #{totalStock}
+		     , REMAIN_STOCK = #{remainStock}
+		     , STATUS = #{status}
+		 WHERE GOODS_NO = #{goodsNo}
+ 	</update>
  	
  	<!-- cart 목록 뷰 시 썸네일 -->
  	<select id="selectGoodsThumbnailList" parameterType="_int"
@@ -223,6 +272,7 @@
 		 		 WHERE MEMBER_NO = #{memberNo}
 		 )
  	</select>
+ 	
  	<!-- 주문정보 생성 시 썸네일 -->
  	<select id="selectGoodsThumbnailListByOrderNo" parameterType="_int"
  			resultMap="goodsResultSet">
@@ -235,6 +285,4 @@
 		 		 WHERE ORDER_NO = #{orderNo}
 		 )
  	</select>
- 	
- 	
 </mapper>

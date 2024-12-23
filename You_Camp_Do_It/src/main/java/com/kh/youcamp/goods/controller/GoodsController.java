@@ -38,13 +38,10 @@ public class GoodsController
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
 		ArrayList<Goods> list = goodsService.selectGoodsList(pi);
-//		System.out.println(list);
 		
 		//섬네일 이미지 추출
 		for(Goods g : list)
 		{
-//			System.out.println(g.getGoodsThumbnail());
-			
 			String s = "<img src="; // 이미지 태그 찾기
 			String body = g.getGoodsThumbnail();
 			int start = 0;
@@ -97,7 +94,6 @@ public class GoodsController
 			String body = goods.getGoodsThumbnail();
 			int start = 0;
 			int end = 0;
-			
 			start = body.indexOf(s);
 			body = body.substring(start);
 			end = body.indexOf(">");
@@ -105,7 +101,6 @@ public class GoodsController
 			
 			goods.setGoodsThumbnail(body);
 		}
-		
 		model.addAttribute("goods", goods);
 		return "goods/goodsPage";
 	}
@@ -150,34 +145,25 @@ public class GoodsController
 	}
 	
 	@ResponseBody
-	@GetMapping(value="ajaxTotalListCount.ma", produces="application/json; charset=UTF-8")
-	public String ajaxTotalListCount(Search search, HttpSession session) {
+	@GetMapping(value="ajaxGoodsManagement.ma", produces="application/json; charset=UTF-8")
+	public String ajaxGoodsSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
+			@RequestParam(value="state", defaultValue="전체")String state, 
+			Search search, HttpSession session)
+	{
 		
 		int totalCount = goodsService.totalCount(search);
 		int onSaleCount = goodsService.onSaleCount(search);
 		int offSaleCount = goodsService.offSaleCount(search);
 		int hideCount = goodsService.hideCount(search);
 		
-		Map<String, Object> ajaxList = new HashMap<>();
-		ajaxList.put("totalCount", totalCount);
-		ajaxList.put("onSaleCount", onSaleCount);
-		ajaxList.put("offSaleCount", offSaleCount);
-		ajaxList.put("hideCount", hideCount);
+		int listCount = goodsService.ajaxSelectListCount(state);
 		
-		return new Gson().toJson(ajaxList);
-	}
-	
-	@ResponseBody
-	@GetMapping(value="ajaxGoodsManagement.ma", produces="application/json; charset=UTF-8")
-	public String ajaxGoodsSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, Search search, HttpSession session)
-	{
-		int listCount = goodsService.ajaxSelectListCount();
 		int pageLimit = 5;
 		int boardLimit = 10;
 		
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
 		
-		ArrayList<Goods> list = goodsService.ajaxGoodsSelect(search, pi);
+		ArrayList<Goods> list = goodsService.ajaxGoodsSelect(search, pi, state);
 		
 		//섬네일 이미지 추출
 		for(Goods g : list)
@@ -198,8 +184,34 @@ public class GoodsController
 		ajaxList.put("list", list);
 		ajaxList.put("pi", pi);
 		ajaxList.put("search", search);
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("onSaleCount", onSaleCount);
+		ajaxList.put("offSaleCount", offSaleCount);
+		ajaxList.put("hideCount", hideCount);
 
 		return new Gson().toJson(ajaxList);
+	}
+	
+	@ResponseBody
+	@GetMapping(value="ajaxGoodsDetail.ma", produces="application/json; charset=UTF-8")
+	public String ajaxGoodsDetail(@RequestParam(value="goodsNo")int goodsNo){
+		
+		Goods g = goodsService.ajaxGoodsDetail(goodsNo);
+		
+		return new Gson().toJson(g);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "ajaxGoodsDetailUpdate.ma", produces="application/json; charset=UTF-8")
+	public boolean ajaxGoodsDetailUpdate(Goods g) {
+		int result = goodsService.ajaxGoodsDetailUpdate(g);
+		if(result > 0){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
 	}
 	
 	/* 일단은 배제

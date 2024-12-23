@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -276,6 +278,12 @@
 				<div class="goodsSummary">
 					<div class="thumbnail target">
 						${requestScope.goods.goodsThumbnail}
+						<c:choose>
+							<c:when test="${requestScope.goods.status eq 'N' }">
+								<img style="display: block; z-index: 10; position: absolute;" src="resources/images/goods/일시품절.png">
+							</c:when>
+							<c:otherwise></c:otherwise>
+						</c:choose>
 					</div>
 					<div class="sumUp">
 						<div style="display: flex; justify-content: space-between; height: 60px; padding-top: 5px;">
@@ -295,8 +303,28 @@
 						<div style="height: 20px;"></div>
 						<div id="goodsPrice">
 							<div class="goodsPrice1">가격 :</div>
-							<div class="goodsPrice2">&nbsp;${requestScope.goods.price}&nbsp;</div>
-							<div class="goodsPrice3">${requestScope.goods.price}</div>
+							<c:choose>
+								<c:when test="${requestScope.goods.discount <= 0.0}">
+									<div class="goodsPrice3">
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${requestScope.goods.price}
+										</fmt:formatNumber>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="goodsPrice2">&nbsp;
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${requestScope.goods.price}
+										</fmt:formatNumber>
+										&nbsp;
+									</div>
+									<div class="goodsPrice3">
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${requestScope.goods.price - (requestScope.goods.price*requestScope.goods.discount)}
+										</fmt:formatNumber>
+									</div>
+								</c:otherwise>
+							</c:choose>
 							<div class="goodsPrice4">&nbsp;&nbsp;원</div>
 						</div>
 						<div style="height: 20px;"></div>
@@ -324,7 +352,11 @@
 									</div>
 								</div>
 								<div class="total" style="display: flex;">
-									<div id="totalPrice">${requestScope.goods.price}</div>
+									<div id="totalPrice">
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${requestScope.goods.price}
+										</fmt:formatNumber>
+									</div>
 									<div style="width: 10px;"></div>
 									<div>원</div>
 									<input id="hiddenTotalPrice" type="hidden" value="0">
@@ -360,106 +392,102 @@
 				<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 			</div>
 		</div>
-		
-		<script>
-			// cart insert form 의 btn 클릭 시 수량값을 가져오는 함수
-			$(function(){
-				$(document).on('submit', '#cart-insert-form', function (event) {
-					let amount = parseInt($("#priceEA").val());
-					// console.log(amount);
-					$("#quantity-input").val(amount);
-				});
-
-
+	</body>
+	
+	<!-- cart insert form 의 btn 클릭 시 수량값을 가져오는 함수 -->
+	<script>
+		// cart insert form 의 btn 클릭 시 수량값을 가져오는 함수
+		$(function(){
+			$(document).on('submit', '#cart-insert-form', function (event) {
+				let amount = parseInt($("#priceEA").val());
+				// console.log(amount);
+				$("#quantity-input").val(amount);
 			});
-		</script>
-		<script>
-			$(function(){
-				let height = $(".sumUpContent").css("height");
-				height = height.substring(0, height.length-2);
-				if(height <= 150){
-					$(".goodsSummary").css("height", 500);
-				}
-				else{
-					height = parseInt(height)+400
-					$(".goodsSummary").css("height", height);
-				}
-			});
-		</script>
-		<script>
-			let amount = parseInt($("#priceEA").val());
-			$(".btnMinus").click(function(){
-				if(amount > 1){
-					amount -= 1;
-					$("#priceEA").val(amount);
-					reckoning();
-				}
-			});
-
-			$(".btnPlus").click(function(){
-				if(amount < 100){
-					amount += 1;
-					$("#priceEA").val(amount);
-					reckoning();
-				}
-			});
-
-
-
-		</script>
-
-		<script>
-			function reckoning(){
-				let totalP = ${requestScope.goods.price};
-				totalP = totalP*parseInt($("#priceEA").val());
-				$("#hiddenTotalPrice").val(totalP);
-				$("#totalPrice").text(totalP);
-				thousands();
+		});
+	</script>
+	
+	<!-- 요약내용 출력부분 -->
+	<script>
+		$(function(){
+			let height = $(".sumUpContent").css("height");
+			height = height.substring(0, height.length-2);
+			if(height <= 150){
+				$(".goodsSummary").css("height", 500);
 			}
-		</script>
+			else{
+				height = parseInt(height)+400
+				$(".goodsSummary").css("height", height);
+			}
+		});
+	</script>
+	
+	<!-- 버튼 클릭 시 개수 변경 이벤트 -->
+	<script>
+		let amount = parseInt($("#priceEA").val());
+		$(".btnMinus").click(function(){
+			if(amount > 1){
+				amount -= 1;
+				$("#priceEA").val(amount);
+				reckoning();
+			}
+		});
 
-		<script>
-			$(".shoppingMall_category").hover(function(){
-			   $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
-		   },
-		   function(){
-			   $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
-		   });
-	   	</script>
+		$(".btnPlus").click(function(){
+			if(amount < 100){
+				amount += 1;
+				$("#priceEA").val(amount);
+				reckoning();
+			}
+		});
+	</script>
 
-	   	<script>
-			let goodsPrice2 = $(".goodsPrice2").text();
-			let money = goodsPrice2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$(".goodsPrice2").text(money);
+	<!-- 총 비용 계산 -->
+	<script>
+		function reckoning(){
+			let totalP = ${requestScope.goods.price};
+			totalP = totalP*parseInt($("#priceEA").val());
+			$("#hiddenTotalPrice").val(totalP);
+			$("#totalPrice").text(totalP);
+			thousands();
+		}
+	</script>
 
-			let goodsPrice3 = $(".goodsPrice3").text();
-			let money2 = goodsPrice3.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			$(".goodsPrice3").text(money2);
+	<!-- 메뉴바 가려지는 버그 수정용 -->
+	<script>
+		$(".shoppingMall_category").hover(function(){
+		   $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
+	   },
+	   function(){
+		   $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
+	   });
+	</script>
 
+   	<!-- 천의 자리 수 표현용 -->
+	<script>
+		function thousands(){
 			let totalPrice = $("#totalPrice").text();
 			let money3 = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			$("#totalPrice").text(money3);
+		}
+	</script>
 
-			function thousands(){
-				let totalPrice = $("#totalPrice").text();
-				let money3 = totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-				$("#totalPrice").text(money3);
-			}
-	   	</script>
+   	<!-- 섬네일 이미지 확대 기능 -->
+	<script>
+		$(function(){
+			var target = $(".target>img");
+			var zoom = 2;
 
-	   	<script>
-			$(function(){
-				var target = $(".target>img");
-				var zoom = 2;
+			$(".thumbnail").on("mousemove", magnify).prepend("<div class='magnifier'></div>").children(".magnifier").css({
+				"background": "url('" + $(".target>img").attr("src") + "') no-repeat",
+				"background-size": target.width() * zoom + "px " + target.height() * zoom+ "px",
+				"z-index": 10
+			});
 
-				$(".thumbnail").on("mousemove", magnify).prepend("<div class='magnifier'></div>").children(".magnifier").css({
-					"background": "url('" + $(".target>img").attr("src") + "') no-repeat",
-					"background-size": target.width() * zoom + "px " + target.height() * zoom+ "px"
-				});
-
-				var magnifier = $(".magnifier");
-
-				function magnify(e){
+			var magnifier = $(".magnifier");
+			
+			function magnify(e){
+				if("${requestScope.goods.status}" != 'N')
+				{
 					var mouseX = e.pageX - $(this).offset().left;
 					var mouseY = e.pageY - $(this).offset().top;
 
@@ -484,11 +512,12 @@
 						});
 					}
 				}
-			});
-	   	</script>
+			}
+		});
+	</script>
 
-		<script>
-			$(".thumbnail>img").css({"height" : 450, "margin" : 0});
-		</script>
-	</body>
+	<!-- 섬네일 이미지 크기 조절 -->
+	<script>
+		$(".thumbnail>img").css({"height" : 450, "margin" : 0, position: "absolute", display:"block"});
+	</script>
 </html>

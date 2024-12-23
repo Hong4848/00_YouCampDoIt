@@ -101,8 +101,8 @@ public class GoodsServiceImpl implements GoodsService{
 	 * 내용 : 관리자 페이지 내용 데이터 조회용 쿼리문
 	 */
 	@Override
-	public ArrayList<Goods> ajaxGoodsSelect(Search search, PageInfo pi) {
-		return goodsDao.ajaxGoodsSelect(sqlSession, search, pi);
+	public ArrayList<Goods> ajaxGoodsSelect(Search search, PageInfo pi, String state) {
+		return goodsDao.ajaxGoodsSelect(sqlSession, search, pi, state);
 	}
 
 	/**
@@ -112,8 +112,8 @@ public class GoodsServiceImpl implements GoodsService{
 	 * 내용 : 관리자 페이지 내용 데이터 조회용 쿼리문
 	 */
 	@Override
-	public int ajaxSelectListCount() {
-		return goodsDao.ajaxSelectListCount(sqlSession);
+	public int ajaxSelectListCount(String state) {
+		return goodsDao.ajaxSelectListCount(sqlSession, state);
 	}
 
 	/**
@@ -160,6 +160,32 @@ public class GoodsServiceImpl implements GoodsService{
 		return goodsDao.hideCount(sqlSession, search);
 	}
 
+	
+	/**
+	 * 작성일 : 2024.12.23
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 상세정보 조회
+	 */
+	@Override
+	public Goods ajaxGoodsDetail(int goodsNo) {
+		return goodsDao.ajaxGoodsDetail(sqlSession, goodsNo);
+	}
+
+	/**
+	 * 작성일 : 2024.12.23
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지 상세정보 수정
+	 */
+	@Override
+	public int ajaxGoodsDetailUpdate(Goods g) {
+		return goodsDao.ajaxGoodsDetailUpdate(sqlSession, g);
+	}
+
+/************************************************************************************************************************/
+/************************************************************************************************************************/
+/************************************************************************************************************************/
 	
 	/**
 	 * 카트리스트 조회 시 썸네일 가져오는 용도
