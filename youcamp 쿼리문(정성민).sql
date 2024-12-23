@@ -188,6 +188,7 @@ SELECT COUNT(*)
    AND CAMPSITE_ID = ?
    AND PAYMENT_STATUS = 'PAID'
 
+
 -- 12. 임시 예약 INSERT 용 쿼리문
 INSERT INTO RESERVE(RESERVE_NO, 
                     START_DATE, 
