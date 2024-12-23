@@ -167,5 +167,50 @@
 		   AND PAYMENT_STATUS = 'PAID'
 	</update>
 	
+	<!--  
+		24.12.23 정성민
+		자리 임시조회용 쿼리문
+	-->
+	<select id="selectTempReserve" parameterType="reserve" resultMap="reserveResultSet">
+		SELECT COUNT(*)
+		  FROM RESERVE
+		 WHERE START_DATE = TO_DATE(#{startDate}, 'YYYY-MM-DD')
+		   AND END_DATE = TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		   AND NIGHTS = #{nights}
+		   AND CAMPSITE_ID = #{campsiteId}
+		   AND PAYMENT_STATUS = 'PAID'
+	</select>
+	
+	<!--  
+		24.12.23 정성민
+		임시 예약 insert 용 쿼리문
+	-->
+	<insert id="insertTempReserve" parameterType="reserve">
+		INSERT INTO RESERVE(RESERVE_NO, 
+		                    START_DATE, 
+		                    END_DATE, 
+		                    NIGHTS, 
+		                    MEMBER_COUNT,
+		                    PAYMENT_ID, 
+		                    PRICE, 
+		                    PAYMENT_DATE,
+		                    PAYMENT_METHOD, 
+		                    PAYMENT_STATUS, 
+		                    MEMBER_NO, 
+		                    CAMPSITE_ID)
+		             VALUES(RESERVE_SEQ.NEXTVAL,
+		                    TO_DATE(#{startDate}, 'YYYY-MM-DD'),
+		                    TO_DATE(#{endDate}, 'YYYY-MM-DD'),
+		                    #{nights},
+		                    #{memberCount},
+		                    #{paymentId},
+		                    #{price},
+		                    SYSDATE,
+		                    'CARD',
+		                    'CREATED',
+		                    #{memberNo},
+		                    #{campsiteId})
+	</insert>
+	
   
 </mapper>

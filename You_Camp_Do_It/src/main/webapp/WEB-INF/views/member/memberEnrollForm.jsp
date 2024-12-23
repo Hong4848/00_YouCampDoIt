@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 1000px
+            height: 1200px
             
         }
 
@@ -23,6 +23,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 600px; /* 컨테이너 고정 너비 */
+            height: 900px;
         }
 
         h1 {
@@ -128,6 +129,36 @@
             margin-top: 0px;
             color: red;
         }
+        
+        
+        
+        /* 비밀번호 눈표시 */
+        .password-wrapper {
+            position: relative;
+            width: 100%; /* 입력 필드와 동일한 크기 */
+        }
+        
+        
+
+        .password-wrapper input {
+            width: 100%; /* 입력 필드 전체 크기 */
+            padding-right: 40px; /* 오른쪽에 눈 모양 아이콘이 들어갈 공간 확보 */
+            margin
+        }
+
+        .password-wrapper .toggle-password {
+            position: absolute;
+            right: 10px; /* 입력 필드의 오른쪽 끝에서 약간 떨어진 위치 */
+            top: 38%;
+            transform: translateY(-50%); /* 세로 가운데 정렬 */
+            cursor: pointer;
+            color: #aaa; /* 기본 색상 */
+            transition: color 0.2s ease;
+        }
+
+        .password-wrapper .toggle-password:hover {
+            color: #333; /* 호버 시 색상 변경 */
+        }
 
 
 
@@ -137,25 +168,38 @@
 	<jsp:include page="../common/header.jsp" />
 	
 	<div class="wrap-signup">
-	    <div class="signup-container">
+	    <div class="signup-container input password">
 	        <h1>회원가입</h1>
 	        <p class="required-info">*필수입력사항</p>
 	        <form action="insert.me" method="post" id="enrollForm" >
+	        
+	        	<input type="hidden" name="enroll" value="enroll">
+	        	
 	            <!-- 아이디 -->
 	            <label for="memberId">아이디*</label>
 	            <input type="text" id="memberId" name="memberId" style="margin-bottom: 0px;" placeholder="첫글자는 반드시 영문자이고 영문자, 숫자 포함 5~12자" required>
 	            
-	            <div id="checkResult" style="font-size: 0.8em; display: none;">
+	            <div id="checkIdResult" style="font-size: 0.8em; display: none;">
 	            
 	            </div>
 	
+				
+				
 	            <!-- 비밀번호 -->
 	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
+	            <div class="password-wrapper">
 	            <input type="password" id="memberPwd" name="memberPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자" required>
+  				<i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+  				</div>
 	
 	            <!-- 비밀번호 확인 -->
 	            <label for="checkPwd">비밀번호 확인*</label>
+	            <div class="password-wrapper">
 	            <input type="password" id="checkPwd" name="checkPwd" placeholder="비밀번호를 한번 더 입력하세요" required>
+	            <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+	            </div>
+  					
+ 				
 	
 	            <!-- 이름 -->
 	            <label for="memberName">이름*</label>
@@ -164,9 +208,13 @@
 	            <!-- 이메일 -->
 	            <label for="email">이메일 주소*</label>
 	            <div class="input-group">
-	                <input type="email" id="email" name="email" placeholder="이메일 주소를 입력하세요" required>
+	                <input type="email" id="email" name="email" style="margin-bottom: 0px;" placeholder="이메일 주소를 입력하세요" required>
 	                <button type="button" class="btn" id="sendCodeButton" onclick="cert();">인증번호 받기</button>
 	            </div>
+	            <div id="checkEmailResult" style="font-size: 0.8em; display: none;">
+	            
+	            </div>
+	            
 	
 	            <!-- 인증번호 입력 (초기 숨김 처리) -->
 	            <div id="verificationFields" class="hidden">
@@ -180,7 +228,7 @@
 	            </div>
 	
 	            <!-- 전화번호 -->
-	            <label for="phone">전화번호*</label>
+	            <label for="phone" style="margin-top: 15px;">전화번호*</label>
 	            <input type="text" id="phone" name="phone" placeholder="-포함한 숫자 13자" required>
 	
 	            <!-- 생년월일 -->
@@ -190,6 +238,8 @@
 	            <!-- 도로명 주소 -->
 	            <label for="address">도로명 주소*</label>
 	            <input type="text" id="address" name="address" placeholder="도로명 주소를 입력하세요" required>
+	            
+	            
 	
 	            <!-- 회원가입 버튼 -->
 	            <button type="submit" class="btn-submit" onclick="return signupValidate();">회원가입</button>
@@ -203,6 +253,7 @@
     	let timerInterval; // 타이머 관리 변수
     	var isCertChecked = false;
         var isIdChecked = false;
+        var isEmailChecked = false;
     	
     	
     	// 인증번호 발급용 ajax
@@ -214,7 +265,8 @@
     			url : "cert.me",
     			type : "post",
     			data : {
-    				email : email
+    				email : email,
+    				key : "enroll"
     			},
     			success : function(result) {
     				
@@ -389,11 +441,10 @@
     			return false;
     		} 
     		
+    		// 아이디 중복체크 검사
 			if(isIdChecked == false) {
-	        		
         		alert("아이디 중복체크를 반드시 해야합니다!");
         		return false;
-        		
         	}
     		
     		// 비밀번호 유효성 검사
@@ -427,6 +478,13 @@
     		    return false;
     		}
     		
+    		// 이메일 중복체크 검사
+    		if(isEmailChecked == false) {
+    			alert("이메일 중복체크를 반드시 해야합니다!");
+    			return false;
+    		}
+    		
+    		
     		// 이메일 인증 여부 검사
     		if(isCertChecked == false) {
     			alert("이메일 인증을 반드시 해야합니다!");
@@ -453,7 +511,7 @@
                 // $(".wrap-signup").css("height", "1300px");
             });
             
-            const $emailInput = $("#email");
+            const $emailInput = $("#enrollForm input[name=email]");
             const $sendCodeButton = $("#sendCodeButton");
 
             // 이메일 유효성 검사 함수
@@ -503,7 +561,7 @@
 							if(result == "NNNNN") {
 								// 사용 불가 아이디
 								
-								$("#checkResult").show()
+								$("#checkIdResult").show()
 												 .css("color", "red")
 												 .text("중복된 아이디가 이미 존재합니다. 다시 입력해주세요!");
 								
@@ -513,7 +571,7 @@
 							} else {
 								// 사용 가능 아이디
 								
-								$("#checkResult").show()
+								$("#checkIdResult").show()
 												 .css("color", "green")
 												 .text("사용 가능한 아이디입니다!");
 								
@@ -533,13 +591,93 @@
 					// 5글자 미만일 경우
 					// > 회원가입 버튼 비활성화, 메세지 내용 숨기기
 					// $("#enrollForm button[type=submit]").attr("disabled", true);
-					$("#checkResult").hide();
+					$("#checkIdResult").hide();
 					isIdChecked = false;
 					
 				}
             	
             });
             
+            // 이메일 중복체크 이벤트
+            
+            
+        	// 이메일 유효성 검사 함수
+            function isEmailValid(email) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 정규표현식
+                return regex.test(email);
+            }
+
+         	// 이메일 입력 이벤트
+            $emailInput.on("input", function () {
+                const emailValue = $(this).val().trim();
+
+                if (emailValue === "") {
+                    // 이메일 입력 창이 비어 있을 경우
+                    $("#checkEmailResult").hide(); // 메시지 숨기기
+                    $emailInput.css("border-color", ""); // 기본 테두리 색상으로 복원
+                    isEmailChecked = false;
+                } else if (isEmailValid(emailValue)) {
+                    // 유효한 이메일일 경우
+                    $emailInput.css("border-color", "green"); // 입력 필드 강조
+                    $("#checkEmailResult").hide(); // 이전 결과 숨김
+
+                    // 중복 체크 진행
+                    if (emailValue.length >= 9) {
+                        // AJAX로 중복 체크
+                        $.ajax({
+                            url: "emailCheck.me",
+                            type: "get",
+                            data: { checkEmail: emailValue },
+                            success: function (result) {
+                                console.log(result);
+
+                                if (result === "NNNNN") {
+                                    // 사용 불가 이메일
+                                    $("#checkEmailResult").show()
+                                        .css("color", "red")
+                                        .text("중복된 이메일이 이미 존재합니다. 다시 입력해주세요!");
+                                    $("#sendCodeButton").attr("disabled", true);
+                                    isEmailChecked = false;
+                                } else {
+                                    // 사용 가능 이메일
+                                    $("#checkEmailResult").show()
+                                        .css("color", "green")
+                                        .text("사용 가능한 이메일입니다!");
+                                    $("#sendCodeButton").attr("disabled", false);
+                                    isEmailChecked = true;
+                                }
+                            },
+                            error: function () {
+                                console.log("이메일 중복 체크용 ajax 통신 실패!");
+                            }
+                        });
+                    }
+                } else {
+                    // 유효하지 않은 이메일일 경우
+                    $emailInput.css("border-color", "red"); // 입력 필드 강조
+                    $("#checkEmailResult").show()
+                        .css("color", "red")
+                        .text("유효하지 않은 이메일 형식입니다.");
+                    $("#sendCodeButton").attr("disabled", true);
+                    isEmailChecked = false;
+                }
+            });
+
+            
+         	
+         	// 비밀번호 표시/숨기기 기능
+            $(".toggle-password").on("click", function () {
+                const $passwordInput = $(this).siblings("input");
+                const inputType = $passwordInput.attr("type");
+
+                if (inputType === "password") {
+                    $passwordInput.attr("type", "text");
+                    $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                } else {
+                    $passwordInput.attr("type", "password");
+                    $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                }
+            });
             
          
             

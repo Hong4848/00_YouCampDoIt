@@ -22,6 +22,9 @@ public interface MemberService {
 	// 아이디 중복체크 서비스 (select)
 	int idCheck(String checkId);
 	
+	// 이메일 중복체크 서비스 (select)
+	int emailCheck(String checkEmail);
+	
 	// 회원 전체조회 서비스 (select)
 	ArrayList<Member> selectMemberList();
 	
@@ -45,6 +48,8 @@ public interface MemberService {
 
 	// 회원 탈퇴용 서비스 (update)
 	int deleteMember(String memberId);
+
+	
 	
 	
 

@@ -276,6 +276,54 @@ public class ReserveController {
 	}
 	
 	
+	/**
+	 * 24.12.23 정성민
+	 * 중복된 자리 체크용 컨트롤러
+	 * @param r
+	 * @return
+	 */
+	@PostMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
+	public String selectTempReserve(Reserve r) {
+		
+		Reserve r1 = reserveService.selectTempReserve(r);
+		
+		if(r1 == null) {
+			
+			return "해당 자리 존재";
+		} else {
+			
+			return "해당 자리 이용 가능";
+		}
+	}
+	
+	
+	/**
+	 * 24.12.23 정성민
+	 * 임시 예약 insert 용 컨트롤러
+	 * @param r
+	 * @return
+	 */
+	@PostMapping(value="tempInsert.me", produces="text/html; charset=UTF-8")
+	public String insertTempReserve(Reserve r) {
+		
+		int randomNumber = (int)(Math.random() * 900000) + 100000; // 100000 ~ 999999
+        r.setPaymentId(String.valueOf(randomNumber));
+		
+		int result = reserveService.insertTempReserve(r);
+		
+		
+		
+		if(result < 0) {
+			
+			return "임시 예약 실패";
+		} else {
+			
+			return "임시 예약 성공";
+		}
+		
+	}
+	
+	
 }
 
 

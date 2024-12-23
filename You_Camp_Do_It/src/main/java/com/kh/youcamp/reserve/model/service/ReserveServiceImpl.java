@@ -113,6 +113,24 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.deleteReserveRequest(sqlSession, reserveNo);
 	}
 
+	/**
+	 * 24.12.23 정성민
+	 * 중복된 자리 체크용 서비스 메소드
+	 */
+	@Override
+	public Reserve selectTempReserve(Reserve r) {
+		return reserveDao.selectTempReserve(sqlSession, r);
+	}
+
+	/**
+	 * 24.12.23 정성민
+	 * 임시 예약 insert 용 서비스 메소드
+	 */
+	@Override
+	public int insertTempReserve(Reserve r) {
+		return reserveDao.insertTempReserve(sqlSession, r);
+	}
+
 	
 	
 

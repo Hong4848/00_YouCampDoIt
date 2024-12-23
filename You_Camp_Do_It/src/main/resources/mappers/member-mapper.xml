@@ -65,6 +65,16 @@
 		 WHERE MEMBER_ID = #{checkId}
  	</select>
  	
+ 	<!--  
+ 		24.12.23 정성민
+ 		이메일 중복체크용 쿼리문
+ 	-->
+ 	<select id="emailCheck" parameterType="String" resultType="_int">
+ 		SELECT COUNT(*)
+ 		  FROM MEMBER
+ 		 WHERE EMAIL = #{checkEmail}
+ 	</select>
+ 	
  	<!-- 
  		24.12.11 정성민
  		인증번호 insert 용 쿼리문

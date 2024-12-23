@@ -143,6 +143,7 @@
 	        <h1 style="margin-bottom: 40px;">아이디 찾기</h1>
 	        
 	        <form action="findId.me" method="post" id="enrollForm" >
+	        	<input type="hidden" name="findId" value="findId">
 	            
 	            <!-- 이름 -->
 	            <label for="memberName">이름*</label>
@@ -180,6 +181,34 @@
     	let timerInterval; // 타이머 관리 변수
     	var isCertChecked = false;
         var isIdChecked = false;
+        
+        $(function() {
+        	
+        	const $emailInput = $("#email");
+            const $sendCodeButton = $("#sendCodeButton");
+
+            // 이메일 유효성 검사 함수
+            function isEmailValid(email) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 정규표현식
+                return regex.test(email);
+            }
+
+            // 이메일 입력 시 유효성 검사
+            $emailInput.on("input", function () {
+                const emailValue = $(this).val().trim();
+
+                if (isEmailValid(emailValue)) {
+                    $sendCodeButton.prop("disabled", false); // 유효한 경우 버튼 활성화
+                    $emailInput.css("border-color", "green"); // 입력 필드 강조
+                } else {
+                    $sendCodeButton.prop("disabled", true); // 유효하지 않으면 버튼 비활성화
+                    $emailInput.css("border-color", "red"); // 입력 필드 강조
+                }
+            });
+
+            // 초기 상태에서 버튼 비활성화
+            $sendCodeButton.prop("disabled", true);
+        });
     	
     	
     	// 인증번호 발급용 ajax
@@ -192,7 +221,8 @@
     			url : "cert.me",
     			type : "post",
     			data : {
-    				email : email
+    				email : email,
+    				key : "findId"
     			},
     			success : function(result) {
     				
@@ -389,7 +419,8 @@
     					
     				} else {
     					console.log(result);
-    					alert("고객님의 아이디는 " + result + " 입니다.");
+    					location.href="${ pageContext.request.contextPath }";
+    					
     				}
     			},
     			error : function() {

@@ -118,6 +118,28 @@ public class ReserveDao {
 		return sqlSession.update("reserveMapper.deleteReserveRequest", reserveNo);
 	}
 
+	/**
+	 * 24.12.23 정성민
+	 * 임시 자리 체크용 쿼리문
+	 * @param sqlSession
+	 * @param r
+	 * @return
+	 */
+	public Reserve selectTempReserve(SqlSessionTemplate sqlSession, Reserve r) {
+		return sqlSession.selectOne("reserveMapper.selectTempReserve", r);
+	}
+
+	/**
+	 * 24.12.23 정성민
+	 * 임시 예약 insert 용 쿼리문
+	 * @param sqlSession
+	 * @param r
+	 * @return
+	 */
+	public int insertTempReserve(SqlSessionTemplate sqlSession, Reserve r) {
+		return sqlSession.insert("reserveMapper.insertTempReserve", r);
+	}
+
 	
 
 	

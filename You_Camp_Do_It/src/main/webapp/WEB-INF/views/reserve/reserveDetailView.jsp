@@ -705,6 +705,9 @@
     
     	$(function() {
     		
+    		var isInserted = false;
+    		var tempReserveNo = "";
+    		
     		// jstl 변수 가져오기
     		let section = "${requestScope.section}";
     		let checkIn = "${requestScope.checkIn}";
@@ -744,9 +747,93 @@
     			let campsiteId = hiddenInput1.val();
     			let hiddenInput2 = checkedSite.closest("li").find("input[name='hidden-spot']");
     			let spotNo = hiddenInput2.val();
+    			let memberNo = "${sessionScope.loginMember.getMemberNo}";
+    			let memberCount = 4;
     			
     			$("input[name='campsiteId']").val(campsiteId);
     			$("input[name='spotNo']").val(spotNo);
+    			
+    			// 해당 자리에 겹침이 있는지 체크하는 ajax
+    			$.ajax({
+    				url : "checkDuplicate.res"
+    				type : "post"
+    				data : {
+    					startDate : checkIn,
+    					endDate : checkOut,
+    					nights : stay,
+    					campsiteId : campsiteId
+    				},
+    				success : function(result) {
+    					
+    					if(result == "해당 자리 존재") {
+    						alert("해당 자리가 이미 선택되었습니다.");
+    						checkedSite.prop("checked", false);
+    						
+    					} else {
+    						
+    						tempInsertReserve();
+    						
+    					}
+    				},
+    				error : function() {
+    					console.log("자리 중복 체크용 ajax 작동 실패!");
+    				}
+    				
+    				
+    			});
+    			
+    			
+    			function tempInsertReserve() {
+    				
+    				$.ajax({
+        				url : "tempInsert.res",
+        				type : "post"
+        				data : {
+        					startDate : checkIn,
+        					endDate : checkOut,
+        					nights : stay,
+        					campsiteId : campsiteId,
+        					memberNo : memberNo,
+        					memberCount : memberCount,
+        					price : price
+        				},
+        				success : function(result) {
+        					if(result == "임시 예약 성공") {
+        						console.log("해당 자리의 예약이 임시로 되었습니다.");
+        						tempReserveNo = result;
+        						isInserted = true;
+        					}
+        					
+        					
+        				},
+        				error : function() {
+        					console.log("자리 임시 insert 용 ajax 작동 실패!");
+        				}
+        				
+        				
+        				
+        			});
+    				
+    			}
+    			
+    			
+    			window.addEventListener("beforeunload", function () {
+    			    $.ajax({
+    			        url: "deleteTempReserve.res",
+    			        type: "post",
+    			        data: { 
+    			        	reserveNo: tempReserveNo
+    			        },
+    			        
+    			        success: function () {
+    			            console.log("데이터 저장 성공");
+    			        },
+    			        error: function () {
+    			            console.log("데이터 저장 실패");
+    			        }
+    			    });
+    			});
+    			
     			
     			
     		});

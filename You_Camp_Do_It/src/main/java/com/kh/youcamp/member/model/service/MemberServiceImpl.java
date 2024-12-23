@@ -63,6 +63,15 @@ public class MemberServiceImpl implements MemberService {
 	public int idCheck(String checkId) {
 		return memberDao.idCheck(sqlSession, checkId);
 	}
+	
+	/**
+	 * 24.12.23 정성민
+	 * 이메일 중복체크용 서비스 메소드
+	 */
+	@Override
+	public int emailCheck(String checkEmail) {
+		return memberDao.emailCheck(sqlSession, checkEmail);
+	}
 
 	@Override
 	public ArrayList<Member> selectMemberList() {
@@ -139,6 +148,9 @@ public class MemberServiceImpl implements MemberService {
 	public int deleteMember(String memberId) {
 		return memberDao.deleteMember(sqlSession, memberId);
 	}
+
+
+	
 
 
 	

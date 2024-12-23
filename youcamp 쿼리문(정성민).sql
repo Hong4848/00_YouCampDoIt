@@ -179,7 +179,40 @@ UPDATE RESERVE
  WHERE RESERVE_NO = ?
    AND PAYMENT_STATUS = 'PAID'
    
+-- 11. 캠핑장 자리임시조회용 쿼리문
+SELECT COUNT(*)
+  FROM RESERVE
+ WHERE START_DATE = TO_DATE('2024-12-26', 'YYYY-MM-DD')
+   AND END_DATE = TO_DATE('2024-12-27', 'YYYY-MM-DD')
+   AND NIGHTS = ?
+   AND CAMPSITE_ID = ?
+   AND PAYMENT_STATUS = 'PAID'
 
+-- 12. 임시 예약 INSERT 용 쿼리문
+INSERT INTO RESERVE(RESERVE_NO, 
+                    START_DATE, 
+                    END_DATE, 
+                    NIGHTS, 
+                    MEMBER_COUNT,
+                    PAYMENT_ID, 
+                    PRICE, 
+                    PAYMENT_DATE,
+                    PAYMENT_METHOD, 
+                    PAYMENT_STATUS, 
+                    MEMBER_NO, 
+                    CAMPSITE_ID)
+             VALUES(RESERVE_SEQ.NEXTVAL,
+                    TO_DATE(?, 'YYYY-MM-DD'),
+                    TO_DATE(?, 'YYYY-MM-DD'),
+                    ?,
+                    ?,
+                    ?,
+                    ?,
+                    SYSDATE,
+                    'CARD',
+                    'CREATED',
+                    ?,
+                    ?);
 
 
 

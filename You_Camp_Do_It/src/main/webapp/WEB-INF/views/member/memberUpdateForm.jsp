@@ -184,7 +184,7 @@
 	
 	            <div class="button-group">
 				    <button type="submit" class="btn-submit">회원정보 수정</button>
-				    <a href="changePwdForm.me" class="btn-submit">
+				    <a href="changeLoginPwdForm.me" class="btn-submit">
 				        비밀번호 변경
 				    </a>
 				    <a href="memberDeleteForm.me" class="btn-submit">

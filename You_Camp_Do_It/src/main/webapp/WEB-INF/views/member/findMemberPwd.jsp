@@ -143,6 +143,7 @@
 	        <h1 style="margin-bottom: 40px;">비밀번호 찾기</h1>
 	        
 	        <form action="findPwd.me" method="post" id="enrollForm" >
+	            <input type="hidden" name="findPwd" value="findPwd">
 	            
 	            <!-- 이름 -->
 	            <label for="memberName">이름*</label>
@@ -186,6 +187,34 @@
         var isIdChecked = false;
     	
     	
+        $(function() {
+        	const $emailInput = $("#email");
+            const $sendCodeButton = $("#sendCodeButton");
+
+            // 이메일 유효성 검사 함수
+            function isEmailValid(email) {
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // 이메일 형식 정규표현식
+                return regex.test(email);
+            }
+
+            // 이메일 입력 시 유효성 검사
+            $emailInput.on("input", function () {
+                const emailValue = $(this).val().trim();
+
+                if (isEmailValid(emailValue)) {
+                    $sendCodeButton.prop("disabled", false); // 유효한 경우 버튼 활성화
+                    $emailInput.css("border-color", "green"); // 입력 필드 강조
+                } else {
+                    $sendCodeButton.prop("disabled", true); // 유효하지 않으면 버튼 비활성화
+                    $emailInput.css("border-color", "red"); // 입력 필드 강조
+                }
+            });
+
+            // 초기 상태에서 버튼 비활성화
+            $sendCodeButton.prop("disabled", true);
+        	
+        });
+        
     	// 인증번호 발급용 ajax
     	function cert() {
     		$("#verificationFields").removeClass("hidden");
@@ -196,7 +225,8 @@
     			url : "cert.me",
     			type : "post",
     			data : {
-    				email : email
+    				email : email,
+    				key : "findPwd"
     			},
     			success : function(result) {
     				

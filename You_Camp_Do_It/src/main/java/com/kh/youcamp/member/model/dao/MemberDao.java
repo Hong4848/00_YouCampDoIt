@@ -33,8 +33,26 @@ public class MemberDao {
 	}
 
 
+	/**
+	 * 24.12.06 정성민
+	 * 아이디 중복체크용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param checkId
+	 * @return
+	 */
 	public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
 		return sqlSession.selectOne("memberMapper.idCheck", checkId);
+	}
+	
+	/**
+	 * 24.12.23 정성민 
+	 * 이메일 중복체크용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param checkEmail
+	 * @return
+	 */
+	public int emailCheck(SqlSessionTemplate sqlSession, String checkEmail) {
+		return sqlSession.selectOne("memberMapper.emailCheck", checkEmail);
 	}
 
 	/**
@@ -126,8 +144,11 @@ public class MemberDao {
 		int result = sqlSession.update("memberMapper.deleteMember", memberId);
 		System.out.println(result);
 		return result;
-		
 	}
+
+	
+
+	
 
 	
 

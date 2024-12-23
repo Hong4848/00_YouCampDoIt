@@ -1,10 +1,15 @@
 package com.kh.youcamp.member.controller;
 
+import java.io.File;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,9 +76,9 @@ public class MemberController {
 			
 		} else { // 로그인 실패
 			
-			mv.addObject("errorMsg", "로그인 실패");
+			session.setAttribute("alertMsg", "아이디 또는 비밀번호가 잘봇되었습니다. 아이디와 비밀번호를 정확히 입력해주세요!");
 			
-			mv.setViewName("common/errorPage");
+			mv.setViewName("redirect:/");
 		}
 		
 		return mv;
@@ -156,9 +161,26 @@ public class MemberController {
 	@GetMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
 	public String idCheck(String checkId) {
 		
-		int count = memberService.idCheck(checkId);
+		int result = memberService.idCheck(checkId);
 		
-		return (count > 0) ? "NNNNN" : "NNNNY";
+		return (result > 0) ? "NNNNN" : "NNNNY";
+		
+	}
+	
+	/**
+	 * 24.12.23 정성민
+	 * 이메일 중복 체크 요청 처리용 컨트롤러
+	 * @param checkId
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="emailCheck.me", produces="text/html; charset=UTF-8")
+	public String emailCheck(String checkEmail) {
+		
+		
+		int result = memberService.emailCheck(checkEmail);
+		
+		return (result > 0) ? "NNNNN" : "NNNNY";
 		
 	}
 	
@@ -167,10 +189,11 @@ public class MemberController {
 	 * 24.12.11 정성민
 	 * 이메일 인증번호 요청 처리용 컨트롤러
 	 * @param email
+	 * @throws MessagingException 
 	 */
 	@ResponseBody
 	@PostMapping(value="cert.me", produces="text/html; charset=UTF-8")
-	public String sendCertNo(String email) {
+	public String sendCertNo(String email, String key) throws MessagingException {
 		
 		// 인증번호 만들기
 		int random = (int)(Math.random() * 900000 + 100000);
@@ -179,22 +202,154 @@ public class MemberController {
 		Identification idf = new Identification();
 		idf.setEmail(email);
 		idf.setAuthCode(String.valueOf(random));
-		int count = memberService.insertCertNo(idf);
+		int result = memberService.insertCertNo(idf);
 		
-		System.out.println();
 		
-		if(count > 0) {
-			SimpleMailMessage message = new SimpleMailMessage();
+		
+		
+		if(result > 0) {
+			MimeMessage message = mailSender.createMimeMessage();
 			
-			// 메세지 정보 담기
-			message.setSubject("[YOU CAMP DO IT] 이메일 인증 번호입니다.");
-			message.setText("인증 번호 : " + random);
-			message.setTo(email);
+			MimeMessageHelper mimeMessageHelper
+			= new MimeMessageHelper(message, true, "UTF-8");
 			
-			// 메세지 전송하기
-			mailSender.send(message);
+			// key 값에 따른 이메일 내용 변경
+			if(key.equals("enroll")) {
+				// 이메일 내용 HTML
+				String emailContent = 
+				    "<div style='font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px;'>"
+				        + "<div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>"
+				            + "<div style='padding: 20px; text-align: center; background-color: #d4f4c4; border-radius: 8px 8px 0 0;'>"
+				            	+ "<img src='cid:companyLogo' alt='YouCampDoIt 로고' style='width: 150px;'>"
+				                + "<h1 style='color: #2f4f4f; margin: 0;'>YouCampDoIt</h1>"
+				                + "<p style='color: #2f4f4f; font-size: 16px;'>캠핑과 자연을 사랑하는 당신을 환영합니다!</p>"
+				            + "</div>"
+				            + "<div style='padding: 20px; text-align: center;'>"
+				                + "<h2 style='color: #333333;'>회원가입 인증번호</h2>"
+				                + "<p style='font-size: 18px; color: #5a4bcf; font-weight: bold; margin: 20px 0;'>"
+				                    + random
+				                + "</p>"
+				                + "<p style='color: #666666; font-size: 14px;'>"
+				                    + "위 인증번호를 인증번호 입력 창에 입력해주세요.<br>이 번호는 3분간만 유효합니다."
+				                + "</p>"
+				                
+				            + "</div>"
+				            + "<div style='padding: 10px; background-color: #f8f8f8; text-align: center; font-size: 12px; color: #666;'>"
+				                + "<p style='margin: 0;'>본 메일은 YouCampDoIt 캠핑장 회원가입을 위해 발송되었습니다.</p>"
+				                + "<p style='margin: 5px 0;'>문의사항이 있으시면 youcampdoit123@gmail.com 으로 메일주세요.</p>"
+				            + "</div>"
+				        + "</div>"
+				    + "</div>";
+				
+				// 메세지 정보 담기
+				mimeMessageHelper.setSubject("[YouCampDoIt] 회원가입 인증번호 안내");
+				mimeMessageHelper.setText(emailContent, true); // 내용
+				
+				mimeMessageHelper.setTo(email);
+				
+				// DataSource dataSource = new FileDataSource("C:/mainLogo.png");
+				// mimeMessageHelper.addAttachment(dataSource.getName(), dataSource);
+				
+				// 로고를 인라인 이미지로 첨부
+				FileSystemResource logo = new FileSystemResource(new File("C:\\YouCampDoIt\\You_Camp_Do_It\\src\\main\\webapp\\resources\\images\\mainPage\\메인로고.png")); // 로고 이미지 파일 경로
+				mimeMessageHelper.addInline("companyLogo", logo);
+				
+				mailSender.send(message);
+				
+				return "인증번호 발급 완료"; 
+				
+			} else if (key.equals("findId")) {
+				
+				// 이메일 내용 HTML
+				String emailContent = 
+				    "<div style='font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px;'>"
+				        + "<div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>"
+				            + "<div style='padding: 20px; text-align: center; background-color: #d4f4c4; border-radius: 8px 8px 0 0;'>"
+				            	+ "<img src='cid:companyLogo' alt='YouCampDoIt 로고' style='width: 150px;'>"
+				                + "<h1 style='color: #2f4f4f; margin: 0;'>YouCampDoIt</h1>"
+				                + "<p style='color: #2f4f4f; font-size: 16px;'>캠핑과 자연을 사랑하는 당신을 환영합니다!</p>"
+				            + "</div>"
+				            + "<div style='padding: 20px; text-align: center;'>"
+				                + "<h2 style='color: #333333;'>아이디 찾기 인증번호</h2>"
+				                + "<p style='font-size: 18px; color: #5a4bcf; font-weight: bold; margin: 20px 0;'>"
+				                    + random
+				                + "</p>"
+				                + "<p style='color: #666666; font-size: 14px;'>"
+				                    + "위 인증번호를 인증번호 입력 창에 입력해주세요.<br>이 번호는 3분간만 유효합니다."
+				                + "</p>"
+				                
+				            + "</div>"
+				            + "<div style='padding: 10px; background-color: #f8f8f8; text-align: center; font-size: 12px; color: #666;'>"
+				                + "<p style='margin: 0;'>본 메일은 YouCampDoIt 회원 계정 아이디 찾기를 위해 발송되었습니다.</p>"
+				                + "<p style='margin: 5px 0;'>문의사항이 있으시면 youcampdoit123@gmail.com 으로 메일주세요.</p>"
+				            + "</div>"
+				        + "</div>"
+				    + "</div>";
+				
+				// 메세지 정보 담기
+				mimeMessageHelper.setSubject("[YouCampDoIt] 아이디 찾기 인증번호 안내");
+				mimeMessageHelper.setText(emailContent, true); // 내용
+				
+				mimeMessageHelper.setTo(email);
+				
+				// DataSource dataSource = new FileDataSource("C:/mainLogo.png");
+				// mimeMessageHelper.addAttachment(dataSource.getName(), dataSource);
+				
+				// 로고를 인라인 이미지로 첨부
+				FileSystemResource logo = new FileSystemResource(new File("C:\\YouCampDoIt\\You_Camp_Do_It\\src\\main\\webapp\\resources\\images\\mainPage\\메인로고.png")); // 로고 이미지 파일 경로
+				mimeMessageHelper.addInline("companyLogo", logo);
+				
+				mailSender.send(message);
+				
+				return "인증번호 발급 완료"; 
+				
+			} else {
+				
+				// 이메일 내용 HTML
+				String emailContent = 
+				    "<div style='font-family: Arial, sans-serif; background-color: #ffffff; padding: 20px;'>"
+				        + "<div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>"
+				            + "<div style='padding: 20px; text-align: center; background-color: #d4f4c4; border-radius: 8px 8px 0 0;'>"
+				            	+ "<img src='cid:companyLogo' alt='YouCampDoIt 로고' style='width: 150px;'>"
+				                + "<h1 style='color: #2f4f4f; margin: 0;'>YouCampDoIt</h1>"
+				                + "<p style='color: #2f4f4f; font-size: 16px;'>캠핑과 자연을 사랑하는 당신을 환영합니다!</p>"
+				            + "</div>"
+				            + "<div style='padding: 20px; text-align: center;'>"
+				                + "<h2 style='color: #333333;'>비밀번호 변경 인증번호</h2>"
+				                + "<p style='font-size: 18px; color: #5a4bcf; font-weight: bold; margin: 20px 0;'>"
+				                    + random
+				                + "</p>"
+				                + "<p style='color: #666666; font-size: 14px;'>"
+				                    + "위 인증번호를 인증번호 입력 창에 입력해주세요.<br>이 번호는 3분간만 유효합니다."
+				                + "</p>"
+				                
+				            + "</div>"
+				            + "<div style='padding: 10px; background-color: #f8f8f8; text-align: center; font-size: 12px; color: #666;'>"
+				                + "<p style='margin: 0;'>본 메일은 YouCampDoIt 회원 계정 비밀번호 변경을 위해 발송되었습니다.</p>"
+				                + "<p style='margin: 5px 0;'>문의사항이 있으시면 youcampdoit123@gmail.com 으로 메일주세요.</p>"
+				            + "</div>"
+				        + "</div>"
+				    + "</div>";
+				
+				// 메세지 정보 담기
+				mimeMessageHelper.setSubject("[YouCampDoIt] 비밀번호 변경 인증번호 안내");
+				mimeMessageHelper.setText(emailContent, true); // 내용
+				
+				mimeMessageHelper.setTo(email);
+				
+				// DataSource dataSource = new FileDataSource("C:/mainLogo.png");
+				// mimeMessageHelper.addAttachment(dataSource.getName(), dataSource);
+				
+				// 로고를 인라인 이미지로 첨부
+				FileSystemResource logo = new FileSystemResource(new File("C:\\YouCampDoIt\\You_Camp_Do_It\\src\\main\\webapp\\resources\\images\\mainPage\\메인로고.png")); // 로고 이미지 파일 경로
+				mimeMessageHelper.addInline("companyLogo", logo);
+				
+				mailSender.send(message);
+				
+				return "인증번호 발급 완료"; 
+			}
 			
-			return "인증번호 발급 완료"; 
+			
 		} else {
 			return "인증번호 발급 실패!";
 		}
@@ -252,7 +407,7 @@ public class MemberController {
 	
 	/**
 	 * 24.12.12 정성민
-	 * 아이디찾기 페이지 접속 요청용 컨트롤러
+	 * 아이디 찾기 페이지 접속 요청용 컨트롤러
 	 * @param mv
 	 * @return
 	 */
@@ -265,22 +420,25 @@ public class MemberController {
 	
 	/**
 	 * 24.12.12 정성민
-	 * 아이디찾기 요청용 컨트롤러
+	 * 아이디 찾기 요청용 컨트롤러
 	 * @param m
 	 * @return
 	 */
 	@ResponseBody
 	@PostMapping(value="findId.me", produces="text/html; charset=UTF-8")
-	public String selectId(Member m) {
+	public String selectId(Member m, HttpSession session) {
 		
-		String email = memberService.selectId(m);
+		String id = memberService.selectId(m);
 		
-		if(email == null) {
+		if(id == null) {
+			
+			
 			return "해당 계정 없음";
 			
 		} else {
+			session.setAttribute("alertMsg", "회원님의 아이디는 " + id + " 입니다. 해당 아이디로 로그인 해주세요!");
 			
-			return email;
+			return "redirect:/";
 		}
 		
 
@@ -395,8 +553,7 @@ public class MemberController {
 		
 		Member loginMember = (Member)session.getAttribute("loginMember");
 		
-		System.out.println(loginMember);
-		System.out.println(bcryptPasswordEncoder.matches(memberPwd, loginMember.getMemberPwd()));
+		
 		
 		String memberId = ((Member)session.getAttribute("loginMember")).getMemberId();
 		
@@ -405,15 +562,15 @@ public class MemberController {
 		if(bcryptPasswordEncoder.matches(memberPwd, loginMember.getMemberPwd())) {
 			
 			
-			System.out.println("서비스 전");
+			
 			int result = memberService.deleteMember(memberId);
 			
-			System.out.println(result);
+			
 			if(result > 0) {
 				
 				session.removeAttribute("loginMember");
 				
-				System.out.println("비밀번호 똑같음");
+				
 				
 				session.setAttribute("alertMsg", "회원 탈퇴에 성공했습니다. 그동안 이용해 주셔서 감사합니다.");
 				return "redirect:/";
@@ -428,16 +585,74 @@ public class MemberController {
 			
 			session.setAttribute("alertMsg", "비밀번호가 틀렸습니다!");
 			
-			System.out.println("else문 실행된");
+			
 			
 			return "redirect:/myPage.me";
 		}
 			
+	}
+	
+	/**
+	 * 24.12.23 정성민 
+	 * 로그인한 회원의 비밀번호 변경 페이지 접속 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping(value="changeLoginPwdForm.me")
+	public ModelAndView changeLoginPwdForm(ModelAndView mv) {
+		
+		mv.setViewName("member/changeLoginMemberPwd");
+		return mv;
+	}
+	
+	
+	/**
+	 * 24.12.23 정성민
+	 * 로그인한 회원의 비밀번호 변경 요청용 컨트롤러
+	 * @param m
+	 * @param model
+	 * @param session
+	 * @return
+	 */
+	@PostMapping(value="changeLoginPwd.me")
+	public String updateLoginPwd(String memberPwd, String newPwd, Model model, HttpSession session) {
+		
+		
+		
+		Member loginMember = (Member)session.getAttribute("loginMember");
+		
+		if((loginMember != null) && (bcryptPasswordEncoder.matches(memberPwd, loginMember.getMemberPwd()))) {
+			String encPwd = bcryptPasswordEncoder.encode(newPwd);
+			loginMember.setMemberPwd(encPwd);
 			
+			int result = memberService.updatePwd(loginMember);
+			
+			if(result > 0) {
+				session.setAttribute("alertMsg", "비밀번호 변경에 성공했습니다! 변경한 비밀번호로 로그인해주세요!");
+				
+				session.removeAttribute("loginMember");
+				
+				return "redirect:/";
+			} else {
+				session.removeAttribute("loginMember");
+				
+				model.addAttribute("errorMsg", "비밀번호 변경에 실패했습니다!");
+				
+				return "common/errorPage";
+			}
+			
+		} else {
+			session.setAttribute("alertMsg", "현재 비밀번호가 일치하지 않아 비밀번호 변경에 실패했습니다!");
+			
+			return "redirect:/myPage.me";
+		}
+		
 		
 		
 		
 	}
+		
+	
 
 	/**
 	 * 24.12.10 09 윤홍문

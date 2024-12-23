@@ -42,5 +42,11 @@ public interface ReserveService {
 
 	// 예약취소 요청용 서비스 메소드
 	int deleteReserveRequest(int reserveNo);
+
+	// 중복된 자리 체크용 서비스 메소드
+	Reserve selectTempReserve(Reserve r);
+
+	// 임시 예약 insert 용 서비스 메소드
+	int insertTempReserve(Reserve r);
 	
 }

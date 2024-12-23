@@ -136,8 +136,8 @@
      	color: #7e7575;
      	margin-bottom: 40px;
      }
-     
-     /* 비밀번호 눈표시 */
+
+	 /* 비밀번호 눈표시 */
      .password-wrapper {
          position: relative;
          width: 100%; /* 입력 필드와 동일한 크기 */
@@ -163,9 +163,7 @@
 
      .password-wrapper .toggle-password:hover {
          color: #333; /* 호버 시 색상 변경 */
-     }
-     
-     
+     }	
 
 
 
@@ -180,27 +178,33 @@
 	    <div class="signup-container">
 	        <h1 style="margin-bottom: 40px;">비밀번호 변경</h1>
 	        
-	        <form action="changePwd.me" method="post" id="enrollForm" >
+	        <form action="changeLoginPwd.me" method="post" id="enrollForm" >
 	            
 	            <div class="explain">
 	            	비밀번호를 변경해 주세요. <br>
 					다른 아이디나 사이트에서 사용한 적 없는 안전한 비밀번호로 변경해 주세요
 				</div>
-	            
-	            <!-- 비밀번호 -->
-	            <label for="memberPwd" style="margin-top: 15px;">새 비밀번호*</label>
-	            <div class="password-wrapper">
-	            <input type="password" id="memberPwd" name="memberPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자" required>
-				<i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
-  				</div>
 				
-		
+				<!-- 현재 비밀번호 -->
+	            <label for="memberPwd" style="margin-top: 15px;">현재 비밀번호*</label>
+	            <div class="password-wrapper">
+	            <input type="password" id="memberPwd" name="memberPwd" placeholder="현재 비밀번호를 입력하세요" required>
+	            <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+	            </div>
+	            
+	            <!-- 새 비밀번호 -->
+	            <label for="newPwd" style="margin-top: 15px;">새 비밀번호*</label>
+	            <div class="password-wrapper">
+	            <input type="password" id="newPwd" name="newPwd" placeholder="영문 대소문자, 숫자, 특수기호(!@#$%^&)를 포함한 8~15자" required>
+				<i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+				</div>
+	
 	            <!-- 비밀번호 확인 -->
 	            <label for="checkPwd">비밀번호 확인*</label>
 	            <div class="password-wrapper">
 	            <input type="password" id="checkPwd" name="checkPwd" placeholder="비밀번호를 한번 더 입력하세요" required>
 	            <i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
-  				</div>
+	            </div>
 	            
 	            
 	            <!-- 회원가입 버튼 -->
@@ -225,20 +229,19 @@
     		
     		
     		// 검사할 값들 가져오기
-    		
-    		
     		let memberPwd = $("#enrollForm input[name=memberPwd]").val();
+    		let newPwd = $("#enrollForm input[name=newPwd]").val();
     		let checkPwd = $("#enrollForm input[name=checkPwd]").val();
     		
     		// 비밀번호 유효성 검사
     		let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&])[A-Za-z\d!@#$%^&]{8,15}$/;
-    		if(!regex.test(memberPwd)) {
+    		if(!regex.test(newPwd)) {
     			alert("형식에 맞는 비밀번호를 입력해주세요!");
     			return false;
     		}
     		
     		// 비밀번호, 비밀번호 확인 일치 검사
-    		if(memberPwd != checkPwd) {
+    		if(newPwd != checkPwd) {
     			alert("비밀번호와 비밀번호 확인을 동일하게 입력해주세요!");
     			return false;
     		}

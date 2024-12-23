@@ -300,14 +300,14 @@
 		                	<c:when test="${ requestScope.pi.currentPage eq 1 }">
 			                    <li class="page-item disabled">
 			                    	<a class="page-link" href="#">
-			                    		Previous
+			                    		&lt;
 			                    	</a>
 			                    </li>
 			                </c:when>
 			                <c:otherwise>
 			                	<li class="page-item">
 			                    	<a class="page-link" href="reserveList.res?cpage=${ requestScope.pi.currentPage - 1 }">
-			                    		Previous
+			                    		&lt;
 			                    	</a>
 			                    </li>
 			                </c:otherwise>
@@ -338,14 +338,14 @@
 	                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
 	                   			<li class="page-item">
 	                   				<a class="page-link" href="reserveList.res?cpage=${ requestScope.pi.currentPage + 1 }">
-	                   					Next
+	                   					&gt;
 	                   				</a>
 	                   			</li>
 	                   		</c:when>
 	                   		<c:otherwise>
 	                   			<li class="page-item disabled">
 	                   				<a class="page-link" href="#">
-	                   					Next
+	                   					&gt;
 	                   				</a>
 	                   			</li>
 	                   		</c:otherwise>
