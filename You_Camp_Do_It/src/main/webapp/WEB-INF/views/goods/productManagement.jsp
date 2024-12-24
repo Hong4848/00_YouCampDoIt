@@ -27,15 +27,6 @@
                 justify-content: space-between;
             }
 
-            .choiceMenuBar{
-                width: 350px;
-                height: 10px;
-                background-color: black;
-                position: absolute;
-                right: 50px; 
-                top: 60px;
-            }
-
             .management_content{
                 margin-top: 50px;
                 position: relative;
@@ -130,6 +121,7 @@
                 display: flex;
                 justify-content:left;
                 text-align: center;
+                cursor: pointer;
             }
 
             .goodsNo_checkbox{
@@ -182,6 +174,7 @@
             .goodsListContent{
                 width: 100%;
                 height: 800px;
+                text-align: center;
             }
 
             .labelClass{
@@ -201,6 +194,78 @@
                 width: 100%;
                 height: 100%;
             }
+
+            .choiceMenuBar{
+                width: 350px;
+                height: 0px;
+                background-color: white;
+                border: 0px double rgb(255, 129, 97);
+                position: absolute;
+                transition: all 1s;
+                right: 50px; 
+                top: 60px;
+                overflow:hidden;
+            }
+
+            #choiceGoods{
+                width: 100%;
+                height: 100%;
+            }
+
+            #choiceName{
+                margin-top: 30px;
+                text-align: center;
+                font-weight: 700;
+                font-size: 17px;
+            }
+
+            #choiceDetail{
+                width: 280px;
+                display: flex;
+                margin: 30px;
+                justify-content:space-between;
+                font-size: 17px;
+            }
+
+            #choiceDetailTitle{
+                width: 100px;
+            }
+
+            #choiceDetailTitle>div{
+                height: 30px;
+                margin-bottom: 20px;
+            }
+
+            .choiceDetailContent{
+                width: 150px;
+                margin-right: 50px;
+            }
+
+            input::-webkit-outer-spin-button,
+			input::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+			}
+
+            .inputType{
+                margin: 0px;
+                padding: 0px;
+                width: 120px;
+                height: 30px;
+                margin-bottom: 20px;
+                text-align: right;
+                border: 0px;
+                padding-right: 20px;
+            }
+
+            #goodsStatus{
+                width: 105px;
+                height: 30px;
+                text-align: right;
+                border: 0px;
+                outline: 0px;
+                appearance:none
+            }
         </style>
     </head>
     <body>
@@ -215,33 +280,71 @@
                 </div>
                 <div class="management_content">
                     <div class="choiceMenuBar">
+                        <div id="choiceGoods">
+                            <div id="choiceName">5-6인 고급원터치자동 텐트</div>
+                            <div id="choiceDetail">
+                                <div id="choiceDetailTitle">
+                                    <div>가격</div>
+                                    <div>총 수량</div>
+                                    <div>재고</div>
+                                    <div>할인율</div>
+                                    <div>판매상태</div>
+                                </div>
+                                <div id="choiceDetailContent">
+                                    <div style="display:none" id="choiceNo">1</div>
+                                    <div id="choicePrice">
+                                        <input class="inputType" type="number" value="10000">원
+                                    </div>
+                                    <div id="choiceTotalStock">
+                                        <input class="inputType" type="number" value="1000">개
+                                    </div>
+                                    <div id="choiceStock">
+                                        <input class="inputType" type="number" value="1000">개
+                                    </div>
+                                    <div id="choiceDiscount">
+                                        <input class="inputType" type="number" value="70">%
+                                    </div>
+                                    <div id="choiceStatus">
+                                        <select name="goodsStatus" id="goodsStatus">
+                                            <option value='Y'>판매중</option>
+                                            <option value='N'>품절</option>
+                                            <option value='H'>숨김</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="text-align: right; margin-right: 20px;">
+                                <button class="btn btn-sm btn-warning updateBtn">상세내용 수정</button>
+                                <button class="btn btn-sm btn-danger submitBtn">상품상태 수정</button>
+                            </div>
+                        </div>
                     </div>
                     <div class="management_list">
                         <div id="all_list" class="listClass targetList">
                             <div class="listContent">
                                 <div class="listName">전체</div>
-                                <div class="listCount">10</div>
+                                <div class="listCount">0</div>
                             </div>
                             <div class="listLine"></div>
                         </div>
                         <div id="sale_list" class="listClass">
                             <div class="listContent">
                                 <div class="listName">판매중</div>
-                                <div class="listCount">5</div>
+                                <div class="listCount">0</div>
                             </div>
                             <div class="listLine"></div>
                         </div>
                         <div id="soldOut_list" class="listClass">
                             <div class="listContent">
                                 <div class="listName">품절</div>
-                                <div class="listCount">3</div>
+                                <div class="listCount">0</div>
                             </div>
                             <div class="listLine"></div>
                         </div>
                         <div id="hide_list" class="listClass">
                             <div class="listContent">
                                 <div class="listName">숨김</div>
-                                <div class="listCount">2</div>
+                                <div class="listCount">0</div>
                             </div>
                             <div class="listLine"></div>
                         </div>
@@ -264,7 +367,6 @@
                     <div class="goodsList">
                         <div class="goodsListInfo">
                             <div class="goodsNo_checkbox">
-                                <input type="checkbox" id="" name="">
                                 <label class="labelClass" for="">No</label>
                             </div>
                             <div class="goodsThumbnail_Info">
@@ -298,8 +400,11 @@
 			</div>
         </div>
     </body>
+    
     <!-- 시작 시 -->
     <script>
+        let state = '전체';
+
         $(document).ready(function(){
             let count = $("#Product").next().children().length;
             $("#Product").next().css("border-color", "rgb(26, 187, 156, 1.0)");
@@ -307,7 +412,7 @@
             $("#Product").next().css("height", count*35);
 
             $("#ProductList").children().css("color","red");
-            ajaxTotalList(1);
+            ajaxGoodsList(1, state);
         });
     </script>
 
@@ -330,120 +435,42 @@
         $(".listClass").click(function(){
             $(".listClass").removeClass("targetList");
             $(this).addClass("targetList");
-            ajaxTotalList(1);
+            state = $(this).find(".listName").text();
+            ajaxGoodsList(1, state);
         });
-    </script>
-
-    <!-- ajax 통신 : 총 게시글 수 -->
-    <script>
-        function ajaxTotalList(pageNumber){
-            $.ajax({
-                url : "ajaxTotalListCount.ma",
-                type : "get",
-                success : function(result){
-                    $("#all_list .listCount").text(result.totalCount);
-                    $("#sale_list .listCount").text(result.onSaleCount);
-                    $("#soldOut_list .listCount").text(result.offSaleCount);
-                    $("#hide_list .listCount").text(result.hideCount);
-                    ajaxGoodsList(pageNumber);
-                },
-                error : function(){
-                    console.log("실패");
-                }
-            }) 
-        }
     </script>
 
     <!-- ajax 통신 -->
     <script>
-        function ajaxGoodsList(pageNumber){
+        function ajaxGoodsList(pageNumber, state){
             $.ajax({
                 url : "ajaxGoodsManagement.ma",
 	            type : "get",
                 data : {
-                    pageNumber : pageNumber
+                    pageNumber : pageNumber,
+                    state : state
                 },
 	            success : function(result){
                     let listClass = $(".targetList .listName").text();
                     $("#goodsListContent").children().remove();
                     $("#pagingArea").children().remove();
-	            	for(let i = 0; i < result.list.length; i++){
-                        switch(listClass){
-                            case "전체":
-                                ajaxResult(result, i);
-                                break;
-                            case "판매중":
-                                if(result.list[i].status == "Y" && result.list[i].remainStock > 0){
-                                    ajaxResult(result, i);
-                                }
-                                break;
-                            case "품절":
-                                if(result.list[i].status == "Y" && result.list[i].remainStock == 0){
-                                    ajaxResult(result, i);
-                                }
-                                break;
-                            case "숨김":
-                                if(result.list[i].status == "N"){
-                                    ajaxResult(result, i);
-                                }
-                                break;
-                        }
-                    }
-                    $("#goodsListContent>div").addClass("goodsListInfo");
-                    $("#goodsListContent>div").addClass("ajaxClick");
-                    $(".goodsThumbnail_Info>img").css({"height":"100%", "margin":"0px"});
-
-                    let createUl = document.createElement("ul");
-                    let piStr = "";
-                    if(result.pi.currentPage == 1){
-                        piStr += "<li class='page-item disabled'>"
-                                    + "<a class='page-link'>"
-                                        + "Previous"
-                                    + "</a>"
-                                + "</li>"
+                    if(result.list.length == 0){
+                        let imgD = document.createElement("img")
+                        imgD.src = "resources/images/admin/등록된 정보가 없습니다.png";
+                        document.getElementById("goodsListContent").appendChild(imgD);
+                        $("#goodsListContent>img").css("height", "90%");
+                        
                     }
                     else{
-                        piStr += "<li class='page-item'>"
-                                    + "<a class='page-link pagePrevious'>"
-                                        + "Previous"
-                                    + "</a>"
-                                + "</li>"
-                    }
-                    for(let i = result.pi.startPage; i <= result.pi.endPage; i++){
-                        if(result.pi.currentPage != i){
-                            piStr += "<li class='page-item'>"
-                                        + "<a class='page-link pageNum'>"
-                                            + i
-                                        + "</a>"
-                                    + "</li>"
+                        for(let i = 0; i < result.list.length; i++){
+                            ajaxResult(result, i);
                         }
-                        else{
-                            piStr += "<li class='page-item disabled'>"
-                                        + "<a class='page-link thisNum'>"
-                                            + i
-                                        + "</a>"
-                                    + "</li>"
-                        }
+                        $("#goodsListContent>div").addClass("goodsListInfo");
+                        $("#goodsListContent>div").addClass("ajaxClick");
+                        $(".goodsThumbnail_Info>img").css({"height":"100%", "margin":"0px"});
                     }
-
-                    if(result.pi.currentPage != result.pi.maxPage){
-                        piStr += "<li class='page-item'>"
-                                        + "<a class='page-link pageNext'>"
-                                            + "Next"
-                                        + "</a>"
-                                    + "</li>"
-                    }
-                    else{
-                        piStr += "<li class='page-item disabled'>"
-                                        + "<a class='page-link'>"
-                                            + "Next"
-                                        + "</a>"
-                                    + "</li>"
-                    }
-
-                    createUl.innerHTML=piStr;
-                    document.getElementById("pagingArea").appendChild(createUl);
-                    $("#pagingArea>ul").addClass("pagination");
+                    ajaxTotalList(result);
+                    pageBar(result);
                 }, 
 	            error : function(){
 	            	console.log("실패");
@@ -452,6 +479,72 @@
         }
     </script>
 
+    <!-- 총 게시글 수 -->
+    <script>
+        function ajaxTotalList(result){
+            $("#all_list .listCount").text(result.totalCount);
+            $("#sale_list .listCount").text(result.onSaleCount);
+            $("#soldOut_list .listCount").text(result.offSaleCount);
+            $("#hide_list .listCount").text(result.hideCount);
+        }
+    </script>
+
+    <!-- 페이징 바 처리 -->
+    <script>
+        function pageBar(result){
+            let createUl = document.createElement("ul");
+            let piStr = "";
+            if(result.pi.currentPage == 1){
+                piStr += "<li class='page-item disabled'>"
+                            + "<a class='page-link'>"
+                                + "Previous"
+                            + "</a>"
+                        + "</li>"
+            }
+            else{
+                piStr += "<li class='page-item'>"
+                            + "<a class='page-link pagePrevious'>"
+                                + "Previous"
+                            + "</a>"
+                        + "</li>"
+            }
+            for(let i = result.pi.startPage; i <= result.pi.endPage; i++){
+                if(result.pi.currentPage != i){
+                    piStr += "<li class='page-item'>"
+                                + "<a class='page-link pageNum'>"
+                                    + i
+                                + "</a>"
+                            + "</li>"
+                }
+                else{
+                    piStr += "<li class='page-item disabled'>"
+                                + "<a class='page-link thisNum'>"
+                                    + i
+                                + "</a>"
+                            + "</li>"
+                }
+            }
+
+            if(result.pi.currentPage != result.pi.maxPage){
+                piStr += "<li class='page-item'>"
+                                + "<a class='page-link pageNext'>"
+                                    + "Next"
+                                + "</a>"
+                            + "</li>"
+            }
+            else{
+                piStr += "<li class='page-item disabled'>"
+                                + "<a class='page-link'>"
+                                    + "Next"
+                                + "</a>"
+                            + "</li>"
+            }
+
+            createUl.innerHTML=piStr;
+            document.getElementById("pagingArea").appendChild(createUl);
+            $("#pagingArea>ul").addClass("pagination");
+        }
+    </script>
     <!-- ajax 결과 데이터 처리 -->
     <script>
         function ajaxResult(result, i){
@@ -461,20 +554,19 @@
             month = date.substring(0,2);
             day = date.substring(4,6);
             let status = result.list[i].status;
-            if(status != "N"){
-                if(result.list[i].remainStock == 0){
-                    status = "일시품절";
-                }
-                else{
-                    status = "판매중";
-                }
-            }
-            else{
-                status = "숨김";
+            switch(status){
+                case 'Y':
+                    status = '판매중';
+                    break;
+                case 'N':
+                    status = '품절';
+                    break;
+                case 'H':
+                    status = '숨김';
+                    break;
             }
 
             resultStr += "<div class='goodsNo_checkbox'>"
-                            + "<input type='checkbox' id='check_"+ (i+1) +"' name='check_" + (i+1) + "'>"
                             + "<label class='labelClass' for='check_" + (i+1) + "'>"+ result.list[i].goodsNo +"</label>"
                         + "</div>"
                         + "<div class='goodsThumbnail_Info'>"
@@ -508,17 +600,138 @@
     <script>
         $(document).on("click", ".pageNum", function(){
             let pageNumber = parseInt($(this).text());
-            ajaxTotalList(pageNumber);
+            ajaxGoodsList(pageNumber, state);
         });
 
         $(document).on("click", ".pagePrevious", function(){
             let pageNumber = parseInt($(".thisNum").text())-1;
-            ajaxTotalList(pageNumber);
+            ajaxGoodsList(pageNumber, state);
         });
 
         $(document).on("click", ".pageNext", function(){
             let pageNumber = parseInt($(".thisNum").text())+1;
-            ajaxTotalList(pageNumber);
+            ajaxGoodsList(pageNumber, state);
         });
+    </script>
+
+    <!-- 상품정보수정 클릭 이벤트 -->
+    <script>
+        $(document).on("click", ".goodsListInfo", function(){
+            let goodsNo = $(this).find(".labelClass").text();
+            goodsUpdateAjax(goodsNo);
+        })
+    </script>
+
+    <!-- 상품정보불러오기 ajax통신 -->
+    <script>
+        function goodsUpdateAjax(goodsNo){
+            $(".choiceMenuBar").css({
+                "height" : 450,
+                "border" : "5px double rgb(255, 129, 97)"
+            });
+            $.ajax({
+                url : "ajaxGoodsDetail.ma",
+                type : "get",
+                data : {
+                    goodsNo : goodsNo
+                },
+                success(result){
+                    $("#choiceName").text(result.goodsName);
+                    $("#choiceNo").text(result.goodsNo);
+                    $("#choicePrice>input").val(result.price);
+                    $("#choiceTotalStock>input").val(result.totalStock);
+                    $("#choiceStock>input").val(result.remainStock);
+                    $("#choiceDiscount>input").val(parseFloat(result.discount)*100);
+                    $("#choiceStatus option").attr("selected", false);
+                    $("#choiceStatus option[value="+ result.status +"]").attr("selected", true);
+                },
+                error(){
+                    $(function(){
+                        alertify.success('상품의 정보를 불러오지 못했습니다.');
+                    })
+                }
+            });
+        }
+    </script>
+
+    <!-- 상품정보수정 버튼 이벤트 -->
+    <script>
+        $(".submitBtn").click(()=>{
+            let goodsNo = $("#choiceNo").text();
+            let price = $("#choicePrice>input").val();
+            let totalStock = $("#choiceTotalStock>input").val();
+            let remainStock = $("#choiceStock>input").val();
+            let discount = ($("#choiceDiscount>input").val()/100);
+            let status = $("#goodsStatus").val();
+
+            let errorMsg = "";
+	        if(price < 0 || discount > 1 || discount < 0 || totalStock < 0 || remainStock < 0){
+	            if(price < 0){
+	                errorMsg += "정상적인 가격을 입력해주세요.<br>";
+	            }
+
+                if(totalStock < 0 || remainStock < 0){
+                    errorMsg += "비정상적인 재고 수량을 입력하셨습니다.<br>";
+                }
+
+                if(discount > 1 || discount < 0){
+	                errorMsg += "정상적인 할인율을 입력해주세요(최대 100%)<br>";
+	            }
+	            
+	            alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
+	        }
+            else{
+                if(parseInt(totalStock) < parseInt(remainStock)){
+                    let remain = remainStock;
+                    let total = totalStock;
+
+                    remainStock = total;
+                    totalStock = remain;
+                }
+
+                if(remainStock == 0 && status == 'Y'){
+                    status = 'N'
+                }
+
+                ajaxGoodsDetailUpdate(goodsNo, price, totalStock, remainStock, discount, status);
+            }
+        });
+    </script>
+    <!-- 상품정보수정 ajax통신 -->
+    <script>
+        function ajaxGoodsDetailUpdate(goodsNo, price, totalStock, remainStock, discount, status){
+            $.ajax({
+                url : "ajaxGoodsDetailUpdate.ma",
+                type : "get",
+                data : {
+                    goodsNo : goodsNo,
+                    price : price,
+                    totalStock : totalStock,
+                    remainStock : remainStock,
+                    discount : discount,
+                    status : status
+                },
+                success(result){
+                    if(result == true){
+                        $(function(){
+                            alertify.success('상품 정보를 수정했습니다.');
+                            let pageNumber = parseInt($(".thisNum").text());
+                            ajaxGoodsList(pageNumber, state);
+                            goodsUpdateAjax(goodsNo);
+                        })
+                    }
+                    else{
+                        $(function(){
+                            alertify.success('상품 정보를 수정하지 못했습니다.');
+                        })
+                    }
+                },
+                error(){
+                    $(function(){
+                        alertify.success('통신실패!<br>상품 정보를 수정하지 못했습니다.');
+                    })
+                }
+            });
+        }
     </script>
 </html>
