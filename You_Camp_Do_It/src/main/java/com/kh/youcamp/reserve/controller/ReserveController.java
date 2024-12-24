@@ -140,7 +140,7 @@ public class ReserveController {
 	 * @return
 	 * @throws MessagingException 
 	 */
-	@PostMapping("reserveRequirePay.res")
+	@PostMapping("reserveComplete.res")
 	public ModelAndView toReserveComplete(Reserve r, ModelAndView mv, HttpSession session) throws MessagingException {
 		
 		System.out.println(r);
