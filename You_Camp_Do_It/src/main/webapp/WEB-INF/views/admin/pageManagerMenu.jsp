@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -182,7 +183,7 @@
 	<body>
         <div class="left_side_menu">
             <div class="left_side_title">
-                <a href="">
+                <a href="adminMain.ma">
                     <img src="resources/images/mainPage/로고수정.png" alt="">
                 </a>
             </div>
@@ -198,13 +199,15 @@
             </div>
             <div style="height: 50px;"></div>
             <div id="left_list_1" class="left_list">
-                <div class="head_node">
+                <div class="head_node" id="User">
                     <div class="head_node_left"><img src="resources/images/admin/사용자.png" alt=""></div>
                     <div class="head_node_mid">사용자관리</div>
                     <div class="head_node_right">▶</div>
                 </div>
                 <div class="mid_node">
-                    <div class="leaf_node"><a>◈ 회원정보일람</a></div>
+                    <div class="leaf_node" id="userInfo"><a>◈ 회원정보일람</a></div>
+                    <div class="leaf_node" id="reservationInfo"><a>◈ 예약정보관리</a></div>
+                    <div class="leaf_node" id="monthlyStatistics"><a>◈ 예약월별통계</a></div>
                 </div>
                 <div style="height: 20px;"></div>
 
@@ -221,27 +224,16 @@
                 </div>
                 <div style="height: 20px;"></div>
 
-                <div class="head_node">
+                <div class="head_node" id="contentManagement">
                     <div class="head_node_left"><img src="resources/images/admin/게시판관리.png" alt=""></div>
                     <div class="head_node_mid">컨텐츠관리</div>
                     <div class="head_node_right">▶</div>
                 </div>
                 <div class="mid_node">
-                    <div class="leaf_node"><a>◈ 공지사항관리</a></div>
-                    <div class="leaf_node"><a>◈ 일반게시판관리</a></div>
-                    <div class="leaf_node"><a>◈ 후기게시판관리</a></div>
-                    <div class="leaf_node"><a>◈ 댓글관리</a></div>
-                </div>
-                <div style="height: 20px;"></div>
-
-                <div class="head_node">
-                    <div class="head_node_left"><img src="resources/images/admin/예약관리.png" alt=""></div>
-                    <div class="head_node_mid">예약관리</div>
-                    <div class="head_node_right">▶</div>
-                </div>
-                <div class="mid_node">
-                    <div class="leaf_node"><a>◈ 예약정보관리</a></div>
-                    <div class="leaf_node"><a>◈ 예약월별통계</a></div>
+                    <div class="leaf_node" id="noticeInfo"><a>◈ 공지사항관리</a></div>
+                    <div class="leaf_node" id="boardInfo"><a>◈ 일반게시판관리</a></div>
+                    <div class="leaf_node" id="postscriptInfo"><a>◈ 후기게시판관리</a></div>
+                    <div class="leaf_node" id="replyInfo"><a>◈ 댓글관리</a></div>
                 </div>
             </div>
             <div class="setting_bar">
@@ -271,4 +263,11 @@
 			});
 		</script>
 	</body>
+	
+	<!-- 접근 시 관리자인지 아닌지 확인 -->
+	<script>
+    	if(${sessionScope.loginMember.memberId != 'admin'}){
+    		$(location).attr("href", "wrongApproach.ma");
+    	}
+    </script>
 </html>

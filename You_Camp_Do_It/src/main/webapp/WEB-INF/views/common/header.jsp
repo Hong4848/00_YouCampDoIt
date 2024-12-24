@@ -208,7 +208,12 @@
                 <div id="quickMenu">
                     <div id="userManu" class="quick_a">
                         <a data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"><img src="resources/images/mainPage/로그인icon.png"></a>
-                        <a href=""><img src="resources/images/mainPage/회원가입icon.png"></a>
+                        <c:choose>
+                        	<c:when test="${sessionScope.loginMember.memberId == 'admin'}">
+                        		<a href="${ pageContext.request.contextPath }/adminMain.ma"><img src="resources/images/mainPage/회원가입icon.png"></a>
+                        	</c:when>
+                        	<c:otherwise></c:otherwise>
+                        </c:choose>
                     </div>
                     <div style="height: 40%;"></div>
                     <div id="convenience" class="quick_a">
@@ -234,7 +239,6 @@
                                 <a href="${ pageContext.request.contextPath }/product.gs">용품목록</a>
                                 <a href="">대여/반납안내</a>
                                 <a href="">자주묻는질문</a>
-                                <a href="${ pageContext.request.contextPath }/addProduct.ma">관리자페이지(임시)</a>
                             </div>
                         </div>
                         <div class="header_menu1">

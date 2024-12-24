@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -156,6 +157,12 @@
 	<body>
 		<!-- 여기부터는 메인페이지 -->
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
+		<c:if test="${sessionScope.wrongMsg eq '잘못된 접근입니다.'}">
+			<script>
+				alertify.alert('wrongMsg', '${ sessionScope.wrongMsg }', function(){ alertify.success('관리자 계정으로 로그인 후<br> 이용해주세요'); });
+			</script>
+			<c:remove var="wrongMsg" scope="session" />
+		</c:if>
 		<div class="mainContent">
 		    <!-- 상단 이미지 영역 -->
 		    <div id="mainImg">

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -148,7 +149,7 @@
 				width: 320px;
 				height: 320px;
 				text-align: center;
-				
+				position: relative;
 			}
 			
 			.goods_title{
@@ -283,21 +284,49 @@
 			<div class="goods_list">
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
-						<div class="goods_number">${g.goodsNo}</div>
-						<div class="goods_img">${g.goodsThumbnail}</div>
+						<div class="goods_number">
+							${g.goodsNo}
+						</div>
+						<div class="goods_img">
+							${g.goodsThumbnail}
+							<c:choose>
+								<c:when test="${g.status eq 'N'}">
+									<img style="display: block; z-index: 10; position: absolute;" src="resources/images/goods/일시품절.png">
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+						</div>
 						<div class=goods_title>
-							<div class="goods_name">${g.goodsName}</div>
+							<div class="goods_name">
+								${g.goodsName}
+							</div>
 						</div>
 						<div class="goods_information">
 							<div class="goods_maker">
 								${g.mark}
 							</div>
-							<div class="goods_price">
-								${g.price}
-							</div>
-							<div class="goods_discounted">
-								${g.price}
-							</div>
+							<c:choose>
+								<c:when test="${g.discount <= 0.0}">
+									<div class="goods_discounted">
+										<fmt:formatNumber type="number">
+											${g.price}
+										</fmt:formatNumber>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="goods_price">
+										<fmt:formatNumber type="number">
+											${g.price}
+										</fmt:formatNumber>
+									</div>
+									<div class="goods_discounted">
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${g.price - (g.price*g.discount)}
+										</fmt:formatNumber>
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</c:forEach>
@@ -360,38 +389,39 @@
             </div>
 			<div style="height: 100px;"></div>
 		</div>
-		<script>
-			 $(".shoppingMall_category").hover(function(){
-                $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
-            },
-            function(){
-                $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
-            });
-		</script>
-		<script>
-			$(".goods_container").click(function(){
-				let goodsNo = $(this).children(".goods_number").text();
-				location.href="goodsDetail.gs?goodsNo="+goodsNo;
-			});
-		</script>
-
-		<script>
-			$(".goods_img>img").css({"height" : 300, "margin" : 0});
-		</script>
-		<script>
-			$("#searchTitle").on("keyup", function(key){
-				if(key.keyCode == 13){
-					searching();
-				}
-			});
-
-			$("#searchingA").click(function(){
-				searching();
-			});
-			
-			function searching(){
-				$("#searchForm").submit();
-			}
-		</script>
+		<jsp:include page="../common/footer.jsp" />
 	</body>
+	<script>
+		$(".shoppingMall_category").hover(function(){
+		   $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
+	   },
+	   function(){
+		   $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
+	   });
+   </script>
+   <script>
+	   $(".goods_container").click(function(){
+		   let goodsNo = $(this).children(".goods_number").text();
+		   location.href="goodsDetail.gs?goodsNo="+goodsNo;
+	   });
+   </script>
+
+   <script>
+	   $(".goods_img>img").css({"height" : 300, "margin" : 0, position: "absolute", display:"block"});
+   </script>
+   <script>
+	   $("#searchTitle").on("keyup", function(key){
+		   if(key.keyCode == 13){
+			   searching();
+		   }
+	   });
+
+	   $("#searchingA").click(function(){
+		   searching();
+	   });
+	   
+	   function searching(){
+		   $("#searchForm").submit();
+	   }
+   </script>
 </html>

@@ -60,7 +60,7 @@ public class GoodsController
 		
 		return "goods/shoppingMall";
 	}
-	
+
 	@ResponseBody
 	@PostMapping(value="enrollGoods.gs", produces="text/html; charset=UTF-8")
 	public String insertGoods(Goods g, HttpSession session)
@@ -109,7 +109,7 @@ public class GoodsController
 	public String searchingGoods(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
 			Search search, HttpSession session, Model model)
 	{
-		int listCount = goodsService.selectListCount();
+		int listCount = goodsService.searchingListCount(search);
 		int pageLimit = 5;
 		int boardLimit = 8;
 		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
@@ -136,6 +136,8 @@ public class GoodsController
 		{
 			pi.setListCount(list.size());
 		}
+		
+		System.out.println(pi);
 		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);

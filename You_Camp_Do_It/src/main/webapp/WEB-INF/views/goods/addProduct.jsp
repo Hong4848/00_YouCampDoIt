@@ -294,7 +294,7 @@
     </body>
     <!-- 시작 시 현재 메뉴 부분 강조 -->
     <script>
-        let imgSwitch = false;
+	    let imgSwitch = false;
 	    $(document).ready(function(){
 	        let count = $("#Product").next().children().length;
 	        $("#Product").next().css("border-color", "rgb(26, 187, 156, 1.0)");

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -200,7 +201,7 @@
 				width: 320px;
 				height: 320px;
 				text-align: center;
-				
+				position: relative;
 			}
 			
 			.goods_title{
@@ -363,14 +364,14 @@
 						<option value="상품이름">상품이름</option>
 						<option value="브랜드">브랜드</option>
 					</select>
-					<input id="searchKeyword" name="searchKeyword" type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;" value="${requestScope.search.searchKeyword}">
+					<input id="searchKeyword" class="enterClass" name="searchKeyword" type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;" value="${requestScope.search.searchKeyword}">
 					<br>
 					<div class="price_range">
-						<input id="startPrice" type="number" min="0">원
+						<input id="startPrice" class="enterClass" name="startPrice" type="number" min="0">원
 					</div>
 					&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
 					<div class="price_range">
-						<input id="endPrice" type="number" min="0">원
+						<input id="endPrice" class="enterClass" name="endPrice" type="number" min="0">원
 					</div>
 					<br>
 					<select name="sort" id="sort" style="width: 344px;">
@@ -423,10 +424,19 @@
 		<div id="goods_content">
 			<div style="margin: 10px; font-size: 17px;">등록 제품 : ${requestScope.pi.listCount}</div>
 			<div class="goods_list">
+				
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
 						<div class="goods_number">${g.goodsNo}</div>
-						<div class="goods_img">${g.goodsThumbnail}</div>
+						<div class="goods_img">${g.goodsThumbnail}
+							<c:choose>
+								<c:when test="${g.status eq 'N'}">
+									<img style="display: block; z-index: 10; position: absolute;" src="resources/images/goods/일시품절.png">
+								</c:when>
+								<c:otherwise>
+								</c:otherwise>
+							</c:choose>
+						</div>
 						<div class=goods_title>
 							<div class="goods_name">${g.goodsName}</div>
 						</div>
@@ -434,12 +444,27 @@
 							<div class="goods_maker">
 								${g.mark}
 							</div>
-							<div class="goods_price">
-								${g.price}
-							</div>
-							<div class="goods_discounted">
-								${g.price}
-							</div>
+							<c:choose>
+								<c:when test="${g.discount <= 0.0}">
+									<div class="goods_discounted">
+										<fmt:formatNumber type="number">
+											${g.price}
+										</fmt:formatNumber>
+									</div>
+								</c:when>
+								<c:otherwise>
+									<div class="goods_price">
+										<fmt:formatNumber type="number">
+											${g.price}
+										</fmt:formatNumber>
+									</div>
+									<div class="goods_discounted">
+										<fmt:formatNumber type="number" maxFractionDigits="0">
+											${g.price - (g.price*g.discount)}
+										</fmt:formatNumber>
+									</div>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</div>
 				</c:forEach>
@@ -483,7 +508,7 @@
                     </c:forEach>
                     
                     <c:choose>
-                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+                    	<c:when test="${ (requestScope.pi.currentPage ne requestScope.pi.maxPage) and (requestScope.pi.listCount ne 0) }">
                    			<li class="page-item">
                    				<a class="page-link" href="searching.gs?pageNumber=${ requestScope.pi.currentPage + 1 }">
                    					Next
@@ -511,6 +536,8 @@
 				$("#searchCategory option[value=${requestScope.search.searchCategory}]").attr("selected", true);
 				$("#condition option[value=${requestScope.search.condition}]").attr("selected", true);
 				$("#condition option[value=${requestScope.search.sort}]").attr("selected", true);
+				$("#startPrice").val(${requestScope.search.startPrice});
+				$("#endPrice").val(${requestScope.search.endPrice});
 			}
 		</script>
 
@@ -531,11 +558,11 @@
 		</script>
 
 		<script>
-			$(".goods_img>img").css({"height" : 300, "margin" : 0});
+			$(".goods_img>img").css({"height" : 300, "margin" : 0, position: "absolute", display:"block"});
 		</script>
 
 		<script>
-			$("#searchKeyword").on("keyup", function(key){
+			$(".enterClass").on("keyup", function(key){
 				if(key.keyCode == 13){
 					searching();
 				}

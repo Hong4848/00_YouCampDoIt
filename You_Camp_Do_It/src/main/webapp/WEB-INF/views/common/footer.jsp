@@ -36,7 +36,7 @@
         }
         #p2 {text-align:center;}
         
-        .modal {
+        .footerModal {
 		    display: none; /* 초기 상태 */
 		    position: fixed;
 		    top: 0;
@@ -49,7 +49,7 @@
 		    align-items: center;
 		}
 		
-		.modal_content {
+		.footer_modal_content {
 		    background: #fff;
 		    padding: 20px;
 		    border-radius: 8px;
@@ -62,7 +62,7 @@
 		    max-height: 80%; /* 모달이 너무 커지지 않게 최대 높이 제한 */
 		}
 		
-		.close_modal {
+		.footer_close_modal {
 		    position: absolute;
 		    top: 10px;
 		    right: 10px;
@@ -72,7 +72,7 @@
 		    cursor: pointer;
 		}
 		
-		.modal_cover {
+		.footer_modal_cover {
 		    position: absolute;
 		    top: 0;
 		    left: 0;
@@ -100,10 +100,10 @@
         
         
          <!-- 개인정보취급방침 모달 -->
-	    <div id="privacyModal" class="modal" style="display: none;">
-	        <div class="modal_cover"></div>
-	        <div class="modal_content">
-	            <button id="closePrivacyModal" class="close_modal">닫기</button>
+	    <div id="privacyModal" class="modal footerModal" style="display: none;">
+	        <div class="modal_cover footer_modal_cover"></div>
+	        <div class="modal_content footer_modal_content">
+	            <button id="closePrivacyModal" class="close_modal footer_close_modal">닫기</button>
 	            <div id="privacyContent">
 	                <!-- 약관 내용이 여기에 동적으로 삽입됩니다 -->
 	            </div>
@@ -111,10 +111,10 @@
 	    </div>
 	    
 	    <!-- 이메일무단수집방침 모달 -->
-	    <div id="emailModal" class="modal" style="display: none;">
-	        <div class="modal_cover"></div>
-	        <div class="modal_content">
-	            <button id="closeEmailModal" class="close_modal">닫기</button>
+	    <div id="emailModal" class="modal footerModal" style="display: none;">
+	        <div class="modal_cover footer_modal_cover"></div>
+	        <div class="modal_content footer_modal_content">
+	            <button id="closeEmailModal" class="close_modal footer_close_modal">닫기</button>
 	            <div id="emailContent">
 	                <!-- 약관 내용이 여기에 동적으로 삽입됩니다 -->
 	            </div>
@@ -140,7 +140,7 @@
                 });
             });
 
-            $("#closePrivacyModal, #privacyModal .modal_cover").on("click", function () {
+            $("#closePrivacyModal, #privacyModal .footer_modal_cover").on("click", function () {
                 $("#privacyModal").css("display", "none");
             });
 
@@ -160,7 +160,7 @@
                 });
             });
 
-            $("#closeEmailModal, #emailModal .modal_cover").on("click", function () {
+            $("#closeEmailModal, #emailModal .footer_modal_cover").on("click", function () {
                 $("#emailModal").css("display", "none");
             });
         });

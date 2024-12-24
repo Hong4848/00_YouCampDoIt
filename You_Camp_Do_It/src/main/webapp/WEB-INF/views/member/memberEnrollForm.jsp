@@ -143,7 +143,6 @@
         .password-wrapper input {
             width: 100%; /* 입력 필드 전체 크기 */
             padding-right: 40px; /* 오른쪽에 눈 모양 아이콘이 들어갈 공간 확보 */
-            margin
         }
 
         .password-wrapper .toggle-password {
@@ -504,7 +503,7 @@
     	
     	
     
-        $(function() {
+        $(function(){
             // '인증번호 받기' 버튼 클릭 시 인증번호 입력 필드 보이기
             $("#sendCodeButton").click(function() {
                 $("#verificationFields").removeClass("hidden");
@@ -536,15 +535,19 @@
             // 초기 상태에서 버튼 비활성화
             $sendCodeButton.prop("disabled", true);
             
-            
             // 아이디 중복체크 이벤트
             const $idInput = $("#enrollForm input[name=memberId]");
+           
+            $("#enrollForm input[name=memberId]").on("keyup", function(key){
+            	console.log(key.keyCode);
+			});
             
-            $idInput.keyup(function() {
-            	
+            $idInput.keyup(function(e) {
+            	console.log(e);
             	let checkId = $(this).val();
             	
 				if(checkId.length >= 5) {
+					console.log("중복검사중");
 					
 					// 5글자 이상일 경우
 					// 아이디 중복체크 진행

@@ -59,6 +59,17 @@ public class GoodsServiceImpl implements GoodsService{
 	}
 
 	/**
+	 * 작성일 : 2024.12.24
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 검색 조건에 따른 상품리스트 개수
+	 */
+	@Override
+	public int searchingListCount(Search search) {
+		return goodsDao.searchingListCount(sqlSession, search);
+	}
+	
+	/**
 	 * 작성일 : 2024.12.17
 	 * 작성자 : 박진홍
 	 * 버전 : 1.0.0
