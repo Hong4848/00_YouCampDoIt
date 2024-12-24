@@ -175,6 +175,43 @@
 		 WHERE MEMBER_NO = #{memberNo}
 		   AND STATUS = 'Y'
 	</update>
+	
+	<!--  
+		24.12.24 정성민
+		관리자 페이지 회원 수 조회용
+	-->
+	<select id="ajaxSelectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		  <choose>
+	        <when test="state == '탈퇴한 회원'">
+		 		WHERE STATUS = 'N'
+		 	</when>
+		 	<when test="state == '활동 회원'">
+		 		WHERE STATUS = 'Y'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+	</select>
+
+	<!--  
+		24.12.24 정성민
+		관리자 페이지 회원 목록 조회용
+	-->
+	<select id="ajaxMemberSelect" resultMap="memberResultSet">
+		SELECT * 
+		  FROM MEMBER
+		  <choose>
+	        <when test="state == '탈퇴한 회원'">
+		 		WHERE STATUS = 'N'
+		 	</when>
+		 	<when test="state == '활동 회원'">
+		 		WHERE STATUS = 'Y'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+		ORDER BY MEMBER_NO DESC
+	</select>
 
   
 </mapper>

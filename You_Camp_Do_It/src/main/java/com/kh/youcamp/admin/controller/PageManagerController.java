@@ -38,4 +38,32 @@ public class PageManagerController
 		mv.setViewName("redirect:/");
 		return mv;
 	}
+	
+	
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 페이지 회원관리 페이지 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("memberManageList.me")
+	public ModelAndView memberManagement(ModelAndView mv) {
+		
+		mv.setViewName("member/memberManagementList");
+		return mv;
+	}
+	
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 페이지 예약관리 페이지 요청용 컨트롤러
+	 * @param mv
+	 * @return
+	 */
+	@GetMapping("reserveManageList.res")
+	public ModelAndView reserveManagement(ModelAndView mv) {
+		
+		mv.setViewName("reserve/reserveManagementList");
+		return mv;
+	}
+	
 }

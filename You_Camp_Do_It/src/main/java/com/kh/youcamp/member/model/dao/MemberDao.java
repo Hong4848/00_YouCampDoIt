@@ -1,8 +1,12 @@
 package com.kh.youcamp.member.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
@@ -142,8 +146,22 @@ public class MemberDao {
 	 */
 	public int deleteMember(SqlSessionTemplate sqlSession, String memberId) {
 		int result = sqlSession.update("memberMapper.deleteMember", memberId);
-		System.out.println(result);
 		return result;
+	}
+
+	public int ajaxSelectListCount(SqlSessionTemplate sqlSession, String state) {
+		return sqlSession.selectOne("memberMapper.ajaxSelectListCount", state);
+	}
+
+	public ArrayList<Member> ajaxMemberSelect(SqlSessionTemplate sqlSession, PageInfo pi, String state) {
+		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds 
+				= new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("memberMapper.ajaxMemberSelect", state, rowBounds);
 	}
 
 	

@@ -1,6 +1,9 @@
 package com.kh.youcamp.member.controller;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -15,9 +18,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.kh.youcamp.common.model.vo.PageInfo;
+import com.kh.youcamp.common.template.Pagination;
+import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Search;
 import com.kh.youcamp.member.model.service.MemberService;
 import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
@@ -707,6 +716,36 @@ public class MemberController {
 			return "common/errorPage";
 		}
 	
+	}
+	
+	@ResponseBody
+	@GetMapping(value="ajaxMemberManagement.me", produces="application/json; charset=UTF-8")
+	public String ajaxMemberSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
+			@RequestParam(value="state", defaultValue="전체")String state, 
+			HttpSession session)
+	{
+		
+//		int totalCount = goodsService.totalCount(search);
+//		int onSaleCount = goodsService.onSaleCount(search);
+//		int offSaleCount = goodsService.offSaleCount(search);
+//		int hideCount = goodsService.hideCount(search);
+		
+		int listCount = memberService.ajaxSelectListCount(state);
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Member> list = memberService.ajaxMemberSelect(pi, state);
+		
+		
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("list", list);
+		ajaxList.put("pi", pi);
+		
+		
+		return new Gson().toJson(ajaxList);
 	}
 	
 	

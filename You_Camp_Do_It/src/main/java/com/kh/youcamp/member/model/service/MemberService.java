@@ -2,6 +2,7 @@ package com.kh.youcamp.member.model.service;
 
 import java.util.ArrayList;
 
+import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
 
@@ -48,6 +49,12 @@ public interface MemberService {
 
 	// 회원 탈퇴용 서비스 (update)
 	int deleteMember(String memberId);
+
+	// 관리자 회원 수 조회용 서비스 (select)
+	int ajaxSelectListCount(String state);
+
+	// 관리자 회원 목록 조회용 서비스 (select)
+	ArrayList<Member> ajaxMemberSelect(PageInfo pi, String state);
 
 	
 	

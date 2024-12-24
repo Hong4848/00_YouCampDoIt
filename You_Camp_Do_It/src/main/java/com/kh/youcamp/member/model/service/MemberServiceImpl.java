@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.member.model.dao.MemberDao;
 import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
@@ -147,6 +148,18 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int deleteMember(String memberId) {
 		return memberDao.deleteMember(sqlSession, memberId);
+	}
+
+
+	@Override
+	public int ajaxSelectListCount(String state) {
+		return memberDao.ajaxSelectListCount(sqlSession, state);
+	}
+
+
+	@Override
+	public ArrayList<Member> ajaxMemberSelect(PageInfo pi, String state) {
+		return memberDao.ajaxMemberSelect(sqlSession, pi, state);
 	}
 
 
