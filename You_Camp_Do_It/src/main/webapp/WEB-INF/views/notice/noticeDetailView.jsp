@@ -90,6 +90,21 @@
             justify-content: flex-end; /*오른쪽정렬*/
             gap: 5px; /* 요소 간 간격 */
         }
+        
+        /* Remove the existing buttoncentroller style */
+	    /* Add these new styles */
+	    .btn-sm {
+	        padding: 0.25rem 1rem;
+	        font-size: 0.875rem;
+	    }
+	    
+	    .gap-2 {
+	        gap: 0.5rem !important;
+	    }
+	    
+	    .mt-3 {
+	        margin-top: 1rem !important;
+	    }
 </style>
 </head>
 <body>
@@ -141,7 +156,8 @@
                         		첨부파일이 없습니다.
                         	</c:when>
                         	<c:otherwise>
-                        		<a href="${ pageContext.request.contextPath }/${ requestScope.n.changeName }" download="${ requestScope.n.originName }">
+                        		<a href="${ pageContext.request.contextPath }/${ requestScope.n.changeName }" download="${ requestScope.n.originName }"
+                        				class="btn btn-info btn-sm">
                         			${ requestScope.n.originName }
                         		</a>
                         	</c:otherwise>
@@ -158,35 +174,18 @@
 			    </tr>
             </table>
 
-			<c:if test="${ sessionScope.loginUser.userId eq requestScope.n.noticeWriter }">
-	            <div align="center" id="buttoncentroller">
-                    <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.no">목록</a>
-	            </div>
-	            
-	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="nno" value="${ requestScope.n.noticeNo }">
-	            	<input type="hidden" name="filePath" value="${ requestScope.n.changeName }">
-	            </form>
-	            
-	            <script>
-	            	function postFormSubmit(num) {
-	            		// console.log(num);
-	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.no)
-	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.no)
-	            		
-	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
-	            		// 곧바로 submit 시키기!!
-	            		// attr : 기타 속성
-	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${pageContext.request.contextPath}/updateForm.no").submit();
-	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
-	            		} else { // 삭제하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.no").submit();
-	            		}
-	            	}
-	            </script>
-	            
-            </c:if>
+			<div class="d-flex justify-content-start gap-2 mt-3">
+                <c:if test="${sessionScope.loginMember.memberId eq 'admin'}">
+                <!-- 로그인한 아이디가 'admin'일 경우 수정 및 삭제 버튼 표시 -->
+                    <a class="btn btn-primary btn-sm" href="javascript:postFormSubmit(1)">수정</a>
+                    <a class="btn btn-danger btn-sm" href="javascript:postFormSubmit(2)">삭제</a>                  
+                </c:if>
+                <!-- 로그인한 아이디가 'admin'이 아닐 경우 목록 조회 버튼만 표시 -->
+                <a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/list.no">목록</a>
+            </div>
+
+	
+		            
             
             <br><br>
 
@@ -194,39 +193,35 @@
 
             <hr>
             <table id="writeArea" class="table">
-	            <div class="my-3 p-3 bg-white rounded shadow-sm">
-				
-				    <!-- 다음글 -->
-				    <c:choose>
-				        <c:when test="${not empty nextNotice}">
-				            <div>
-				                다음글 | 
-				                <a href="${pageContext.request.contextPath}/detail.no?nno=${nextNotice.noticeNo}" style="color: black">
-				                    ${nextNotice.noticeTitle}
-				                </a>
-				            </div>
-				        </c:when>
-				        <c:otherwise>
-				            <div>다음글이 없습니다</div>
-				        </c:otherwise>
-				    </c:choose>
-				
-				    <!-- 이전글 -->
-				    <c:choose>
-				        <c:when test="${not empty previousNotice}">
-				            <div>
-				                이전글 | 
-				                <a href="${pageContext.request.contextPath}/detail.no?nno=${previousNotice.noticeNo}" style="color: black">
-				                    ${previousNotice.noticeTitle}
-				                </a>
-				            </div>
-				        </c:when>
-				        <c:otherwise>
-				            <div>이전글이 없습니다</div>
-				        </c:otherwise>
-				    </c:choose>
-				    
-				</div>
+                <div class="my-3 p-3 bg-white rounded shadow-sm">
+                    <c:choose>
+                        <c:when test="${not empty nextNotice}">
+                            <div>
+                                다음글 | 
+                                <a href="${pageContext.request.contextPath}/detail.no?nno=${nextNotice.noticeNo}" style="color: black">
+                                    ${nextNotice.noticeTitle}
+                                </a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div>다음글이 없습니다</div>
+                        </c:otherwise>
+                    </c:choose>
+                
+                    <c:choose>
+                        <c:when test="${not empty previousNotice}">
+                            <div>
+                                이전글 | 
+                                <a href="${pageContext.request.contextPath}/detail.no?nno=${previousNotice.noticeNo}" style="color: black">
+                                    ${previousNotice.noticeTitle}
+                                </a>
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <div>이전글이 없습니다</div>
+                        </c:otherwise>
+                    </c:choose>
+                </div>
             </table>
             
         </div>

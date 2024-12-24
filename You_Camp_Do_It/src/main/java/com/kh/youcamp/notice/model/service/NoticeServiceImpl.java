@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
-import com.kh.youcamp.notice.controller.NoticeController;
 import com.kh.youcamp.notice.model.dao.NoticeDao;
 import com.kh.youcamp.notice.model.vo.Notice;
+
 
 @Service
 public class NoticeServiceImpl implements NoticeService {
@@ -62,6 +62,28 @@ public class NoticeServiceImpl implements NoticeService {
     public List<Integer> getAllNoticeNumbers() {
         return noticeDao.getAllNoticeNumbers(sqlSession);
     }
+
+    // 공지사항 작성
+	@Override
+	public int insertNotice(Notice n) {
+		return noticeDao.insertNotice(sqlSession, n);
+	}
+
+	// 공지사항 삭제
+	@Override
+	@Transactional
+	public int deleteNotice(int noticeNo) {
+		return noticeDao.deleteNotice(sqlSession, noticeNo);
+	}
+
+	// 공지사항 수정
+	@Override
+	@Transactional
+	public int updateNotice(Notice n) {
+		return noticeDao.updateNotice(sqlSession, n);
+	}
+
+
 	
     
 

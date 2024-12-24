@@ -141,13 +141,19 @@ public class ReviewController {
     
     // 게시글 상세보기 요청 메소드
     @GetMapping("detail.re")
-    public ModelAndView selectReview(int reviewNo, ModelAndView mv) {
-    	System.out.println(reviewNo);
+    public ModelAndView selectReview(int reviewNo, ModelAndView mv, HttpSession session) {
+    	
     	// 게시글 정보, 첨부파일 정보 조회
     	Review r = reviewService.selectReview(reviewNo);
     	
     	// 게시글 정보 첨부파일 정보 조회 후 상세페이지 포워딩
     	ArrayList<ReviewAttachment> list = reviewService.selectReviewAttachment(reviewNo);
+    	
+    	// 작성자 이름을 추가
+    	Member loginUser = (Member) session.getAttribute("loginMember");
+        if (loginUser != null) {
+            r.setReviewWriter(loginUser.getMemberName()); // 로그인된 사용자의 이름을 작성자 이름으로 설정
+        }
     	
     	// 조회된 데이터들 담아서 응답페이지로 포워딩
     	mv.addObject("r", r).addObject("list",list).setViewName("review/reviewDetailView");
@@ -197,46 +203,45 @@ public class ReviewController {
                                HttpSession session, 
                                Model model) {
         
-        // 로그인한 사용자 정보 가져오기
+    	// 로그인한 사용자 정보 가져오기
         Member loginUser = (Member) session.getAttribute("loginMember");
         r.setMemberNo(loginUser.getMemberNo());
-        
+
         String savePath = session.getServletContext().getRealPath("/resources/images/review_upfiles/");
-        
+
         // 기존 첨부파일 정보 가져오기
         ArrayList<ReviewAttachment> existingAttachments = reviewService.selectReviewAttachment(r.getReviewNo());
-        
         ArrayList<ReviewAttachment> newAttachments = new ArrayList<>();
 
         for (int i = 0; i < upfiles.length; i++) {
             MultipartFile upfile = upfiles[i];
-            
-            if (!upfile.getOriginalFilename().isEmpty()) {
+
+            if (upfile != null && !upfile.getOriginalFilename().isEmpty()) {
+                // 새 파일 저장
                 String changeName = saveFile(upfile, savePath);
-                
-                // 새 첨부파일 정보 생성
+
                 ReviewAttachment at = new ReviewAttachment();
                 at.setOriginName(upfile.getOriginalFilename());
                 at.setChangeName("/resources/images/review_upfiles/" + changeName);
                 at.setFilePath(changeName);
-                at.setFileLevel(i == 0 ? 1 : 2);
+                at.setFileLevel(i == 0 ? 1 : 2); // 대표 이미지: 1, 상세 이미지: 2
                 at.setReviewNo(r.getReviewNo());
-                
                 newAttachments.add(at);
-                
-                // 기존 첨부파일이 있다면 삭제
+
+                // 기존 파일 삭제
                 if (i < existingAttachments.size()) {
                     String realPath = session.getServletContext().getRealPath(existingAttachments.get(i).getChangeName());
                     new File(realPath).delete();
                 }
             }
         }
-        
+
+        // 새로운 첨부파일 설정
         r.setReviewAttachments(newAttachments);
-        
+
         // 게시글 수정 서비스 호출
         int result = reviewService.updateReview(r);
-        
+
         if (result > 0) {
             session.setAttribute("alertMsg", "게시글 수정 성공");
             return "redirect:detail.re?reviewNo=" + r.getReviewNo();
@@ -244,6 +249,7 @@ public class ReviewController {
             model.addAttribute("errorMsg", "게시글 수정에 실패하였습니다.");
             return "common/errorPage";
         }
+        
     }
 
     // 게시글 삭제하기 요청 메소드

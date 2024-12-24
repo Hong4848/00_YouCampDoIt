@@ -63,7 +63,16 @@ public class ReviewServiceImpl implements ReviewService {
 	@Transactional
 	public int updateReview(Review r) {
 		
-		return reviewDao.updateReview(sqlSession, r);
+		// 기존 첨부파일 삭제
+	    reviewDao.deleteAttachments(sqlSession, r.getReviewNo());
+
+	    // 새 첨부파일 추가
+	    for (ReviewAttachment attachment : r.getReviewAttachments()) {
+	    	reviewDao.insertReviewAttachment(sqlSession, attachment);
+	    }
+
+	    // 게시글 내용 수정
+	    return reviewDao.updateReview(sqlSession, r);
 	}
 	
 

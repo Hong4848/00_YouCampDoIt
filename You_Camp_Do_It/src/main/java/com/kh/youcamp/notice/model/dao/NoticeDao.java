@@ -54,6 +54,21 @@ public class NoticeDao {
     public List<Integer> getAllNoticeNumbers(SqlSessionTemplate sqlSession) {
         return sqlSession.selectList("noticeMapper.getAllNoticeNumbers");
     }
+
+	public int insertNotice(SqlSessionTemplate sqlSession, Notice n) {
+		// insert 구문 : insert 메소드
+		return sqlSession.insert("noticeMapper.insertNotice", n);
+	}
+
+	public int deleteNotice(SqlSessionTemplate sqlSession, int noticeNo) {
+		// update 문 : update 메소드
+		return sqlSession.update("noticeMapper.deleteNotice", noticeNo);
+		
+	}
+
+	public int updateNotice(SqlSessionTemplate sqlSession, Notice n) {
+	    return sqlSession.update("noticeMapper.updateNotice", n);
+	}
 	
 
 

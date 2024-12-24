@@ -29,5 +29,14 @@ public interface NoticeService {
 
     // 전체 공지사항 번호 가져오기
     List<Integer> getAllNoticeNumbers();
+
+    // 공지사항 작성하기 서비스
+	int insertNotice(Notice n);
+
+	// 공지사항 삭제하기 서비스
+	int deleteNotice(int noticeNo);
+
+	// 공지사항 수정하기 서비스
+	int updateNotice(Notice n);
     
 }

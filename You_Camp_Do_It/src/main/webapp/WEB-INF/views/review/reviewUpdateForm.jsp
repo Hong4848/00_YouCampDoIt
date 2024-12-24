@@ -247,43 +247,40 @@
 					
 			       <div class="image-upload-section">
 					    <!-- 대표 이미지 -->
-					    <div class="image-upload">
-					        <label>대표 이미지</label>
-					        <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
-					        <div class="image-preview" onclick="document.getElementById('mainImage').click()">
-					            <img 
-					                src="${not empty r.reviewAttachments[0].changeName ? contextPath.concat(r.reviewAttachments[0].filePath).concat(r.reviewAttachments[0].changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}"
-					                id="mainImagePreview"
-					                style="width: ${not empty r.reviewAttachments[0].changeName ? '100%' : '20px'}; 
-					                       height: ${not empty r.reviewAttachments[0].changeName ? '100%' : '20px'}; 
-					                       object-fit: cover;" />
-					        </div>
-					    </div>
-					
-					    <!-- 상세 이미지 1 -->
-					    <div class="image-upload">
-					        <label for="detailImage1">상세 이미지 1</label>
-					        <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview1')"/>
-					        <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
-					            <img 
-									src="${not empty r.reviewAttachments[1].changeName ? contextPath.concat(r.reviewAttachments[1].filePath).concat(r.reviewAttachments[1].changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}"
-					                id="detailImagePreview1"
-					                style="width: ${not empty r.reviewAttachments[1].changeName ? '100%' : '20px'}; 
-					                       height: ${not empty r.reviewAttachments[1].changeName ? '100%' : '20px'}" /> 
-					        </div>
-					    </div>
-					
-					    <!-- 상세 이미지 2 -->
-					    <div class="image-upload">
-					        <label for="detailImage2">상세 이미지 2</label>
-					        <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" onchange="previewImage(event, 'detailImagePreview2')"/>
-					        <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
-					            <img 
-					                src="${not empty r.reviewAttachments[2].changeName ? contextPath.concat(r.reviewAttachments[2].filePath).concat(r.reviewAttachments[2].changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}"
-					                id="detailImagePreview2"
-					                style="width: ${not empty r.reviewAttachments[2].changeName ? '100%' : '20px'}; height: ${not empty r.reviewAttachments[2].changeName ? '100%' : '20px'}"/> 
-					        </div>
-					    </div>
+						<div class="image-upload">
+						    <label>대표 이미지</label>
+						    <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
+						    <div class="image-preview" onclick="document.getElementById('mainImage').click()">
+						        <img 
+						            src="${mainImage != null ? contextPath.concat(mainImage.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
+						            id="mainImagePreview" 
+						            style="width: ${mainImage != null ? '100%' : '20px'}; height: ${mainImage != null ? '100%' : '20px'}; object-fit: cover;" />
+						    </div>
+						</div>
+						
+						<!-- 상세 이미지 1 -->
+						<div class="image-upload">
+						    <label for="detailImage1">상세 이미지 1</label>
+						    <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" />
+						    <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
+						        <img 
+						            src="${detailImage1 != null ? contextPath.concat(detailImage1.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
+						            id="detailImagePreview1" 
+						            style="width: ${detailImage1 != null ? '100%' : '20px'}; height: ${detailImage1 != null ? '100%' : '20px'}; object-fit: cover;" />
+						    </div>
+						</div>
+						
+						<!-- 상세 이미지 2 -->
+						<div class="image-upload">
+						    <label for="detailImage2">상세 이미지 2</label>
+						    <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" />
+						    <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
+						        <img 
+						            src="${detailImage2 != null ? contextPath.concat(detailImage2.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
+						            id="detailImagePreview2" 
+						            style="width: ${detailImage2 != null ? '100%' : '20px'}; height: ${detailImage2 != null ? '100%' : '20px'}; object-fit: cover;" />
+						    </div>
+						</div>
 					</div>
 					
 					<br>

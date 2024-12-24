@@ -160,6 +160,15 @@
         /*페이징바*/
         #pagingArea {width:fit-content; margin:auto;}
         
+        /*글작성버튼*/
+		#write {
+            border : none;
+            height: 35px;
+        }
+        #writeBtn {
+            display: flex;
+            justify-content: flex-end; /* 버튼을 오른쪽 끝으로 배치 */
+        }
 
     </style>
 </head>
@@ -310,8 +319,18 @@
                    	</c:choose>
                 </ul>
             </div>
+
+            <div id="writeBtn">
+			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin' }">
+			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
+			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.no'">글작성</button>
+			    </c:if>
+			</div>
+            
+ 
         </div>
     </div> <!--content 영역 끝 -->
+    
     
     <jsp:include page="../common/footer.jsp" />
     

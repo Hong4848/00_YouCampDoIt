@@ -62,6 +62,15 @@ public class ReviewDao {
 	public int deleteReview(SqlSessionTemplate sqlSession, int reviewNo) {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
 	}
+	
+	// 첨부파일 삭제
+	public int deleteAttachments(SqlSessionTemplate sqlSession, int reviewNo) {
+	    return sqlSession.update("reviewMapper.deleteAttachments", reviewNo);
+	}
+
+
+
+
 
 
         
