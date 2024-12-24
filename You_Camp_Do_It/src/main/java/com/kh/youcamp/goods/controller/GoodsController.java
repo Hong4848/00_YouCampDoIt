@@ -60,7 +60,7 @@ public class GoodsController
 		
 		return "goods/shoppingMall";
 	}
-	
+
 	@ResponseBody
 	@PostMapping(value="enrollGoods.gs", produces="text/html; charset=UTF-8")
 	public String insertGoods(Goods g, HttpSession session)

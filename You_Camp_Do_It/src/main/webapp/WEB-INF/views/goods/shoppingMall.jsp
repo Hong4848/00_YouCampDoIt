@@ -389,38 +389,39 @@
             </div>
 			<div style="height: 100px;"></div>
 		</div>
-		<script>
-			 $(".shoppingMall_category").hover(function(){
-                $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
-            },
-            function(){
-                $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
-            });
-		</script>
-		<script>
-			$(".goods_container").click(function(){
-				let goodsNo = $(this).children(".goods_number").text();
-				location.href="goodsDetail.gs?goodsNo="+goodsNo;
-			});
-		</script>
-
-		<script>
-			$(".goods_img>img").css({"height" : 300, "margin" : 0, position: "absolute", display:"block"});
-		</script>
-		<script>
-			$("#searchTitle").on("keyup", function(key){
-				if(key.keyCode == 13){
-					searching();
-				}
-			});
-
-			$("#searchingA").click(function(){
-				searching();
-			});
-			
-			function searching(){
-				$("#searchForm").submit();
-			}
-		</script>
+		<jsp:include page="../common/footer.jsp" />
 	</body>
+	<script>
+		$(".shoppingMall_category").hover(function(){
+		   $(this).children(".category_list").css("opacity", "1.0").css("margin-top", "10px").css("z-index", 3);
+	   },
+	   function(){
+		   $(this).children(".category_list").css("opacity", "0.0").css("margin-top", "0px").css("z-index", 1);
+	   });
+   </script>
+   <script>
+	   $(".goods_container").click(function(){
+		   let goodsNo = $(this).children(".goods_number").text();
+		   location.href="goodsDetail.gs?goodsNo="+goodsNo;
+	   });
+   </script>
+
+   <script>
+	   $(".goods_img>img").css({"height" : 300, "margin" : 0, position: "absolute", display:"block"});
+   </script>
+   <script>
+	   $("#searchTitle").on("keyup", function(key){
+		   if(key.keyCode == 13){
+			   searching();
+		   }
+	   });
+
+	   $("#searchingA").click(function(){
+		   searching();
+	   });
+	   
+	   function searching(){
+		   $("#searchForm").submit();
+	   }
+   </script>
 </html>
