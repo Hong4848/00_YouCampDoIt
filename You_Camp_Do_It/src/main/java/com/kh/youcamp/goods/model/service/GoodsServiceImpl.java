@@ -193,6 +193,17 @@ public class GoodsServiceImpl implements GoodsService{
 	public int ajaxGoodsDetailUpdate(Goods g) {
 		return goodsDao.ajaxGoodsDetailUpdate(sqlSession, g);
 	}
+	
+	/**
+	 * 작성일 : 2024.12.24
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 관리자 페이지에서 업데이트 페이지로 이동
+	 */
+	@Override
+	public Goods adminUpdateGoods(int goodsNo) {
+		return goodsDao.adminUpdateGoods(sqlSession, goodsNo);
+	}
 
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -215,4 +226,6 @@ public class GoodsServiceImpl implements GoodsService{
 	public ArrayList<Goods> selectGoodsThumbnailListByOrderNo(int orderNo) {
 		return goodsDao.selectGoodsThumbnailListByOrderNo(sqlSession, orderNo);
 	}
+
+	
 }

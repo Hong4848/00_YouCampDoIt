@@ -51,7 +51,12 @@ public class GoodsDao {
 		
 		int start = (pi.getCurrentPage() - 1) * pi.getBoardLimit()+1;
 		int end = start+pi.getBoardLimit()-1;
-		
+		if(search.getStartPrice() == "") {
+			search.setStartPrice("0");
+		}
+		if(search.getEndPrice() == "") {
+			search.setEndPrice("0");
+		}
 		int startPrice = Integer.parseInt(search.getStartPrice());
 		int endPrice = Integer.parseInt(search.getEndPrice());
 		
@@ -133,6 +138,11 @@ public class GoodsDao {
 	/* 관리자 페이지 상세 정보 수정 */
 	public int ajaxGoodsDetailUpdate(SqlSessionTemplate sqlSession, Goods g) {
 		return sqlSession.update("goodsMapper.ajaxGoodsDetailUpdate", g);
+	}
+	
+	/* 관리자 페이지 상세 정보 업데이트 페이지 이동 */
+	public Goods adminUpdateGoods(SqlSessionTemplate sqlSession, int goodsNo) {
+		return sqlSession.selectOne("goodsMapper.adminUpdateGoods", goodsNo);
 	}
 	
 /************************************************************************************************************************/	

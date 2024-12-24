@@ -137,8 +137,6 @@ public class GoodsController
 			pi.setListCount(list.size());
 		}
 		
-		System.out.println(pi);
-		
 		model.addAttribute("list", list);
 		model.addAttribute("pi", pi);
 		model.addAttribute("search", search);
@@ -216,42 +214,23 @@ public class GoodsController
 		
 	}
 	
-	/* 일단은 배제
-	@PostMapping("ajaxSearching.gs")
-	public String ajaxSearchingGoods(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
-			Search search, HttpSession session, Model model)
-	{
-		System.out.println(search);
-		int listCount = goodsService.selectListCount();
-		int pageLimit = 5;
-		int boardLimit = 8;
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+	@GetMapping("adminUpdateGoods.ma")
+	public String adminUpdateGoods(int goodsNo, Model model){
 		
-		ArrayList<Goods> list = goodsService.searchingGoods(search, pi);
-		
-		//섬네일 이미지 추출
-		for(Goods g : list)
-		{
-			String s = "<img src="; // 이미지 태그 찾기
-			String body = g.getGoodsThumbnail();
-			int start = 0;
-			int end = 0;
+		Goods goods = goodsService.adminUpdateGoods(goodsNo);
 			
-			start = body.indexOf(s);
-			body = body.substring(start);
-			end = body.indexOf(">");
-			body = body.substring(0, end+1);
-			
-			g.setGoodsThumbnail(body);
-		}
+		String s = "<img src="; // 이미지 태그 찾기
+		String body = goods.getGoodsThumbnail();
+		int start = 0;
+		int end = 0;
+		start = body.indexOf(s);
+		body = body.substring(start);
+		end = body.indexOf(">");
+		body = body.substring(0, end+1);
+		goods.setGoodsThumbnail(body);
 		
-		pi.setListCount(list.size());
-		
-		model.addAttribute("list", list);
-		model.addAttribute("pi", pi);
-		model.addAttribute("search", search);
-		
-		return "goods/searchShoppingMall";
+		model.addAttribute("goods", goods);
+
+		return "goods/updateProduct";
 	}
-	*/ 
 }

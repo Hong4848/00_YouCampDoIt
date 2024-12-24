@@ -121,8 +121,9 @@
                 display: flex;
                 justify-content:left;
                 text-align: center;
-                cursor: pointer;
             }
+            
+            
 
             .goodsNo_checkbox{
                 width: 5%;
@@ -266,6 +267,10 @@
                 outline: 0px;
                 appearance:none
             }
+            
+            .ajaxClick{
+            	cursor: pointer;
+            }
         </style>
     </head>
     <body>
@@ -281,7 +286,7 @@
                 <div class="management_content">
                     <div class="choiceMenuBar">
                         <div id="choiceGoods">
-                            <div id="choiceName">5-6인 고급원터치자동 텐트</div>
+                            <div id="choiceName">정보없음</div>
                             <div id="choiceDetail">
                                 <div id="choiceDetailTitle">
                                     <div>가격</div>
@@ -291,18 +296,18 @@
                                     <div>판매상태</div>
                                 </div>
                                 <div id="choiceDetailContent">
-                                    <div style="display:none" id="choiceNo">1</div>
+                                    <div style="display:none" id="choiceNo">0</div>
                                     <div id="choicePrice">
-                                        <input class="inputType" type="number" value="10000">원
+                                        <input class="inputType" type="number" value="0">원
                                     </div>
                                     <div id="choiceTotalStock">
-                                        <input class="inputType" type="number" value="1000">개
+                                        <input class="inputType" type="number" value="0">개
                                     </div>
                                     <div id="choiceStock">
-                                        <input class="inputType" type="number" value="1000">개
+                                        <input class="inputType" type="number" value="0">개
                                     </div>
                                     <div id="choiceDiscount">
-                                        <input class="inputType" type="number" value="70">%
+                                        <input class="inputType" type="number" value="0">%
                                     </div>
                                     <div id="choiceStatus">
                                         <select name="goodsStatus" id="goodsStatus">
@@ -616,7 +621,7 @@
 
     <!-- 상품정보수정 클릭 이벤트 -->
     <script>
-        $(document).on("click", ".goodsListInfo", function(){
+        $(document).on("click", ".ajaxClick", function(){
             let goodsNo = $(this).find(".labelClass").text();
             goodsUpdateAjax(goodsNo);
         })
@@ -682,11 +687,7 @@
 	        }
             else{
                 if(parseInt(totalStock) < parseInt(remainStock)){
-                    let remain = remainStock;
-                    let total = totalStock;
-
-                    remainStock = total;
-                    totalStock = remain;
+                    totalStock = remainStock;
                 }
 
                 if(remainStock == 0 && status == 'Y'){
@@ -733,5 +734,13 @@
                 }
             });
         }
+    </script>
+
+    <!-- 상품 상세 내용 수정 이벤트(페이지 이동) -->
+    <script>
+        $(".updateBtn").click(()=>{
+            let goodsNo = $("#choiceNo").text();
+            location.href = "adminUpdateGoods.ma?goodsNo="+goodsNo;
+        })
     </script>
 </html>

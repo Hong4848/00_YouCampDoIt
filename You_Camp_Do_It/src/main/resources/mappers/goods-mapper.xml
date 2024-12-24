@@ -251,6 +251,13 @@
 		   AND STATUS IN ('Y', 'N')
  	</select>
  	
+ 	<!-- 관리자용 상세페이지 조회 -->
+ 	<select id="adminUpdateGoods" resultMap="goodsResultSet">
+ 		SELECT *
+		  FROM GOODS
+		 WHERE GOODS_NO = #{goodsNo}
+ 	</select>
+ 	
  	<!-- 관리자 페이지 선택적 리스트 개수 -->
  	<select id="ajaxSelectListCount" resultType="_int">
  		SELECT COUNT(*)

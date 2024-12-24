@@ -34,6 +34,8 @@ public int insertGoods(Goods g);
 	public Goods ajaxGoodsDetail(int goodsNo);
 
 	public int ajaxGoodsDetailUpdate(Goods g);
+	
+	public Goods adminUpdateGoods(int goodsNo);
 
 /************************************************************************************************************************/	
 /************************************************************************************************************************/
