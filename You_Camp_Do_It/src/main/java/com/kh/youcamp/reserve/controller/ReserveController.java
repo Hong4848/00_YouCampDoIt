@@ -647,6 +647,8 @@ public class ReserveController {
 		return mv;
 	}
 	
+	
+	// text code ---------------------------------------------
 	@GetMapping("cancleTest.rev")
 	public ModelAndView cancleReqTest(ModelAndView mv) {
 		
@@ -662,6 +664,7 @@ public class ReserveController {
 		
 		return mv;
 	}
+	// text code ---------------------------------------------
 	
 	
 	/**
