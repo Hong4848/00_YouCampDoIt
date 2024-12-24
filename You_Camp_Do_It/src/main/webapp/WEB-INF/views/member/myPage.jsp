@@ -184,7 +184,7 @@
 	                <img src="resources/images/member/GoodsRentalIcon.png" alt="대여내역 아이콘">
 	                <span>대여내역</span>
 	            </a>
-	            <a href="#4" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/reserveList.res" class="menu-item">
 	                <img src="resources/images/member/ReservationListIcon.png" alt="예약내역 아이콘">
 	                <span>예약내역</span>
 	            </a>

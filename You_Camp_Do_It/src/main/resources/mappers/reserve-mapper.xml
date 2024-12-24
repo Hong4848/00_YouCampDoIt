@@ -93,10 +93,10 @@
 		                    #{endDate},
 		                    #{nights},
 		                    #{memberCount},
-		                    '12345',
+		                    #{paymentId},
 		                    #{price},
 		                    SYSDATE,
-		                    'CARD',
+		                    #{paymentMethod},
 		                    'PAID',
 		                    #{memberNo},
 		                    #{campsiteId})
@@ -151,7 +151,7 @@
 	-->
 	
 	<select id="selectReserve" parameterType="_int" resultMap="reserveResultSet">
-		SELECT R.RESERVE_NO, R.PAYMENT_DATE, R.START_DATE, R.END_DATE, R.PAYMENT_METHOD, R.PAYMENT_STATUS, R.PRICE, R.MEMBER_COUNT, R.NIGHTS, C.SPOT_NO, C.SECTION
+		SELECT R.RESERVE_NO, R.PAYMENT_DATE, R.START_DATE, R.END_DATE, R.PAYMENT_METHOD, R.PAYMENT_STATUS, R.PRICE, R.MEMBER_COUNT, R.PAYMENT_ID, R.NIGHTS, C.SPOT_NO, C.SECTION
 		  FROM RESERVE R
 		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
 		 WHERE RESERVE_NO = #{rno}

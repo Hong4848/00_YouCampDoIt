@@ -792,15 +792,85 @@
         <div id="content_2">
             <fieldset>
                 <legend style="display: none;">실시간예약</legend>
-                <form id="orderInfoForm" name="orderInfoForm" action="reserveRequirePay.res" method="post">
+                <form id="orderInfoForm" name="payForm" action="reserveComplete.res" method="post">
+                    <!-- 
+                        이 폼 넘겨서 js 로 결제함수 실행 후
+                        데이터를 url 로넘기니
+                        결제 완료데이터를 가공하고, 완료 페이지를 띄울 url 및 컨트롤러를 호출해야함
+                        reserveComplete.res
+                        >  reserveComplete.res 로 수정
+                    -->
                     
                     <input type="hidden" name="startDate" value="${ requestScope.r.startDate }">
                     <input type="hidden" name="endDate" value="${ requestScope.r.endDate }">
                     <input type="hidden" name="nights" value="${ requestScope.r.nights }">
-                    <input type="hidden" name="price" value="">
+                    <input type="hidden" name="price" value="${requestScope.r.price}">
                     <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
+                    <!-- 멤버카운트 무엇? -->
+
+                    <!-- 결제에 필요한 정보들 -->
+                    <table class="order-info-table">
+						<!-- 일단, 카드결제만 가능하게 처리 -->
+						<tr hidden>
+							<th><span>결제 수단</span></th>
+							<td><input type="text" name="PayMethod" value="CARD"></td>
+						</tr>
+						<!-- 상품명 일단 사이트명으로 설정 -->
+						<tr hidden>
+							<th><span>결제 상품명</span></th>
+							<td><input type="text" name="GoodsName" value="${ requestScope.r.campsiteId }"></td>
+						</tr>
+						<tr hidden>
+							<th><span>결제 상품금액</span></th>
+							<td><input type="text" name="Amt" value="${requestScope.r.price}" readOnly></td>
+						</tr>				
+						<tr hidden>
+							<th><span>상점 아이디</span></th>
+							<td><input type="text" name="MID" value="${merchantID}"></td>
+						</tr>	
+						<tr hidden>
+							<th><span>상품 주문번호</span></th>
+							<td><input type="text" name="Moid" value="${moid}" readOnly></td>
+						</tr> 
+						<tr hidden>
+							<th><span>구매자명</span></th>
+							<td><input type="text" name="BuyerName" value="${sessionScope.loginMember.memberName}"></td>
+						</tr>	 
+						<tr hidden>
+							<th>구매자명 이메일</th>
+							<td><input type="text" name="BuyerEmail" value="${sessionScope.loginMember.email}"></td>
+						</tr>			
+						<tr hidden>
+							<th><span>구매자 연락처</span></th>
+							<td><input type="text" name="BuyerTel" value="${sessionScope.loginMember.phone}"></td>
+						</tr>	 
+						<%--<tr>
+							<th><span>인증완료 결과처리 URL<!-- (모바일 결제창 전용)PC 결제창 사용시 필요 없음 --></span></th>
+							<td><input type="text" name="ReturnURL" value="${returnURL}"></td>
+						</tr> 
+						<tr>
+							<th>가상계좌입금만료일(YYYYMMDD)</th>
+							<td><input type="text" name="VbankExpDate" value=""></td>
+						</tr> --%>		
+						
+									
+						<!-- 옵션 --> 
+						<input type="hidden" name="GoodsCl" value="1"/>						<!-- 상품구분(실물(1),컨텐츠(0)) -->
+						<input type="hidden" name="TransType" value="0"/>					<!-- 일반(0)/에스크로(1) --> 
+						<input type="hidden" name="CharSet" value="utf-8"/>					<!-- 응답 파라미터 인코딩 방식 -->
+						<input type="hidden" name="ReqReserved" value=""/>					<!-- 상점 예약필드 -->
+									
+						<!-- 변경 불가능 -->
+						<input type="hidden" name="EdiDate" value="${ediDate}"/>			<!-- 전문 생성일시 -->
+						<input type="hidden" name="SignData" value="${hashString}"/>	<!-- 해쉬값 -->
+
+						<!-- order UPDATE에 필요한 정보 -->
+						<input type="hidden" name="orderNo" 
+							   value="${requestScope.order.orderNo}"/>
+
+					</table>
 
                     <div class="pc_wrap">
                         <!-- 캠핑 사이트 사진, 이용가능시설-->
@@ -1333,7 +1403,7 @@
 
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">취소</a>
-                                <button type="submit" class="wid_70 btnPay">결제</button>
+                                <button type="button" class="wid_70 btnPay" onClick="nicepayStart();">결제</button>
                             </div>
 
 
@@ -1351,8 +1421,30 @@
     </div>
     </div>
 
+    <script src="https://pg-web.nicepay.co.kr/v3/common/js/nicepay-pgweb.js" type="text/javascript"></script>
+
     <script>
+
+            //결제창 최초 요청시 실행됩니다.
+            function nicepayStart(){
+                goPay(document.payForm);
+            }
+
+            //[PC 결제창 전용]결제 최종 요청시 실행됩니다. <<'nicepaySubmit()' 이름 수정 불가능>>
+            function nicepaySubmit(){
+                document.payForm.submit();
+            }
+
+            //[PC 결제창 전용]결제창 종료 함수 <<'nicepayClose()' 이름 수정 불가능>>
+            function nicepayClose(){
+                alert("결제가 취소 되었습니다");
+            }
+
+
         $(function() {
+
+            
+
             $(".btn_show").on("click", function (e) {
 		        e.preventDefault();
 		        const $agreeTxt = $(this).siblings(".agree_txt");

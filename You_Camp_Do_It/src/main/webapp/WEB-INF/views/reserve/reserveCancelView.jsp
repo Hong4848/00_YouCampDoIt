@@ -674,8 +674,10 @@
         <div id="content_2">
             <fieldset>
                 <legend style="display: none;">실시간예약</legend>
-                <form id="orderInfoForm" name="orderInfoForm" action="reserveRequirePay.res" method="post">
+                <form id="orderInfoForm" name="cancelForm" 
+                      action="reserveCancelRequest.res" method="post" target="_self">
                     
+                    <input type="hidden" name="reserveNo" value="${ requestScope.r.reserveNo }">
                     <input type="hidden" name="startDate" value="${ requestScope.r.startDate }">
                     <input type="hidden" name="endDate" value="${ requestScope.r.endDate }">
                     <input type="hidden" name="nights" value="${ requestScope.r.nights }">
@@ -683,6 +685,26 @@
                     <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
+
+                    <!-- 결제 취소 시 필요한 정보들들 -->
+                    <table hidden>
+                        <tr>
+                            <th>원거래 ID</th>
+                            <td><input type="text" name="TID" value="${ requestScope.r.paymentId }" /></td>
+                        </tr>
+                        <tr>
+                            <th>취소 금액</th>
+                            <td><input type="text" name="CancelAmt" value="${ requestScope.r.price }" /></td>
+                        </tr>
+                        <tr>
+                            <th>부분취소 여부</th>
+                            <td>
+                                <input type="radio" name="PartialCancelCode" value="0" checked="checked"/> 전체취소
+                                <input type="radio" name="PartialCancelCode" value="1"/> 부분취소
+                            </td>
+                        </tr>
+                    </table>
+
 
                     <div class="pc_wrap">
                         <!-- 캠핑 사이트 사진, 이용가능시설-->
@@ -958,7 +980,9 @@
 
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">이전</a>
-                                <button type="button" class="wid_70 btnCancel">취소하기</button>
+                                <button type="button" class="wid_70 btnCancel" onClick="reqCancel();">취소하기</button>
+                                <!-- 이버튼 누르면 취소 요청 들거가게 -->
+                                 <!-- 만약 폼테그이면 췌소에 필요한 정보들 들어가게. -->
                             </div>
 
 
@@ -976,7 +1000,19 @@
     </div>
     </div>
 
+    
+    <jsp:include page="../common/footer.jsp" />
+
+    <script src="https://pg-web.nicepay.co.kr/v3/common/js/nicepay-pgweb.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        function reqCancel(){
+            document.cancelForm.submit();
+        }
+    </script>
+
     <script>
+
         $(function() {
             $(".btn_show").on("click", function (e) {
 		        e.preventDefault();
@@ -999,7 +1035,8 @@
             		return false;
             	} 
            	    
-           	    location.href="reserveCancelRequest.res?reserveNo=${requestScope.r.reserveNo}";
+                // db 변동 관련은 post 방식으로
+           	    // location.href="reserveCancelRequest.res?reserveNo=${requestScope.r.reserveNo}";
             	
             	
             	
@@ -1079,7 +1116,6 @@
         
     </script>
     
-    <jsp:include page="../common/footer.jsp" />
     
 </body>
 </html>
