@@ -131,6 +131,15 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.insertTempReserve(sqlSession, r);
 	}
 
+	/**
+	 * 24.12.24 정성민
+	 * 임시 예약 delete 용 서비스 메소드
+	 */
+	@Override
+	public int deleteTempReserve(int reserveNo) {
+		return reserveDao.deleteTempReserve(sqlSession, reserveNo);
+	}
+
 	
 	
 

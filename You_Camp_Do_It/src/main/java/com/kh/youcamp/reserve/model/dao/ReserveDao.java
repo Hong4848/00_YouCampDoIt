@@ -140,6 +140,16 @@ public class ReserveDao {
 		return sqlSession.insert("reserveMapper.insertTempReserve", r);
 	}
 
+	/**
+	 * 24.12.24 정성민
+	 * @param sqlSession
+	 * @param reserveNo
+	 * @return
+	 */
+	public int deleteTempReserve(SqlSessionTemplate sqlSession, int reserveNo) {
+		return sqlSession.delete("reserveMapper.deleteTempReserve", reserveNo);
+	}
+
 	
 
 	

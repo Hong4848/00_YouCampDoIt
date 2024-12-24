@@ -1,11 +1,19 @@
 package com.kh.youcamp.reserve.controller;
 
 
+import java.io.File;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +39,9 @@ public class ReserveController {
 
 	@Autowired
 	private ReserveService reserveService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	
 	/**
@@ -127,9 +138,12 @@ public class ReserveController {
 	 * 24.12.20 정성민
 	 * 캠핑장 결제 완료 후 예약 확인 페이지 접속요청 컨트롤러
 	 * @return
+	 * @throws MessagingException 
 	 */
-	@PostMapping("reserveComplete.res")
-	public ModelAndView toReserveComplete(Reserve r, ModelAndView mv, HttpSession session) {
+	@PostMapping("reserveRequirePay.res")
+	public ModelAndView toReserveComplete(Reserve r, ModelAndView mv, HttpSession session) throws MessagingException {
+		
+		System.out.println(r);
 		
 		// 예약 정보 insert 하기
 		int result = reserveService.insertReserve(r);
@@ -141,13 +155,99 @@ public class ReserveController {
 			// 예약 번호에 맞는 예약 정보 조회해오기
 			Reserve reserveInfo = reserveService.selectAfterReserve(rNum);
 			
-			session.setAttribute("alertMsg", "캠핑장 예약에 성공했습니다!");
+			System.out.println(reserveInfo);
 			
-			String afterPayment = "o";
+			if(reserveInfo != null) {
+				session.setAttribute("alertMsg", "캠핑장 예약에 성공했습니다!");
+				
+				String afterPayment = "o";
+				
+				mv.addObject("r", reserveInfo)
+				  .addObject("afterPayment", afterPayment)
+				  .setViewName("reserve/reserveCompleteView");
+				
+				Member loginMember = (Member)session.getAttribute("loginMember");
+				
+				MimeMessage message = mailSender.createMimeMessage();
+				
+				MimeMessageHelper mimeMessageHelper
+				= new MimeMessageHelper(message, true, "UTF-8");
+				
+				String formattedStartDate = reserveInfo.getStartDate().substring(0, 10);
+				String formattedPaymentDate = reserveInfo.getPaymentDate().substring(0, 19); // "2024-12-22 01:34:25"
+				
+				int price = reserveInfo.getPrice(); // 결제금액은 int로 가정
+				String formattedPrice = NumberFormat.getInstance().format(price) + "원";
+				
+				String emailContent = 
+					    "<div style='font-family: Arial, sans-serif; background-color: #f8f8f8; padding: 20px;'>"
+					        + "<div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>"
+					            + "<div style='padding: 20px; text-align: center; background-color: #4CAF50; border-radius: 8px 8px 0 0;'>"
+					                + "<img src='cid:companyLogo' alt='YouCampDoIt 로고' style='width: 150px;'>"
+					                + "<h1 style='color: #ffffff; margin: 0;'>YouCampDoIt</h1>"
+					                + "<p style='color: #ffffff; font-size: 16px;'>자연과 캠핑을 사랑하는 당신을 환영합니다!</p>"
+					            + "</div>"
+					            + "<div style='padding: 20px;'>"
+					                + "<h2 style='color: #333333; text-align: center;'>예약 정보 안내</h2>"
+					                + "<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>예약번호</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + reserveInfo.getReserveNo() + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>예약자명</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + loginMember.getMemberName() + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>생년월일</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + loginMember.getBirthDate() + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>예약일자</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + formattedStartDate + " (" + reserveInfo.getNights() + "박)" + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>사이트명</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + reserveInfo.getSection() + "-" + reserveInfo.getSpotNo() + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>결제일자</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + formattedPaymentDate + "</td>"
+					                    + "</tr>"
+					                    + "<tr>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>결제금액</td>"
+					                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + formattedPrice + "</td>"
+					                    + "</tr>"
+					                + "</table>"
+					                + "<p style='color: #666666; font-size: 14px; text-align: center;'>"
+					                    + "이용해 주셔서 감사합니다.<br>캠핑장에서 뵙겠습니다!"
+					                + "</p>"
+					            + "</div>"
+					            + "<div style='padding: 10px; background-color: #f1f1f1; text-align: center; font-size: 12px; color: #666;'>"
+					                + "<p style='margin: 0;'>본 메일은 YouCampDoIt 캠핑장에서 발송되었습니다.</p>"
+					                + "<p style='margin: 5px 0;'>문의사항은 youcampdoit123@gmail.com 으로 연락 바랍니다.</p>"
+					            + "</div>"
+					        + "</div>"
+					    + "</div>";
+				
+				// 메세지 정보 담기
+				mimeMessageHelper.setSubject("[YouCampDoIt] 예약 안내");
+				mimeMessageHelper.setText(emailContent, true); // 내용
+				
+				mimeMessageHelper.setTo(loginMember.getEmail());
+				
+				FileSystemResource logo = new FileSystemResource(new File("C:\\YouCampDoIt\\You_Camp_Do_It\\src\\main\\webapp\\resources\\images\\mainPage\\메인로고.png")); // 로고 이미지 파일 경로
+				mimeMessageHelper.addInline("companyLogo", logo);
+				
+				mailSender.send(message);
+				
+				
+			} else {
+				
+				mv.addObject("errorMsg", "결제 실패!")
+				  .setViewName("common/errorPage");
+			}
 			
-			mv.addObject("r", reserveInfo)
-			  .addObject("afterPayment", afterPayment)
-			  .setViewName("reserve/reserveCompleteView");
 			
 		} else {
 			
@@ -282,17 +382,18 @@ public class ReserveController {
 	 * @param r
 	 * @return
 	 */
-	@PostMapping(value="idCheck.me", produces="text/html; charset=UTF-8")
+	@ResponseBody
+	@PostMapping(value="checkDuplicate.res", produces="text/html; charset=UTF-8")
 	public String selectTempReserve(Reserve r) {
 		
 		Reserve r1 = reserveService.selectTempReserve(r);
 		
 		if(r1 == null) {
 			
-			return "해당 자리 존재";
+			return "해당 자리 이용 가능";
 		} else {
 			
-			return "해당 자리 이용 가능";
+			return "해당 자리 존재";
 		}
 	}
 	
@@ -303,7 +404,8 @@ public class ReserveController {
 	 * @param r
 	 * @return
 	 */
-	@PostMapping(value="tempInsert.me", produces="text/html; charset=UTF-8")
+	@ResponseBody
+	@PostMapping(value="tempInsert.me", produces="application/json; charset=UTF-8")
 	public String insertTempReserve(Reserve r) {
 		
 		int randomNumber = (int)(Math.random() * 900000) + 100000; // 100000 ~ 999999
@@ -311,14 +413,46 @@ public class ReserveController {
 		
 		int result = reserveService.insertTempReserve(r);
 		
+		JSONObject jObj = new JSONObject();
 		
-		
-		if(result < 0) {
+		if(result > 0) {
 			
-			return "임시 예약 실패";
+			// 방금 insert 한 예약 데이터의 예약번호 가져오기
+			int rNum = reserveService.selectReserveNo();
+			
+			jObj.put("status", "success");
+			jObj.put("reserveNo", rNum);
+		} else {
+			jObj.put("status", "fail");
+			jObj.put("reserveNo", null);
+			
+		}	
+		
+		return jObj.toJSONString();
+		
+	}
+	
+	/**
+	 * 24.12.23 정성민
+	 * 임시 예약 delete 용 컨트롤러
+	 * @param tempReserveNo
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping(value="tempDelete.me", produces="text/html; charset=UTF-8")
+	public String deleteTempReserve(int reserveNo) {
+		
+		
+		int result = reserveService.deleteTempReserve(reserveNo);
+		
+		
+		
+		if(result > 0) {
+			
+			return "성공";
 		} else {
 			
-			return "임시 예약 성공";
+			return "실패";
 		}
 		
 	}

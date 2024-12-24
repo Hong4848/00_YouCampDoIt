@@ -115,10 +115,11 @@
 		결제후 예약 상세조회용 쿼리문
 	-->
 	<select id="selectAfterReserve" parameterType="reserve" resultMap="reserveResultSet">
-		SELECT *
-		  FROM RESERVE
+		SELECT R.RESERVE_NO, R.PAYMENT_DATE, R.START_DATE, R.END_DATE, R.PAYMENT_METHOD, R.PAYMENT_STATUS, R.PRICE, R.MEMBER_COUNT, R.NIGHTS, C.SPOT_NO, C.SECTION
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
 		 WHERE RESERVE_NO = #{rNum}
-		   AND PAYMENT_STATUS = 'PAID'
+		   AND R.PAYMENT_STATUS = 'PAID'
 	</select>
 	
 	<!--  
@@ -211,6 +212,16 @@
 		                    #{memberNo},
 		                    #{campsiteId})
 	</insert>
+	
+	<!--  
+		24.12.23 정성민
+		임시 예약 delete 용 쿼리문
+	-->
+	<delete id="deleteTempReserve" parameterType="_int">
+		DELETE 
+		  FROM RESERVE
+		 WHERE RESERVE_NO = #{reserveNo}
+	</delete>
 	
   
 </mapper>

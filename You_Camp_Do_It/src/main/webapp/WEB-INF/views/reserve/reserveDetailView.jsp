@@ -715,6 +715,7 @@
     		let stay = "${requestScope.stay}";
     		let price = "${requestScope.price}";
     		
+    		
     		// 가격 * 숙박일
     		let totalPrice = Number(stay) * Number(price);
     		totalPrice = new Intl.NumberFormat('ko-KR').format(totalPrice);
@@ -739,15 +740,18 @@
   			$("#txt-checkOut").text(`\${checkOutMonth}.\${checkOutDay}(\${weekDay})`);
   			
     		
+  			
     		// 사용자가 체크한 체크박스 선택시 발생하는 이벤트
     		$("input[name='roomNoArr']").on("click", function() {
+    			
+    			
     			let checkedSite = $(this);
     			
     			let hiddenInput1 = checkedSite.closest("li").find("input[name='hidden-site']");
     			let campsiteId = hiddenInput1.val();
     			let hiddenInput2 = checkedSite.closest("li").find("input[name='hidden-spot']");
     			let spotNo = hiddenInput2.val();
-    			let memberNo = "${sessionScope.loginMember.getMemberNo}";
+    			let memberNo = "${sessionScope.loginMember.memberNo}";
     			let memberCount = 4;
     			
     			$("input[name='campsiteId']").val(campsiteId);
@@ -755,8 +759,8 @@
     			
     			// 해당 자리에 겹침이 있는지 체크하는 ajax
     			$.ajax({
-    				url : "checkDuplicate.res"
-    				type : "post"
+    				url : "checkDuplicate.res",
+    				type : "post",
     				data : {
     					startDate : checkIn,
     					endDate : checkOut,
@@ -777,6 +781,9 @@
     				},
     				error : function() {
     					console.log("자리 중복 체크용 ajax 작동 실패!");
+    				},
+    				complete : function() {
+    					isProcessing = false;
     				}
     				
     				
@@ -787,7 +794,7 @@
     				
     				$.ajax({
         				url : "tempInsert.res",
-        				type : "post"
+        				type : "post",
         				data : {
         					startDate : checkIn,
         					endDate : checkOut,
@@ -798,10 +805,11 @@
         					price : price
         				},
         				success : function(result) {
-        					if(result == "임시 예약 성공") {
-        						console.log("해당 자리의 예약이 임시로 되었습니다.");
-        						tempReserveNo = result;
-        						isInserted = true;
+        					if(result.status === "success") {
+        						console.log("임시 예약 성공: ", result.reserveNo);
+        						tempReserveNo = result.reserveNo;
+        					} else {
+        						console.log("임시 예약 실패");
         					}
         					
         					
@@ -816,23 +824,30 @@
     				
     			}
     			
-    			
     			window.addEventListener("beforeunload", function () {
-    			    $.ajax({
-    			        url: "deleteTempReserve.res",
-    			        type: "post",
-    			        data: { 
-    			        	reserveNo: tempReserveNo
-    			        },
-    			        
-    			        success: function () {
-    			            console.log("데이터 저장 성공");
-    			        },
-    			        error: function () {
-    			            console.log("데이터 저장 실패");
-    			        }
-    			    });
+
+					if(isInserted == true && tempReserveNo != ""){
+						$.ajax({
+	    			        url: "tempDelete.res",
+	    			        type: "post",
+	    			        data: { 
+	    			        	reserveNo: tempReserveNo
+	    			        },
+	    			        success: function (result) {
+	    			        	if(result == "성공") {
+	    			        		console.log("임시 예약 자리 삭제 성공!");
+	    			        	} else {
+	    			        		console.log("임시 예약 자리 삭제 실패!");
+	    			        	}
+	    			        },
+	    			        error: function () {
+	    			            
+	    			        }
+	    			    });
+					}
+    			    
     			});
+    			
     			
     			
     			

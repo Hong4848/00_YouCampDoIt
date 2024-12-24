@@ -48,5 +48,8 @@ public interface ReserveService {
 
 	// 임시 예약 insert 용 서비스 메소드
 	int insertTempReserve(Reserve r);
+
+	// 임시 예약 delete 용 서비스 메소드
+	int deleteTempReserve(int reserveNo);
 	
 }
