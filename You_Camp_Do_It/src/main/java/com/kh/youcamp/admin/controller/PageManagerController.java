@@ -10,6 +10,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PageManagerController
 {
+	@GetMapping("adminMain.ma")
+	public ModelAndView adminMain(ModelAndView mv)
+	{
+		mv.setViewName("admin/adminForm");
+		return mv;
+	}
+	
 	@GetMapping("addProduct.ma")
 	public ModelAndView addProduct(ModelAndView mv)
 	{

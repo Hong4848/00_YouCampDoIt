@@ -210,7 +210,7 @@
                         <a data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"><img src="resources/images/mainPage/로그인icon.png"></a>
                         <c:choose>
                         	<c:when test="${sessionScope.loginMember.memberId == 'admin'}">
-                        		<a href="${ pageContext.request.contextPath }/addProduct.ma"><img src="resources/images/mainPage/회원가입icon.png"></a>
+                        		<a href="${ pageContext.request.contextPath }/adminMain.ma"><img src="resources/images/mainPage/회원가입icon.png"></a>
                         	</c:when>
                         	<c:otherwise></c:otherwise>
                         </c:choose>

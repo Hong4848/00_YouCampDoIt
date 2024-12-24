@@ -17,6 +17,6 @@ public class Search
 	private String searchCategory = "상품분류선택";
 	private String sort = "신상품순";
 	private String condition = "상품이름";
-	private int startPrice = 0;
-	private int endPrice = 0;
+	private String startPrice = "0";
+	private String endPrice = "0";
 }

@@ -40,6 +40,10 @@ public class GoodsDao {
 		return (ArrayList)sqlSession.selectList("goodsMapper.selectGoodsList", pageSE);
 	}
 
+	/* 상품 검색 리스트 개수 */
+	public int searchingListCount(SqlSessionTemplate sqlSession, Search search){
+		return sqlSession.selectOne("goodsMapper.searchingListCount", search);
+	}
 	/* 상품 검색 리스트 조회 */
 	public ArrayList<Goods> searchingGoods(SqlSessionTemplate sqlSession, Search search, PageInfo pi)
 	{
@@ -48,14 +52,17 @@ public class GoodsDao {
 		int start = (pi.getCurrentPage() - 1) * pi.getBoardLimit()+1;
 		int end = start+pi.getBoardLimit()-1;
 		
+		int startPrice = Integer.parseInt(search.getStartPrice());
+		int endPrice = Integer.parseInt(search.getEndPrice());
+		
 		pageSE.put("start", start);
 		pageSE.put("end", end);
 		pageSE.put("searchKeyword", search.getSearchKeyword());
 		pageSE.put("searchCategory", search.getSearchCategory());
 		pageSE.put("sort", search.getSort());
 		pageSE.put("condition", search.getCondition());
-		pageSE.put("startPrice", search.getStartPrice());
-		pageSE.put("endPrice", search.getEndPrice());
+		pageSE.put("startPrice", startPrice);
+		pageSE.put("endPrice", endPrice);
 		
 		return (ArrayList)sqlSession.selectList("goodsMapper.searchingGoods", pageSE);
 	}

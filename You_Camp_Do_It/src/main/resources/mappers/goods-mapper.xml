@@ -65,6 +65,80 @@
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>
  	
+ 	<!-- 검색조건에 따른 상품 검색 결과 수 -->
+ 	<select id="searchingListCount" parameterType="search" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE STATUS IN ('Y', 'N')
+		 <choose>
+	    	<when test="searchCategory != '상품분류선택'">
+	    		AND (
+    				<choose>
+    					<when test="searchCategory == '캠핑용품대여'">
+    						CATEGORY = '쉘터/텐트'
+                		OR CATEGORY = '침낭/방한용품'
+                		OR CATEGORY = '의자/테이블'
+                		OR CATEGORY = '화로/버너/전자'
+                		OR CATEGORY = '식기/아이스박스'
+    					</when>
+    					<when test="searchCategory == '소비용품판매'">
+    						CATEGORY = '연료/가스'
+                		OR CATEGORY = '식자재'
+                		OR CATEGORY = '생활용품'
+    					</when>
+	       				<when test="searchCategory == '쉘터텐트'">
+	       					CATEGORY = '쉘터/텐트'
+	       				</when>
+	       				<when test="searchCategory == '침낭방한용품'">
+	       					CATEGORY = '침낭/방한용품'
+	       				</when>
+	       				<when test="searchCategory == '의자테이블'">
+	       					CATEGORY = '의자/테이블'
+	       				</when>
+	       				<when test="searchCategory == '화로버너전자'">
+	       					CATEGORY = '화로/버너/전자'
+	       				</when>
+	       				<when test="searchCategory == '식기아이스박스'">
+	       					CATEGORY = '식기/아이스박스'
+	       				</when>
+	       				<when test="searchCategory == '연료가스'">
+	       					CATEGORY = '연료/가스'
+	       				</when>
+	       				<when test="searchCategory == '식자재'">
+	       					CATEGORY = '식자재'
+	       				</when>
+	       				<when test="searchCategory == '생활용품'">
+	       					CATEGORY = '생활용품'
+	       				</when>
+	       				<otherwise></otherwise>
+       				</choose>
+	    		)
+	    	</when>
+	    	<otherwise></otherwise>
+	    </choose>
+	    <choose>
+	    	<when test="condition != '검색조건선택' and searchKeyword != ''">
+	    		AND (
+	    			<choose>
+	    				<when test="condition == '상품이름'">
+	    					GOODS_NAME LIKE '%' || #{searchKeyword} || '%'
+	    				</when>
+	    				<otherwise>
+	    					MARK LIKE '%' || #{searchKeyword} || '%'
+	    				</otherwise>
+	    			</choose>
+	    		)
+	    	</when>
+	    	<otherwise>
+	    	</otherwise>
+	    </choose>
+	    <choose>
+	    	<when test="endPrice > 0">
+	    		AND (PRICE BETWEEN #{startPrice} AND #{endPrice})
+	    	</when>
+	    </choose>
+ 	</select>
+ 	
  	<!-- 검색조건에 따른 상품 검색 -->
  	<select id="searchingGoods" parameterType="search" resultMap="goodsResultSet">
  		SELECT *
@@ -134,6 +208,11 @@
 		                 	</when>
 		                 	<otherwise>
 		                 	</otherwise>
+		                 </choose>
+		                 <choose>
+		                 	<when test="endPrice > 0">
+		                 		AND (PRICE BETWEEN #{startPrice} AND #{endPrice})
+		                 	</when>
 		                 </choose>
 		          	<choose>
 		          		<when test="sort == '상품명순'">

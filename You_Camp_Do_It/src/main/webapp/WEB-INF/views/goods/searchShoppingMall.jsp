@@ -364,14 +364,14 @@
 						<option value="상품이름">상품이름</option>
 						<option value="브랜드">브랜드</option>
 					</select>
-					<input id="searchKeyword" name="searchKeyword" type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;" value="${requestScope.search.searchKeyword}">
+					<input id="searchKeyword" class="enterClass" name="searchKeyword" type="text" style="width: 220px; height: 26px; outline: none; margin: 0px;" value="${requestScope.search.searchKeyword}">
 					<br>
 					<div class="price_range">
-						<input id="startPrice" type="number" min="0">원
+						<input id="startPrice" class="enterClass" name="startPrice" type="number" min="0">원
 					</div>
 					&nbsp;&nbsp;&nbsp;~&nbsp;&nbsp;
 					<div class="price_range">
-						<input id="endPrice" type="number" min="0">원
+						<input id="endPrice" class="enterClass" name="endPrice" type="number" min="0">원
 					</div>
 					<br>
 					<select name="sort" id="sort" style="width: 344px;">
@@ -424,6 +424,7 @@
 		<div id="goods_content">
 			<div style="margin: 10px; font-size: 17px;">등록 제품 : ${requestScope.pi.listCount}</div>
 			<div class="goods_list">
+				
 				<c:forEach var="g" items="${requestScope.list}">
 					<div class="goods_container">
 						<div class="goods_number">${g.goodsNo}</div>
@@ -507,7 +508,7 @@
                     </c:forEach>
                     
                     <c:choose>
-                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+                    	<c:when test="${ (requestScope.pi.currentPage ne requestScope.pi.maxPage) and (requestScope.pi.listCount ne 0) }">
                    			<li class="page-item">
                    				<a class="page-link" href="searching.gs?pageNumber=${ requestScope.pi.currentPage + 1 }">
                    					Next
@@ -535,6 +536,8 @@
 				$("#searchCategory option[value=${requestScope.search.searchCategory}]").attr("selected", true);
 				$("#condition option[value=${requestScope.search.condition}]").attr("selected", true);
 				$("#condition option[value=${requestScope.search.sort}]").attr("selected", true);
+				$("#startPrice").val(${requestScope.search.startPrice});
+				$("#endPrice").val(${requestScope.search.endPrice});
 			}
 		</script>
 
@@ -559,7 +562,7 @@
 		</script>
 
 		<script>
-			$("#searchKeyword").on("keyup", function(key){
+			$(".enterClass").on("keyup", function(key){
 				if(key.keyCode == 13){
 					searching();
 				}

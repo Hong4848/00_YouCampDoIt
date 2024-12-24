@@ -14,6 +14,8 @@ public int insertGoods(Goods g);
 	
 	public ArrayList<Goods> selectGoodsList(PageInfo pi);
 	
+	public int searchingListCount(Search search);
+	
 	public ArrayList<Goods> searchingGoods(Search search, PageInfo pi);
 	
 	public int selectViewCount(int goods);
