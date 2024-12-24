@@ -172,15 +172,15 @@
 	
 	        <!-- 메뉴 섹션 -->
 	        <div class="menu-section">
-	            <a href="${ pageContext.request.contextPath }/list.or" class="menu-item">
+	            <!--<a href="" class="menu-item">
 	                <img src="resources/images/member/PaymentDetailsIcon.png" alt="결제 내역 아이콘">
 	                <span>결제내역</span>
-	            </a>
+	            </a>-->
 	            <a href="${ pageContext.request.contextPath }/listForm.ca" class="menu-item">
 	                <img src="resources/images/member/CartIcon.png" alt="장바구니 아이콘">
 	                <span>장바구니</span>
 	            </a>
-	            <a href="#3" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/list.or" class="menu-item">
 	                <img src="resources/images/member/GoodsRentalIcon.png" alt="대여내역 아이콘">
 	                <span>대여내역</span>
 	            </a>

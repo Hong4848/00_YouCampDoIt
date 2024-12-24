@@ -736,7 +736,7 @@
 		
 		.table_basic tbody td {
 		    padding: 10px;
-		    border-bottom: 1px solid #ddd; /* 셀 아래쪽 테두리 */+
+		    border-bottom: 1px solid #ddd; /* 셀 아래쪽 테두리 */
 		    color: #555; /* 글자색 */
 		}
 		

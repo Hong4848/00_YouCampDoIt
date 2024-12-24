@@ -30,6 +30,8 @@ public interface OrderService {
 
 	// 결제내용 조회용 썸네일까지
 	ArrayList<Order> selectOrederListByMemberNo(int memberNo);
+
+	ArrayList<Order> selectOrederListTest(int memberNo);
 	
 	
 	

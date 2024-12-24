@@ -43,6 +43,10 @@ public class OrderDao {
 		return (ArrayList)sqlSession.selectList("orderMapper.selectOrederListByMemberNo", memberNo);
 	}
 
+	public ArrayList<Order> selectOrederListTest(SqlSessionTemplate sqlSession, int memberNo) {
+		return (ArrayList)sqlSession.selectList("orderMapper.selectOrederListTest", memberNo);
+	}
+
 	
 
 }

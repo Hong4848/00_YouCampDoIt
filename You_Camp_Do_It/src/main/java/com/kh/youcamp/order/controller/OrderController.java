@@ -541,7 +541,7 @@ public class OrderController {
 	 * @return
 	 */
 	@GetMapping("list.or")
-	public ModelAndView selectList(ModelAndView mv, 
+	public String selectList(ModelAndView mv, 
 								   Model model,
 								   HttpSession session) {
 		
@@ -552,42 +552,34 @@ public class OrderController {
 		
 		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
 		// 주문(결제)한 내용 memberNo > order테이블 > 
-//		ArrayList<Order> list = 
-//				orderService.selectOrederWithDetailListByMemberNo(memberNo);
-//		log.debug("결제내역 잘 갖고왔나, list : " + list);
+		
 		ArrayList<Order> list = 
 				orderService.selectOrederListByMemberNo(memberNo);
-		log.debug("결제내역 잘 갖고왔나, list : " + list);
-//		// 결제완료된 상품 썸네일
-//		ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByMemberNo(memberNo);
-//	    
-//	    for(Goods g : gList){
-//			String s = "<img src="; // 이미지 태그 찾기
-//			String body = g.getGoodsThumbnail();
-//			int start = 0;
-//			int end = 0;
-//			
-//			start = body.indexOf(s);
-//			body = body.substring(start);
-//			end = body.indexOf(">");
-//			body = body.substring(0, end+1);
-//			
-//			g.setGoodsThumbnail(body);
-//		}
-//	    
-//	    Map<Integer, String> thumbnailMap = new HashMap<>();
-//	    for (Goods goods : gList) {
-//	        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
-//	    }
-//		
+//		log.debug("결제내역 잘 갖고왔나, list : " + list);
+		
+		for(Order o : list){
+			
+			log.debug("섬네일 잘넘어왔는지, 길이 : " + o.getGoodsThumbnail().length());
+			
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = o.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			o.setGoodsThumbnail(body);
+			
+		}
+		
+
 		model.addAttribute("list", list);
-//		model.addAttribute("thumbnailMap", thumbnailMap);
 		
 		
-		mv.setViewName("order/orderListView");
-		
-		
-		 return mv;
+		 return "order/orderListView";
 	}
 	
 	

@@ -30,6 +30,7 @@ public class Order {
 	
 	// 조인된 association GOODS 객체
     private Goods goods; 
+    private String goodsThumbnail; 
 	//collection 매핑용
 	private List<OrderDetail> orderDetail; // 1:N 관계
 	

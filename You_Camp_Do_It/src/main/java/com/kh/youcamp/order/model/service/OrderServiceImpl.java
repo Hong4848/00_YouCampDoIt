@@ -63,6 +63,11 @@ public class OrderServiceImpl implements OrderService {
 	public ArrayList<Order> selectOrederListByMemberNo(int memberNo) {
 		return orderDao.selectOrederListByMemberNo(sqlSession, memberNo);
 	}
+
+	@Override
+	public ArrayList<Order> selectOrederListTest(int memberNo) {
+		return orderDao.selectOrederListTest(sqlSession, memberNo);
+	}
 	
 	 
 	 

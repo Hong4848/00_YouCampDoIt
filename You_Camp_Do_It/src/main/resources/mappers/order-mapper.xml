@@ -12,22 +12,7 @@
 	    <result column="UPDATED_DATE" property="updatedDate" />
 	    <result column="MEMBER_NO" property="memberNo" />
 	    
-	    <!-- association GOODS 테이블 매핑 -->
-	    <association property="goods" javaType="goods">
-	        <id column="GOODS_NO" property="goodsNo" />
-	        <result column="CATEGORY" property="category" />
-	        <result column="GOODS_NAME" property="goodsName" />
-	        <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
-	        <result column="GOODS_CONTENT" property="goodsContent" />
-	        <result column="GOODS_INFO" property="goodsInfo" />
-	        <result column="MARK" property="mark" />
-	        <result column="GOODS_PRICE" property="price" />
-	        <result column="VIEWS" property="views" />
-	        <result column="ENROLL_DATE" property="enrollDate" />
-	        <result column="TOTAL_STOCK" property="totalStock" />
-	        <result column="REMAIN_STOCK" property="remainStock" />
-	        <result column="STATUS" property="status" />
-	    </association>
+	    <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
 	    
 	    <!-- OrderDetail 컬렉션 -->
 	    <collection property="orderDetail" ofType="orderDetail">
@@ -37,10 +22,28 @@
 	        <result column="TOTAL_PRICE" property="totalPrice" />
 	        <result column="GOODS_NO" property="goodsNo" />
 	        <result column="ORDER_NO" property="orderNo" />
+	        
+	        <!-- association GOODS 테이블 매핑 -->
+		    <association property="goods" javaType="goods">
+		        <id column="GOODS_NO" property="goodsNo" />
+		        <result column="CATEGORY" property="category" />
+		        <result column="GOODS_NAME" property="goodsName" />
+		        <!-- <result column="GOODS_THUMBNAIL" property="goodsThumbnail" /> -->
+		        <result column="GOODS_CONTENT" property="goodsContent" />
+		        <result column="GOODS_INFO" property="goodsInfo" />
+		        <result column="MARK" property="mark" />
+		        <result column="GOODS_PRICE" property="price" />
+		        <result column="VIEWS" property="views" />
+		        <result column="ENROLL_DATE" property="enrollDate" />
+		        <result column="TOTAL_STOCK" property="totalStock" />
+		        <result column="REMAIN_STOCK" property="remainStock" />
+		        <result column="STATUS" property="status" />
+		    </association>
+	        
 	    </collection>
 	    
-	    
 	</resultMap>
+	 
 	 
  	<resultMap id="orderDetailResultSet" type="orderDetail">
 	    <id column="ORDER_DETAIL_NO" property="orderDetailNo" />
@@ -67,6 +70,45 @@
 	        <result column="STATUS" property="status" />
 	    </association>
 	</resultMap>
+	
+	<!-- 
+	<resultMap id="orderListResultMap" type="order">
+	    <id column="ORDER_NO" property="orderNo" />
+	    <result column="PAYMENT_ID" property="paymentId" />
+	    <result column="TOTAL_PRICE" property="totalPrice" />
+	    <result column="CREATED_DATE" property="createdDate" />
+	    <result column="PAYMENT_METHOD" property="paymentMethod" />
+	    <result column="PAYMENT_STATUS" property="paymentStatus" />
+	    <result column="UPDATED_DATE" property="updatedDate" />
+	    <result column="MEMBER_NO" property="memberNo" /> -->
+	
+	    <!-- 자식 컬렉션: OrderDetail  
+	    <collection property="orderDetail" ofType="orderDetail">
+	        <id column="ORDER_DETAIL_NO" property="orderDetailNo" />
+	        <result column="QUANTITY" property="quantity" />
+		    <result column="DETAIL_PRICE" property="detailPrice" />
+		    <result column="DETAIL_TOTAL_PRICE" property="detailTotalPrice" />
+		    <result column="GOODS_NO" property="goodsNo" />
+		    <result column="ORDER_NO" property="orderNo" /> -->
+	
+	        <!-- 연관 객체: Goods 
+	        <association property="goods" javaType="goods">
+	            <id column="GOODS_NO" property="goodsNo" />
+	            <result column="GOODS_NAME" property="goodsName" />
+	            <result column="GOODS_THUMBNAIL" property="goodsThumbnail" />
+		        <result column="GOODS_CONTENT" property="goodsContent" />
+		        <result column="GOODS_INFO" property="goodsInfo" />
+		        <result column="MARK" property="mark" />
+		        <result column="GOODS_PRICE" property="price" />
+		        <result column="VIEWS" property="views" />
+		        <result column="ENROLL_DATE" property="enrollDate" />
+		        <result column="TOTAL_STOCK" property="totalStock" />
+		        <result column="REMAIN_STOCK" property="remainStock" />
+		        <result column="STATUS" property="status" />
+	        </association>
+	    </collection>
+	</resultMap>  -->
+	
 	
 	<!-- 주문정보 생성용 order insert 쿼리문 -->
  	<insert id="insertOrder" 
@@ -143,16 +185,7 @@
 	     WHERE ORDER_NO = #{orderNo}
 	</update>
   
-	<!-- 결제완료 후 결제내역 총 조회용 -->
-	<select id="selectOrederWithDetailListByMemberNo" resultType="_int"
-			resultMap="orderResultSet">
-		SELECT G.*
-		     , OD.*
-		  FROM GOODS_ORDER G
-		  JOIN ORDER_DETAIL OD ON (G.ORDER_NO = OD.ORDER_NO)
-		 WHERE G.MEMBER_NO = #{memberNo}
-		   AND NOT PAYMENT_STATUS = 'CREATED'
-	</select>
+	
 	
 	<!-- 결제완료 후 결제내역 총 조회용 -->
 	<select id="selectOrederListByMemberNo" resultType="_int"
@@ -160,6 +193,8 @@
 		SELECT O.*
 		     , OD.*
 		     , G.GOODS_THUMBNAIL
+		     , G.GOODS_NO
+		     , G.GOODS_NAME
 		  FROM GOODS_ORDER O
 		  JOIN ORDER_DETAIL OD ON O.ORDER_NO = OD.ORDER_NO 
 		  JOIN GOODS G ON OD.GOODS_NO = G.GOODS_NO
@@ -167,6 +202,35 @@
 		   AND NOT PAYMENT_STATUS = 'CREATED'
 		 ORDER BY O.ORDER_NO
 	</select>
+	
+	<!-- 
+	<select id="selectOrederListByMemberNo" resultType="_int"
+			resultMap="orderListResultSet">
+		SELECT 
+		    o.ORDER_NO,
+		    o.PAYMENT_ID,
+		    o.PAYMENT_STATUS,
+		    o.PAYMENT_METHOD,
+		    o.TOTAL_PRICE,
+		    od.ORDER_DETAIL_NO,
+		    od.GOODS_NO AS DETAIL_GOODS_NO,
+		    od.QUANTITY,
+		    od.PRICE AS DETAIL_PRICE,
+		    od.TOTAL_PRICE AS DETAIL_TOTAL_PRICE,
+		    g.GOODS_NO,
+		    g.GOODS_NAME,
+		    g.GOODS_THUMBNAIL
+		FROM 
+		    ORDERS o
+		LEFT JOIN 
+		    ORDER_DETAIL od ON o.ORDER_NO = od.ORDER_NO
+		LEFT JOIN 
+		    GOODS g ON od.GOODS_NO = g.GOODS_NO
+	</select> -->
+	
+	
+	
+
   
   
   
