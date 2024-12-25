@@ -686,7 +686,7 @@
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
 
-                    <!-- 결제 취소 시 필요한 정보들들 -->
+                    <!-- 결제 취소 시 필요한 정보들 -->
                     <table hidden>
                         <tr>
                             <th>원거래 ID</th>
@@ -797,7 +797,6 @@
                             		</c:when>
                             	</c:choose>
                             	
-                            
                                 
                                 <div class="site_person"> 
                                 	
@@ -841,13 +840,6 @@
                                     </strong>
                                 </div>
                             </div>
-                            
-                        
-                            
-                        
-                            
-                            
-                            
                             
                             <div class="section bg_none reserve_amount">
                                 <div class="tit_h3">
@@ -913,8 +905,6 @@
 	                                약관 동의
 	                            </div>
 	                            
-	                            
-	                            
 	                            <div class="section reserv_agree2">
 	                                <div class="agree_box">
 	                                    <input type="checkbox" name="agree2" id="agree2" class="custum_checkbox">
@@ -973,18 +963,17 @@
 	                                </div>
 	                            </div>
                             
-                            
                         	</div>
                             
-                            
-
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">이전</a>
                                 <button type="button" class="wid_70 btnCancel" onClick="reqCancel();">취소하기</button>
-                                <!-- 이버튼 누르면 취소 요청 들거가게 -->
-                                 <!-- 만약 폼테그이면 췌소에 필요한 정보들 들어가게. -->
+                                <!-- 
+                                    버튼 클릭 시 
+                                    취소에 필요한 정보들 폼태그로 넘기면서서
+                                    나이스페이 취소 함수호출
+                                -->
                             </div>
-
 
                         </div>
 
@@ -993,7 +982,6 @@
 
                 </form>
             </fieldset>
-
 
         </div>
 

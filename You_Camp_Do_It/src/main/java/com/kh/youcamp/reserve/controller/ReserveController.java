@@ -149,7 +149,6 @@ public class ReserveController {
 	// --------------------------------------------------------------------
 		
 			
-	
 	/**
 	 * 24.12.09 정성민
 	 * 날짜 및 섹션선택 페이지 접속요청용 컨트롤러
@@ -272,13 +271,7 @@ public class ReserveController {
 	@PostMapping("reserveRequirePay.res")
 	public ModelAndView reserveRequirePayment(Reserve r, ModelAndView mv, HttpSession session) {
 		
-		
-		
 		// 결제 요청 처리 @@@@@@@@@@@@@@@@@@@@@@@
-		
-		
-		
-		
 		
 	}*/
 	
@@ -300,7 +293,6 @@ public class ReserveController {
 										  HttpSession session) throws Exception {
 		
 //		System.out.println(r);
-		
 		
 		
 		/*
@@ -432,7 +424,7 @@ public class ReserveController {
 				}
 				
 				// ----------------------------------------------------------------------
-				if(paySuccess = true) { // 결제완료
+				if(paySuccess = true) { // 결제 성공
 					// 예약 정보 insert 하기
 					r.setPaymentId(TID);
 					r.setPaymentMethod(PayMethod);
@@ -647,26 +639,6 @@ public class ReserveController {
 		return mv;
 	}
 	
-	
-	// text code ---------------------------------------------
-	@GetMapping("cancleTest.rev")
-	public ModelAndView cancleReqTest(ModelAndView mv) {
-		
-		mv.setViewName("order/cancelRequest_utf");
-		
-		return mv;
-	}
-	
-	@PostMapping("cancleResultTest.rev")
-	public ModelAndView cancleResultTest(ModelAndView mv) {
-		
-		mv.setViewName("order/cancelResult_utf");
-		
-		return mv;
-	}
-	// text code ---------------------------------------------
-	
-	
 	/**
 	 * 24.12.21 정성민 
 	 * 캠핑장 예약취소 페이지 요청용 컨트롤러
@@ -684,6 +656,7 @@ public class ReserveController {
 		
 		return mv;
 	}
+	
 	/*
 	 * 
 	 * 취소 흐름 현재 관리자 페이지가 구성되있지 않아 2번으로 구현
@@ -698,6 +671,7 @@ public class ReserveController {
 	 * @param request 
 	 * @return
 	 * 예약 취소는 db데이터 변동이니까 post로 변경
+	 * 취소 기능 구현 24.12.25 윤홍문
 	 * @throws Exception 
 	 */
 	@PostMapping("reserveCancelRequest.res")
@@ -796,7 +770,7 @@ public class ReserveController {
 				
 				if(result > 0) { // 쿼리문 성공
 					session.setAttribute("alertMsg", "캠핑장 예약 취소에 성공했습니다!");
-					mv.setViewName("redirect:/reservelist.res");
+					mv.setViewName("redirect:/reserveList.res");
 					
 				} else { // 쿼리문 실패
 					mv.addObject("errorMsg", "예약 취소 실패!")
@@ -809,8 +783,6 @@ public class ReserveController {
 			}
 				
 		}
-		
-		
 		
 		return mv;
 	}
