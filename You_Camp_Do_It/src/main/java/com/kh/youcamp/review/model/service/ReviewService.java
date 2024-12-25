@@ -6,6 +6,7 @@ import java.util.List;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
+import com.kh.youcamp.review.model.vo.ReviewReply;
 
 public interface ReviewService {
 	
@@ -26,6 +27,13 @@ public interface ReviewService {
 	
 	// 게시글 삭제 서비스
 	int deleteReview(int reviewNo);
+
+	// 댓글 리스트 조회 서비스(Ajax)
+	ArrayList<ReviewReply> selectReplyList(int reviewNo);
+
+	// 댓글 작성 서비스(Ajax)
+	int insertReviewReply(ReviewReply r);
+
 
 	
 	

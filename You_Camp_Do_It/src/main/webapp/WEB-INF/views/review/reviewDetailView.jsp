@@ -164,7 +164,7 @@
                 </tr>
             </table>
 
-			<c:if test="${ sessionScope.loginUser.memberId eq requestScope.r.reviewWriter }">
+			<c:if test="${ sessionScope.loginMember.memberId eq requestScope.r.reviewWriter }">
 	            <div align="center" id="buttoncentroller">
 	                <!-- 
 	                	수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 
@@ -232,40 +232,43 @@
             
             
             <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
-            <table id="replyArea" class="table" align="center">
-                <thead>
-                    <tr>
-                    
-                    	<c:choose>
-                    		<c:when test="${ empty sessionScope.loginUser }">
-                    			<!-- 로그인 전 : 댓글 작성 막기 -->
-		                        <th colspan="2">
-		                            <textarea class="form-control" cols="55" rows="2" 
-		                            		  style="resize:none; width:100%;" readonly>로그인한 사용자만 이용 가능한 서비스 입니다. 로그인 후 이용 바랍니다.</textarea>
-		                        </th>
-		                        <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
-		                    </c:when>
-		                    <c:otherwise>
-		                    	<!-- 로그인 후 : 댓글 작성 풀기 -->
-		                    	<th colspan="2">
-		                            <textarea class="form-control" id="content" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
-		                        </th>
-		                        <th style="vertical-align:middle">
-		                        	<button class="btn btn-secondary" onclick="addReply();">
-		                       	 		등록하기
-		                        	</button>
-		                        </th>
-		                    </c:otherwise>
-                        </c:choose>
-                        
-                    </tr>
-                    <tr>
-                        <td colspan="3">댓글(<span id="rcount">0</span>)</td>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <!-- 댓글 목록 섹션 -->
+		    <div class="comments-section">
+		        <table id="replyArea" class="table" align="center">
+		            <thead>
+		                <tr>
+		                    <th colspan="3">댓글 (<span id="rcount">0</span>)</th>
+		                </tr>
+		            </thead>
+		            <tbody>
+		            </tbody>
+		        </table>
+		    </div>
+	        
+	        <!-- 댓글 작성 섹션 -->
+	        <div class="reply-input-section">
+               	<c:choose>
+               		<c:when test="${ empty sessionScope.loginMember }">
+               			<!-- 로그인 전 : 댓글 작성 막기 -->
+	                     <th colspan="2">
+	                         <textarea class="form-control" cols="55" rows="2" 
+	                         		  style="resize:none; width:100%;" readonly>로그인한 사용자만 이용 가능한 서비스 입니다. 로그인 후 이용 바랍니다.</textarea>
+	                     </th>
+	                     <th style="vertical-align:middle"><button class="btn btn-secondary" disabled>등록하기</button></th>
+                 	</c:when>
+                 	<c:otherwise>
+                 	<!-- 로그인 후 : 댓글 작성 풀기 -->
+	                 	<th colspan="2">
+	                         <textarea class="form-control" id="replyContent" cols="55" rows="2" style="resize:none; width:100%;"></textarea>
+	                     </th>
+	                     <th style="vertical-align:middle">
+	                     	<button class="btn btn-secondary" onclick="addReply();">
+	                    	 		등록하기
+	                     	</button>
+	                     </th>
+                 	</c:otherwise>
+                 </c:choose>
+            </div>                  
         </div>
         <br><br>
 
@@ -286,6 +289,71 @@
                 });
             });
         });
+    </script>
+    
+    <script>
+    $(function() {
+        selectReplyList();
+        
+        // 실시간 댓글 등록 효과
+        setInterval(selectReplyList, 1000);
+    });
+    
+    // 댓글 작성용 함수
+    function addReply() {
+        let replyContent = $("#replyContent").val();
+        
+        if(replyContent.trim().length != 0) {
+            $.ajax({
+                url : "${pageContext.request.contextPath}/review/rinsert.re",
+                type : "post",
+                data : {
+                    replyContent : replyContent,
+                    replyWriter : "${sessionScope.loginMember.memberId}",
+                    reviewNo : ${requestScope.r.reviewNo}
+                },
+                success : function(result) {
+                    if(result == "success") {
+                        selectReplyList();
+                        $("#replyContent").val("");
+                    } else {
+                        alert("댓글 작성 실패");
+                    }
+                },
+                error : function() {
+                    console.log("댓글 작성용 ajax 통신 실패!");
+                }
+            });
+        } else {
+            alert("댓글 작성 후 등록해주세요.");
+        }
+    }
+    
+    // 댓글 목록 조회용 함수
+    function selectReplyList() {
+        $.ajax({
+            url : "${pageContext.request.contextPath}/review/rlist.re",
+            type : "get",
+            data : { rno : ${requestScope.r.reviewNo} },
+            success : function(result) {
+                let resultStr = "";
+                
+                for(let i = 0; i < result.length; i++) {
+                    resultStr += "<tr>"
+                                    + "<td>" + result[i].replyWriter + "</td>"
+                                    + "<td>" + result[i].replyContent + "</td>"
+                                    + "<td>" + result[i].createDate + "</td>"
+                               + "</tr>";
+                }
+                
+                $("#replyArea>tbody").html(resultStr);
+                $("#rcount").text(result.length);
+            },
+            error : function() {
+                console.log("댓글리스트 조회용 ajax 통신 실패!");
+            }
+        });
+    }
     </script>
 
 </body>

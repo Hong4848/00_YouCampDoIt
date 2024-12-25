@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
+import com.kh.youcamp.review.model.vo.ReviewReply;
 
 
 @Repository
@@ -47,33 +48,38 @@ public class ReviewDao {
 	}
 
 	// 수정하기
-	public int updateReview(SqlSessionTemplate sqlSession, Review r) {
-		// update문 : update 메소드
-		return sqlSession.update("reviewMapper.updateReview", r);
-	}
-	
-    public int updateReviewAttachment(SqlSessionTemplate sqlSession, ReviewAttachment attachment) {
-        return sqlSession.update("reviewMapper.updateReviewAttachment", attachment);
+	 public int updateReview(SqlSessionTemplate sqlSession, Review r) {
+        // update문 : update 메소드
+        return sqlSession.update("reviewMapper.updateReview", r);
     }
+	 
+	// 첨부파일 상태 변경
+	 public int updateReviewAttachment(SqlSessionTemplate sqlSession, ReviewAttachment attachment) {
+		    return sqlSession.update("reviewMapper.updateReviewAttachment", attachment);
+	}
     
-
+    // 첨부파일 삭제
+	 public void deleteReviewAttachment(SqlSessionTemplate sqlSession, int reviewNo) {
+		    sqlSession.delete("reviewMapper.deleteReviewAttachment", reviewNo);
+		}
 	
 	// 삭제하기
 	public int deleteReview(SqlSessionTemplate sqlSession, int reviewNo) {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
 	}
 	
-	// 첨부파일 삭제
-	public int deleteAttachments(SqlSessionTemplate sqlSession, int reviewNo) {
-	    return sqlSession.update("reviewMapper.deleteAttachments", reviewNo);
+
+	// 댓글 리스트 조회
+	public ArrayList<ReviewReply> selectReplyList(SqlSessionTemplate sqlSession, int reviewNo) {
+		// select 문(여러행) : selectList 메소드
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectReplyList", reviewNo);
 	}
 
-
-
-
-
-
-        
+	// 댓글 작성
+	public int insertReply(SqlSessionTemplate sqlSession, ReviewReply r) {
+		// insert 문 : insert 메소드
+		return sqlSession.insert("reviewMapper.insertReply", r);
+	}
 
 
 

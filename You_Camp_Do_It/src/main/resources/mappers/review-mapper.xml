@@ -22,6 +22,15 @@
 	  	<result column="FILE_LEVEL" property="fileLevel" />
 	  	<result column="REVIEW_NO" property="reviewNo" /> 
    </resultMap>
+   
+   <resultMap id="replyResultSet" type="reviewReply">
+   	<id column="REPLY_NO" property="replyNo" />
+   	<result column="REPLY_CONTENT" property="replyContent" />
+   	<result column="REPLY_WRITER" property="replyWriter" />
+   	<result column="CREATE_DATE" property="createDate" />
+   	<result column="MEMBER_NO" property="memberNo" />
+   	<result column="REVIEW_NO" property="reviewNo" />
+   </resultMap>
   
   
 
@@ -96,7 +105,7 @@
 		     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
 		     , REVIEW_TITLE
 		     , REVIEW_CONTENT
-		     , MEMBER_ID AS "REPLY_WIRTER"
+		     , MEMBER_ID AS "REVIEW_WRITER"
 		  FROM REVIEW R
 		  JOIN MEMBER M ON (R.MEMBER_NO = M.MEMBER_NO)
 		 WHERE REVIEW_NO = #{reviewNo}
@@ -117,21 +126,30 @@
 	
 	<!-- 수정하기 쿼리문 -->
 	<update id="updateReview" parameterType="review">
-		UPDATE REVIEW
-		   SET REVIEW_TITLE = #{reviewTitle}
-		     , REVIEW_CONTENT = #{reviewContent}
-		 WHERE REVIEW_NO = #{reviewNo}
-		   AND STATUS = 'Y'
+	    UPDATE REVIEW
+	    SET REVIEW_TITLE = #{reviewTitle}
+	      , REVIEW_CONTENT = #{reviewContent}
+	      , CREATE_DATE = SYSDATE
+	    WHERE REVIEW_NO = #{reviewNo}
+	      AND STATUS = 'Y'
 	</update>
 	
 	<update id="updateReviewAttachment" parameterType="reviewAttachment">
-        UPDATE REVIEW_ATTACHMENT
-           SET ORIGIN_NAME = #{originName},
-               CHANGE_NAME = #{changeName},
-               FILE_PATH = #{filePath},
-               FILE_LEVEL = #{fileLevel}
-         WHERE FILE_NO = #{fileNo}
-    </update>
+	     UPDATE REVIEW_ATTACHMENT
+		    SET ORIGIN_NAME = #{originName}
+		      , CHANGE_NAME = #{changeName}
+		      , FILE_PATH = #{filePath}
+		      , UPLOAD_DATE = SYSDATE
+		 WHERE FILE_NO = #{fileNo}
+		   AND STATUS = 'Y'
+	</update>
+	
+	<update id="deleteReviewAttachment" parameterType="int">
+	    UPDATE REVIEW_ATTACHMENT
+	       SET STATUS = 'N'
+	     WHERE REVIEW_NO = #{reviewNo}
+	</update>
+	
 	
 	<!-- 삭제하기 쿼리문 -->
 	<update id="deleteReview" parameterType="_int">
@@ -139,5 +157,29 @@
 	    SET STATUS = 'N'
 	    WHERE REVIEW_NO = #{reviewNo}
 	</update>
+	
+	<!-- 댓글 리스트 조회 쿼리문 -->
+	<select id="selectReplyList" parameterType="_int" resultMap="replyResultSet">
+        SELECT REPLY_NO
+             , REPLY_WRITER
+             , REPLY_CONTENT
+             , TO_CHAR(CREATE_DATE, 'YYYY-MM-DD') AS "CREATE_DATE"
+          FROM REVIEWREPLY
+         WHERE REVIEW_NO = #{reviewNo}
+           AND STATUS = 'Y'
+         ORDER BY REPLY_NO DESC
+    </select>
+		
+	<!-- 댓글 작성 쿼리문 -->
+	<insert id="insertReply" parameterType="reviewReply">
+        INSERT INTO REVIEWREPLY(REPLY_NO
+                              , REPLY_CONTENT
+                              , REVIEW_NO
+                              , REPLY_WRITER)
+                         VALUES(REPLY_SEQ.NEXTVAL
+                              , #{replyContent}
+                              , #{reviewNo}
+                              , #{replyWriter})
+    </insert>
 	
 </mapper>

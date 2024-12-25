@@ -229,73 +229,70 @@
 		<br>
 	     <div class="container">
 	        <h1>후기게시판 수정하기</h1>
-	        <form id="uploadForm" action="updateForm.re" method="POST" enctype="multipart/form-data">
+	        <form id="uploadForm" action="update.re" method="POST" enctype="multipart/form-data">
 			     <!-- 게시글 번호 넘기기 -->
-			     <input type="hidden" name="reviewNo" value="${ requestScope.r.reviewNo }">   
+			     <input type="hidden" name="reviewNo" value="${requestScope.r.reviewNo}">   
 			        <div id="contentcontroller">
 			            <div class="form-group">
 			                <label for="reviewTitle">제목</label>
-			                <input type="text" id="reviewTitle" name="reviewTitle" value="${r.reviewTitle }" required>
+			                <input type="text" id="reviewTitle" name="reviewTitle" value="${requestScope.r.reviewTitle }" required>
 			            </div>
 			
 			            <div class="form-group">
 			                <label for="reviewContent">내용</label>
-			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required>${r.reviewContent }</textarea>
+			                <textarea id="reviewContent" name="reviewContent" style="resize : none;" required>${requestScope.r.reviewContent }</textarea>
 			            </div>
 					</div>
 					 
 					
 			       <div class="image-upload-section">
-					    <!-- 대표 이미지 -->
-						<div class="image-upload">
-						    <label>대표 이미지</label>
-						    <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
-						    <div class="image-preview" onclick="document.getElementById('mainImage').click()">
-						        <img 
-						            src="${mainImage != null ? contextPath.concat(mainImage.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
-						            id="mainImagePreview" 
-						            style="width: ${mainImage != null ? '100%' : '20px'}; height: ${mainImage != null ? '100%' : '20px'}; object-fit: cover;" />
-						    </div>
-						</div>
-						
-						<!-- 상세 이미지 1 -->
-						<div class="image-upload">
-						    <label for="detailImage1">상세 이미지 1</label>
-						    <input type="file" name="detailImage" id="detailImage1" accept="image/*" style="display:none;" />
-						    <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
-						        <img 
-						            src="${detailImage1 != null ? contextPath.concat(detailImage1.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
-						            id="detailImagePreview1" 
-						            style="width: ${detailImage1 != null ? '100%' : '20px'}; height: ${detailImage1 != null ? '100%' : '20px'}; object-fit: cover;" />
-						    </div>
-						</div>
-						
-						<!-- 상세 이미지 2 -->
-						<div class="image-upload">
-						    <label for="detailImage2">상세 이미지 2</label>
-						    <input type="file" name="detailImage" id="detailImage2" accept="image/*" style="display:none;" />
-						    <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
-						        <img 
-						            src="${detailImage2 != null ? contextPath.concat(detailImage2.changeName) : contextPath.concat('/resources/images/review/plus-icon.png')}" 
-						            id="detailImagePreview2" 
-						            style="width: ${detailImage2 != null ? '100%' : '20px'}; height: ${detailImage2 != null ? '100%' : '20px'}; object-fit: cover;" />
-						    </div>
-						</div>
-					</div>
+				        <!-- 대표 이미지 -->
+				        <div class="image-upload">
+				            <label>대표 이미지</label>
+				            <input type="file" name="upfile" id="mainImage" accept="image/*" style="display: none;" />
+				            <div class="image-preview" onclick="document.getElementById('mainImage').click()">
+				                <img src="${mainImage != null ? pageContext.request.contextPath.concat(mainImage.changeName) : pageContext.request.contextPath.concat('/resources/images/review/plus-icon.png')}" 
+				                     id="mainImagePreview" 
+				                     style="width: ${mainImage != null ? '100%' : '20px'}; height: ${mainImage != null ? '100%' : '20px'}; object-fit: cover;" />
+				            </div>
+				        </div>
+				        
+				        <!-- 상세 이미지 1 -->
+				        <div class="image-upload">
+				            <label for="detailImage1">상세 이미지 1</label>
+				            <input type="file" name="upfile" id="detailImage1" accept="image/*" style="display:none;" />
+				            <div class="image-preview" onclick="document.getElementById('detailImage1').click()">
+				                <img src="${detailImage1 != null ? pageContext.request.contextPath.concat(detailImage1.changeName) : pageContext.request.contextPath.concat('/resources/images/review/plus-icon.png')}" 
+				                     id="detailImagePreview1" 
+				                     style="width: ${detailImage1 != null ? '100%' : '20px'}; height: ${detailImage1 != null ? '100%' : '20px'}; object-fit: cover;" />
+				            </div>
+				        </div>
+				        
+				        <!-- 상세 이미지 2 -->
+				        <div class="image-upload">
+				            <label for="detailImage2">상세 이미지 2</label>
+				            <input type="file" name="upfile" id="detailImage2" accept="image/*" style="display:none;" />
+				            <div class="image-preview" onclick="document.getElementById('detailImage2').click()">
+				                <img src="${detailImage2 != null ? pageContext.request.contextPath.concat(detailImage2.changeName) : pageContext.request.contextPath.concat('/resources/images/review/plus-icon.png')}" 
+				                     id="detailImagePreview2" 
+				                     style="width: ${detailImage2 != null ? '100%' : '20px'}; height: ${detailImage2 != null ? '100%' : '20px'}; object-fit: cover;" />
+				            </div>
+				        </div>
+				    </div>
 					
 					<br>
 					<div id="btncontroller">
-		            	<button type="submit" class="submit-btn">수정하기</button>
-		            	<button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);">이전으로</button>
-		            </div>
+				        <button type="submit" class="submit-btn">수정하기</button>
+				        <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);">이전으로</button>
+				    </div>
 	        </form>
 	    </div>
 	  
 	</div>
 	
 	<script>
-	// 대표 이미지 미리보기 기능
-	document.getElementById('mainImage').addEventListener('change', function(event) {
+    // 대표 이미지 미리보기 기능
+    document.getElementById('mainImage').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
@@ -304,36 +301,36 @@
         };
         reader.readAsDataURL(file);
     }
-	});
+    });
 
-	// 상세 이미지 1 미리보기
-	document.getElementById('detailImage1').addEventListener('change', function(event) {
-	    const file = event.target.files[0];
-	    if (file) {
-	        const reader = new FileReader();
-	        reader.onload = function(e) {
-	            document.getElementById('detailImagePreview1').src = e.target.result;
-	            document.getElementById('detailImagePreview1').style.width = '100%';
-	            document.getElementById('detailImagePreview1').style.height = '100%';
-	        };
-	        reader.readAsDataURL(file);
-	    }
-	});
+    // 상세 이미지 1 미리보기
+    document.getElementById('detailImage1').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('detailImagePreview1').src = e.target.result;
+                document.getElementById('detailImagePreview1').style.width = '100%';
+                document.getElementById('detailImagePreview1').style.height = '100%';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
 
-	// 상세 이미지 2 미리보기
-	document.getElementById('detailImage2').addEventListener('change', function(event) {
-	    const file = event.target.files[0];
-	    if (file) {
-	        const reader = new FileReader();
-	        reader.onload = function(e) {
-	            document.getElementById('detailImagePreview2').src = e.target.result;
-	            document.getElementById('detailImagePreview2').style.width = '100%';
-	            document.getElementById('detailImagePreview2').style.height = '100%';
-	        };
-	        reader.readAsDataURL(file);
-	    }
-	});
-	</script>
+    // 상세 이미지 2 미리보기
+    document.getElementById('detailImage2').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('detailImagePreview2').src = e.target.result;
+                document.getElementById('detailImagePreview2').style.width = '100%';
+                document.getElementById('detailImagePreview2').style.height = '100%';
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+    </script>
 
 
 	 
