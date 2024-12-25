@@ -919,6 +919,20 @@ public class ReserveController {
 		return new Gson().toJson(ajaxList);
 	}
 	
+	/**
+	 * 관리자 페이지 예약 상세조회용 쿼리문
+	 * @param memberNo
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="ajaxReserveDetail.res", produces="application/json; charset=UTF-8")
+	public String ajaxReserveDetail(@RequestParam(value="reserveNo")int reserveNo){
+		
+		Reserve r = reserveService.ajaxReserveDetail(reserveNo);
+		
+		return new Gson().toJson(r);
+	}
+	
 	
 }
 

@@ -513,13 +513,13 @@
                             			<img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'B' }">
-                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="B섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'C' }">
-                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="C섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'D' }">
-                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="D섹션">
                             		</c:when>
                             	</c:choose>
                             
@@ -531,7 +531,7 @@
                             	<c:choose>
                             		<c:when test="${ requestScope.section eq 'A' }">
                             		
-                            			<div class="site_title">A 섹션</div>
+                            			<div class="site_title">포레스트</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -552,7 +552,7 @@
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'B' }">
                             		
-                            			<div class="site_title">B 섹션</div>
+                            			<div class="site_title">밸리</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -573,7 +573,7 @@
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'C' }">
                             		
-                            			<div class="site_title">C 섹션</div>
+                            			<div class="site_title">스카이</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -594,7 +594,7 @@
                             		</c:when>
                             		<c:when test="${ requestScope.section eq 'D' }">
                             		
-                            			<div class="site_title">D 섹션</div>
+                            			<div class="site_title">스톤</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -648,7 +648,22 @@
 	                                    <li>
 	                                        <input type="checkbox" name="roomNoArr" class="romms" id="room_${ status.count }" value="${ status.count }">
 	                                        <label for="room_${ status.count }">
-	                                             A섹션 - <c:out value="${ c.spotNo }" />
+	                                        	<c:choose>
+	                                        		<c:when test="${ c.section eq 'A' }">
+	                                        			포레스트
+	                                        		</c:when>
+	                                        		<c:when test="${ c.section eq 'B' }">
+	                                        			밸리
+	                                        		</c:when>
+	                                        		<c:when test="${ c.section eq 'C' }">
+	                                        			스카이
+	                                        		</c:when>
+	                                        		<c:when test="${ c.section eq 'D' }">
+	                                        			스톤
+	                                        		</c:when>
+	                                        	</c:choose>
+	                                             
+	                                              - ${ c.spotNo }
 	                                            <span class="price">
 	                                                <span class="state state_night">
 	                                                	<c:out value="${ requestScope.stay }" />박
@@ -682,9 +697,9 @@
                                     · 화로가 아닌 바닥에서 모닥불을 피우는 행위는 금지 되어 있습니다.<br>
                                     <p style="color:#006bb6">· 캠핑장의 모든 이용요금은 카드결제로 진행됩니다.</p>
                                     <p>· 바베큐 화로대, 숯, 장작, 철망은 캠핑장에서 제공하지 않습니다.</p>
-                                    <p>· 개인이 지참하시거나 매점에서 대여 가능 합니다. (매점에서 구입가능)</p>
+                                    <p>· 개인이 지참하시거나 홈페이지에서 대여 및 구매가능 합니다. (또는 매점에서 구입가능)</p>
                                     <p>· 전 시설 이용 시 마스크 의무착용 및 예방시축(손 소독 및 발열체크)을 준수해주세요.</p>
-                                    <p>· 이용정원은 방문객 포함 4인입니다. <br>(집합금지 명령에 따른 5인 이상 이용불가)</p>
+                                    <p>· 이용정원은 방문객 포함 4인입니다. </p>
                                     <p>· 이용정원 초과 및 개인파티 적발 시 방역지침에 따라 퇴실(신고) 조치 됩니다.</p> 
                                     <p>· 동일 거주지 영유아 포함된 5인 이상 직계가족은 가족관계증명서 지참 바랍니다.</p>
                                 </div>

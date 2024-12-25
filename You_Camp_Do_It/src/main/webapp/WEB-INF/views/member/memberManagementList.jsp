@@ -441,7 +441,7 @@
                         let noData = "등록된 회원 정보가 없습니다.";
                         
                         $("#goodsListContent>img").css("height", "90%");
-                        $("#goodsListContent").text(noData);
+                        $("#goodsListContent").html("<br>" + noData);
                         
                     } else {
                     	
@@ -687,8 +687,6 @@
             let status = $("#goodsStatus").val();
 
             
-	        console.log(memberNo);
-	        console.log(status);
 
             ajaxGoodsDetailUpdate(memberNo, status);
             

@@ -181,6 +181,14 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.ajaxReserveSelect(sqlSession, pi, state);
 	}
 
+	/**
+	 * 관리자페이지 예약 상세조회용
+	 */
+	@Override
+	public Reserve ajaxReserveDetail(int reserveNo) {
+		return reserveDao.ajaxReserveDetail(sqlSession, reserveNo);
+	}
+
 	
 	
 

@@ -292,20 +292,35 @@
                                     <div>자리</div>
                                 </div>
                                 <div id="choiceDetailContent">
-                                    <div style="display:none" id="choiceNo">1</div>
-                                    <div id="choicePrice">
-                                        <input class="inputType" type="number" value="0" readOnly>
+                                    <div style="display:none" id="x">1</div>
+                                    <div id="reserveNo" style="text-align: right;">
+                                        <input class="inputType" type="text" value="0" readOnly>
                                     </div>
-                                    <div id="choiceStatus">
-                                        <select name="goodsStatus" id="goodsStatus">
-                                            <option value='Y'>활동</option>
-                                            <option value='N'>탈퇴</option>
-                                        </select>
+                                    <div id="memberName">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="paymentDate">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="price">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="paymentMethod">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="paymentStatus">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="section">
+                                        <input class="inputType" type="text" value="0" readOnly>
+                                    </div>
+                                    <div id="spotNo">
+                                        <input class="inputType" type="number" value="0" readOnly>
                                     </div>
                                 </div>
                             </div>
                             <div style="text-align: right; margin-right: 20px;">
-                                <button class="btn btn-sm btn-danger submitBtn">회원상태 수정</button>
+                                
                             </div>
                         </div>
                     </div>
@@ -456,7 +471,7 @@
                         let noData = "등록된 예약 정보가 없습니다.";
                         
                         $("#goodsListContent>img").css("height", "90%");
-                        $("#goodsListContent").text(noData);
+                        $("#goodsListContent").html("<br>" + noData);
                         
                     } else {
                     	
@@ -552,24 +567,6 @@
         function ajaxResult(result, i){
             let resultStr = "";
             
-            
-
-         // 월 한글 데이터를 숫자로 매핑
-            const monthMap = {
-                "1월": "01",
-                "2월": "02",
-                "3월": "03",
-                "4월": "04",
-                "5월": "05",
-                "6월": "06",
-                "7월": "07",
-                "8월": "08",
-                "9월": "09",
-                "10월": "10",
-                "11월": "11",
-                "12월": "12"
-            };
-
             let startDate = result.list[i].startDate.substring(0,10);
             let endDate = result.list[i].endDate.substring(0,10);
 
@@ -651,7 +648,7 @@
     <script>
         function goodsUpdateAjax(reserveNo){
             $(".choiceMenuBar").css({
-                "height" : 600,
+                "height" : 500,
                 "border" : "5px double rgb(255, 129, 97)"
             });
             $.ajax({
@@ -661,11 +658,44 @@
                     reserveNo : reserveNo
                 },
                 success(result){
-                    $("#choiceName").text(result.memberName);
-                    $("#choiceNo").text(result.memberNo);
-                    $("#choicePrice>input").val(result.memberNo);
-                    $("#choiceStatus option").attr("selected", false);
-                    $("#choiceStatus option[value="+ result.status +"]").attr("selected", true);
+                	console.log(result);
+                    console.log(result.section);
+                    
+                    
+                    let rNo = result.reserveNo.toString();
+                    let paymentDate = result.paymentDate.substring(0, 10);
+                    let price = result.price.toLocaleString('ko-KR') + "원";
+                    let section = "";
+                    let paymentStatus = "";
+                    if(result.section == "A"){
+                    	section = "포레스트"
+                    } else if(result.section == "B") {
+                    	section = "밸리"
+                    } else if(result.section == "C") {
+                    	section = "스카이"
+                    } else {
+                    	section = "스톤"
+                    }
+                    
+                    if(result.paymentStatus == "CREATED"){
+                    	paymentStatus = "결제요청"
+                    } else if(result.paymentStatus == "PAID") {
+                    	paymentStatus = "결제완료"
+                    } else if(result.paymentStatus == "CANCELED") {
+                    	paymentStatus = "결제취소요청"
+                    } else {
+                    	paymentStatus = "환불완료"
+                    }
+                    
+                    $("#reserveNo>input").val(rNo);
+                    
+                    $("#memberName>input").val(result.memberName);
+                    $("#paymentDate>input").val(paymentDate);
+                    $("#price>input").val(price);
+                    $("#paymentMethod>input").val(result.paymentMethod);
+                    $("#paymentStatus>input").val(paymentStatus);
+                    $("#section>input").val(section);
+                    $("#spotNo>input").val(result.spotNo);
                 },
                 error(){
                     $(function(){
@@ -703,7 +733,7 @@
                 success(result){
                     if(result == true){
                         $(function(){
-                            alertify.success('회원 정보를 수정했습니다.');
+                            alertify.success('예약 정보를 수정했습니다.');
                             let pageNumber = parseInt($(".thisNum").text());
                             ajaxGoodsList(pageNumber, state);
                             goodsUpdateAjax(memberNo);
@@ -711,13 +741,13 @@
                     }
                     else{
                         $(function(){
-                            alertify.success('회원 정보를 수정하지 못했습니다.');
+                            alertify.success('예약 정보를 수정하지 못했습니다.');
                         })
                     }
                 },
                 error(){
                     $(function(){
-                        alertify.success('통신실패!<br>회원 정보를 수정하지 못했습니다.');
+                        alertify.success('통신실패!<br>예약 정보를 수정하지 못했습니다.');
                     })
                 }
             });

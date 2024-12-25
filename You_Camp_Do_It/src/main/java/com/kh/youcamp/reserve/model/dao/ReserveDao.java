@@ -197,6 +197,16 @@ public class ReserveDao {
 		return (ArrayList)sqlSession.selectList("reserveMapper.ajaxReserveSelect", state, rowBounds);
 	}
 
+	/**
+	 * 관리자페이지 예약 상세 조회용
+	 * @param sqlSession
+	 * @param reserveNo
+	 * @return
+	 */
+	public Reserve ajaxReserveDetail(SqlSessionTemplate sqlSession, int reserveNo) {
+		return sqlSession.selectOne("reserveMapper.ajaxReserveDetail", reserveNo);
+	}
+
 	
 
 	

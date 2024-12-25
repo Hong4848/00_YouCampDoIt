@@ -67,5 +67,8 @@ public interface ReserveService {
 
 	// 관리자페이지 예약 목록조회용 
 	ArrayList<Reserve> ajaxReserveSelect(PageInfo pi, String state);
+
+	// 관리자페이지 예약 상세조회용
+	Reserve ajaxReserveDetail(int reserveNo);
 	
 }
