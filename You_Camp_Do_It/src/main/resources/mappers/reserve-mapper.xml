@@ -18,6 +18,7 @@
 		<result column="CAMPSITE_ID" property="campsiteId" />
 		<result column="SPOT_NO" property="spotNo" />
 		<result column="SECTION" property="section" />
+		<result column="MEMBER_NAME" property="memberName" />
 	</resultMap>
 	
 	<resultMap id="restSiteResultSet" type="restsite">
@@ -222,6 +223,110 @@
 		  FROM RESERVE
 		 WHERE RESERVE_NO = #{reserveNo}
 	</delete>
+	
+	<!--  
+		관리자 페이지 예약 갯수 조회용
+	-->
+	
+	<select id="ajaxSelectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+		  <choose>
+	        <when test="state == '포레스트'">
+		 		JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+			    WHERE C.SECTION = 'A'
+		 	</when>
+		 	<when test="state == '밸리'">
+		 		JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+			    WHERE C.SECTION = 'A'
+		 	</when>
+		 	<when test="state == '스카이'">
+		 		JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+			    WHERE C.SECTION = 'A'
+		 	</when>
+		 	<when test="state == '스톤'">
+		 		JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+			    WHERE C.SECTION = 'A'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+	</select>
+	
+	
+	<select id="totalCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+	</select>
+	
+	<select id="forestCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON(R.CAMPSITE_ID = C.CAMPSITE_ID)
+		 WHERE C.SECTION = 'A'
+	</select>
+	
+	<select id="bellyCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON(R.CAMPSITE_ID = C.CAMPSITE_ID)
+		 WHERE C.SECTION = 'B'
+	</select>
+	
+	<select id="skyCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON(R.CAMPSITE_ID = C.CAMPSITE_ID)
+		 WHERE C.SECTION = 'C'
+	</select>
+	
+	<select id="stoneCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON(R.CAMPSITE_ID = C.CAMPSITE_ID)
+		 WHERE C.SECTION = 'D'
+	</select>
+	
+	<!--  
+		관리자페이지 예약목록 조회용
+	-->
+	<select id="ajaxReserveSelect" resultMap="reserveResultSet">
+		SELECT R.RESERVE_NO, M.MEMBER_NAME, R.START_DATE, R.END_DATE, R.NIGHTS, R.MEMBER_COUNT, R.PAYMENT_STATUS
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+		  JOIN MEMBER M ON (R.MEMBER_NO = M.MEMBER_NO)
+		  <choose>
+	        <when test="state == '포레스트'">
+		 		
+			    WHERE C.SECTION = 'A'
+		 	</when>
+		 	<when test="state == '밸리'">
+		 		
+			    WHERE C.SECTION = 'B'
+		 	</when>
+		 	<when test="state == '스카이'">
+		 		
+			    WHERE C.SECTION = 'C'
+		 	</when>
+		 	<when test="state == '스톤'">
+		 		
+			    WHERE C.SECTION = 'D'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+		 
+	</select>
+	
+	<!--  
+		관리자페이지 예약 상세 조회용
+	-->
+	<select id="ajaxReserveDetail" resultMap="reserveResultSet">
+		SELECT R.RESERVE_NO, M.MEMBER_NAME, R.PAYMENT_DATE, R.PAYMENT_METHOD, R.PAYMENT_STATUS, C.SECTION, C.SPOT_NO, R.PRICE
+		  FROM RESERVE R
+		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+		  JOIN MEMBER M ON (R.MEMBER_NO = M.MEMBER_NO)
+		  JOIN CAMPSITE C ON (R.CAMPSITE_ID = C.CAMPSITE_ID)
+		 WHERE R.RESERVE_NO = #{reserveNo}
+	</select>
 	
   
 </mapper>

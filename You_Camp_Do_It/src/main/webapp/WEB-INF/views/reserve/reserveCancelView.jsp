@@ -686,7 +686,7 @@
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
 
-                    <!-- 결제 취소 시 필요한 정보들들 -->
+                    <!-- 결제 취소 시 필요한 정보들 -->
                     <table hidden>
                         <tr>
                             <th>원거래 ID</th>
@@ -715,20 +715,20 @@
                             			<img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'B' }">
-                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="B섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'C' }">
-                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="C섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'D' }">
-                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="D섹션">
                             		</c:when>
                             	</c:choose>
                             </div>
                             <div class="section site_info">
                             	<c:choose>
                             		<c:when test="${ requestScope.r.section eq 'A' }">
-                            			<div class="site_title">A섹션</div>
+                            			<div class="site_title">포레스트</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -745,7 +745,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'B' }">
-                            			<div class="site_title">B섹션</div>
+                            			<div class="site_title">밸리</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -762,7 +762,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'C' }">
-                            			<div class="site_title">C섹션</div>
+                            			<div class="site_title">스카이</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -779,7 +779,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'D' }">
-                            			<div class="site_title">D섹션</div>
+                            			<div class="site_title">스톤</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -797,7 +797,6 @@
                             		</c:when>
                             	</c:choose>
                             	
-                            
                                 
                                 <div class="site_person"> 
                                 	
@@ -842,13 +841,6 @@
                                 </div>
                             </div>
                             
-                        
-                            
-                        
-                            
-                            
-                            
-                            
                             <div class="section bg_none reserve_amount">
                                 <div class="tit_h3">
                                     취소예정 금액
@@ -862,7 +854,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -875,7 +881,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -884,7 +904,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo}" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo}" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -912,8 +946,6 @@
 	                            <div class="tit_h3">
 	                                약관 동의
 	                            </div>
-	                            
-	                            
 	                            
 	                            <div class="section reserv_agree2">
 	                                <div class="agree_box">
@@ -973,18 +1005,17 @@
 	                                </div>
 	                            </div>
                             
-                            
                         	</div>
                             
-                            
-
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">이전</a>
-                                <button type="button" class="wid_70 btnCancel" onClick="reqCancel();">취소하기</button>
-                                <!-- 이버튼 누르면 취소 요청 들거가게 -->
-                                 <!-- 만약 폼테그이면 췌소에 필요한 정보들 들어가게. -->
+                                <button type="button" class="wid_70 btnCancel" onClick="return reqCancel();">취소하기</button>
+                                <!-- 
+                                    버튼 클릭 시 
+                                    취소에 필요한 정보들 폼태그로 넘기면서서
+                                    나이스페이 취소 함수호출
+                                -->
                             </div>
-
 
                         </div>
 
@@ -993,7 +1024,6 @@
 
                 </form>
             </fieldset>
-
 
         </div>
 
@@ -1007,6 +1037,11 @@
 
     <script type="text/javascript">
         function reqCancel(){
+        	if (!$("#agree2").is(":checked")) {
+        		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
+        		return false;
+        	} 
+        	
             document.cancelForm.submit();
         }
     </script>
@@ -1029,18 +1064,15 @@
 		        });
 		    });
             
-            $(".btnCancel").on("click", function(e) {
-           	    if (!$("#agree2").is(":checked")) {
-            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
-            		return false;
-            	} 
+            
+           	    
            	    
                 // db 변동 관련은 post 방식으로
            	    // location.href="reserveCancelRequest.res?reserveNo=${requestScope.r.reserveNo}";
             	
             	
             	
-            });
+            
             
             
             // 받아온 전달값들 뽑기
@@ -1077,8 +1109,7 @@
   			let centerDay = date.getDate().toString().padStart(2, "0");
   			
   			
-  			// 하루 숙박 가격 표시
-  			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+  			
             
             
             // 1박/2박 여부에 따라 case 갈림
@@ -1086,6 +1117,8 @@
             if(nights == 1) {
             	
             	$(".date").text(`\${checkInMonth}.\${checkInDay}`);
+            	// 하루 숙박 가격 표시
+      			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             	$("input[name='price']").val(price);
             	
@@ -1095,7 +1128,9 @@
             	
             	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
-            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
+            	// 하루 숙박 가격 표시
+      			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price / 2) + "원");
+            	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             	$("input[name='price']").val(totalPrice);
             }
             

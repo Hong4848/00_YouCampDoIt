@@ -128,16 +128,11 @@
     color: #555;
 }
 
-/* .thumbnail{
-    width: 450px;
-    height: 450px;
-    margin: 25px;
-    position: relative;
-}
-
 .thumbnail>img{
     display: block;
-} */
+    height: 150px;
+    width: 150px;
+}
 
 /* 수량 조절 컨트롤 */
 .item-quantity {

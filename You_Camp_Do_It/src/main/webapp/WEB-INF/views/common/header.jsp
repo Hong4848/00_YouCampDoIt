@@ -233,7 +233,7 @@
                 <div id="header_list" class="header1">
                     <div class="header_menuList">
                         <div class="header_menu1">
-                            <a href="">캠핑용품</a>
+                            <a href="${ pageContext.request.contextPath }/product.gs">캠핑용품</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/product.gs">용품목록</a>
@@ -242,7 +242,7 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">커뮤니티</a>
+                            <a href="${ pageContext.request.contextPath }/list.no">커뮤니티</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/list.no">공지사항</a>
@@ -259,7 +259,7 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">큰메뉴이름4</a>
+                            <a href="">시설소개</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="">세부내용1</a>
@@ -268,12 +268,12 @@
                             </div>
                         </div>
                         <div class="header_menu1">
-                            <a href="">큰메뉴이름5</a>
+                            <a href="">이용안내</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="">세부내용1</a>
-                                <a href="">세부내용2</a>
-                                <a href="">세부내용3</a>
+                                <a href="${ pageContext.request.contextPath }/precaution.ha">사용시 유의사항</a>
+                                <a href="${ pageContext.request.contextPath }/emergency.ha">비상시 대책요령</a>
                             </div>
                         </div>
                     </div>

@@ -185,57 +185,25 @@
 	     WHERE ORDER_NO = #{orderNo}
 	</update>
   
-	
-	
-	<!-- 결제완료 후 결제내역 총 조회용 -->
+  	<!-- 결제내역 리스트 조회용 -->
 	<select id="selectOrederListByMemberNo" resultType="_int"
 			resultMap="orderResultSet">
-		SELECT O.*
-		     , OD.*
-		     , G.GOODS_THUMBNAIL
-		     , G.GOODS_NO
-		     , G.GOODS_NAME
-		  FROM GOODS_ORDER O
-		  JOIN ORDER_DETAIL OD ON O.ORDER_NO = OD.ORDER_NO 
-		  JOIN GOODS G ON OD.GOODS_NO = G.GOODS_NO
-		 WHERE O.MEMBER_NO = 1
+		SELECT *
+		  FROM GOODS_ORDER
+		 WHERE MEMBER_NO = #{memberNo}
 		   AND NOT PAYMENT_STATUS = 'CREATED'
-		 ORDER BY O.ORDER_NO
+		 ORDER BY ORDER_NO DESC
 	</select>
 	
-	<!-- 
-	<select id="selectOrederListByMemberNo" resultType="_int"
-			resultMap="orderListResultSet">
-		SELECT 
-		    o.ORDER_NO,
-		    o.PAYMENT_ID,
-		    o.PAYMENT_STATUS,
-		    o.PAYMENT_METHOD,
-		    o.TOTAL_PRICE,
-		    od.ORDER_DETAIL_NO,
-		    od.GOODS_NO AS DETAIL_GOODS_NO,
-		    od.QUANTITY,
-		    od.PRICE AS DETAIL_PRICE,
-		    od.TOTAL_PRICE AS DETAIL_TOTAL_PRICE,
-		    g.GOODS_NO,
-		    g.GOODS_NAME,
-		    g.GOODS_THUMBNAIL
-		FROM 
-		    ORDERS o
-		LEFT JOIN 
-		    ORDER_DETAIL od ON o.ORDER_NO = od.ORDER_NO
-		LEFT JOIN 
-		    GOODS g ON od.GOODS_NO = g.GOODS_NO
-	</select> -->
+	<!-- 결제 취소 요청 후 완료 시 상태 변경 쿼리문 -->
+	<update id="deleteOrder"
+			parameterType="_int">
+		UPDATE GOODS_ORDER
+		   SET PAYMENT_STATUS = 'CANCELED'
+		     , UPDATED_DATE = SYSDATE
+		 WHERE ORDER_NO = #{orderNo}
+	</update>
 	
 	
-	
-
-  
-  
-  
-  
-  
-  
   
 </mapper>

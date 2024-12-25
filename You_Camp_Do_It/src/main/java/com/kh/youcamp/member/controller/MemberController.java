@@ -3,6 +3,7 @@ package com.kh.youcamp.member.controller;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -25,17 +26,23 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
-import com.kh.youcamp.goods.model.vo.Goods;
-import com.kh.youcamp.goods.model.vo.Search;
 import com.kh.youcamp.member.model.service.MemberService;
 import com.kh.youcamp.member.model.vo.Identification;
 import com.kh.youcamp.member.model.vo.Member;
+import com.kh.youcamp.review.model.service.ReviewService;
+import com.kh.youcamp.review.model.vo.Review;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private ReviewService reviewService;
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
@@ -60,6 +67,7 @@ public class MemberController {
 	/**
 	 * 24.12.06 정성민
 	 * 로그인 요청용 컨트롤러
+	 * 카트 추가한 지 30일 경과 시 삭제하는 기능 추가 - 24.12.25 윤홍문
 	 * @param m
 	 * @param mv
 	 * @param session
@@ -77,6 +85,10 @@ public class MemberController {
 		
 		if((loginMember != null) && (bcryptPasswordEncoder.matches(m.getMemberPwd(), loginMember.getMemberPwd()))) {
 			// 로그인 성공
+			
+			// 장바구니 추가 30일 경과 시 삭제
+			int result = memberService.checkCart(m.getMemberNo());
+			log.debug(" 장바구니 추가 30일 경과 된거 삭제 됐나? result : " + result);
 			
 			session.setAttribute("loginMember", loginMember);
 			session.setAttribute("alertMsg", "로그인 성공");
@@ -718,6 +730,14 @@ public class MemberController {
 	
 	}
 	
+	/**
+	 * 24.12.24 정성민
+	 * 관리자페이지 회원 목록조회 요청용 컨트롤러
+	 * @param currentPage
+	 * @param state
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
 	@GetMapping(value="ajaxMemberManagement.me", produces="application/json; charset=UTF-8")
 	public String ajaxMemberSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
@@ -725,10 +745,10 @@ public class MemberController {
 			HttpSession session)
 	{
 		
-//		int totalCount = goodsService.totalCount(search);
-//		int onSaleCount = goodsService.onSaleCount(search);
-//		int offSaleCount = goodsService.offSaleCount(search);
-//		int hideCount = goodsService.hideCount(search);
+		int totalCount = memberService.totalCount();
+		int exitCount = memberService.exitCount();
+		int activeCount = memberService.activeCount();
+		
 		
 		int listCount = memberService.ajaxSelectListCount(state);
 		
@@ -741,6 +761,9 @@ public class MemberController {
 		
 		
 		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("exitCount", exitCount);
+		ajaxList.put("activeCount", activeCount);
 		ajaxList.put("list", list);
 		ajaxList.put("pi", pi);
 		
@@ -748,11 +771,69 @@ public class MemberController {
 		return new Gson().toJson(ajaxList);
 	}
 	
+	/**
+	 * 24.12.25 정성민 
+	 * 관리자 페이지 회원 상세조회 요청용 컨트롤러
+	 * @param memberNo
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="ajaxMemberDetail.me", produces="application/json; charset=UTF-8")
+	public String ajaxMemberDetail(@RequestParam(value="memberNo")int memberNo){
+		
+		Member m = memberService.ajaxMemberDetail(memberNo);
+		
+		return new Gson().toJson(m);
+	}
 	
 	
+	@ResponseBody
+	@GetMapping(value = "ajaxMemberDetailUpdate.me", produces="application/json; charset=UTF-8")
+	public boolean ajaxMemberDetailUpdate(Member m) {
+		int result = memberService.ajaxMemberDetailUpdate(m);
+		if(result > 0){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 	
 	
-	
+    /**
+     * 내가 쓴 리뷰 목록조회 요청
+     * 24.12.25 윤홍문
+     * @param currentPage
+     * @param mv
+     * @return
+     */
+    @GetMapping("myList.re")
+    public ModelAndView selectMyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+                                     ModelAndView mv,
+                                     HttpSession session) {
+        
+    	Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+    	
+        int listCount = reviewService.selectMyCount(memberNo);
+        log.debug("내가 쓴글 listCount : " + listCount);
+        
+        int pageLimit = 5;
+        int boardLimit = 16;
+        
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+        List<Review> list = reviewService.selectMyReviewList(pi, memberNo);
+        
+        mv.addObject("pi", pi)
+          .addObject("list", list)
+          .setViewName("member/myReviewListView");
+        
+//        log.debug("내가 쓴글 list : " + list);
+        log.debug("내가 쓴글 list.size() : " + list.size());
+        
+        return mv;
+    }
 	
 	
 	

@@ -65,9 +65,12 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public ArrayList<Order> selectOrederListTest(int memberNo) {
-		return orderDao.selectOrederListTest(sqlSession, memberNo);
+	@Transactional
+	public int deleteOrder(int orderNo) {
+		return orderDao.deleteOrder(sqlSession, orderNo);
 	}
+
+	
 	
 	 
 	 

@@ -51,5 +51,24 @@ public interface ReserveService {
 
 	// 임시 예약 delete 용 서비스 메소드
 	int deleteTempReserve(int reserveNo);
+
+	// 관리자페이지 예약 갯수 조회용 select 메소드
+	int ajaxSelectListCount(String state);
+
+	int totalCount();
+
+	int forestCount();
+
+	int bellyCount();
+
+	int skyCount();
+
+	int stoneCount();
+
+	// 관리자페이지 예약 목록조회용 
+	ArrayList<Reserve> ajaxReserveSelect(PageInfo pi, String state);
+
+	// 관리자페이지 예약 상세조회용
+	Reserve ajaxReserveDetail(int reserveNo);
 	
 }

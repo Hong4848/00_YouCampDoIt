@@ -85,18 +85,15 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.deleteReview(sqlSession, reviewNo);
 	}
 
-	// 댓글 작성 서비스 메소드
-	// 댓글 리스트 조회
-	@Override
-	public ArrayList<ReviewReply> selectReplyList(int reviewNo) {
-		return reviewDao.selectReplyList(sqlSession, reviewNo);
-	}
 
-	// 댓글 작성 서비스
+	// 내가 쓴 리뷰 목록조회
 	@Override
-	@Transactional
-	public int insertReviewReply(ReviewReply r) {
-		return reviewDao.insertReply(sqlSession, r);
+	public int selectMyCount(int memberNo) {
+		return reviewDao.selectMyCount(sqlSession, memberNo);
+	}
+	@Override
+	public List<Review> selectMyReviewList(PageInfo pi, int memberNo) {
+		return reviewDao.selectMyReviewList(sqlSession, pi, memberNo);
 	}
 
 

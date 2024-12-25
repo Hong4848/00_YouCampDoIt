@@ -10,7 +10,7 @@
     <title>장바구니</title>
     
     <link rel="stylesheet" 
-    	  href="${pageContext.request.contextPath}/resources/css/cart/cartListView.css">
+    	  href="${pageContext.request.contextPath}/resources/css/cart/cartListView.css?ver1.0">
     
 </head>
 <body>

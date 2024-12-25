@@ -81,6 +81,17 @@ public class ReviewDao {
 		return sqlSession.insert("reviewMapper.insertReply", r);
 	}
 
+	// 내가 쓴 리뷰 목록조회
+	public int selectMyCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("reviewMapper.selectMyCount");
+	}
+	public List<Review> selectMyReviewList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage()-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (List)sqlSession.selectList("reviewMapper.selectMyReviewList", memberNo, rowBounds);
+	}
+
 
 
 

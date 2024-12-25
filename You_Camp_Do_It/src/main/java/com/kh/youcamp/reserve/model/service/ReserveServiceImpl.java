@@ -140,6 +140,55 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.deleteTempReserve(sqlSession, reserveNo);
 	}
 
+	/**
+	 * 관리자페이지 예약 갯수 조회용
+	 */
+	@Override
+	public int ajaxSelectListCount(String state) {
+		return reserveDao.ajaxSelectListCount(sqlSession, state);
+	}
+
+	@Override
+	public int totalCount() {
+		return reserveDao.totalCount(sqlSession);
+	}
+
+	@Override
+	public int forestCount() {
+		return reserveDao.forestCount(sqlSession);
+	}
+
+	@Override
+	public int bellyCount() {
+		return reserveDao.bellyCount(sqlSession);
+	}
+
+	@Override
+	public int skyCount() {
+		return reserveDao.skyCount(sqlSession);
+	}
+
+	@Override
+	public int stoneCount() {
+		return reserveDao.stoneCount(sqlSession);
+	}
+
+	/**
+	 * 관리자페이지 에약 목록조회용
+	 */
+	@Override
+	public ArrayList<Reserve> ajaxReserveSelect(PageInfo pi, String state) {
+		return reserveDao.ajaxReserveSelect(sqlSession, pi, state);
+	}
+
+	/**
+	 * 관리자페이지 예약 상세조회용
+	 */
+	@Override
+	public Reserve ajaxReserveDetail(int reserveNo) {
+		return reserveDao.ajaxReserveDetail(sqlSession, reserveNo);
+	}
+
 	
 	
 

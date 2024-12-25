@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>결제완료</title>
     <link rel="stylesheet" 
-    	  href="${pageContext.request.contextPath}/resources/css/order/payResult.css">
+    	  href="${pageContext.request.contextPath}/resources/css/order/payResult.css?ver=1.0">
 </head>
 <body>
 
@@ -89,6 +89,7 @@
 					<div class="item-details">
 						<h3>${od.goods.goodsName}</h3>
 						<!-- <p class="item-options">${od.goods.goodsInfo}</p> -->
+						<br>
 						<div class="item-quantity">
 							<input type="text" value="${od.quantity}" class="quantity-input" readonly>
 						</div>
@@ -106,6 +107,13 @@
     </div>
     
     <jsp:include page="../common/footer.jsp" />
+
+	<script>
+		$(function () {
+			// 썸네일의 기존 인라인 스타일 제거
+			$('.thumbnail img').removeAttr('style');
+		});
+	</script>
 
 
     

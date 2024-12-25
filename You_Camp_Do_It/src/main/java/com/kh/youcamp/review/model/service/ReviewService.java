@@ -28,11 +28,10 @@ public interface ReviewService {
 	// 게시글 삭제 서비스
 	int deleteReview(int reviewNo);
 
-	// 댓글 리스트 조회 서비스(Ajax)
-	ArrayList<ReviewReply> selectReplyList(int reviewNo);
 
-	// 댓글 작성 서비스(Ajax)
-	int insertReviewReply(ReviewReply r);
+	// 내가 쓴 리뷰글 조회
+	int selectMyCount(int memberNo);
+	List<Review> selectMyReviewList(PageInfo pi, int memberNo);
 
 
 	

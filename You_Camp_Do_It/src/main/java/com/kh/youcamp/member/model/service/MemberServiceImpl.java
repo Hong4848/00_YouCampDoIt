@@ -151,6 +151,10 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 회원 목록 조회용 서비스 메소드
+	 */
 	@Override
 	public int ajaxSelectListCount(String state) {
 		return memberDao.ajaxSelectListCount(sqlSession, state);
@@ -160,6 +164,51 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public ArrayList<Member> ajaxMemberSelect(PageInfo pi, String state) {
 		return memberDao.ajaxMemberSelect(sqlSession, pi, state);
+	}
+
+
+	/**
+	 * 24.12.25 정성민
+	 * 관리자 회원 상세 조회용 서비스 메소드
+	 */
+	@Override
+	public Member ajaxMemberDetail(int memberNo) {
+		return memberDao.ajaxMemberDetail(sqlSession, memberNo);
+	}
+
+
+	/**
+	 * 24.12.25 정성민
+	 * 관리자 회원 상태 수정용 서비스 메소드
+	 */
+	@Override
+	public int ajaxMemberDetailUpdate(Member m) {
+		return memberDao.ajaxMemberDetailUpdate(sqlSession, m);
+	}
+
+
+	@Override
+	public int totalCount() {
+		return memberDao.totalCount(sqlSession);
+	}
+
+
+	@Override
+	public int exitCount() {
+		return memberDao.exitCount(sqlSession);
+	}
+
+
+	@Override
+	public int activeCount() {
+		return memberDao.activeCount(sqlSession);
+	}
+
+
+	@Override
+	@Transactional
+	public int checkCart(int memberNo) {
+		return memberDao.checkCart(sqlSession, memberNo);
 	}
 
 

@@ -602,7 +602,7 @@
 	                            </p>
 	                            <p class="item_txt">
 	                                <span class="item_title">
-	                                    A섹션
+	                                    포레스트
 	                                </span>
 	                                <span class="item_price">
 	                                    <strong>30,000</strong>
@@ -618,7 +618,7 @@
 	                            </p>
 	                            <p class="item_txt">
 	                                <span class="item_title">
-	                                    B섹션
+	                                    밸리
 	                                </span>
 	                                <span class="item_price">
 	                                    <strong>40,000</strong>
@@ -634,7 +634,7 @@
 	                            </p>
 	                            <p class="item_txt">
 	                                <span class="item_title">
-	                                    C섹션
+	                                    스카이
 	                                </span>
 	                                <span class="item_price">
 	                                    <strong>50,000</strong>
@@ -650,7 +650,7 @@
 	                            </p>
 	                            <p class="item_txt">
 	                                <span class="item_title">
-	                                    D섹션
+	                                    스톤
 	                                </span>
 	                                <span class="item_price">
 	                                    <strong>60,000</strong>

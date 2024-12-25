@@ -804,7 +804,13 @@
                     <input type="hidden" name="startDate" value="${ requestScope.r.startDate }">
                     <input type="hidden" name="endDate" value="${ requestScope.r.endDate }">
                     <input type="hidden" name="nights" value="${ requestScope.r.nights }">
-                    <input type="hidden" name="price" value="${requestScope.r.price}">
+                    <!-- 
+                        컨트롤러에서 넘어오는 가격이 단가인지 총 가격인지 모르겟음
+                        어떤 가격이 담겨서 넘어오는건지 모르겠어서 js에서 총가격으로 계산되는 값을
+                        넘기겠음.
+                     -->
+                    <!-- 합계 금액이 넘어가게 js에서 계산한 총가격을 밸류에 들어가게수정 -->
+                    <input type="hidden" name="price" value="${ requestScope.r.price }">
                     <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
@@ -823,8 +829,9 @@
 							<td><input type="text" name="GoodsName" value="${ requestScope.r.campsiteId }"></td>
 						</tr>
 						<tr hidden>
+                            <!-- 합계 금액이 넘어가게 js에서 계산한 총가격을 밸류에 들어가게수정 -->
 							<th><span>결제 상품금액</span></th>
-							<td><input type="text" name="Amt" value="${requestScope.r.price}" readOnly></td>
+							<td><input type="text" name="Amt" value="${ requestScope.r.price }" readOnly></td>
 						</tr>				
 						<tr hidden>
 							<th><span>상점 아이디</span></th>
@@ -881,20 +888,20 @@
                             			<img src="resources/images/reserve/reserveDetail/forest.jpg" width="700px" alt="A섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'B' }">
-                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/belly.jpg" width="700px" alt="B섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'C' }">
-                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/sky.jpg" width="700px" alt="C섹션">
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'D' }">
-                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="A섹션">
+                            			<img src="resources/images/reserve/reserveDetail/stone.png" width="700px" alt="D섹션">
                             		</c:when>
                             	</c:choose>
                             </div>
                             <div class="section site_info">
                             	<c:choose>
                             		<c:when test="${ requestScope.r.section eq 'A' }">
-                            			<div class="site_title">A섹션</div>
+                            			<div class="site_title">포레스트</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -911,7 +918,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'B' }">
-                            			<div class="site_title">B섹션</div>
+                            			<div class="site_title">밸리</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -928,7 +935,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'C' }">
-                            			<div class="site_title">C섹션</div>
+                            			<div class="site_title">스카이</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -945,7 +952,7 @@
                             	
                             		</c:when>
                             		<c:when test="${ requestScope.r.section eq 'D' }">
-                            			<div class="site_title">D섹션</div>
+                            			<div class="site_title">스톤</div>
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li><span class="option_txt">계곡</span></li>
@@ -1000,9 +1007,9 @@
                                         · 화로가 아닌 바닥에서 모닥불을 피우는 행위는 금지 되어 있습니다.<br>
                                         <p style="color:#006bb6">· 캠핑장의 모든 이용요금은 카드결제로 진행됩니다.</p>
                                         <p>· 바베큐 화로대, 숯, 장작, 철망은 캠핑장에서 제공하지 않습니다.</p>
-                                        <p>· 개인이 지참하시거나 매점에서 대여 가능 합니다. (매점에서 구입가능)</p>
+                                        <p>· 개인이 지참하시거나 홈페이지에서 대여 및 구매가능 합니다. (또는 매점에서 구입가능)</p>
                                         <p>· 전 시설 이용 시 마스크 의무착용 및 예방시축(손 소독 및 발열체크)을 준수해주세요.</p>
-                                        <p>· 이용정원은 방문객 포함 4인입니다. <br>(집합금지 명령에 따른 5인 이상 이용불가)</p>
+                                        <p>· 이용정원은 방문객 포함 4인입니다. </p>
                                         <p>· 이용정원 초과 및 개인파티 적발 시 방역지침에 따라 퇴실(신고) 조치 됩니다.</p> 
                                         <p>· 동일 거주지 영유아 포함된 5인 이상 직계가족은 가족관계증명서 지참 바랍니다.</p>
                                     </div>
@@ -1051,12 +1058,12 @@
                                         <div class="privacy privacyBox">
                                             <div class="content_box">
                                                 <article class="box_style mb20">
-                                                    ('https://jindongri.zapza.me/'이하 '진동리국민여가캠핑장')은(는) 개인정보보호법에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있습니다.<br>
-                                                    '진동리국민여가캠핑장'은 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
+                                                    ('http://localhost:8006/youcamp/'이하 'YouCampDoIt캠핑장')은(는) 개인정보보호법에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있습니다.<br>
+                                                    'YouCampDoIt'은 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.
                                                 </article>
                                                 <p>
                                                     1. 개인정보의 처리 목적
-                                                    '진동리국민여가캠핑장'는 개인정보를 다음의 목적을 위해 처리합니다. 처리한 개인정보는 다음의 목적이외의 용도로는 사용되지 않으며 이용 목적이 변경될 시에는 사전동의를 구할 예정입니다. 
+                                                    'YouCampDoIt'는 개인정보를 다음의 목적을 위해 처리합니다. 처리한 개인정보는 다음의 목적이외의 용도로는 사용되지 않으며 이용 목적이 변경될 시에는 사전동의를 구할 예정입니다. 
                                                     <br><br>
                                                     <strong>가. 홈페이지 회원가입 및 관리</strong><br>
                                                     "회원 가입의사 확인, 회원제 서비스 제공에 따른 본인 식별·인증, 회원자격 유지·관리, 제한적 본인확인제 시행에 따른 본인확인, 서비스 부정이용 방지, 고충처리, 분쟁 조정을 위한 기록 보존 등을 목적으로 개인정보를 처리합니다."
@@ -1071,9 +1078,9 @@
                                                     신규 서비스(제품) 개발 및 맞춤 서비스 제공, 이벤트 및 광고성 정보 제공 및 참여기회 제공 , 인구통계학적 특성에 따른 서비스 제공 및 광고 게재 , 접속빈도 파악 또는 회원의 서비스 이용에 대한 통계 등을 목적으로 개인정보를 처리합니다.
                                                     <br><br>
                                                     2. 개인정보 파일 현황
-                                                    ‘진동리국민여가캠핑장’이 개인정보 보호법 제32조에 따라 등록·공개하는 개인정보파일의 처리목적은 다음과 같습니다.
+                                                    ‘YouCampDoIt’이 개인정보 보호법 제32조에 따라 등록·공개하는 개인정보파일의 처리목적은 다음과 같습니다.
                                                     <br><br>
-                                                    <strong>가. 개인정보 파일명 : 진동리국민여가캠핑장 개인정보처리방침</strong>
+                                                    <strong>가. 개인정보 파일명 : YouCampDoIt 개인정보처리방침</strong>
                                                     <br><br>
                                                     개인정보 항목 : 자택주소, 비밀번호, 생년월일, 자택전화번호, 로그인ID, 휴대전화번호, 이름, 이메일, 결제기록, 접속 IP 정보, 쿠키, 서비스 이용 기록, 접속 로그
                                                     <br>
@@ -1082,17 +1089,17 @@
                                                     보유기간 : 지체없이 파기<br>
                                                     관련법령 : 소비자의 불만 또는 분쟁처리에 관한 기록 : 3년, 대금결제 및 재화 등의 공급에 관한 기록 : 5년, 계약 또는 청약철회 등에 관한 기록 : 5년
                                                     <br>
-                                                    ※ 기타 '진동리국민여가캠핑장'의 개인정보파일 등록사항 공개는 행정안전부 개인정보보호 종합지원 포털(www.privacy.go.kr) → 개인정보민원 → 개인정보열람등 요구 → 개인정보파일 목록검색 메뉴를 활용해주시기 바랍니다.
+                                                    ※ 기타 'YouCampDoIt'의 개인정보파일 등록사항 공개는 행정안전부 개인정보보호 종합지원 포털(www.privacy.go.kr) → 개인정보민원 → 개인정보열람등 요구 → 개인정보파일 목록검색 메뉴를 활용해주시기 바랍니다.
                                                     <br><br><br>
                                                     3. 개인정보처리 위탁
                                                     <br><br>
-                                                    ① '진동리국민여가캠핑장'는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.
+                                                    ① 'YouCampDoIt'는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.
                                                     <br>
-                                                    《진동리국민여가캠핑장 홈페이지》
+                                                    《YouCampDoIt 홈페이지》
                                                     <br><br>
                                                     위탁받는 자(수탁자) : (주)임팩시스<br>
                                                     위탁하는 업무의 내용 : 홈페이지, 서버관리 및 운영<br>
-                                                    ② '진동리국민여가캠핑장'는 위탁계약 체결시 개인정보 보호법 제25조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.
+                                                    ② 'YouCampDoIt'는 위탁계약 체결시 개인정보 보호법 제25조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 기술적·관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리·감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.
                                                     <br>
                                                     ③ 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.
                                                     <br><br><br>
@@ -1100,20 +1107,20 @@
                                                     <br><br>
                                                     가. 개인정보의 처리 목적
                                                     <br><br>
-                                                    ① 정보주체는 '진동리국민여가캠핑장'에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.
+                                                    ① 정보주체는 'YouCampDoIt'에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.
                                                     <br><br>
                                                     개인정보 열람요구<br>
                                                     오류 등이 있을 경우 정정 요구<br>
                                                     삭제요구<br>
                                                     처리정지 요구<br>
-                                                    ② 제1항에 따른 권리 행사는 '진동리국민여가캠핑장'에 대해 개인정보 보호법 시행규칙 별지 제8호 서식에 따라 서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 '진동리국민여가캠핑장'는 이에 대해 지체 없이 조치하겠습니다.
+                                                    ② 제1항에 따른 권리 행사는 'YouCampDoIt'에 대해 개인정보 보호법 시행규칙 별지 제8호 서식에 따라 서면, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 'YouCampDoIt'는 이에 대해 지체 없이 조치하겠습니다.
                                                     <br>
-                                                    ③ 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에는 '진동리국민여가캠핑장'는 정정 또는 삭제를 완료할 때까지 당해 개인정보를 이용하거나 제공하지 않습니다.
+                                                    ③ 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에는 'YouCampDoIt'는 정정 또는 삭제를 완료할 때까지 당해 개인정보를 이용하거나 제공하지 않습니다.
                                                     <br>
                                                     ④ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.
                                                     <br><br>
                                                     5. 처리하는 개인정보의 항목 작성<br>
-                                                    '진동리국민여가캠핑장'는 다음의 개인정보 항목을 처리하고 있습니다.
+                                                    'YouCampDoIt'는 다음의 개인정보 항목을 처리하고 있습니다.
                                                     <br><br>
                                                     가. 홈페이지 회원가입 및 관리
                                                     <br><br>
@@ -1122,7 +1129,7 @@
                                                     선택항목 : 개인정보의 열람청구를 접수·처리하는 부서, 정보주체의 권익침해에 대한 구제방법
                                                     <br><br>
                                                     6. 개인정보의 파기<br>
-                                                    '진동리국민여가캠핑장'는 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당 개인정보를 파기합니다. 파기의 절차, 기한 및 방법은 다음과 같습니다.
+                                                    'YouCampDoIt'는 원칙적으로 개인정보 처리목적이 달성된 경우에는 지체없이 해당 개인정보를 파기합니다. 파기의 절차, 기한 및 방법은 다음과 같습니다.
                                                     <br><br>
                                                     가. 홈페이지 회원가입 및 관리
                                                     <br><br>
@@ -1133,7 +1140,7 @@
                                                     파기방법 : 전자적 파일 형태의 정보는 기록을 재생할 수 없는 기술적 방법을 사용합니다.
                                                     <br><br><br>
                                                     7. 개인정보의 안전성 확보 조치
-                                                    '진동리국민여가캠핑장'는 개인정보보호법 제29조에 따라 다음과 같이 안전성 확보에 필요한 기술적/관리적 및 물리적 조치를 하고 있습니다.
+                                                    'YouCampDoIt'는 개인정보보호법 제29조에 따라 다음과 같이 안전성 확보에 필요한 기술적/관리적 및 물리적 조치를 하고 있습니다.
                                                     <br><br>
                                                     <strong>1. 개인정보 취급 직원의 최소화 및 교육</strong><br>
                                                     개인정보를 취급하는 직원을 지정하고 담당자에 한정시켜 최소화 하여 개인정보를 관리하는 대책을 시행하고 있습니다.
@@ -1155,7 +1162,7 @@
                                                     <br><br>
                                                     8. 개인정보 보호책임자 작성
                                                     <br><br>
-                                                    ① '진동리국민여가캠핑장'는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
+                                                    ① 'YouCampDoIt'는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
                                                     <br>
                                                     개인정보 처리책임자 / (주)임팩시스
                                                     <br><br>
@@ -1168,11 +1175,11 @@
                                                     소속 : 기업부설연구소 개발팀<br>
                                                     직급 : 대리<br>
                                                     연락처 : 070-7004-7520<br>
-                                                    ② 정보주체께서는 '진동리국민여가캠핑장'의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. '진동리국민여가캠핑장'는 정보주체의 문의에 대해 지체 없이 답변 및 처리해드릴 것입니다.
+                                                    ② 정보주체께서는 'YouCampDoIt'의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 'YouCampDoIt'는 정보주체의 문의에 대해 지체 없이 답변 및 처리해드릴 것입니다.
                                                     <br><br><br>
                                                     9. 개인정보 열람청구
                                                     <br><br>
-                                                    ① 정보주체는 개인정보 보호법 제35조에 따른 개인정보의 열람 청구를 아래의 부서에 할 수 있습니다. '진동리국민여가캠핑장'는 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.
+                                                    ① 정보주체는 개인정보 보호법 제35조에 따른 개인정보의 열람 청구를 아래의 부서에 할 수 있습니다. 'YouCampDoIt'는 정보주체의 개인정보 열람청구가 신속하게 처리되도록 노력하겠습니다.
                                                     개인정보 열람청구 접수·처리 부서
                                                     <br><br>
                                                     부서명 : 기업부설연구소<br>
@@ -1183,7 +1190,7 @@
                                                     행정안전부 개인정보보호 종합지원 포털 → 개인정보 민원 → 개인정보 열람등 요구 (본인확인을 위하여 아이핀(I-PIN)이 있어야 함)
                                                     <br><br>
                                                     10. 개인정보보호문의처
-                                                    아래의 기관은 '진동리국민여가캠핑장'과는 별개의 기관으로서, '진동리국민여가캠핑장'의 자체적인 개인정보 불만처리, 피해구제 결과에 만족하지 못하시거나 보다 자세한 도움이 필요하시면 문의하여 주시기 바랍니다.
+                                                    아래의 기관은 'YouCampDoIt'과는 별개의 기관으로서, 'YouCampDoIt'의 자체적인 개인정보 불만처리, 피해구제 결과에 만족하지 못하시거나 보다 자세한 도움이 필요하시면 문의하여 주시기 바랍니다.
                                                     <br><br>
                                                     개인정보 침해신고센터 (한국인터넷진흥원 운영)
                                                     <br><br>
@@ -1209,7 +1216,7 @@
                                                     이 개인정보처리방침은 시행일로부터 적용되며, 법령 및 방침에 따른 변경내용의 추가, 삭제 및 정정이 있는 경우에는 변경사항의 시행 7일 전부터 공지사항을 통하여 고지할 것입니다.
                                                     <br><br><br>
                                                     12. 동의를 거부할 권리 및 불이익 내용
-                                                    정보주체는 개인정보의 수집·이용목적에 대한 동의를 거부할 수 있으며, 동의 거부시 진동리국민여가캠핑장 홈페이지에 회원가입이 되지 않으며, 진동리국민여가캠핑장 홈페이지에서 제공하는 서비스를 이용할 수 없습니다.
+                                                    정보주체는 개인정보의 수집·이용목적에 대한 동의를 거부할 수 있으며, 동의 거부시 YouCampDoIt 홈페이지에 회원가입이 되지 않으며, YouCampDoIt 홈페이지에서 제공하는 서비스를 이용할 수 없습니다.
                                                     <br><br>
                                                 </p>
                                             </div>
@@ -1333,7 +1340,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -1346,7 +1367,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo }" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo }" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -1355,7 +1390,21 @@
 		                                            <li>
 		                                                <span class="date"></span>
 		                                                <span class="item">
-		                                                	<c:out value="${ requestScope.r.section }" />섹션 - <c:out value="${ requestScope.r.spotNo}" />
+		                                                	<c:choose>
+				                                        		<c:when test="${ requestScope.r.section eq 'A' }">
+				                                        			포레스트
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'B' }">
+				                                        			밸리
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'C' }">
+				                                        			스카이
+				                                        		</c:when>
+				                                        		<c:when test="${ requestScope.r.section eq 'D' }">
+				                                        			스톤
+				                                        		</c:when>
+				                                        	</c:choose>
+		                                                	 - <c:out value="${ requestScope.r.spotNo}" />
 		                                                </span>
 		                                                <span class="price">
 		                                                    <strong></strong>
@@ -1403,7 +1452,7 @@
 
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">취소</a>
-                                <button type="button" class="wid_70 btnPay" onClick="nicepayStart();">결제</button>
+                                <button type="button" class="wid_70 btnPay" onClick="return nicepayStart();">결제</button>
                             </div>
 
 
@@ -1427,6 +1476,20 @@
 
             //결제창 최초 요청시 실행됩니다.
             function nicepayStart(){
+            	if (!$("#agree1").is(":checked")) {
+            		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
+            		return false;
+            	} else if (!$("#agree2").is(":checked")) {
+            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
+            		return false;
+            	} else if ($(".dropdown-toggle").text() == "선택해주세요") {
+            		alert("캠핑장 이용인원을 선택해주세요!");
+            		return false;
+            	} else if (!$("#agree3").is(":checked")) {
+            		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
+            		return false;
+            	}
+            	
                 goPay(document.payForm);
             }
 
@@ -1460,24 +1523,7 @@
 		        });
 		    });
             
-            $(".btnPay").on("click", function(e) {
-           	    if (!$("#agree1").is(":checked")) {
-            		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
-            		return false;
-            	} else if (!$("#agree2").is(":checked")) {
-            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
-            		return false;
-            	} else if ($(".dropdown-toggle").text() == "선택해주세요") {
-            		alert("캠핑장 이용인원을 선택해주세요!");
-            		return false;
-            	} else if (!$("#agree3").is(":checked")) {
-            		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
-            		return false;
-            	} 
-            	
-            	
-            	
-            });
+            
             
             
             // 받아온 전달값들 뽑기
@@ -1515,25 +1561,33 @@
   			
   			
   			// 하루 숙박 가격 표시
-  			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+  			// $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             
             
             // 1박/2박 여부에 따라 case 갈림
             
             if(nights == 1) {
             	
+                $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+
             	$(".date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             	$("input[name='price']").val(price);
+
+                
             	
             } else {
+                // 컨롤러단에서 총가격처리 되어서 박수로 나눠서 하루 숙박 가격 표시
+                $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format((price/nights)) + "원");
             	
-            	let totalPrice = price * nights;
+            	let totalPrice = price // * nights; // 컨롤러단에서 총가격처리 되어서 박수를 곱할 필요 없어짐.
             	
             	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
             	$("input[name='price']").val(totalPrice);
+
+                
             }
             
             // console.log($("input[name='price']").val());

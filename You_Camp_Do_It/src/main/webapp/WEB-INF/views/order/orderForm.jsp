@@ -118,6 +118,7 @@
 					<div class="item-details">
 						<h3>${od.goods.goodsName}</h3>
 						<!-- <p class="item-options">${od.goods.goodsInfo}</p> -->
+						<br>
 						<div class="item-quantity">
 							<input type="text" value="${od.quantity}" class="quantity-input" readonly>
 						</div>
