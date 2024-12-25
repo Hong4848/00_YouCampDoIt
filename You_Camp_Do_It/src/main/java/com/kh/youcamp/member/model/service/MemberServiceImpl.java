@@ -205,6 +205,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 
+	@Override
+	@Transactional
+	public int checkCart(int memberNo) {
+		return memberDao.checkCart(sqlSession, memberNo);
+	}
+
+
 	
 
 

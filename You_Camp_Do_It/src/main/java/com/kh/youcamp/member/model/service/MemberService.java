@@ -71,6 +71,9 @@ public interface MemberService {
 	// 활동중인 회원 수 조회용
 	int activeCount();
 
+	// 카트 추가한 지 30일 경과 시 삭제하는 기능
+	int checkCart(int memberNo);
+
 	
 	
 	

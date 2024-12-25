@@ -83,6 +83,16 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.deleteReview(sqlSession, reviewNo);
 	}
 
+	// 내가 쓴 리뷰 목록조회
+	@Override
+	public int selectMyCount(int memberNo) {
+		return reviewDao.selectMyCount(sqlSession, memberNo);
+	}
+	@Override
+	public List<Review> selectMyReviewList(PageInfo pi, int memberNo) {
+		return reviewDao.selectMyReviewList(sqlSession, pi, memberNo);
+	}
+
 
 
 
