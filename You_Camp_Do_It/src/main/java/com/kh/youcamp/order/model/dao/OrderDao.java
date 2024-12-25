@@ -43,9 +43,11 @@ public class OrderDao {
 		return (ArrayList)sqlSession.selectList("orderMapper.selectOrederListByMemberNo", memberNo);
 	}
 
-	public ArrayList<Order> selectOrederListTest(SqlSessionTemplate sqlSession, int memberNo) {
-		return (ArrayList)sqlSession.selectList("orderMapper.selectOrederListTest", memberNo);
+	public int deleteOrder(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.update("orderMapper.deleteOrder", orderNo);
 	}
+
+	
 
 	
 

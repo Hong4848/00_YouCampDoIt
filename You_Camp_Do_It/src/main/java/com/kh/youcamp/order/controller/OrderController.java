@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -552,17 +554,29 @@ public class OrderController {
 		
 		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
 		// 주문(결제)한 내용 memberNo > order테이블 > 
-		
 		ArrayList<Order> list = 
 				orderService.selectOrederListByMemberNo(memberNo);
 //		log.debug("결제내역 잘 갖고왔나, list : " + list);
 		
-		for(Order o : list){
-			
-			log.debug("섬네일 잘넘어왔는지, 길이 : " + o.getGoodsThumbnail().length());
-			
+		model.addAttribute("list", list);
+		
+		 return "order/orderListView";
+	}
+	
+	@GetMapping("/orderDetail.or")
+    public String getOrderDetail(@RequestParam("orderNo") int orderNo, Model model) {
+        
+		log.debug("orderNo 잘 넘어옴? orderNo : " + orderNo);
+		// 주문 정보 조회
+		Order order = orderService.selectOrder(orderNo);
+		// 결제완료한 상품 orderDetail select > orderNo 기준
+		ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+		// 결제완료된 상품 썸네일
+		ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByOrderNo(orderNo);
+	    
+	    for(Goods g : gList){
 			String s = "<img src="; // 이미지 태그 찾기
-			String body = o.getGoodsThumbnail();
+			String body = g.getGoodsThumbnail();
 			int start = 0;
 			int end = 0;
 			
@@ -571,17 +585,154 @@ public class OrderController {
 			end = body.indexOf(">");
 			body = body.substring(0, end+1);
 			
-			o.setGoodsThumbnail(body);
+			g.setGoodsThumbnail(body);
+		}
+	    
+	    Map<Integer, String> thumbnailMap = new HashMap<>();
+	    for (Goods goods : gList) {
+	        thumbnailMap.put(goods.getGoodsNo(), goods.getGoodsThumbnail());
+	    }
+
+        
+
+        // Model에 주문 정보 추가
+	    model.addAttribute("order", order);
+	    model.addAttribute("list", list);
+		model.addAttribute("thumbnailMap", thumbnailMap);
+
+        // 뷰 이름 반환
+        return "order/orderDetailView"; 
+    }
+	
+	/*
+	 * 
+	 * 취소 흐름 현재 관리자 페이지가 구성되있지 않아 2번으로 구현
+	 * 사용자의 취소요청 > 관리자페이지에서 승인 및 나이스페이 취소 실행 > db 업데이트
+	 * 사용자의 취소요청 > 나이스페이 결제 취소 > 관리자가 상태 update (취소자체는 나이스페이 및 카드사가 바로 진행)
+	 */
+	/**
+	 * 24.12.25 윤홍문
+	 * 용품대여 결제취소 컨트롤러
+	 * @param reserveNo
+	 * @param mv
+	 * @param request 
+	 * @return
+	 * 예약 취소는 db데이터 변동이니까 post로 변경
+	 * 취소 기능 구현 24.12.25 윤홍문
+	 * @throws Exception 
+	 */
+	@PostMapping("orderCancelRequest.or")
+	public ModelAndView deleteReserveRequest(int orderNo, 
+											 ModelAndView mv, 
+											 HttpSession session, 
+											 ServletRequest request) throws Exception {
+		
+		/*
+		****************************************************************************************
+		* <취소요청 파라미터>
+		* 취소시 전달하는 파라미터입니다.
+		* 샘플페이지에서는 기본(필수) 파라미터만 예시되어 있으며, 
+		* 추가 가능한 옵션 파라미터는 연동메뉴얼을 참고하세요.
+		****************************************************************************************
+		*/
+		String tid 					= (String)request.getParameter("TID");	// 거래 ID
+		String cancelAmt 			= (String)request.getParameter("CancelAmt");	// 취소금액
+		String partialCancelCode 	= (String)request.getParameter("PartialCancelCode"); 	// 부분취소여부
+		String mid 					= "nicepay00m";	// 상점 ID
+		String moid					= "nicepay_api_3.0_test";	// 주문번호
+		String cancelMsg 			= "고객요청";	// 취소사유
+
+		/*
+		****************************************************************************************
+		* <해쉬암호화> (수정하지 마세요)
+		* SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
+		****************************************************************************************
+		*/
+		DataEncrypt sha256Enc 	= new DataEncrypt();
+		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
+		String ediDate			= getyyyyMMddHHmmss();
+		String signData 		= sha256Enc.encrypt(mid + cancelAmt + ediDate + merchantKey);
+
+		/*
+		****************************************************************************************
+		* <취소 요청>
+		* 취소에 필요한 데이터 생성 후 server to server 통신을 통해 취소 처리 합니다.
+		* 취소 사유(CancelMsg) 와 같이 한글 텍스트가 필요한 파라미터는 euc-kr encoding 처리가 필요합니다.
+		****************************************************************************************
+		*/
+		StringBuffer requestData = new StringBuffer();
+		requestData.append("TID=").append(tid).append("&");
+		requestData.append("MID=").append(mid).append("&");
+		requestData.append("Moid=").append(moid).append("&");
+		requestData.append("CancelAmt=").append(cancelAmt).append("&");
+		requestData.append("CancelMsg=").append(URLEncoder.encode(cancelMsg, "euc-kr")).append("&");
+		requestData.append("PartialCancelCode=").append(partialCancelCode).append("&");
+		requestData.append("EdiDate=").append(ediDate).append("&");
+		requestData.append("CharSet=").append("utf-8").append("&");
+		requestData.append("SignData=").append(signData);
+		String resultJsonStr = connectToServer(requestData.toString(), "https://pg-api.nicepay.co.kr/webapi/cancel_process.jsp");
+
+		/*
+		****************************************************************************************
+		* <취소 결과 파라미터 정의>
+		* 샘플페이지에서는 취소 결과 파라미터 중 일부만 예시되어 있으며, 
+		* 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
+		****************************************************************************************
+		*/
+		String ResultCode 	= ""; String ResultMsg 	= ""; String CancelAmt 	= "";
+		String CancelDate 	= ""; String CancelTime = ""; String TID 		= ""; String Signature = "";
+
+		/*  
+		****************************************************************************************
+		* Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며 
+		* 위변조 검증 미사용으로 인해 발생하는 이슈는 당사의 책임이 없음 참고하시기 바랍니다.
+		****************************************************************************************
+		 */
+		//String Signature = ""; String cancelSignature = "";
+
+		if("9999".equals(resultJsonStr)){
+			ResultCode 	= "9999";
+			ResultMsg	= "통신실패";
 			
+			mv.addObject("errorMsg", "예약 취소 실패!")
+			  .setViewName("common/errorPage");
+		}else{ // 통신성공
+			
+			HashMap resultData = jsonStringToHashMap(resultJsonStr);
+			ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (취소성공: 2001, 취소성공(LGU 계좌이체):2211)
+			ResultMsg 	= (String)resultData.get("ResultMsg");	// 결과메시지
+			CancelAmt 	= (String)resultData.get("CancelAmt");	// 취소금액
+			CancelDate 	= (String)resultData.get("CancelDate");	// 취소일
+			CancelTime 	= (String)resultData.get("CancelTime");	// 취소시간
+			TID 		= (String)resultData.get("TID");		// 거래아이디 TID
+			//Signature       	= (String)resultData.get("Signature");
+			//cancelSignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);
+			log.debug("결제 취소 요청 ResultCode : " + ResultCode);
+			log.debug("결제 취소 요청 resultData : " + ResultMsg);
+			
+			if(ResultCode.equals("2001")) { // 취소 성공
+				
+				int result = orderService.deleteOrder(orderNo);
+				log.debug("쿼리문실행 잘 됐나?  result : " + result);
+				
+				if(result > 0) { // 쿼리문 성공
+					session.setAttribute("alertMsg", "용품대여 결제 취소에 성공했습니다!");
+					mv.setViewName("redirect:/list.or");
+					
+				} else { // 쿼리문 실패
+					mv.addObject("errorMsg", "결제 취소 실패!")
+					  .setViewName("common/errorPage");
+				}
+				
+			} else { // 취소실패
+				mv.addObject("errorMsg", "결제 취소 실패!")
+				  .setViewName("common/errorPage");
+			}
+				
 		}
 		
-
-		model.addAttribute("list", list);
-		
-		
-		 return "order/orderListView";
+		return mv;
 	}
-	
 	
 	
 	
