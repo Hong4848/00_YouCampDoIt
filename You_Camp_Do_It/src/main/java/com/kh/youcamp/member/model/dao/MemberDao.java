@@ -149,10 +149,25 @@ public class MemberDao {
 		return result;
 	}
 
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 회원 총 수 조회용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param state
+	 * @return
+	 */
 	public int ajaxSelectListCount(SqlSessionTemplate sqlSession, String state) {
 		return sqlSession.selectOne("memberMapper.ajaxSelectListCount", state);
 	}
 
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 회원 목록 조회용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param pi
+	 * @param state
+	 * @return
+	 */
 	public ArrayList<Member> ajaxMemberSelect(SqlSessionTemplate sqlSession, PageInfo pi, String state) {
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
@@ -162,6 +177,40 @@ public class MemberDao {
 				= new RowBounds(offset, limit);
 		
 		return (ArrayList)sqlSession.selectList("memberMapper.ajaxMemberSelect", state, rowBounds);
+	}
+
+	/**
+	 * 24.12.24 정성민
+	 * 관리자 회원 상세 조회용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param memberNo
+	 * @return
+	 */
+	public Member ajaxMemberDetail(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("memberMapper.ajaxMemberDetail", memberNo);
+	}
+
+	/**
+	 * 24.12.25 정성민
+	 * 관리자 회원 상태 수정용 쿼리문 실행 메소드
+	 * @param sqlSession
+	 * @param m
+	 * @return
+	 */
+	public int ajaxMemberDetailUpdate(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.ajaxMemberDetailUpdate", m);
+	}
+
+	public int totalCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("memberMapper.totalCount");
+	}
+
+	public int exitCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("memberMapper.exitCount");
+	}
+
+	public int activeCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("memberMapper.activeCount");
 	}
 
 	

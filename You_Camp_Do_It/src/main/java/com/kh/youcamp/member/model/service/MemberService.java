@@ -56,6 +56,21 @@ public interface MemberService {
 	// 관리자 회원 목록 조회용 서비스 (select)
 	ArrayList<Member> ajaxMemberSelect(PageInfo pi, String state);
 
+	// 관리자 회원 상세 조회용 서비스 (select)
+	Member ajaxMemberDetail(int memberNo);
+
+	// 관리자 회원 상태 수정용 서비스 (update)
+	int ajaxMemberDetailUpdate(Member m);
+
+	// 모든 회원 수 조회용
+	int totalCount();
+
+	// 탈퇴한 회원 수 조회용
+	int exitCount();
+
+	// 활동중인 회원 수 조회용
+	int activeCount();
+
 	
 	
 	

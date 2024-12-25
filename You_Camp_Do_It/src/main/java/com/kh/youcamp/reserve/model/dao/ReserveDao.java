@@ -150,6 +150,53 @@ public class ReserveDao {
 		return sqlSession.delete("reserveMapper.deleteTempReserve", reserveNo);
 	}
 
+	/**
+	 * 관리자 페이지 갯수 조회용
+	 * @param sqlSession
+	 * @param state
+	 * @return
+	 */
+	public int ajaxSelectListCount(SqlSessionTemplate sqlSession, String state) {
+		return sqlSession.selectOne("reserveMapper.ajaxSelectListCount", state);
+	}
+
+	public int totalCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.totalCount");
+	}
+
+	public int forestCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.forestCount");
+	}
+
+	public int bellyCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.bellyCount");
+	}
+
+	public int skyCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.skyCount");
+	}
+
+	public int stoneCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("reserveMapper.stoneCount");
+	}
+
+	/**
+	 * 관리자페이지 예약 목록 조회용
+	 * @param sqlSession
+	 * @param pi
+	 * @param state
+	 * @return
+	 */
+	public ArrayList<Reserve> ajaxReserveSelect(SqlSessionTemplate sqlSession, PageInfo pi, String state) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds 
+				= new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("reserveMapper.ajaxReserveSelect", state, rowBounds);
+	}
+
 	
 
 	

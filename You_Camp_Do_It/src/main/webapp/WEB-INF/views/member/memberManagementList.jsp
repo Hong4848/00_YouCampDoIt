@@ -125,7 +125,7 @@
             }
 
             .goodsNo_checkbox{
-                width: 5%;
+                width: 7%;
                 height: 100%;
                 margin-left: 20px;
                 text-align: left;
@@ -134,7 +134,7 @@
             
             
             .memberId_Info{
-                width: 15%;
+                width: 13%;
                 height: 100%;
                 text-align: left;
             }
@@ -221,6 +221,7 @@
                 width: 280px;
                 display: flex;
                 margin: 30px;
+                margin-bottom: 0px;
                 justify-content:space-between;
                 font-size: 17px;
             }
@@ -283,41 +284,27 @@
                 <div class="management_content">
                     <div class="choiceMenuBar">
                         <div id="choiceGoods">
-                            <div id="choiceName">5-6인 고급원터치자동 텐트</div>
+                            <div id="choiceName">정성민</div>
                             <div id="choiceDetail">
                                 <div id="choiceDetailTitle">
-                                    <div>가격</div>
-                                    <div>총 수량</div>
-                                    <div>재고</div>
-                                    <div>할인율</div>
-                                    <div>판매상태</div>
+                                	<div>회원번호</div>
+                                    <div>회원상태</div>
                                 </div>
                                 <div id="choiceDetailContent">
                                     <div style="display:none" id="choiceNo">1</div>
                                     <div id="choicePrice">
-                                        <input class="inputType" type="number" value="10000">원
-                                    </div>
-                                    <div id="choiceTotalStock">
-                                        <input class="inputType" type="number" value="1000">개
-                                    </div>
-                                    <div id="choiceStock">
-                                        <input class="inputType" type="number" value="1000">개
-                                    </div>
-                                    <div id="choiceDiscount">
-                                        <input class="inputType" type="number" value="70">%
+                                        <input class="inputType" type="number" value="0" readOnly>
                                     </div>
                                     <div id="choiceStatus">
                                         <select name="goodsStatus" id="goodsStatus">
-                                            <option value='Y'>판매중</option>
-                                            <option value='N'>품절</option>
-                                            <option value='H'>숨김</option>
+                                            <option value='Y'>활동</option>
+                                            <option value='N'>탈퇴</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div style="text-align: right; margin-right: 20px;">
-                                <button class="btn btn-sm btn-warning updateBtn">상세내용 수정</button>
-                                <button class="btn btn-sm btn-danger submitBtn">상품상태 수정</button>
+                                <button class="btn btn-sm btn-danger submitBtn">회원상태 수정</button>
                             </div>
                         </div>
                     </div>
@@ -331,7 +318,7 @@
                         </div>
                         <div id="sale_list" class="listClass">
                             <div class="listContent">
-                                <div class="listName">활동 회원</div>
+                                <div class="listName">탈퇴한 회원</div>
                                 <div class="listCount">0</div>
                             </div>
                             <div class="listLine"></div>
@@ -363,7 +350,7 @@
                     <div class="goodsList">
                         <div class="goodsListInfo">
                             <div class="goodsNo_checkbox">
-                                <label class="labelClass" for="">No</label>
+                                <label class="labelClass" for="">회원번호</label>
                             </div>
                             <div class="memberId_Info" style="text-align: center;">
                                 아이디
@@ -446,6 +433,7 @@
                     let listClass = $(".targetList .listName").text();
                     $("#goodsListContent").children().remove();
                     $("#pagingArea").children().remove();
+                    $("#goodsListContent").text("");
                     
                     if(result.list.length == 0){
                         let imgD = document.createElement("img")
@@ -480,9 +468,9 @@
     <script>
         function ajaxTotalList(result){
             $("#all_list .listCount").text(result.totalCount);
-            $("#sale_list .listCount").text(result.onSaleCount);
-            $("#soldOut_list .listCount").text(result.offSaleCount);
-            $("#hide_list .listCount").text(result.hideCount);
+            $("#sale_list .listCount").text(result.exitCount);
+            $("#soldOut_list .listCount").text(result.activeCount);
+            console.log(totalCount);
         }
     </script>
 
@@ -592,27 +580,7 @@
 
             let formattedSignupDate = `\${year}-\${month}-\${day}`;
 
-
-            
-	         
-	        /*
-            console.log(result.list[i].birthDate);
-            // 생일 형식포메팅
-            let date = result.list[i].birthDate;
-            year = date.substring(8,12);
-            month = date.substring(0,2);
-            day = date.substring(4,6);
-            let birthDate = `\${year}-\${month}-\${day}`
-            
-            
-            // 회원가입일 형식 포메팅
-            date = result.list[i].signupDate;
-            year = date.substring(8,12);
-            month = date.substring(0,2);
-            day = date.substring(4,6);
-            let signupDate = `\${year}-\${month}-\${day}`
-            // 1월 1, 2024
-            */
+			
             
             let status = result.list[i].status;
             switch(status){
@@ -678,37 +646,34 @@
     <!-- 상품정보수정 클릭 이벤트 -->
     <script>
         $(document).on("click", ".ajaxClick", function(){
-            let goodsNo = $(this).find(".labelClass").text();
-            goodsUpdateAjax(goodsNo);
+            let memberNo = $(this).find(".labelClass").text();
+            goodsUpdateAjax(memberNo);
         })
     </script>
 
     <!-- 상품정보불러오기 ajax통신 -->
     <script>
-        function goodsUpdateAjax(goodsNo){
+        function goodsUpdateAjax(memberNo){
             $(".choiceMenuBar").css({
-                "height" : 450,
+                "height" : 250,
                 "border" : "5px double rgb(255, 129, 97)"
             });
             $.ajax({
-                url : "ajaxGoodsDetail.ma",
+                url : "ajaxMemberDetail.me",
                 type : "get",
                 data : {
-                    goodsNo : goodsNo
+                    memberNo : memberNo
                 },
                 success(result){
-                    $("#choiceName").text(result.goodsName);
-                    $("#choiceNo").text(result.goodsNo);
-                    $("#choicePrice>input").val(result.price);
-                    $("#choiceTotalStock>input").val(result.totalStock);
-                    $("#choiceStock>input").val(result.remainStock);
-                    $("#choiceDiscount>input").val(parseFloat(result.discount)*100);
+                    $("#choiceName").text(result.memberName);
+                    $("#choiceNo").text(result.memberNo);
+                    $("#choicePrice>input").val(result.memberNo);
                     $("#choiceStatus option").attr("selected", false);
                     $("#choiceStatus option[value="+ result.status +"]").attr("selected", true);
                 },
                 error(){
                     $(function(){
-                        alertify.success('상품의 정보를 불러오지 못했습니다.');
+                        alertify.success('회원의 정보를 불러오지 못했습니다.');
                     })
                 }
             });
@@ -718,78 +683,45 @@
     <!-- 상품정보수정 버튼 이벤트 -->
     <script>
         $(".submitBtn").click(()=>{
-            let goodsNo = $("#choiceNo").text();
-            let price = $("#choicePrice>input").val();
-            let totalStock = $("#choiceTotalStock>input").val();
-            let remainStock = $("#choiceStock>input").val();
-            let discount = ($("#choiceDiscount>input").val()/100);
+            let memberNo = $("#choiceNo").text();
             let status = $("#goodsStatus").val();
 
-            let errorMsg = "";
-	        if(price < 0 || discount > 1 || discount < 0 || totalStock < 0 || remainStock < 0){
-	            if(price < 0){
-	                errorMsg += "정상적인 가격을 입력해주세요.<br>";
-	            }
+            
+	        console.log(memberNo);
+	        console.log(status);
 
-                if(totalStock < 0 || remainStock < 0){
-                    errorMsg += "비정상적인 재고 수량을 입력하셨습니다.<br>";
-                }
-
-                if(discount > 1 || discount < 0){
-	                errorMsg += "정상적인 할인율을 입력해주세요(최대 100%)<br>";
-	            }
-	            
-	            alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
-	        }
-            else{
-                if(parseInt(totalStock) < parseInt(remainStock)){
-                    let remain = remainStock;
-                    let total = totalStock;
-
-                    remainStock = total;
-                    totalStock = remain;
-                }
-
-                if(remainStock == 0 && status == 'Y'){
-                    status = 'N'
-                }
-
-                ajaxGoodsDetailUpdate(goodsNo, price, totalStock, remainStock, discount, status);
-            }
+            ajaxGoodsDetailUpdate(memberNo, status);
+            
         });
     </script>
     <!-- 상품정보수정 ajax통신 -->
     <script>
-        function ajaxGoodsDetailUpdate(goodsNo, price, totalStock, remainStock, discount, status){
+        function ajaxGoodsDetailUpdate(memberNo, status){
             $.ajax({
-                url : "ajaxGoodsDetailUpdate.ma",
+                url : "ajaxMemberDetailUpdate.me",
                 type : "get",
                 data : {
-                    goodsNo : goodsNo,
-                    price : price,
-                    totalStock : totalStock,
-                    remainStock : remainStock,
-                    discount : discount,
+                    memberNo : memberNo,
                     status : status
                 },
                 success(result){
                     if(result == true){
                         $(function(){
-                            alertify.success('상품 정보를 수정했습니다.');
+                            alertify.success('회원 정보를 수정했습니다.');
                             let pageNumber = parseInt($(".thisNum").text());
                             ajaxGoodsList(pageNumber, state);
-                            goodsUpdateAjax(goodsNo);
+                            goodsUpdateAjax(memberNo);
                         })
                     }
                     else{
                         $(function(){
-                            alertify.success('상품 정보를 수정하지 못했습니다.');
+                            alertify.success('회원 정보를 수정하지 못했습니다.');
                         })
                     }
                 },
                 error(){
                     $(function(){
-                        alertify.success('통신실패!<br>상품 정보를 수정하지 못했습니다.');
+                        alertify.success('통신실패!<br>회원 정보를 수정하지 못했습니다.');
                     })
                 }
             });

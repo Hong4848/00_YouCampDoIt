@@ -29,5 +29,7 @@ public class Reserve {
 	// 값 넘기기 위한 section, spotNo 변수 추가
 	private String section;
 	private int spotNo;
+	// 관리자 회원 이름 조회
+	private String memberName;
 
 }

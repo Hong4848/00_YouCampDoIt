@@ -1403,7 +1403,7 @@
 
                             <div class="section select_button">
                                 <a href="#" onclick="history.back();" class="btn_cancel wid_30">취소</a>
-                                <button type="button" class="wid_70 btnPay" onClick="nicepayStart();">결제</button>
+                                <button type="button" class="wid_70 btnPay" onClick="return nicepayStart();">결제</button>
                             </div>
 
 
@@ -1427,6 +1427,20 @@
 
             //결제창 최초 요청시 실행됩니다.
             function nicepayStart(){
+            	if (!$("#agree1").is(":checked")) {
+            		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
+            		return false;
+            	} else if (!$("#agree2").is(":checked")) {
+            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
+            		return false;
+            	} else if ($(".dropdown-toggle").text() == "선택해주세요") {
+            		alert("캠핑장 이용인원을 선택해주세요!");
+            		return false;
+            	} else if (!$("#agree3").is(":checked")) {
+            		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
+            		return false;
+            	}
+            	
                 goPay(document.payForm);
             }
 
@@ -1460,24 +1474,7 @@
 		        });
 		    });
             
-            $(".btnPay").on("click", function(e) {
-           	    if (!$("#agree1").is(":checked")) {
-            		alert("개인정보 수집, 이용 및 제공 약관에 동의해주세요!");
-            		return false;
-            	} else if (!$("#agree2").is(":checked")) {
-            		alert("취소/환불 규정에 대한 약관에 동의해주세요!");
-            		return false;
-            	} else if ($(".dropdown-toggle").text() == "선택해주세요") {
-            		alert("캠핑장 이용인원을 선택해주세요!");
-            		return false;
-            	} else if (!$("#agree3").is(":checked")) {
-            		alert("구매조건 확인 및 결제진행에 최종 동의해주세요!");
-            		return false;
-            	} 
-            	
-            	
-            	
-            });
+            
             
             
             // 받아온 전달값들 뽑기

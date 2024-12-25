@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletRequest;
@@ -867,6 +868,52 @@ public class ReserveController {
 			return "실패";
 		}
 		
+	}
+	
+	
+	/**
+	 * 24.12.25 정성민
+	 * 관리자 페이지 예약 목록 조회용 컨트롤러
+	 * @param currentPage
+	 * @param state
+	 * @param session
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="ajaxReserveManagement.res", produces="application/json; charset=UTF-8")
+	public String ajaxReserveSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
+			@RequestParam(value="state", defaultValue="전체")String state, 
+			HttpSession session)
+	{
+		
+		int totalCount = reserveService.totalCount();
+		int forestCount = reserveService.forestCount();
+		int bellyCount = reserveService.bellyCount();
+		int skyCount = reserveService.skyCount();
+		int stoneCount = reserveService.stoneCount();
+		
+		
+		int listCount = reserveService.ajaxSelectListCount(state);
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Reserve> list = reserveService.ajaxReserveSelect(pi, state);
+		
+		
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("forestCount", forestCount);
+		ajaxList.put("bellyCount", bellyCount);
+		ajaxList.put("skyCount", skyCount);
+		ajaxList.put("stoneCount", stoneCount);
+		ajaxList.put("list", list);
+		ajaxList.put("pi", pi);
+		
+		
+		return new Gson().toJson(ajaxList);
 	}
 	
 	

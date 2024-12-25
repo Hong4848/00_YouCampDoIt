@@ -258,33 +258,46 @@
                     </thead>
                     <tbody>
                     
-                    	<c:forEach var="r" items="${ requestScope.list }">
                     	
-	                        <tr>
-	                            <td>${ r.reserveNo }</td>
-	                            <td>${ r.paymentDate.substring(0, 10) }</td>
-	                            <td><fmt:formatNumber value="${r.price}" type="number" pattern="#,###" /></td>
-	                            <td>
-	                            	
-	                            	<c:choose>
-	                                	<c:when test="${ r.paymentStatus eq 'PAID' }">
-	                                		<span class="state state_point">예약 완료</span>
-	                                	</c:when>
-	                                	
-	                                	<c:when test="${ r.paymentStatus eq 'CANCELED' }">
-	                                		<span class="state state_point">취소 진행중</span>
-	                                	</c:when>
-	                                	
-	                                	<c:when test="${ r.paymentStatus eq 'REFUNDED' }">
-	                                		<span class="state state_point">취소 완료</span>
-	                                	</c:when>
-	                                	
-	                                </c:choose>
-	                                
-	                            </td>
-	                        </tr>
-                        
-                        </c:forEach>
+                    	<c:choose>
+                   			<c:when test="${ empty requestScope.list }">
+                   				<tr>
+                   					<td colspan="4" style="pointer-events: none;">예약 내역이 존재하지 않습니다.</td>
+                   				</tr>
+                   			</c:when>
+                   			<c:otherwise>
+                   				<c:forEach var="r" items="${ requestScope.list }">
+   
+			                        <tr>
+			                            <td>${ r.reserveNo }</td>
+			                            <td>${ r.paymentDate.substring(0, 10) }</td>
+			                            <td><fmt:formatNumber value="${r.price}" type="number" pattern="#,###" /></td>
+			                            <td>
+			                            	
+			                            	<c:choose>
+			                                	<c:when test="${ r.paymentStatus eq 'PAID' }">
+			                                		<span class="state state_point">예약 완료</span>
+			                                	</c:when>
+			                                	
+			                                	<c:when test="${ r.paymentStatus eq 'CANCELED' }">
+			                                		<span class="state state_point">취소 진행중</span>
+			                                	</c:when>
+			                                	
+			                                	<c:when test="${ r.paymentStatus eq 'REFUNDED' }">
+			                                		<span class="state state_point">취소 완료</span>
+			                                	</c:when>
+			                                	
+			                                </c:choose>
+			                                
+			                            </td>
+			                        </tr>
+		                        
+		                        </c:forEach>
+                   				
+                   			</c:otherwise>
+                    	</c:choose>
+                    	
+                    	
                         
                     </tbody>
                 </table>

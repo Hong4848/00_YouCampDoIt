@@ -210,8 +210,43 @@
 		 	</when>
 		 	<otherwise></otherwise>
 		 </choose>
-		ORDER BY MEMBER_NO DESC
+		
 	</select>
 
+	<!--  
+		24.12.25 정성민
+		관리자 페이지 회원 상세 조회용
+	-->
+	<select id="ajaxMemberDetail" resultMap="memberResultSet">
+		SELECT *
+		  FROM MEMBER
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!--  
+		24.12.25 정성민
+		관리자 페이지 회원 상태 수정용
+	-->
+	<update id="ajaxMemberDetailUpdate">
+		UPDATE MEMBER
+		   SET STATUS = #{status}
+		 WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<select id="totalCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+	</select>
   
+  	<select id="exitCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE STATUS = 'N'
+	</select>
+	
+	<select id="activeCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM MEMBER
+		 WHERE STATUS = 'Y'
+	</select>
 </mapper>

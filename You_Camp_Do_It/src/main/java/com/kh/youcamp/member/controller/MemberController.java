@@ -718,6 +718,14 @@ public class MemberController {
 	
 	}
 	
+	/**
+	 * 24.12.24 정성민
+	 * 관리자페이지 회원 목록조회 요청용 컨트롤러
+	 * @param currentPage
+	 * @param state
+	 * @param session
+	 * @return
+	 */
 	@ResponseBody
 	@GetMapping(value="ajaxMemberManagement.me", produces="application/json; charset=UTF-8")
 	public String ajaxMemberSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
@@ -725,10 +733,10 @@ public class MemberController {
 			HttpSession session)
 	{
 		
-//		int totalCount = goodsService.totalCount(search);
-//		int onSaleCount = goodsService.onSaleCount(search);
-//		int offSaleCount = goodsService.offSaleCount(search);
-//		int hideCount = goodsService.hideCount(search);
+		int totalCount = memberService.totalCount();
+		int exitCount = memberService.exitCount();
+		int activeCount = memberService.activeCount();
+		
 		
 		int listCount = memberService.ajaxSelectListCount(state);
 		
@@ -741,6 +749,9 @@ public class MemberController {
 		
 		
 		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("exitCount", exitCount);
+		ajaxList.put("activeCount", activeCount);
 		ajaxList.put("list", list);
 		ajaxList.put("pi", pi);
 		
@@ -748,9 +759,34 @@ public class MemberController {
 		return new Gson().toJson(ajaxList);
 	}
 	
+	/**
+	 * 24.12.25 정성민 
+	 * 관리자 페이지 회원 상세조회 요청용 컨트롤러
+	 * @param memberNo
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value="ajaxMemberDetail.me", produces="application/json; charset=UTF-8")
+	public String ajaxMemberDetail(@RequestParam(value="memberNo")int memberNo){
+		
+		Member m = memberService.ajaxMemberDetail(memberNo);
+		
+		return new Gson().toJson(m);
+	}
 	
 	
-	
+	@ResponseBody
+	@GetMapping(value = "ajaxMemberDetailUpdate.me", produces="application/json; charset=UTF-8")
+	public boolean ajaxMemberDetailUpdate(Member m) {
+		int result = memberService.ajaxMemberDetailUpdate(m);
+		if(result > 0){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
 	
 	
 	
