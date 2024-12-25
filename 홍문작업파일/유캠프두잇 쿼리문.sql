@@ -6,6 +6,17 @@ UPDATE MEMBER
  WHERE MEMBER_NO = #{memberNo}
    AND STATUS = 'Y'
 
+-- 장바구니 추가 30일 경과 시 삭제
+DELETE
+  FROM CART
+ WHERE MEMBER_NO = #{memberNo}
+   AND (SYSDATE - ADDED_AT) > 30
+   
+SELECT *
+  FROM CART
+ WHERE MEMBER_NO = 1
+   AND (SYSDATE - ADDED_AT) > 30
+
 ---------------------------------------------------------------
 -- 1. 장바구니 목록 조회용 쿼리문
 SELECT M.MEMBER_NO

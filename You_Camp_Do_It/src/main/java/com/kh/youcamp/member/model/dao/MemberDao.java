@@ -213,6 +213,10 @@ public class MemberDao {
 		return sqlSession.selectOne("memberMapper.activeCount");
 	}
 
+	public int checkCart(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.delete("memberMapper.checkCart", memberNo);
+	}
+
 	
 
 	

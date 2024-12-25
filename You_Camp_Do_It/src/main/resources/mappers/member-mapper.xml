@@ -249,4 +249,14 @@
 		  FROM MEMBER
 		 WHERE STATUS = 'Y'
 	</select>
+	
+	<!-- 장바구니 추가가 30일 경과이면 삭제하는 쿼리문 -->
+	<delete id="checkCart" parameterType="_int">
+		DELETE
+		  FROM CART
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND (SYSDATE - ADDED_AT) > 30
+	</delete>
+	
+	
 </mapper>

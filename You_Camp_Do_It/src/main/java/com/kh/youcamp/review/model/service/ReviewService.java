@@ -27,6 +27,10 @@ public interface ReviewService {
 	// 게시글 삭제 서비스
 	int deleteReview(int reviewNo);
 
+	// 내가 쓴 리뷰글 조회
+	int selectMyCount(int memberNo);
+	List<Review> selectMyReviewList(PageInfo pi, int memberNo);
+
 	
 	
 }

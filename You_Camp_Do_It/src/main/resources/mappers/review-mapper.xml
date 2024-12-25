@@ -140,4 +140,23 @@
 	    WHERE REVIEW_NO = #{reviewNo}
 	</update>
 	
+	<!-- 내가 쓴 글 목록조회 -->
+	<select id="selectMyCount" resultType="_int">
+        SELECT COUNT(*)
+          FROM REVIEW
+         WHERE MEMBER_NO = #{memberNo}
+    </select>
+    <select id="selectMyReviewList" resultMap="reviewResultMap">
+	    SELECT R.REVIEW_NO
+		      , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+		      , REVIEW_TITLE
+		      , CHANGE_NAME AS "MAINIMAGE"
+		  FROM REVIEW R
+		  JOIN REVIEW_ATTACHMENT A ON (R.REVIEW_NO = A.REVIEW_NO)
+		 WHERE R.STATUS = 'Y'
+		   AND R.MEMBER_NO = #{memberNo}
+		   AND FILE_LEVEL = 1
+		 ORDER BY REVIEW_NO DESC
+	</select>
+	
 </mapper>
