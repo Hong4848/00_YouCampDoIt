@@ -88,6 +88,13 @@
     color: #555;
 }
 
+.thumbnail>img{
+    display: block;
+    height: 150px;
+    width: 150px;
+}
+
+
 /* 수량 조절 컨트롤 */
 .item-quantity {
     display: flex;

@@ -313,7 +313,10 @@ function renderCartItems(data) {
                 <!-- 삭제 버튼 -->
                 <button class="delete-btn" value="${item.cartNo}">X</button>
             </div>`;
-        
+
+        // 썸네일의 기존 인라인 스타일 제거
+		$('.thumbnail img').removeAttr('style');
+
         // 컨테이너에 추가
         $cartContainer.append(cartItem);
     });

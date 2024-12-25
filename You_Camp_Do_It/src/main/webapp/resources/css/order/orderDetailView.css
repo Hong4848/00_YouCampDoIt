@@ -119,6 +119,12 @@
     text-align: right;
 }
 
+.thumbnail>img{
+    display: block;
+    height: 150px;
+    width: 150px;
+}
+
 /* 주문정보 영역 */
 
 

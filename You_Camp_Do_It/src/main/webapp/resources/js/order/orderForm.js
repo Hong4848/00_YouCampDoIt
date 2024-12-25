@@ -6,7 +6,8 @@
 
 $(function () {
 
-
+    // 썸네일의 기존 인라인 스타일 제거
+    $('.thumbnail img').removeAttr('style');
 
 
 
