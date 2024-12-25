@@ -221,8 +221,11 @@ public class ReserveController {
 		String goodsName 		= "나이스페이"; 					// 결제상품명
 		// order에서 가져올꺼
 		// String price 			= "1004"; 						// 결제상품금액	
-		String price =  r.getPrice()+"";
+		String price =  (r.getPrice()*r.getNights())+"";		
+//		log.debug("r.getPrice() : " + r.getPrice());
+//		log.debug("r.getNights() : " + r.getNights());
 		log.debug("price : " + price);
+		r.setPrice(Integer.parseInt(price));
 		// 아래 세개는 view 단에서 session 에서 직접 출력
 		// String buyerName 		= "나이스"; 						// 구매자명
 		// String buyerTel 		= "01000000000"; 				// 구매자연락처

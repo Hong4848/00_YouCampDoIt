@@ -804,7 +804,13 @@
                     <input type="hidden" name="startDate" value="${ requestScope.r.startDate }">
                     <input type="hidden" name="endDate" value="${ requestScope.r.endDate }">
                     <input type="hidden" name="nights" value="${ requestScope.r.nights }">
-                    <input type="hidden" name="price" value="${requestScope.r.price}">
+                    <!-- 
+                        컨트롤러에서 넘어오는 가격이 단가인지 총 가격인지 모르겟음
+                        어떤 가격이 담겨서 넘어오는건지 모르겠어서 js에서 총가격으로 계산되는 값을
+                        넘기겠음.
+                     -->
+                    <!-- 합계 금액이 넘어가게 js에서 계산한 총가격을 밸류에 들어가게수정 -->
+                    <input type="hidden" name="price" value="${ requestScope.r.price }">
                     <input type="hidden" name="memberNo" value="${ requestScope.memberNo }">
                     <input type="hidden" name="campsiteId" value="${ requestScope.r.campsiteId }">
                     <input type="hidden" name="memberCount" value="">
@@ -823,8 +829,9 @@
 							<td><input type="text" name="GoodsName" value="${ requestScope.r.campsiteId }"></td>
 						</tr>
 						<tr hidden>
+                            <!-- 합계 금액이 넘어가게 js에서 계산한 총가격을 밸류에 들어가게수정 -->
 							<th><span>결제 상품금액</span></th>
-							<td><input type="text" name="Amt" value="${requestScope.r.price}" readOnly></td>
+							<td><input type="text" name="Amt" value="${ requestScope.r.price }" readOnly></td>
 						</tr>				
 						<tr hidden>
 							<th><span>상점 아이디</span></th>
@@ -1512,25 +1519,33 @@
   			
   			
   			// 하루 숙박 가격 표시
-  			$(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+  			// $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             
             
             // 1박/2박 여부에 따라 case 갈림
             
             if(nights == 1) {
             	
+                $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
+
             	$(".date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(price) + "원");
             	$("input[name='price']").val(price);
+
+                
             	
             } else {
+                // 컨롤러단에서 총가격처리 되어서 박수로 나눠서 하루 숙박 가격 표시
+                $(".amount_item .price strong").text(new Intl.NumberFormat('ko-KR').format((price/nights)) + "원");
             	
-            	let totalPrice = price * nights;
+            	let totalPrice = price // * nights; // 컨롤러단에서 총가격처리 되어서 박수를 곱할 필요 없어짐.
             	
             	$(".amount_item ul>li:eq(0) .date").text(`\${checkInMonth}.\${checkInDay}`);
             	$(".amount_item ul>li:eq(1) .date").text(`\${centerMonth}.\${centerDay}`);
             	$(".amount_sum .price strong").text(new Intl.NumberFormat('ko-KR').format(totalPrice) + "원");
             	$("input[name='price']").val(totalPrice);
+
+                
             }
             
             // console.log($("input[name='price']").val());
