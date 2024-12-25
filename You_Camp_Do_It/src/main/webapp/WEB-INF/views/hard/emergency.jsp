@@ -43,10 +43,12 @@
         background-color: #fff;
         margin: 0;
         padding: 0;
+        width: 1900px;
+        ;
     }
 
     .container {
-        max-width: 800px;
+        min-width: 1200px;
         margin: 0 auto;
         padding: 20px;
     }

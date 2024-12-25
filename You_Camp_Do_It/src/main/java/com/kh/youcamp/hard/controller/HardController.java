@@ -21,4 +21,39 @@ public class HardController {
 		mv.setViewName("hard/emergency");
 		return mv;
 	}
+	
+	@GetMapping("forest.ha")
+	public ModelAndView toForest(ModelAndView mv)
+	{
+		mv.setViewName("hard/forest");
+		return mv;
+	}
+	
+	@GetMapping("belly.ha")
+	public ModelAndView toBelly(ModelAndView mv)
+	{
+		mv.setViewName("hard/belly");
+		return mv;
+	}
+	
+	@GetMapping("sky.ha")
+	public ModelAndView toSky(ModelAndView mv)
+	{
+		mv.setViewName("hard/sky");
+		return mv;
+	}
+	
+	@GetMapping("stone.ha")
+	public ModelAndView toStone(ModelAndView mv)
+	{
+		mv.setViewName("hard/stone");
+		return mv;
+	}
+	
+	@GetMapping("etc.ha")
+	public ModelAndView toEtc(ModelAndView mv)
+	{
+		mv.setViewName("hard/etc");
+		return mv;
+	}
 }

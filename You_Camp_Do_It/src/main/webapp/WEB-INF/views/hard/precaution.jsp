@@ -43,11 +43,13 @@
 	    margin: 0;
 	    padding: 0;
 	    background-color: #f8f8f8;
+	    width: 1900px;
 	}
 	
 	.info-section {
+		
 	    width: 90%;
-	    max-width: 1200px;
+	    min-width: 1900px;
 	    margin: 0 auto;
 	    padding: 40px 20px;
 	    background-color: #ffffff;
@@ -79,9 +81,10 @@
 	}
 	
 	.info-table {
-	    width: 100%;
+	    width: 1200px;
 	    border-collapse: collapse;
 	    margin-top: 20px;
+	    margin: auto;
 	}
 	
 	.info-table td {
