@@ -101,7 +101,10 @@ DELETE FROM CART
          WHERE ORDER_NO = ?)
  
  
-
+SELECT COUNT(*)
+  FROM RESERVE
+ WHERE MEMBER_NO = 1
+   AND START_DATE >= SYSDATE
  
 ------------------------------------------
 -- ¡÷πÆ insert
@@ -203,10 +206,24 @@ UPDATE ORDERS
  WHERE ORDER_NO = ?
 ---------------------------------------------
 
+SELECT COUNT(*)
+  FROM REVIEW R
+  JOIN REVIEW_LIKE L ON R.REVIEW_NO = L.REVIEW_NO
+ WHERE R.STATUS = 'Y'
+   AND L.MEMBER_NO = #{memberNo}
 
 
-
-
+    SELECT R.REVIEW_NO
+         , TO_CHAR(R.CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+         , R.REVIEW_TITLE
+         , A.CHANGE_NAME AS "MAINIMAGE"
+      FROM REVIEW R
+      JOIN REVIEW_ATTACHMENT A ON R.REVIEW_NO = A.REVIEW_NO
+      JOIN REVIEW_LIKE L ON R.REVIEW_NO = L.REVIEW_NO
+     WHERE R.STATUS = 'Y'
+       AND L.MEMBER_NO = ?
+       AND A.FILE_LEVEL = 1
+     ORDER BY R.REVIEW_NO DESC
 
 
 

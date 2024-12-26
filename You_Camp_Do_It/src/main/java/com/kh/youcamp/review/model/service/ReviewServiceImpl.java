@@ -148,6 +148,16 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.checkLike(sqlSession, paramMap) > 0;
 	}
 
+	// 내가 좋아요 한 글 보기
+	@Override
+	public List<Review> selectMyLikedReviewList(PageInfo pi, int memberNo) {
+		return reviewDao.selectMyLikedReviewList(sqlSession, pi, memberNo);
+	}
+	@Override
+	public int selectMyLikedCount(int memberNo) {
+		return reviewDao.selectMyLikedCount(sqlSession, memberNo);
+	}
+
 
 
 

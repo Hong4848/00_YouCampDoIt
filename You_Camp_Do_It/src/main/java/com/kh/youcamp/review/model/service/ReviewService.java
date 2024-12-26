@@ -40,6 +40,10 @@ public interface ReviewService {
 	boolean toggleLike(int memberNo, int reviewNo);
 	int getLikeCount(int reviewNo);
 	boolean isReviewLikedByMember(int reviewNo, int memberNo);
+	
+	// 내가 좋아요 한 글 조회
+	List<Review> selectMyLikedReviewList(PageInfo pi, int memberNo);
+	int selectMyLikedCount(int memberNo);
 
 
 	

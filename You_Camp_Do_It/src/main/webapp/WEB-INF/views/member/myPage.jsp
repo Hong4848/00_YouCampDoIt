@@ -199,10 +199,10 @@
 	                <img src="resources/images/member/MyReplyIcon.png" alt="내가 쓴 댓글 아이콘">
 	                <span>내가 댓글 쓴 글</span>
 	            </a>
-	            <!-- <a href="#7" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/myLikedList.re" class="menu-item">
 	                <img src="resources/images/member/MyLikeIcon.png" alt="좋아요한 글 아이콘">
 	                <span>좋아요한 글</span>
-	            </a> -->
+	            </a>
 	            <a href="${ pageContext.request.contextPath }/myDibs.me" class="menu-item">
 	                <img src="resources/images/member/MyGoodIcon.png" alt="찜한 물품 아이콘">
 	                <span>찜한 물품</span>

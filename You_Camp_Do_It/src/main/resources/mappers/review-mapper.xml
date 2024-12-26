@@ -213,5 +213,26 @@
 	      FROM REVIEW_LIKE
 	     WHERE REVIEW_NO = #{reviewNo}
     </select>
+    
+    <select id="selectMyLikedCount" resultType="_int">
+	    SELECT COUNT(*)
+	      FROM REVIEW R
+	      JOIN REVIEW_LIKE L ON R.REVIEW_NO = L.REVIEW_NO
+	     WHERE R.STATUS = 'Y'
+	       AND L.MEMBER_NO = #{memberNo}
+	</select>
+	<select id="selectMyLikedReviewList" resultMap="reviewResultMap">
+	    SELECT R.REVIEW_NO
+	         , TO_CHAR(R.CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+	         , R.REVIEW_TITLE
+	         , A.CHANGE_NAME AS "MAINIMAGE"
+	      FROM REVIEW R
+	      JOIN REVIEW_ATTACHMENT A ON R.REVIEW_NO = A.REVIEW_NO
+	      JOIN REVIEW_LIKE L ON R.REVIEW_NO = L.REVIEW_NO
+	     WHERE R.STATUS = 'Y'
+	       AND L.MEMBER_NO = #{memberNo}
+	       AND A.FILE_LEVEL = 1
+	     ORDER BY R.REVIEW_NO DESC
+	</select>
 	
 </mapper>

@@ -351,6 +351,12 @@ public class ReviewController {
     }
     */
     
+    /**
+     * 좋아요 기능 구현 ajax
+     * 24.12.26 윤홍문
+     * @param data
+     * @return
+     */
     @PostMapping("/like.re")
     public ResponseEntity<Map<String, Object>> toggleLike(@RequestBody Map<String, Integer> data) {
         int reviewNo = data.get("reviewNo");

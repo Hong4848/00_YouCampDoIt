@@ -836,7 +836,32 @@ public class MemberController {
     }
 	
 	
-	
+    @GetMapping("myLikedList.re")
+    public ModelAndView selectMyLikedList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+                                     ModelAndView mv,
+                                     HttpSession session) {
+        
+    	Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+    	
+        int listCount = reviewService.selectMyLikedCount(memberNo);
+        log.debug("내가 쓴글 listCount : " + listCount);
+        
+        int pageLimit = 5;
+        int boardLimit = 16;
+        
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+        List<Review> list = reviewService.selectMyLikedReviewList(pi, memberNo);
+        
+        mv.addObject("pi", pi)
+          .addObject("list", list)
+          .setViewName("member/myReviewListView");
+        
+//        log.debug("내가 쓴글 list : " + list);
+        log.debug("내가 쓴글 list.size() : " + list.size());
+        
+        return mv;
+    }
 	
 	
 	

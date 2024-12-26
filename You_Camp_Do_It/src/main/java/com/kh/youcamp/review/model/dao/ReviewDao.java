@@ -122,6 +122,17 @@ public class ReviewDao {
 	    return sqlSession.selectOne("reviewMapper.checkReviewLike", paramMap);
 	}
 
+	// 내가 좋아요 한 글 조회
+	public List<Review> selectMyLikedReviewList(SqlSessionTemplate sqlSession, PageInfo pi, int memberNo) {
+		int limit = pi.getBoardLimit();
+		int offset = (pi.getCurrentPage()-1)*limit;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		return (List)sqlSession.selectList("reviewMapper.selectMyLikedReviewList", memberNo, rowBounds);
+	}
+	public int selectMyLikedCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("reviewMapper.selectMyLikedCount");
+	}
+
 
 
 	
