@@ -280,9 +280,9 @@ function renderCartItems(data) {
 
         // 섬네일 찾기 (goodsNo 기준)
         const thumbnail = goodsMap.get(item.goods.goodsNo) || "<img src='https://via.placeholder.com/100' alt='기본 이미지'>";
-
+        
         // 가격에 콤마 추가
-        const formattedPrice = item.price.toLocaleString();
+        const formattedPrice = (item.price-(item.price*item.goods.discount)).toLocaleString()
 
         // 동적 HTML 생성
         const cartItem = `

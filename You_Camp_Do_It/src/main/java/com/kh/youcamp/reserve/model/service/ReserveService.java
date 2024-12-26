@@ -70,5 +70,8 @@ public interface ReserveService {
 
 	// 관리자페이지 예약 상세조회용
 	Reserve ajaxReserveDetail(int reserveNo);
+
+	// 주문결제 시 예약내역 체크용
+	int selectReserveCount(int memberNo);
 	
 }

@@ -189,6 +189,24 @@ public class GoodsDao {
 		return sqlSession.selectOne("goodsMapper.selectDibsCount", memberNo);
 	}
 	
+	/* 세일 품목 개수 조회 */
+	public int discountListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("goodsMapper.discountListCount");
+	}
+	
+	/* 세일 품목 불러오기 */
+	public ArrayList<Goods> discountList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		Map<String, Object> pageSE = new HashMap<>();
+		
+		int start = (pi.getCurrentPage() - 1) * pi.getBoardLimit()+1;
+		int end = start+pi.getBoardLimit()-1;
+		
+		pageSE.put("start", start);
+		pageSE.put("end", end);
+
+		return (ArrayList)sqlSession.selectList("goodsMapper.discountList", pageSE);
+	}
+	
 /************************************************************************************************************************/	
 /************************************************************************************************************************/	
 /************************************************************************************************************************/	

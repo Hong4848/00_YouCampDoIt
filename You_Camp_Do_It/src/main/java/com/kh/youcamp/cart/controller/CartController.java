@@ -65,6 +65,10 @@ public class CartController {
 	    ArrayList<Goods> gList = goodsService.selectGoodsThumbnailList(memberNo);
 	    // 썸네일컬럼 img 부터 짤라서 div에 넣기
 		//섬네일 이미지 추출
+	    for(Cart c : cList) {
+	    	System.out.println(c);
+	    }
+	    
 	    for(Goods g : gList){
 			String s = "<img src="; // 이미지 태그 찾기
 			String body = g.getGoodsThumbnail();

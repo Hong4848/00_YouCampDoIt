@@ -270,6 +270,28 @@ public class GoodsServiceImpl implements GoodsService{
 	public int selectDibsCount(int memberNo) {
 		return goodsDao.selectDibsCount(sqlSession, memberNo);
 	}
+	
+	/**
+	 * 작성일 : 2024.12.26
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 세일 품목 개수
+	 */
+	@Override
+	public int discountListCount() {
+		return goodsDao.discountListCount(sqlSession);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.26
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 세일 품목 불러오기
+	 */
+	@Override
+	public ArrayList<Goods> discountList(PageInfo pi) {
+		return goodsDao.discountList(sqlSession, pi);
+	}
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/

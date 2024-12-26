@@ -250,29 +250,29 @@
 				<div class="shoppingMall_category select_this">
 					<a href="">전체 목록 보기</a>
 				</div>
-				<div class="shoppingMall_category">
-					<a href="">캠핑장비 패키지 세트 대여</a>
+				<div class="shoppingMall_category select_this">
+					<a href="searching.gs">전체 목록 보기</a>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">캠핑용품대여</a>
+					<a>캠핑용품대여</a>
 					<div class="category_list">
-						<a href="">텐트/쉘터</a>
-						<a href="">침낭/난방기구</a>
-						<a href="">의자/테이블</a>
-						<a href="">화로/버너/전자</a>
-						<a href="">식기/아이스박스</a>
+						<a href="searching.gs?searchCategory=쉘터텐트">텐트/쉘터</a>
+						<a href="searching.gs?searchCategory=침낭방한용품">침낭/난방기구</a>
+						<a href="searching.gs?searchCategory=의자테이블">의자/테이블</a>
+						<a href="searching.gs?searchCategory=화로버너전자">화로/버너/전자</a>
+						<a href="searching.gs?searchCategory=식기아이스박스">식기/아이스박스</a>
 					</div>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">소비용품판매</a>
+					<a>소비용품판매</a>
 					<div class="category_list">
-						<a href="">연료/가스</a>
-						<a href="">식자재</a>
-						<a href="">생활용품</a>
+						<a href="searching.gs?searchCategory=연료가스">연료/가스</a>
+						<a href="searching.gs?searchCategory=식자재">식자재</a>
+						<a href="searching.gs?searchCategory=생활용품">생활용품</a>
 					</div>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">이달의 세일</a>
+					<a href="discountList.gs">이달의 세일</a>
 				</div>
 				<div style="width: 10%;"></div>
 			</div>
@@ -382,13 +382,17 @@
 									   name="quantity" value="">
 								<button type="submit" id="cart-insert-btn">장바구니 담기</button>
 							</form>
-							<!-- 
-							바로 구매는 여유있으면 구현 예정
-							
-							<form action="">
-								<button>구매하기</button>
+							<!-- 바로 주문문 -->
+							<form id="orderForm" 
+								action="${pageContext.request.contextPath}/insert.or" 
+								method="POST">
+								<!-- 장바구니 데이터가 있는 경우 hidden input에 값을 추가해서 데이터 전송 -->
+								<input type="hidden" name="totalPrice" id="totalPriceInput" value="0">
+								
+								<input type="hidden" name="orderDetails" id="orderDetailsInput" value="0">
+								
+								<button type="submit" class="order-btn" id="order-btn">주문하기</button>
 							</form>
-							-->
 						</div>
 					</div>
 				</div>
@@ -405,7 +409,7 @@
     <script>
         $(document).ready(function(){
             if(${sessionScope.loginMember != null}){
-				
+            	
 				let memberNo = ${sessionScope.loginMember.memberNo};
 				let goodsNo = ${requestScope.goods.goodsNo};
 
@@ -443,6 +447,46 @@
 			});
 		});
 	</script>
+
+	<!-- cart insert form 의 바로주문 시 수량값을 가져오는 함수 -->
+	<script>
+		// cart insert form 의 btn 클릭 시 수량값을 가져오는 함수
+		
+		$(function(){
+
+			const selectedItems = [];
+			$('#order-btn').on('click', function (e) {
+				// 기본 이벤트 방지
+				e.preventDefault();
+				// 수량
+				const quantity = parseInt($("#priceEA").val()) || 1;
+				// 항목당 총 금액
+				const totalPrice = parseInt(quantity * ${requestScope.goods.price});
+				// 상품 번호
+				const goodsNo = ${requestScope.goods.goodsNo};
+	
+				selectedItems.push({
+					quantity: quantity,
+					totalPrice: totalPrice,
+					goodsNo: goodsNo,
+				});
+
+				// console.log("selectedItems : ", selectedItems);
+	
+				// JSON 데이터로 가공 및 hidden input에 추가
+				const jsonData = JSON.stringify(selectedItems);
+				// console.log("jsonData : ", jsonData);
+				$("#orderDetailsInput").val(jsonData);
+
+				$('#totalPriceInput').val(totalPrice); // 총 가격 업데이트
+
+				$('#orderForm').submit();
+
+			});
+			
+		});
+	</script>
+	
 	
 	<!-- 요약내용 출력부분 -->
 	<script>

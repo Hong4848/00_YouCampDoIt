@@ -328,5 +328,13 @@
 		 WHERE R.RESERVE_NO = #{reserveNo}
 	</select>
 	
+	<!-- 주문 결제 시 예약내역 체크용 -->
+	<select id="selectReserveCount" resultType="_int" parameterType="_int">
+		SELECT COUNT(*)
+		  FROM RESERVE
+		 WHERE MEMBER_NO = #{memberNo}
+		   AND START_DATE >= SYSDATE
+	</select>
+	
   
 </mapper>

@@ -32,10 +32,19 @@
 	    </div>
 		<jsp:include page="../common/footer.jsp" />
 	</body>
+
+	<!-- 페이지 시작 시 초기화 -->
 	<script>
 		$(document).ready(function(){
+			ajaxDibs();
+		});
+	</script>
+	
+	<!-- 찜 목록 불러오기 -->
+	<script>
+		function ajaxDibs(){
+			$("#dibsSelect").children().remove();
 			let memberNo = ${sessionScope.loginMember.memberNo};
-
 			$.ajax({
 				url : "selectDibs.gs",
 				type : "post",
@@ -45,8 +54,10 @@
 				success(result){
 					for(let i = 0; i < result.goods.length; i++)
 					{
+						let price = result.goods[i].price;
+						let priceRE = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+						
 						let str = "";
-						console.log(result[i]);
 						str += result.goods[i].goodsThumbnail
 							+ "<div class='item-details'>"
 								+ "<h3 style='padding-top:10px'>"
@@ -55,15 +66,15 @@
 							+ "</div>"
 							+ "<div>"
 								+ "<div class='item-price'>"
-									+ result.goods[i].price
+									+ priceRE
 									+ "</div>"
 									+ "<div class='button-group'>"
-										+ "<button style='width:150px' id='dibsDelete'>"
+										+ "<button style='width:150px' onclick='dibsDelete("+ result.goods[i].goodsNo +")' class='deleteBtn'>"
 											+ "찜 목록에서 제외"
 										+ "</button>"
 									+ "</div>"
 									+ "<div class='button-group'>"
-										+ "<button style='width:150px' id='gotoDetail'>"
+										+ "<button style='width:150px' onclick='gotoDetail("+ result.goods[i].goodsNo +")' class='gotoBtn'>"
 											+ "상품 페이지로 이동"
 										+ "</button>"
 									+ "</div>"
@@ -78,9 +89,37 @@
 					$(".sort-order-button").text("찜 한 개수 : " + result.ListCount)
 				},
 				error(){
-					console.log("에러")
+					alertify.success('서버와의 통신에<br>실패했습니다.');
 				}
 			});
-		});
+		}
+	</script>
+	
+	<!-- 찜 목록 제외 이벤트 -->
+	<script>
+		function dibsDelete(deleteNo){
+			let deleteMemberNo = ${sessionScope.loginMember.memberNo};
+			$.ajax({
+				url : "ajaxDibsDelete.gs",
+				type : "post",
+				data : {
+					goodsNo : deleteNo,
+					memberNo : deleteMemberNo
+				},
+				success(){
+					ajaxDibs();
+					alertify.success('해당 상품을 찜 목록에서<br>삭제했습니다.');
+				},
+				error(){
+					alertify.success('서버와의 통신에<br>실패했습니다.');
+				}
+			});
+		}
+	</script>
+
+	<script>
+		function gotoDetail(gotoNo){
+			location.href="goodsDetail.gs?goodsNo="+gotoNo;
+		}
 	</script>
 </html>

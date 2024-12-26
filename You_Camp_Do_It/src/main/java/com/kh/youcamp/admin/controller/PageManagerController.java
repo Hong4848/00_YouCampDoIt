@@ -13,7 +13,7 @@ public class PageManagerController
 	@GetMapping("adminMain.ma")
 	public ModelAndView adminMain(ModelAndView mv)
 	{
-		mv.setViewName("admin/adminForm");
+		mv.setViewName("admin/adminMain");
 		return mv;
 	}
 	
