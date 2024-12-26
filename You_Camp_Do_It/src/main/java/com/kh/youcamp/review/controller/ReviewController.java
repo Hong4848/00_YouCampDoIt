@@ -3,21 +3,22 @@ package com.kh.youcamp.review.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
@@ -25,7 +26,6 @@ import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.review.model.service.ReviewService;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
-
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -143,7 +143,7 @@ public class ReviewController {
     
     // 게시글 상세보기 요청 메소드
     @GetMapping("detail.re")
-    public ModelAndView selectReview(int reviewNo, ModelAndView mv) {
+    public ModelAndView selectReview(int reviewNo, ModelAndView mv, HttpSession session) {
     	
     	// 게시글 정보, 첨부파일 정보 조회
     	Review r = reviewService.selectReview(reviewNo);
@@ -158,9 +158,28 @@ public class ReviewController {
             log.debug("File info - fileNo: {}, fileLevel: {}, changeName: {}", 
                      file.getFileNo(), file.getFileLevel());
         }
+        
+        // 로그인한 사용자 정보 가져오기
+        Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+
+	    // 좋아요 여부와 카운트 가져오기
+	    boolean isLiked = reviewService.isReviewLikedByMember(reviewNo, memberNo);
+	    int likeCount = reviewService.getLikeCount(reviewNo);
+	    
+	    // 좋아요 정보 설정
+	    r.setLiked(isLiked);
+	    r.setLikeCount(likeCount);
+	    
+	    log.debug("좋아요 정보 넣고 r : " + r);
+	    
+	    mv.addObject("r", r)
+	      .addObject("list", list)
+	      .addObject("likeCount", likeCount);
+
     	
     	// 조회된 데이터들 담아서 응답페이지로 포워딩
-    	mv.addObject("r", r).addObject("list",list).setViewName("review/reviewDetailView");
+    	mv.setViewName("review/reviewDetailView");
     	
     	return mv;
     }
@@ -332,7 +351,24 @@ public class ReviewController {
     }
     */
     
-    
+    @PostMapping("/like.re")
+    public ResponseEntity<Map<String, Object>> toggleLike(@RequestBody Map<String, Integer> data) {
+        int reviewNo = data.get("reviewNo");
+        int memberNo = data.get("memberNo");
+
+        // 좋아요 상태 변경 (추가 또는 삭제)
+        boolean isLiked = reviewService.toggleLike(memberNo, reviewNo);
+
+        // 변경 후 좋아요 개수 조회
+        int likeCount = reviewService.getLikeCount(reviewNo);
+
+        // 응답 데이터 구성
+        Map<String, Object> response = new HashMap<>();
+        response.put("isLiked", isLiked);
+        response.put("likeCount", likeCount);
+
+        return ResponseEntity.ok(response);
+    }
 
 
 }

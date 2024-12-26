@@ -171,11 +171,18 @@
 	                	또한, url 주소상에 해당 게시글의 rno 가 보여지면 안됨~ 그래서 POST방식
 	                	으로 변경해주어야 한다~~
 	                -->
-                    <a class="btn btn-danger btn-sm">
+                    <!-- <a class="btn btn-danger btn-sm">
                         <span class="material-symbols-outlined">
                         	heart_check
                         </span>
-                    </a>
+                    </a> -->
+                    <!-- 좋아요 버튼 -->
+                    <button class="btn btn-danger btn-sm like-btn ${requestScope.r.liked ? 'liked' : ''}" 
+                            data-review-no="${requestScope.r.reviewNo}" 
+                            data-member-no="${sessionScope.loginMember.memberNo}">
+                        <span class="material-symbols-outlined">heart_check</span>
+                        <span class="like-count">${requestScope.likeCount}</span>
+                    </button>
 	                <a class="btn btn-success btn-sm" onclick="postFormSubmit(1);">
 	               		수정
 	                </a>
@@ -275,6 +282,44 @@
     </div>
     
     <jsp:include page="../common/footer.jsp" />
+
+
+    <script> // 좋아요 함수
+    $(function () {
+        // 좋아요 버튼 클릭 이벤트
+        $(document).on("click", ".like-btn", function () {
+            const $btn = $(this); // 클릭된 버튼
+            const reviewNo = $btn.data("review-no"); // 리뷰 번호
+            const memberNo = $btn.data("member-no"); // 로그인된 회원 번호
+
+            if (!memberNo) {
+                alert("로그인이 필요합니다.");
+                return;
+            }
+
+            $.ajax({
+                url: "${pageContext.request.contextPath}/like.re", // 좋아요 처리 URL
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ reviewNo: reviewNo, memberNo: memberNo }),
+                success: function (response) {
+                    if (response.isLiked) {
+                        // 좋아요 추가
+                        $btn.addClass("liked");
+                        $btn.find(".like-count").text(response.likeCount);
+                    } else {
+                        // 좋아요 취소
+                        $btn.removeClass("liked");
+                        $btn.find(".like-count").text(response.likeCount);
+                    }
+                },
+                error: function () {
+                    alert("좋아요 ajax 통신 실패");
+                },
+            });
+        });
+    });
+    </script>
     
     <script>
         document.addEventListener("DOMContentLoaded", function () {

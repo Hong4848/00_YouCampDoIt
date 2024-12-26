@@ -1,7 +1,9 @@
 package com.kh.youcamp.review.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -95,7 +97,30 @@ public class ReviewDao {
 	}
 
 	
+	// 좋아요 관련
+	public int checkLike(SqlSessionTemplate sqlSession, Map<String, Integer> paramMap) {
+        return sqlSession.selectOne("reviewMapper.checkLike", paramMap);
+    }
+    public int insertLike(SqlSessionTemplate sqlSession, Map<String, Integer> paramMap) {
+        return sqlSession.insert("reviewMapper.insertLike", paramMap);
+    }
+    public int deleteLike(SqlSessionTemplate sqlSession, Map<String, Integer> paramMap) {
+        return sqlSession.delete("reviewMapper.deleteLike", paramMap);
+    }
+    public int updateLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
+        return sqlSession.update("reviewMapper.updateLikeCount", reviewNo);
+    }
+    public int getLikeCount(SqlSessionTemplate sqlSession, int reviewNo) {
+        return sqlSession.selectOne("reviewMapper.getLikeCount", reviewNo);
+    }
 
+	public boolean checkReviewLike(SqlSessionTemplate sqlSession, int reviewNo, int memberNo) {
+		Map<String, Integer> paramMap = new HashMap<>();
+	    paramMap.put("reviewNo", reviewNo);
+	    paramMap.put("memberNo", memberNo);
+
+	    return sqlSession.selectOne("reviewMapper.checkReviewLike", paramMap);
+	}
 
 
 

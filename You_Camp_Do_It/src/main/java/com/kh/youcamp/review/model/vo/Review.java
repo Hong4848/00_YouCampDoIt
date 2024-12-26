@@ -12,6 +12,10 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Review {
+	
+	// 좋아요 관련 필드추가
+	private boolean isLiked;
+	private int likeCount;
 
 	private int reviewNo;
 	private String reviewTitle;

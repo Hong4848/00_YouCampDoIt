@@ -1,7 +1,9 @@
 package com.kh.youcamp.review.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,6 @@ import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.review.model.dao.ReviewDao;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
-import com.kh.youcamp.review.model.vo.ReviewReply;
 @Service
 public class ReviewServiceImpl implements ReviewService {
 
@@ -109,6 +110,42 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public List<Review> selectMyReviewList(PageInfo pi, int memberNo) {
 		return reviewDao.selectMyReviewList(sqlSession, pi, memberNo);
+	}
+
+	// 좋아요 관련
+	@Override
+	public boolean toggleLike(int memberNo, int reviewNo) {
+		 // 좋아요 상태 확인
+	    Map<String, Integer> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", memberNo);
+	    paramMap.put("reviewNo", reviewNo);
+
+	    boolean isLiked = reviewDao.checkLike(sqlSession, paramMap) > 0;
+
+	    if (isLiked) {
+	        // 이미 좋아요 상태면 좋아요 취소
+	        reviewDao.deleteLike(sqlSession, paramMap);
+	    } else {
+	        // 좋아요 추가
+	        reviewDao.insertLike(sqlSession, paramMap);
+	    }
+
+	    // 좋아요 수 업데이트
+	    reviewDao.updateLikeCount(sqlSession, reviewNo);
+
+	    return !isLiked; // 반대 상태 반환
+	}
+	@Override
+	public int getLikeCount(int reviewNo) {
+		return reviewDao.getLikeCount(sqlSession, reviewNo);
+	}
+
+	@Override
+	public boolean isReviewLikedByMember(int reviewNo, int memberNo) {
+		Map<String, Integer> paramMap = new HashMap<>();
+	    paramMap.put("memberNo", memberNo);
+	    paramMap.put("reviewNo", reviewNo);
+		return reviewDao.checkLike(sqlSession, paramMap) > 0;
 	}
 
 

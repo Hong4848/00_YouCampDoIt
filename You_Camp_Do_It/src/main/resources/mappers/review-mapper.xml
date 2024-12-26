@@ -180,5 +180,38 @@
 		 ORDER BY REVIEW_NO DESC
 	</select>
 
+	<!-- 좋아요 관련 쿼리문들 -->
+	<!-- 좋아요 여부 확인 -->
+    <select id="checkLike" resultType="int">
+        SELECT COUNT(*)
+        FROM REVIEW_LIKE
+        WHERE MEMBER_NO = #{memberNo} AND REVIEW_NO = #{reviewNo}
+    </select>
+
+    <!-- 좋아요 추가 -->
+    <insert id="insertLike">
+        INSERT INTO REVIEW_LIKE (MEMBER_NO, REVIEW_NO)
+        VALUES (#{memberNo}, #{reviewNo})
+    </insert>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="deleteLike">
+        DELETE FROM REVIEW_LIKE
+        WHERE MEMBER_NO = #{memberNo} AND REVIEW_NO = #{reviewNo}
+    </delete>
+
+    <!-- 좋아요 수 업데이트 -->
+    <update id="updateLikeCount">
+        SELECT COUNT(*)
+		  FROM REVIEW_LIKE
+	   	 WHERE REVIEW_NO = #{reviewNo}
+    </update>
+
+    <!-- 좋아요 수 조회 -->
+    <select id="getLikeCount" resultType="int">
+        SELECT COUNT(*)
+	      FROM REVIEW_LIKE
+	     WHERE REVIEW_NO = #{reviewNo}
+    </select>
 	
 </mapper>
