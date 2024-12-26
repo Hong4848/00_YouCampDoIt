@@ -81,7 +81,7 @@
     		background-color: #5a4bcf;
          width: 30%; /* 버튼의 비율 고정 */
          flex-shrink: 0;
-         height: 43px;
+         height: 47px;
          color: white;
      }
 
@@ -130,6 +130,109 @@
          color: red;
      }
 
+
+	.wrap-signup {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f9f4; /* 부드러운 자연 배경색 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    padding: 20px;
+}
+
+.signup-container {
+    background-color: #eaf7e8; /* 밝은 녹색 */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px; /* 고정 너비 */
+    border: 2px solid #b8d8ba; /* 연한 녹색 테두리 */
+}
+
+.signup-container h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #4a774e; /* 진한 녹색 */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4a774e;
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%; /* 입력 필드 전체 너비 */
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #c2d9c2; /* 연한 녹색 */
+    border-radius: 5px;
+    background-color: #ffffff; /* 흰색 배경 */
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #8ebf8d; /* 포커스 시 진한 녹색 */
+    box-shadow: 0 0 5px rgba(142, 191, 141, 0.5);
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group input {
+    flex: 1; /* 입력 필드의 가변 너비 */
+}
+
+.input-group .btn {
+    background-color: #6c9c6d; /* 짙은 녹색 */
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-group .btn:hover {
+    background-color: #597e5b; /* 호버 시 어두운 녹색 */
+}
+
+.btn-submit {
+    width: 100%; /* 버튼 너비 전체 */
+    background-color: #6c9c6d; /* 짙은 녹색 */
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #597e5b; /* 호버 시 어두운 녹색 */
+}
+
+.hidden {
+    display: none;
+}
+
+#validateResult {
+    margin-top: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #e57373; /* 오류 메시지 빨간색 */
+}
+	
 
 
 </style>

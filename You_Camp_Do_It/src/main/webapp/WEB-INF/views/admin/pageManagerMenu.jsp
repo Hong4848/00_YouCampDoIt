@@ -209,7 +209,7 @@
                 <div class="mid_node">
                     <div class="leaf_node" id="userInfo"><a href="${ pageContext.request.contextPath }/memberManageList.me">◈ 회원정보관리</a></div>
                     <div class="leaf_node" id="reservationInfo"><a href="${ pageContext.request.contextPath }/reserveManageList.res">◈ 예약정보관리</a></div>
-                    <div class="leaf_node" id="monthlyStatistics"><a>◈ 예약월별통계</a></div>
+                    
                 </div>
                 <div style="height: 20px;"></div>
 

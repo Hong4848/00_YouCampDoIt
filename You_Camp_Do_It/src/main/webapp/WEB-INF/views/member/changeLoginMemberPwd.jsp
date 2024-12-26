@@ -24,7 +24,7 @@
          border-radius: 10px;
          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
          width: 600px; /* 컨테이너 고정 너비 */
-         height: 80%;
+         height: 90%;
      }
 
      h1 {
@@ -164,6 +164,110 @@
      .password-wrapper .toggle-password:hover {
          color: #333; /* 호버 시 색상 변경 */
      }	
+     
+     .wrap-signup {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f8f4; /* 자연을 연상시키는 배경색 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 700px;
+        padding: 20px;
+    }
+
+    .signup-container {
+        background-color: #eaf5e8; /* 밝은 녹색 */
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        width: 600px; /* 고정 너비 */
+        border: 2px solid #b8d8ba; /* 은은한 녹색 테두리 */
+    }
+
+    h1 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4a774e; /* 짙은 녹색 */
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .explain {
+        font-size: 14px;
+        color: #555;
+        margin-bottom: 20px;
+        text-align: left;
+        line-height: 1.6;
+    }
+
+    form label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #4a774e;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    form input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #c2d9c2; /* 연한 녹색 테두리 */
+        border-radius: 6px;
+        background-color: #ffffff; /* 흰색 배경 */
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    form input:focus {
+        border-color: #6ca96c; /* 포커스 시 강조 */
+        box-shadow: 0 0 6px rgba(108, 169, 108, 0.5);
+    }
+
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 40px; /* 오른쪽 아이콘 공간 확보 */
+    }
+
+    .password-wrapper .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 38%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #aaa;
+        transition: color 0.3s ease;
+    }
+
+    .password-wrapper .toggle-password:hover {
+        color: #333;
+    }
+
+    .btn-submit {
+        width: 100%; /* 버튼 너비 전체 */
+        background-color: #6c9c6d; /* 짙은 녹색 */
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: none;
+    }
+
+    .btn-submit:hover {
+        background-color: #597e5b; /* 호버 시 색상 변경 */
+    }
+
+    .hidden {
+        display: none;
+    }
 
 
 

@@ -23,7 +23,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 600px; /* 컨테이너 고정 너비 */
-            height: 900px;
+            height: 1050px;
         }
 
         h1 {
@@ -148,7 +148,7 @@
         .password-wrapper .toggle-password {
             position: absolute;
             right: 10px; /* 입력 필드의 오른쪽 끝에서 약간 떨어진 위치 */
-            top: 38%;
+            top: 27%;
             transform: translateY(-50%); /* 세로 가운데 정렬 */
             cursor: pointer;
             color: #aaa; /* 기본 색상 */
@@ -188,10 +188,10 @@
 
 .required-info {
     font-size: 14px;
-    text-align: center;
+    text-align: right;
     color: #6b8f71; /* 연한 녹색 */
     margin-bottom: 20px;
-    font-style: italic;
+    
 }
 
 form label {
@@ -233,6 +233,7 @@ form input:focus {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    height: 47px;
 }
 
 .input-group .btn:hover {
@@ -266,7 +267,7 @@ form input:focus {
 .password-wrapper .toggle-password {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 38%;
     transform: translateY(-50%);
     cursor: pointer;
     color: #aaa; /* 기본 색상 */
@@ -303,7 +304,7 @@ form input:focus {
 	<div class="wrap-signup">
 	    <div class="signup-container input password">
 	        <h1>회원가입</h1>
-	        <p class="required-info">*필수입력사항</p>
+	        <p class="required-info"></p>
 	        <form action="insert.me" method="post" id="enrollForm" >
 	        
 	        	<input type="hidden" name="enroll" value="enroll">
@@ -350,7 +351,7 @@ form input:focus {
 	            
 	
 	            <!-- 인증번호 입력 (초기 숨김 처리) -->
-	            <div id="verificationFields" class="hidden">
+	            <div id="verificationFields" class="hidden" style="margin-top: 10px;">
 	                <label for="verificationCode">인증번호*</label>
 	                <div class="input-group">
 	                    <input type="text" id="verificationCode" name="verificationCode" placeholder="인증번호 숫자 6자리를 입력하세요" style="margin-bottom: 0px;">

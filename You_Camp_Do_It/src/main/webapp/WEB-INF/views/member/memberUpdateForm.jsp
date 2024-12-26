@@ -130,6 +130,123 @@
 		    justify-content: center; /* 버튼들을 가로 중앙 정렬 */
 		    margin-top: 20px; /* 위쪽 여백 추가 */
 		}
+		
+		.wrap-signup {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f8f4; /* 자연을 연상시키는 배경색 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 1000px;
+        padding: 20px;
+    }
+
+    .signup-container {
+        background-color: #eaf5e8; /* 밝은 녹색 */
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        width: 600px; /* 고정 너비 */
+        border: 2px solid #b8d8ba; /* 은은한 녹색 테두리 */
+    }
+
+    h1 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4a774e; /* 짙은 녹색 */
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .required-info {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+        text-align: right;
+    }
+
+    form {
+        width: 100%;
+    }
+
+    form label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #4a774e; /* 짙은 녹색 */
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    form input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #c2d9c2; /* 연한 녹색 테두리 */
+        border-radius: 6px;
+        background-color: #ffffff; /* 흰색 배경 */
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    form input:focus {
+        border-color: #6ca96c; /* 포커스 시 강조 */
+        box-shadow: 0 0 6px rgba(108, 169, 108, 0.5);
+    }
+
+    .input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .input-group input {
+        flex: 1;
+    }
+
+    .input-group .btn {
+        background-color: #6c9c6d; /* 짙은 녹색 */
+        color: white;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .input-group .btn:hover {
+        background-color: #597e5b; /* 호버 시 색상 변경 */
+    }
+
+    .btn-submit {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        width: 100%;
+        background-color: #6c9c6d; /* 짙은 녹색 */
+        padding: 12px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-align: center;
+    }
+
+    .btn-submit:hover {
+        background-color: #597e5b; /* 호버 시 색상 변경 */
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .hidden {
+        display: none;
+    }
 
 
 

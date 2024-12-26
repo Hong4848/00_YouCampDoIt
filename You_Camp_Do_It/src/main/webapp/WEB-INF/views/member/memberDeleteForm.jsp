@@ -24,7 +24,7 @@
          border-radius: 10px;
          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
          width: 600px; /* 컨테이너 고정 너비 */
-         height: 80%;
+         height: 90%;
      }
 
      h1 {
@@ -140,6 +140,110 @@
      .red-text {
      	color: red;
      }
+     
+     .wrap-signup {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f8f4; /* 자연을 연상시키는 배경색 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 700px;
+        padding: 20px;
+    }
+
+    .signup-container {
+        background-color: #eaf5e8; /* 밝은 녹색 */
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        width: 600px; /* 고정 너비 */
+        border: 2px solid #b8d8ba; /* 은은한 녹색 테두리 */
+    }
+
+    h1 {
+        font-size: 28px;
+        font-weight: bold;
+        color: #4a774e; /* 짙은 녹색 */
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .explain {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 40px;
+        line-height: 1.6;
+    }
+
+    .red-text {
+        color: #e57373; /* 강조를 위한 붉은색 */
+        font-weight: bold;
+    }
+
+    form label {
+        font-size: 14px;
+        font-weight: bold;
+        color: #4a774e;
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    form input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #c2d9c2; /* 연한 녹색 테두리 */
+        border-radius: 6px;
+        background-color: #ffffff; /* 흰색 배경 */
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+
+    form input:focus {
+        border-color: #6ca96c; /* 포커스 시 강조 */
+        box-shadow: 0 0 6px rgba(108, 169, 108, 0.5);
+    }
+
+    .btn-submit {
+        width: 100%; /* 버튼 너비 전체 */
+        background-color: #6c9c6d; /* 짙은 녹색 */
+        padding: 12px;
+        font-size: 16px;
+        font-weight: bold;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        border: none;
+    }
+
+    .btn-submit:hover {
+        background-color: #597e5b; /* 호버 시 색상 변경 */
+    }
+    
+    .password-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+        padding-right: 40px; /* 오른쪽 아이콘 공간 확보 */
+    }
+
+    .password-wrapper .toggle-password {
+        position: absolute;
+        right: 10px;
+        top: 20%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #aaa;
+        transition: color 0.3s ease;
+    }
+
+    .password-wrapper .toggle-password:hover {
+        color: #333;
+    }
 
 
 
@@ -163,16 +267,20 @@
 					탈퇴 시 <span class="red-text">계정은 영구적으로 삭제</span>되며<br>
 					동일한 계정으로 <span class="red-text">재가입 역시 불가능합니다.</span><br>
 					또한 사이트 내에 <span class="red-text">모든 데이터 복구가 불가능</span>합니다.<br><br><br>
-					<spa class="red-text"n>정말 탈퇴를 원하신다면 아래에 비밀번호를 입력해주세요!!</span>
+					<span class="red-text">정말 탈퇴를 원하신다면 아래에 비밀번호를 입력해주세요!!</span>
 				</div>
 	            
 	            <!-- 비밀번호 -->
 	            <label for="memberPwd" style="margin-top: 15px;">비밀번호*</label>
+	            <div class="password-wrapper">
 	            <input type="password" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력하세요" style="margin-bottom: 60px;" required>
-	
+				<i class="fa fa-eye fa-lg toggle-password"></i> <!-- 눈 모양 아이콘 -->
+				</div>
+	            
+				
 	            
 	            <!-- 회원탈퇴 버튼 -->
-	            <button type="submit" class="btn-submit" style="margin-top: 25px;" onclick="return signupValidate(); ">회원탈퇴</button>
+	            <button type="submit" class="btn-submit"  onclick="return signupValidate(); ">회원탈퇴</button>
 	        </form>
 	    </div>
     </div>
@@ -200,6 +308,24 @@
     		
     		
         }
+    	
+		$(function() {
+    		
+    		// 비밀번호 표시/숨기기 기능
+            $(".toggle-password").on("click", function () {
+                const $passwordInput = $(this).siblings("input");
+                const inputType = $passwordInput.attr("type");
+
+                if (inputType === "password") {
+                    $passwordInput.attr("type", "text");
+                    $(this).removeClass("fa-eye").addClass("fa-eye-slash");
+                } else {
+                    $passwordInput.attr("type", "password");
+                    $(this).removeClass("fa-eye-slash").addClass("fa-eye");
+                }
+            });
+    		
+    	});
     	
     	
     </script>

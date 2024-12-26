@@ -337,21 +337,7 @@
                         </div>
                         
                     </div>
-                    <div class="listSearchBar">
-                        <div>
-                            <select name="" id="searchSelect">
-                                <option value="">상품명</option>
-                                <option value="">브랜드</option>
-                                <option value="">카테고리</option>
-                            </select>
-                        </div>
-                        <div>
-                            <input id="goodsKeyword" name="" type="text">
-                        </div>
-                        <div id="SearchBtn">
-                            🔍︎
-                        </div>
-                    </div>
+                    
                     <div class="goodsList">
                         <div class="goodsListInfo">
                             <div class="goodsNo_checkbox">
