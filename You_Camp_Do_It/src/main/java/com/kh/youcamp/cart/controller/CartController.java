@@ -112,7 +112,6 @@ public class CartController {
 		log.debug("certINSERT 됐냐? result : " + result);
 		
 		if(result > 0) { // 성공
-			// 넣기완료 (장바구니갈래? 모달로 띄우기???????)
 			session.setAttribute("alertMsg", "장바구니 담기 성공");
 			return "redirect:/product.gs";
 		} else {
