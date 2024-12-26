@@ -534,7 +534,10 @@
                             			<div class="site_title">포레스트</div>
 		                                <div class="site_option">
 		                                    <ul>
-		                                        <li><span class="option_txt">계곡</span></li>
+		                                        <li>
+		                                        	<span class="ico"><img src="resources/images/reserve/reserveDetail/계곡"></span>
+		                                        	<span class="option_txt">계곡</span>
+		                                        </li>
 		                                        <li><span class="option_txt">산책로</span></li>
 		                                        <li><span class="option_txt">샤워실</span></li>
 		                                        <li><span class="option_txt">개수대</span></li>
