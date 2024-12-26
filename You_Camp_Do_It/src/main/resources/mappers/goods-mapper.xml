@@ -18,6 +18,23 @@
  		<result column="STATUS" property="status" />
 	</resultMap>
 	
+	<resultMap type="orderDetail" id="orderDetailResultSet">
+		<id column="ORDER_DETAIL_NO" property="orderDetailNo" />
+	    <result column="QUANTITY" property="quantity" />
+	    <result column="PRICE" property="price" />
+	    <result column="TOTAL_PRICE" property="totalPrice" />
+	    <result column="GOODS_NO" property="goodsNo" />
+	    <result column="ORDER_NO" property="orderNo" />
+	</resultMap>
+	
+	<resultMap type="rental" id="rentalResultSet">
+		<result column="MEMBER_NO" property="memberNo" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="MEMBER_NAME" property="memberName"/>
+		<result column="START_DATE" property="startDate" />
+		<result column="END_DATE" property="endDate" />
+	</resultMap>
+	
 	<!-- 
 		작성일 : 2024.12.12
 		작성자 : 박진홍
@@ -448,14 +465,42 @@
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>
  	
- 	<select id="AjaxRentalList">
- 		SELECT M.MEMBER_NO, D.GOODS_NO, D.TOTAL_PRICE, D.QUANTITY, M.MEMBER_NAME, M.MEMBER_ID
-		, G.GOODS_NO, G.GOODS_NAME, G.GOODS_THUMBNAIL, R.START_DATE, R.END_DATE
-		  FROM GOODS_ORDER O
-		  JOIN ORDER_DETAIL D USING(ORDER_NO)
-		  JOIN MEMBER M ON(O.MEMBER_NO = M.MEMBER_NO)
-		  JOIN GOODS G ON(G.GOODS_NO = D.GOODS_NO)
-		  JOIN RESERVE R ON(R.MEMBER_NO = O.MEMBER_NO)
-		 WHERE O.PAYMENT_STATUS = 'PAID'
+ 	<select id="AjaxRentalListCount" resultType="_int">
+ 		SELECT COUNT(*)
+  		  FROM ORDER_DETAIL
+ 	</select>
+ 	
+ 	<select id="AjaxRentalList" resultMap="orderDetailResultSet">
+	 	SELECT *
+			  FROM( SELECT ROWNUM ORDERSLIST, G.*
+			          FROM( SELECT *
+			                  FROM ORDER_DETAIL
+			              ORDER BY ORDER_DETAIL_NO DESC) G
+			      )
+			WHERE ORDERSLIST BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<select id="ajaxRentalGoods" resultMap="goodsResultSet">
+ 		SELECT GOODS_NAME, GOODS_THUMBNAIL
+		  FROM GOODS
+		 WHERE GOODS_NO = #{goodsNo}
+ 	</select>
+ 	
+ 	<select id="ajaxRentalMember" resultMap="rentalResultSet">
+ 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, START_DATE, END_DATE
+		  FROM (
+		        SELECT *
+		          FROM RESERVE
+		         ORDER BY RESERVE_NO DESC
+		        ) R
+		  JOIN MEMBER M USING(MEMBER_NO)
+		 WHERE ROWNUM = 1
+		   AND MEMBER_NO = (
+		                        SELECT MEMBER_NO
+		                          FROM GOODS_ORDER
+		                          JOIN ORDER_DETAIL USING(ORDER_NO)
+		                         WHERE ORDER_NO = #{orderNo}
+		                           AND ROWNUM = 1
+		                )
  	</select>
 </mapper>

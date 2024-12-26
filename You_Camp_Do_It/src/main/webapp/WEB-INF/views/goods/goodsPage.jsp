@@ -515,7 +515,7 @@
 		});
 
 		$(".btnPlus").click(function(){
-			if(amount < 100){
+			if(amount < ${requestScope.goods.remainStock}){
 				amount += 1;
 				$("#priceEA").val(amount);
 				reckoning();

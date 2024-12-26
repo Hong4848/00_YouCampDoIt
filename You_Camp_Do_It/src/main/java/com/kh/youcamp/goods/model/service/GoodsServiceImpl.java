@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.goods.model.dao.GoodsDao;
 import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Rental;
 import com.kh.youcamp.goods.model.vo.Search;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 
 @Service
 public class GoodsServiceImpl implements GoodsService{
@@ -291,6 +293,48 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public ArrayList<Goods> discountList(PageInfo pi) {
 		return goodsDao.discountList(sqlSession, pi);
+	}
+	
+	/**
+	 * 전체 대여 개수
+	 */
+	@Override
+	public int AjaxRentalListCount() {
+		return goodsDao.AjaxRentalListCount(sqlSession);
+	}
+	
+	/**
+	 * 대여(예정) 개수
+	 */
+	@Override
+	public int AjaxRentalCount() {
+		return goodsDao.AjaxRentalCount(sqlSession);
+	}
+	
+	/**
+	 * 반납 개수
+	 */
+	@Override
+	public int AjaxReturnCount() {
+		return goodsDao.AjaxReturnCount(sqlSession);
+	}
+	
+	/* 목록 불러오기 */
+	@Override
+	public ArrayList<OrderDetail> AjaxRentalList(PageInfo pi) {
+		return goodsDao.AjaxRentalList(sqlSession, pi);
+	}
+	
+	/* 상품 정보 불러오기 */
+	@Override
+	public Goods ajaxRentalGoods(int goodsNo) {
+		return goodsDao.ajaxRentalGoods(sqlSession, goodsNo);
+	}
+	
+	/* 회원 정보 불러오기 */
+	@Override
+	public Rental ajaxRentalMember(int orderNo) {
+		return goodsDao.ajaxRentalMember(sqlSession, orderNo);
 	}
 /************************************************************************************************************************/
 /************************************************************************************************************************/

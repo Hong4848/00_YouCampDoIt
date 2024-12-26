@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Rental;
 import com.kh.youcamp.goods.model.vo.Search;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 
 @Repository
 public class GoodsDao {
@@ -205,6 +207,45 @@ public class GoodsDao {
 		pageSE.put("end", end);
 
 		return (ArrayList)sqlSession.selectList("goodsMapper.discountList", pageSE);
+	}
+	
+	/* 전체 대여 개수 */
+	public int AjaxRentalListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("goodsMapper.AjaxRentalListCount");
+	}
+	
+	/* 대여(예정) 개수 */
+	public int AjaxRentalCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("goodsMapper.AjaxRentalCount");
+	}
+	
+	/* 반납 개수 */
+	public int AjaxReturnCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("goodsMapper.AjaxReturnCount");
+	}
+	
+	/* 목록 불러오기 */
+	public ArrayList<OrderDetail> AjaxRentalList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		
+		Map<String, Object> pageSE = new HashMap<>();
+		
+		int start = (pi.getCurrentPage() - 1) * pi.getBoardLimit()+1;
+		int end = start+pi.getBoardLimit()-1;
+		
+		pageSE.put("start", start);
+		pageSE.put("end", end);
+		
+		return (ArrayList)sqlSession.selectList("goodsMapper.AjaxRentalList", pageSE);
+	}
+	
+	/* 상품 정보 불러오기 */
+	public Goods ajaxRentalGoods(SqlSessionTemplate sqlSession, int goodsNo) {
+		return sqlSession.selectOne("goodsMapper.ajaxRentalGoods", goodsNo);
+	}
+	
+	/* 회원 정보 불러오기 */
+	public Rental ajaxRentalMember(SqlSessionTemplate sqlSession, int orderNo) {
+		return sqlSession.selectOne("goodsMapper.ajaxRentalMember", orderNo);
 	}
 	
 /************************************************************************************************************************/	

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Rental;
 import com.kh.youcamp.goods.model.vo.Search;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 
 public interface GoodsService {
 	
@@ -52,6 +54,18 @@ public int insertGoods(Goods g);
 	public int discountListCount();
 	
 	public ArrayList<Goods> discountList(PageInfo pi);
+	
+	public int AjaxRentalListCount();
+	
+	public ArrayList<OrderDetail> AjaxRentalList(PageInfo pi);
+	
+	public Goods ajaxRentalGoods(int goodsNo);
+	
+	public Rental ajaxRentalMember(int orderNo);
+	
+	public int AjaxRentalCount();
+	
+	public int AjaxReturnCount();
 /************************************************************************************************************************/	
 /************************************************************************************************************************/
 /************************************************************************************************************************/

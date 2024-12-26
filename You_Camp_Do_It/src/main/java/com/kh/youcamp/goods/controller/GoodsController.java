@@ -1,5 +1,6 @@
 package com.kh.youcamp.goods.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,9 @@ import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.goods.model.service.GoodsService;
 import com.kh.youcamp.goods.model.vo.Goods;
+import com.kh.youcamp.goods.model.vo.Rental;
 import com.kh.youcamp.goods.model.vo.Search;
+import com.kh.youcamp.order.model.vo.OrderDetail;
 
 @Controller
 public class GoodsController
@@ -395,6 +398,58 @@ public class GoodsController
 	public String AjaxRentalList(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
 			@RequestParam(value="state", defaultValue="전체")String state, HttpSession session)
 	{
-		return "";
+		int totalCount = goodsService.AjaxRentalListCount();
+
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(totalCount, currentPage, pageLimit, boardLimit);
+
+		ArrayList<OrderDetail> list = goodsService.AjaxRentalList(pi);
+				
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("list", list);
+		ajaxList.put("pi", pi);
+		
+		return new Gson().toJson(ajaxList);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="ajaxRentalGoods.ma", produces="application/json; charset=UTF-8")
+	public String ajaxRentalGoods(int goodsNo) {
+		Goods goods = goodsService.ajaxRentalGoods(goodsNo);
+		
+		String s = "<img src="; // 이미지 태그 찾기
+		String body = goods.getGoodsThumbnail();
+		int start = 0;
+		int end = 0;
+		start = body.indexOf(s);
+		body = body.substring(start);
+		end = body.indexOf(">");
+		body = body.substring(0, end+1);
+		
+		goods.setGoodsThumbnail(body);
+		
+		return new Gson().toJson(goods);
+	}
+	
+	@ResponseBody
+	@PostMapping(value="ajaxRentalMember.ma", produces="application/json; charset=UTF-8")
+	public String ajaxRentalMember(int orderNo) {
+		
+		Rental rental = goodsService.ajaxRentalMember(orderNo);
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		
+        String startDate = format.format(rental.getStartDate());
+        String endDate = format.format(rental.getEndDate());
+        
+        Map<String, Object> ajaxList = new HashMap<>();
+        
+        ajaxList.put("rental", rental);
+		ajaxList.put("startDate", startDate);
+		ajaxList.put("endDate", endDate);
+		
+		return new Gson().toJson(ajaxList);
 	}
 }
