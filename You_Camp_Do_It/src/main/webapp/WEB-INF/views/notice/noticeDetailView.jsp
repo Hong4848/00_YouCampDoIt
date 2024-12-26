@@ -175,7 +175,7 @@
             </table>
 
 			<div class="d-flex justify-content-start gap-2 mt-3">
-                <c:if test="${sessionScope.loginMember.memberId eq 'admin1'}">
+                <c:if test="${sessionScope.loginMember.memberId eq 'admin'}">
                 <!-- 로그인한 아이디가 'admin'일 경우 수정 및 삭제 버튼 표시 -->
                     <a class="btn btn-primary btn-sm" href="javascript:postFormSubmit(1)">수정</a>
                     <a class="btn btn-danger btn-sm" href="javascript:postFormSubmit(2)">삭제</a>

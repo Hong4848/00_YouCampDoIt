@@ -322,7 +322,7 @@
             </div>
 
             <div id="writeBtn">
-			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin1' }">
+			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin' }">
 			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
 			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.no'">글작성</button>
 			    </c:if>
