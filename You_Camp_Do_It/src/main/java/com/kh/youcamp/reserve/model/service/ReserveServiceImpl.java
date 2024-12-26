@@ -189,6 +189,15 @@ public class ReserveServiceImpl implements ReserveService {
 		return reserveDao.ajaxReserveDetail(sqlSession, reserveNo);
 	}
 
+	/**
+	 * 주문 결제 시 예약내역 체크용
+	 * 24.12.26 윤홍문
+	 */
+	@Override
+	public int selectReserveCount(int memberNo) {
+		return reserveDao.selectReserveCount(sqlSession, memberNo);
+	}
+
 	
 	
 

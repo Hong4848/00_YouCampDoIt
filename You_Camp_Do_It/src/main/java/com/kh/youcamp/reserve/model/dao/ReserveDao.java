@@ -207,6 +207,10 @@ public class ReserveDao {
 		return sqlSession.selectOne("reserveMapper.ajaxReserveDetail", reserveNo);
 	}
 
+	public int selectReserveCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("reserveMapper.selectReserveCount", memberNo);
+	}
+
 	
 
 	

@@ -45,6 +45,7 @@ import com.kh.youcamp.order.model.service.OrderService;
 import com.kh.youcamp.order.model.vo.Order;
 import com.kh.youcamp.order.model.vo.OrderDetail;
 import com.kh.youcamp.order.util.DataEncrypt;
+import com.kh.youcamp.reserve.model.service.ReserveService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -58,6 +59,9 @@ public class OrderController {
 	
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private ReserveService reserveService;
 	
 	@Autowired
 	private GoodsService goodsService;
@@ -191,6 +195,15 @@ public class OrderController {
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 		
 	    order.setMemberNo(memberNo);
+	    
+	    // 예약 내역이 있어야 주문결제 가능하게 처리
+	    int reserveCount = reserveService.selectReserveCount(memberNo);
+	    log.debug("주문결제 진행 전, 예약내역 있는지 ? reserveCount : " + reserveCount);
+	    if(reserveCount == 0) { // 예약내역 없음 > 주문 불가능
+	    	model.addAttribute("errorMsg", "예약내역이 없습니다. 예약 후 주문을 진행해 주세요.");
+			return "common/errorPage";
+	    }
+	    
 	    
 //	    log.debug("jsp 에서 값 넘어오냐? order : " + order);
 	    
