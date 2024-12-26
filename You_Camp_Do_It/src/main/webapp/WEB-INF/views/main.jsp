@@ -152,6 +152,113 @@
             .yyyy{
                 transition: all 1s;
             }
+            
+            .camp-information {
+            	width: 100%;
+            	height: 1200px;
+            	background-color: rgb(246, 233, 219);
+            	margin: 0 auto;
+            	transition: all 1s;
+            }
+            
+            .info-title h1 {
+            	padding-top: 100px;
+            	margin-bottom: 100px;
+            	text-align: center;
+            }
+            
+            .info-content {
+			    display: flex; /* Flexbox로 좌우 배치 */
+			    gap: 20px; /* 요소 사이 여백 */
+			}
+			
+			.info-img {
+			  flex: 1.5; /* 이미지 영역 크기 */
+			  height: 700px; /* 임의 높이 */
+			}
+			
+			.info-explain {
+			  flex: 1; /* 설명 영역 크기 */
+			  
+			  border-radius: 8px;
+			  padding: 20px;
+			  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			}
+            
+            .info-explain {
+			  
+			  padding: 20px;
+			  border-radius: 8px;
+			  box-shadow: none;
+			  line-height: 1.6;
+			  color: #555;
+			  font-size: 16px;
+			  margin: 160px 200px 160px 100px;
+			  
+			  background-color: #fdf7ef; 
+			  
+			}
+			
+			.section-title {
+			  display: flex;
+			  align-items: center;
+			  margin-bottom: 16px;
+			}
+			
+			.section-title .badge {
+				
+			  background-color: #566841; /* 배지 색상 */
+			  color: white;
+			  padding: 10px 20px;
+			  
+			  font-size: 20px;
+			  margin-right: 10px;
+			}
+			
+			.section-title h2 {
+			  font-size: 30px;
+			  color: #333;
+			  margin: 0;
+			}
+			
+			.description {
+			  margin-bottom: 20px;
+			  color: #444;
+			}
+			
+			.details {
+			  list-style: none;
+			  padding: 0;
+			  margin-bottom: 20px;
+			}
+			
+			.details li {
+			  margin-bottom: 8px;
+			}
+			
+			.details strong {
+			  color: #333;
+			}
+			
+			.tags {
+			  display: flex;
+			  flex-wrap: wrap;
+			  gap: 8px;
+			}
+			
+			.tags span {
+			  background-color: #f8f0e8;
+			  color: #666;
+			  padding: 5px 10px;
+			  border-radius: 16px;
+			  font-size: 14px;
+			  transition: background-color 0.3s;
+			}
+			
+			.tags span:hover {
+			  background-color: #fdd835; /* 호버 시 강조 색상 */
+			  color: #fff;
+			}
 		</style>
 	</head>
 	<body>
@@ -163,12 +270,47 @@
 			</script>
 			<c:remove var="wrongMsg" scope="session" />
 		</c:if>
-		<div class="mainContent">
+		<div class="mainContent" >
 		    <!-- 상단 이미지 영역 -->
 		    <div id="mainImg">
-		        <img src="resources/images/mainPage/배경1.jpg" id="imgNo_01" style="opacity: 1.0;">
-		        <img src="resources/images/mainPage/배경2.jpg" id="imgNo_02" style="opacity: 0.0;">
-		        <img src="resources/images/mainPage/배경3.jpg" id="imgNo_03" style="opacity: 0.0;">
+		        <img src="resources/images/mainPage/배경1.jpg" id="imgNo_01">
+		        <img src="resources/images/mainPage/배경2.jpg" id="imgNo_02">
+		        <img src="resources/images/mainPage/배경3.jpg" id="imgNo_03">
+		    </div>
+		    
+		    <div class="camp-information" id="infoNo1" style="opacity: 1.0;">
+		    	<div class="info-title">
+		    		<h1>캠핑장 소개</h1>
+		    	</div>
+		    	<div class="info-content">
+		    		<div class="info-img">
+		    			<img src="resources/images/mainPage/forest.png">
+				        
+		    		</div>
+		    		<div class="info-explain">
+		    			<div class="section-title">
+						    <span class="badge">1구역</span>
+						    <h2>&nbsp;포레스트</h2>
+						</div>
+						<br>
+						<p class="description">
+						    계곡을 가운데 끼고 산으로 둘러싸인 인제 진동리, 복잡한 도심에서 벗어나 힐링을 하고 싶다면 여기
+						    진동리 캠핑장으로 당장 떠나자. 새소리와 물소리를 들으며 아침에 눈을 뜨게 되고 상쾌한 아침공기를
+						    마시며 가만히 앉아있으면 마음이 평온해진다.
+						</p>
+						<ul class="details">
+						    <li><strong>사이트 &nbsp;&nbsp;</strong> 파쇄석 18개</li>
+						    <li><strong>시설 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> 남/여 화장실, 남/여 샤워실, 취사장</li>
+						</ul>
+						<div class="tags">
+						    <span>#숲속</span>
+						    <span>#물소리</span>
+						    <span>#새소리</span>
+						    <span>#밤나무</span>
+						    <span>#힐링스팟</span>
+						</div>
+		    		</div>
+		    	</div>
 		    </div>
 		
 		    <!-- 달력 영역 및 날씨 -->
@@ -273,10 +415,15 @@
 		</div>
 		
 		
+		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+		
+		
 		<!-- 메인페이지 용 스크립트 -->
         <script>
             let imgNumber = 2;
-            let timer = setInterval(nextImg, 2000)
+            
+            let timer1 = setInterval(nextImg, 2000)
+            
             function nextImg()
             {
                 // 추후 EL 구문으로 재작성
@@ -301,7 +448,66 @@
                         imgNumber = 1;
                         break;
                 }
+                
             }
+            
+            
+            
+            let infoNumber = 2;
+            
+            let timer2 = setInterval(nextInfo, 4000)
+            
+            function nextInfo() {
+            	switch(infoNumber){
+	            	case 1 :
+		                $("#infoNo1").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo2").css("opacity", "1.0")
+		                			 ;
+		                $("#infoNo3").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo4").css("opacity", "0.0")
+		                			 ;
+		                infoNumber = 2;
+		                break;
+		            case 2 :
+		                $("#infoNo1").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo2").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo3").css("opacity", "1.0")
+		                			 ;
+		                $("#infoNo4").css("opacity", "0.0")
+		                			 ;
+		                infoNumber = 3;
+		                break;
+		            case 3 :
+		                $("#infoNo1").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo2").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo3").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo4").css("opacity", "1.0")
+		                			 ;
+		                infoNumber = 4;
+		                break;
+		            case 4:
+		            	$("#infoNo1").css("opacity", "1.0")
+		            				 ;
+		                $("#infoNo2").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo3").css("opacity", "0.0")
+		                			 ;
+		                $("#infoNo4").css("opacity", "0.0")
+		                			 ;
+		                infoNumber = 1;
+		                break;
+            	}
+	            
+	            	
+            }
+            
         </script>
 
         <script>

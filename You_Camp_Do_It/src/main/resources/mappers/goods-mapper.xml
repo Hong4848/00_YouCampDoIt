@@ -444,8 +444,18 @@
 		                  FROM GOODS
 		                 WHERE STATUS IN ('Y', 'N')
 		                   AND DISCOUNT > 0
-		              ORDER BY GOODS_NO DESC) G
 		      )
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
+ 	</select>
+ 	
+ 	<select id="AjaxRentalList">
+ 		SELECT M.MEMBER_NO, D.GOODS_NO, D.TOTAL_PRICE, D.QUANTITY, M.MEMBER_NAME, M.MEMBER_ID
+		, G.GOODS_NO, G.GOODS_NAME, G.GOODS_THUMBNAIL, R.START_DATE, R.END_DATE
+		  FROM GOODS_ORDER O
+		  JOIN ORDER_DETAIL D USING(ORDER_NO)
+		  JOIN MEMBER M ON(O.MEMBER_NO = M.MEMBER_NO)
+		  JOIN GOODS G ON(G.GOODS_NO = D.GOODS_NO)
+		  JOIN RESERVE R ON(R.MEMBER_NO = O.MEMBER_NO)
+		 WHERE O.PAYMENT_STATUS = 'PAID'
  	</select>
 </mapper>

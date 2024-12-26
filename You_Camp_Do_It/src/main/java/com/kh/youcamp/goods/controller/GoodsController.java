@@ -389,4 +389,12 @@ public class GoodsController
 			return false;
 		}
 	}
+	
+	@ResponseBody
+	@PostMapping(value="AjaxRentalList.ma", produces="application/json; charset=UTF-8")
+	public String AjaxRentalList(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
+			@RequestParam(value="state", defaultValue="전체")String state, HttpSession session)
+	{
+		return "";
+	}
 }
