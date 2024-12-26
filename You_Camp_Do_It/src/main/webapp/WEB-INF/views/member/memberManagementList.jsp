@@ -121,6 +121,7 @@
                 display: flex;
                 justify-content:left;
                 text-align: center;
+                align-items:center;
                 
             }
 
@@ -166,7 +167,11 @@
             
             .memberStatus_Info{
             	width: 10%;
-            	height: 100%;
+            	height: 40px;
+            	display: flex;
+            	align-items: center;
+            	justify-content: center;
+            	
             }
 
             .goodsListContent{
@@ -586,9 +591,11 @@
             switch(status){
                 case 'Y':
                     status = '활동중';
+                    statusStyle = "background-color: green; color: white;"; // 초록 배경, 흰색 글씨
                     break;
                 case 'N':
                     status = '탈퇴';
+                    tatusStyle = "background-color: black; color: white;"; // 검정 배경, 흰색 글씨
                     break;
             }
             
@@ -616,7 +623,7 @@
                         + "<div class='signupDate_Info'>"
                             + formattedSignupDate
                         + "</div>"
-                        + "<div class='memberStatus_Info'>"
+                        + "<div class='memberStatus_Info' style='" + statusStyle + "'>" // 스타일 추가
                             + status
                         + "</div>";
             let createDiv = document.createElement("div");

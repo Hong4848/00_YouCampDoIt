@@ -933,6 +933,25 @@ public class ReserveController {
 	}
 	
 	
+	/**
+	 * 관리자페이지 예약상태 수정용 쿼리문
+	 * @param r
+	 * @return
+	 */
+	@ResponseBody
+	@GetMapping(value = "ajaxReserveDetailUpdate.me", produces="application/json; charset=UTF-8")
+	public boolean ajaxReserveDetailUpdate(Reserve r) {
+		int result = reserveService.ajaxReserveDetailUpdate(r);
+		if(result > 0){
+			return true;
+		}
+		else {
+			return false;
+		}
+		
+	}
+	
+	
 }
 
 

@@ -336,5 +336,14 @@
 		   AND START_DATE >= SYSDATE
 	</select>
 	
+	<!--  
+		관리자페이지 예약 상태 수정용 쿼리문
+	-->
+	<update id="ajaxReserveDetailUpdate">
+		UPDATE RESERVE
+		   SET PAYMENT_STATUS = #{paymentStatus}
+		 WHERE RESERVE_NO = #{reserveNo}
+	</update>
+	
   
 </mapper>

@@ -211,6 +211,16 @@ public class ReserveDao {
 		return sqlSession.selectOne("reserveMapper.selectReserveCount", memberNo);
 	}
 
+	/**
+	 * 관리자페이지 예약상태 수정용 쿼리문
+	 * @param sqlSession
+	 * @param r
+	 * @return
+	 */
+	public int ajaxReserveDetailUpdate(SqlSessionTemplate sqlSession, Reserve r) {
+		return sqlSession.update("reserveMapper.ajaxReserveDetailUpdate", r);
+	}
+
 	
 
 	

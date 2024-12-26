@@ -163,6 +163,11 @@
         border-radius: 15px;
         border: 1px solid #ddd;
     }
+    .tags span:hover {
+	    background-color: #fdd835; /* 호버 시 강조 색상 */
+	    color: #fff;
+	    transition: all 0.3s ease;
+	}
     
 </style>
 </head>

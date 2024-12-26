@@ -68,7 +68,9 @@
     }
 
     .image-section img {
-    	
+    	margin: auto;
+    	width: 1110px;
+    	height: 500px;
     }
 
 
@@ -164,6 +166,12 @@
         border: 1px solid #ddd;
     }
     
+    .tags span:hover {
+	    background-color: #fdd835; /* 호버 시 강조 색상 */
+	    color: #fff;
+	    transition: all 0.3s ease;
+	}
+    
 </style>
 </head>
 <body>
@@ -183,14 +191,14 @@
     <div class="container">
 	    <div class="image-section" style="margin-top: 0px;">
 	        
-	            <img src="resources/images/hard/forest/forest1.jpg" alt="캠핑장 이미지 1">
+	            <img src="resources/images/hard/stone/stone1.png" alt="캠핑장 이미지 1" >
 	            
 	    </div>
 	    
 	    <hr>
 	    <div class="image-section">
 	        
-	            <img src="resources/images/hard/forest/forest2.jpg" alt="캠핑장 이미지 2">
+	            <img src="resources/images/hard/stone/stone2.png" alt="캠핑장 이미지 2">
 	            
 	    </div>
 	    
@@ -201,16 +209,16 @@
 	            
 	        </div>
 	        <div class="info-right">
-	            <p>계곡이 가운데 흐르고 있고, 양옆으로 밤나무, 소나무 등 나무가 우거져 숲속 한가운데에서 물소리를 들을 수 있다. 조용히 힐링 할 수 있는 분께 추천한다.</p>
+	            <p>스톤 구역은 튼튼한 데크 위에 바로 텐트를 칠 수 있어 편리함을 제공한다. 캠핑 장비 설치가 수월하며, 근처에 편의시설이 위치해 있어 가족 단위 캠핑객이나 캠핑 초보자들에게 안성맞춤이다. 자연과 가까운 환경 속에서 편리함까지 누릴 수 있는 스톤 구역은 여유롭고 쾌적한 캠핑을 원하는 분들께 추천한다.</p>
 	            <ul>
-	                <li><strong>사이트 &nbsp;&nbsp;&nbsp;&nbsp;</strong> 파쇄석 18개, 면적: 1번~10번 (6m x 7m)</li>
+	                <li><strong>사이트 &nbsp;&nbsp;&nbsp;&nbsp;</strong> 파쇄석 19개, 면적: 1번~10번 (7m x 8m)</li>
 	                <li><strong>시설 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> 남/여 화장실, 남/여 샤워실, 취사장</li>
 	            </ul>
 	            <div class="tags">
-	                <span>#숲속</span>
-	                <span>#물소리</span>
-	                <span>#밤나무</span>
-	                <span>#프라이빗</span>
+	                <span>#자갈</span>
+	                <span>#편리함</span>
+	                <span>#야경</span>
+	                <span>#공유</span>
 	                <span>#사이트</span>
 	                <span>#매진예상</span>
 	            </div>
@@ -219,14 +227,14 @@
 	    
 	    <div class="image-section" >
 	        
-	            <img src="resources/images/hard/forest/forest3.jpg" alt="캠핑장 이미지 3">
+	            <img src="resources/images/hard/stone/stone3.png" alt="캠핑장 이미지 3">
 	            
 	    </div>
 	    
 	    <hr>
 	    <div class="image-section">
 	        
-	            <img src="resources/images/hard/forest/forest4.jpg" alt="캠핑장 이미지 4">
+	            <img src="resources/images/hard/stone/stone4.png" alt="캠핑장 이미지 4">
 	            
 	    </div>
 	</div>

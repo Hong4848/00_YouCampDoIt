@@ -73,5 +73,8 @@ public interface ReserveService {
 
 	// 주문결제 시 예약내역 체크용
 	int selectReserveCount(int memberNo);
+
+	// 관리자페이지 예약상태 변경용 쿼리문
+	int ajaxReserveDetailUpdate(Reserve r);
 	
 }

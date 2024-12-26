@@ -259,6 +259,10 @@
 			  background-color: #fdd835; /* 호버 시 강조 색상 */
 			  color: #fff;
 			}
+			
+			.test123{
+				posi
+			}
 		</style>
 	</head>
 	<body>
@@ -279,37 +283,39 @@
 		    </div>
 		    
 		    <div class="camp-information" id="infoNo1" style="opacity: 1.0;">
-		    	<div class="info-title">
-		    		<h1>캠핑장 소개</h1>
-		    	</div>
-		    	<div class="info-content">
-		    		<div class="info-img">
-		    			<img src="resources/images/mainPage/forest.png">
-				        
-		    		</div>
-		    		<div class="info-explain">
-		    			<div class="section-title">
-						    <span class="badge">1구역</span>
-						    <h2>&nbsp;포레스트</h2>
-						</div>
-						<br>
-						<p class="description">
-						    계곡을 가운데 끼고 산으로 둘러싸인 인제 진동리, 복잡한 도심에서 벗어나 힐링을 하고 싶다면 여기
-						    진동리 캠핑장으로 당장 떠나자. 새소리와 물소리를 들으며 아침에 눈을 뜨게 되고 상쾌한 아침공기를
-						    마시며 가만히 앉아있으면 마음이 평온해진다.
-						</p>
-						<ul class="details">
-						    <li><strong>사이트 &nbsp;&nbsp;</strong> 파쇄석 18개</li>
-						    <li><strong>시설 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> 남/여 화장실, 남/여 샤워실, 취사장</li>
-						</ul>
-						<div class="tags">
-						    <span>#숲속</span>
-						    <span>#물소리</span>
-						    <span>#새소리</span>
-						    <span>#밤나무</span>
-						    <span>#힐링스팟</span>
-						</div>
-		    		</div>
+		    	<div class="test123">
+		    		<div class="info-title">
+			    		<h1>캠핑장 소개</h1>
+			    	</div>
+			    	<div class="info-content">
+			    		<div class="info-img">
+			    			<img src="resources/images/mainPage/forest.png">
+					        
+			    		</div>
+			    		<div class="info-explain">
+			    			<div class="section-title">
+							    <span class="badge">1구역</span>
+							    <h2>&nbsp;포레스트</h2>
+							</div>
+							<br>
+							<p class="description">
+							    계곡을 가운데 끼고 산으로 둘러싸인 인제 진동리, 복잡한 도심에서 벗어나 힐링을 하고 싶다면 여기
+							    진동리 캠핑장으로 당장 떠나자. 새소리와 물소리를 들으며 아침에 눈을 뜨게 되고 상쾌한 아침공기를
+							    마시며 가만히 앉아있으면 마음이 평온해진다.
+							</p>
+							<ul class="details">
+							    <li><strong>사이트 &nbsp;&nbsp;</strong> 파쇄석 18개</li>
+							    <li><strong>시설 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> 남/여 화장실, 남/여 샤워실, 취사장</li>
+							</ul>
+							<div class="tags">
+							    <span>#숲속</span>
+							    <span>#물소리</span>
+							    <span>#새소리</span>
+							    <span>#밤나무</span>
+							    <span>#힐링스팟</span>
+							</div>
+			    		</div>
+			    	</div>
 		    	</div>
 		    </div>
 		

@@ -13,14 +13,16 @@
 				display: flex;
 			}
         </style>
+        
+        
+
     </head>
     <body>
-        <div id="outer">
-            <jsp:include page="/WEB-INF/views/admin/pageManagerMenu.jsp"></jsp:include>
-            <div class="manager_content">
-				여기에 내용물넣기
-			</div>
-        </div>
+        
+        
+        
+
+        
     </body>
     
     <!-- 시작 시 현재 메뉴 부분 강조 -->
@@ -39,6 +41,9 @@
     	후기게시판 : postscriptInfo
     	댓글관리 : replyInfo
     -->
+    
+    
+    
     <script>
 	    let imgSwitch = false;
 	    $(document).ready(function(){

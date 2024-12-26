@@ -140,22 +140,22 @@
             }
 
             .startDate_Info{
-                width: 15%;
+                width: 17%;
                 height: 100%;
             }
 
             .endDate_Info{
-                width: 15%;
+                width: 17%;
                 height: 100%;
             }
             
             .nights_Info{
-                width: 15%;
+                width: 12%;
                 height: 100%;
             }
 
             .memberCount_Info{
-                width: 17%;
+                width: 14%;
                 height: 100%;
             }
             
@@ -264,6 +264,13 @@
             .ajaxClick{
             	cursor:pointer;
             }
+            
+            /* 목록조회 스타일 */
+			
+
+
+
+            
         </style>
     </head>
     <body>
@@ -279,7 +286,7 @@
                 <div class="management_content">
                     <div class="choiceMenuBar">
                         <div id="choiceGoods">
-                            <div id="choiceName">결제 상세정보</div>
+                            <div id="choiceName">예약 상세정보</div>
                             <div id="choiceDetail">
                                 <div id="choiceDetailTitle">
                                 	<div>예약번호</div>
@@ -287,9 +294,9 @@
                                     <div>결제날짜</div>
                                     <div>결제금액</div>
                                     <div>결제방식</div>
-                                    <div>결제상태</div>
                                     <div>섹션</div>
                                     <div>자리</div>
+                                    <div>결제상태</div>
                                 </div>
                                 <div id="choiceDetailContent">
                                     <div style="display:none" id="x">1</div>
@@ -308,19 +315,25 @@
                                     <div id="paymentMethod">
                                         <input class="inputType" type="text" value="0" readOnly>
                                     </div>
-                                    <div id="paymentStatus">
-                                        <input class="inputType" type="text" value="0" readOnly>
-                                    </div>
+                                    
                                     <div id="section">
                                         <input class="inputType" type="text" value="0" readOnly>
                                     </div>
                                     <div id="spotNo">
                                         <input class="inputType" type="number" value="0" readOnly>
                                     </div>
+                                    <div id="choiceStatus">
+                                        <select name="goodsStatus" id="goodsStatus">
+                                        	<option value="CREATED">결제요청</option>
+                                        	<option value="PAID">결제완료</option>
+                                            <option value='CANCELED'>결제취소요청</option>
+                                            <option value='REFUNDED'>결제취소완료</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
                             <div style="text-align: right; margin-right: 20px;">
-                                
+                            	<button class="btn btn-sm btn-danger submitBtn">결제상태 수정</button>
                             </div>
                         </div>
                     </div>
@@ -398,7 +411,7 @@
                                 이용자수
                             </div>
                             <div class="paymentStatus_Info">
-                                예약상태
+                                결제상태
                             </div>
                         </div>
                         <div style="width: 100%; height: 2px; border: 1px solid rgba(128, 128, 128, 0.3);"></div>
@@ -578,13 +591,13 @@
                     status = '결제요청';
                     break;
                 case 'PAID':
-                    status = '예약완료';
+                    status = '결제완료';
                     break;
                 case 'CANCELED':
                     status = '결제취소요청';
                     break;
                 case 'REFUNDED':
-                    status = '예약취소완료';
+                    status = '결제취소완료';
                     break;
             }
             
@@ -648,7 +661,7 @@
     <script>
         function goodsUpdateAjax(reserveNo){
             $(".choiceMenuBar").css({
-                "height" : 500,
+                "height" : 550,
                 "border" : "5px double rgb(255, 129, 97)"
             });
             $.ajax({
@@ -684,7 +697,7 @@
                     } else if(result.paymentStatus == "CANCELED") {
                     	paymentStatus = "결제취소요청"
                     } else {
-                    	paymentStatus = "환불완료"
+                    	paymentStatus = "결제취소완료"
                     }
                     
                     $("#reserveNo>input").val(rNo);
@@ -693,9 +706,11 @@
                     $("#paymentDate>input").val(paymentDate);
                     $("#price>input").val(price);
                     $("#paymentMethod>input").val(result.paymentMethod);
-                    $("#paymentStatus>input").val(paymentStatus);
                     $("#section>input").val(section);
                     $("#spotNo>input").val(result.spotNo);
+                    $("#choiceStatus option").attr("selected", false);
+                    $("#choiceStatus option[value="+ result.paymentStatus +"]").attr("selected", true);
+                    
                 },
                 error(){
                     $(function(){
@@ -709,26 +724,26 @@
     <!-- 상품정보수정 버튼 이벤트 -->
     <script>
         $(".submitBtn").click(()=>{
-            let memberNo = $("#choiceNo").text();
+            let reserveNo = $("#reserveNo>input").val();
             let status = $("#goodsStatus").val();
 
             
-	        console.log(memberNo);
+	        console.log(reserveNo);
 	        console.log(status);
 
-            ajaxGoodsDetailUpdate(memberNo, status);
+            ajaxGoodsDetailUpdate(reserveNo, status);
             
         });
     </script>
     <!-- 상품정보수정 ajax통신 -->
     <script>
-        function ajaxGoodsDetailUpdate(memberNo, status){
+        function ajaxGoodsDetailUpdate(reserveNo, status){
             $.ajax({
-                url : "ajaxMemberDetailUpdate.me",
+                url : "ajaxReserveDetailUpdate.me",
                 type : "get",
                 data : {
-                    memberNo : memberNo,
-                    status : status
+                    reserveNo : reserveNo,
+                    paymentStatus : status
                 },
                 success(result){
                     if(result == true){
@@ -736,7 +751,7 @@
                             alertify.success('예약 정보를 수정했습니다.');
                             let pageNumber = parseInt($(".thisNum").text());
                             ajaxGoodsList(pageNumber, state);
-                            goodsUpdateAjax(memberNo);
+                            goodsUpdateAjax(reserveNo);
                         })
                     }
                     else{

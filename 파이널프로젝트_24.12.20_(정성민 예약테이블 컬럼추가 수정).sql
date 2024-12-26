@@ -482,3 +482,11 @@ COMMENT ON COLUMN LOST_ATTACHMENT.LOST_NO IS 'ì°¸ì¡°í•œ ë¶„ì‹¤ë¬¼ ê²Œì‹œê¸€ ë²ˆí
 
 
 
+-- REVIEW Å×ÀÌºí¿¡ REVIEW_WRITER ÄÃ·³ Ãß°¡
+ALTER TABLE REVIEW
+ADD REVIEW_WRITER VARCHAR2(15) NOT NULL;
+
+-- REVIEW_WRITER ÄÃ·³¿¡ ÁÖ¼® Ãß°¡
+COMMENT ON COLUMN REVIEW.REVIEW_WRITER IS 'ÀÛ¼ºÀÚ ÀÌ¸§ ¶Ç´Â º°Äª';
+COMMIT;
+
