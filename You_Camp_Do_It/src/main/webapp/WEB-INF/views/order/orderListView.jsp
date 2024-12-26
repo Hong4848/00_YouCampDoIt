@@ -47,9 +47,9 @@
                             </thead>
                             <tbody>
                             
-                                <c:forEach var="o" items="${ requestScope.list }">
+                                <c:forEach var="o" items="${ requestScope.list }" varStatus="status">
                                 
-                                    <tr>
+                                    <tr class="order-row" style="display: ${status.index < 5 ? 'table-row' : 'none'};">
                                         <td>${ o.orderNo }</td>
                                         <td><fmt:formatDate value="${o.updatedDate}" pattern="yyyy-MM-dd" /></td>
                                         <td><fmt:formatNumber value="${o.totalPrice}" type="number" pattern="#,###" /></td>
@@ -79,11 +79,13 @@
                         </table>
                     </div>
                 </div>
-                
+                <!-- 더보기 버튼 -->
+                <div align="center">
+                    <button id="btn-more">더보기</button>
+                </div>
 
             </div>
                 
-            
         </div>
 
 	<br>
@@ -96,7 +98,7 @@
     <script>
         const contextPath = "${pageContext.request.contextPath}";
     </script>
-    <script src="${pageContext.request.contextPath}/resources/js/order/orderListView.js?ver=1.0"></script>
+    <script src="${pageContext.request.contextPath}/resources/js/order/orderListView.js?ver=1.2"></script>
     
 </body>
 </html>

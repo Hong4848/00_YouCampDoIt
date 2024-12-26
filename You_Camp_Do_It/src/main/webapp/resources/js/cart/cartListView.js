@@ -175,6 +175,13 @@ $(function () {
 
 	});
 
+	// 이미지 또는 제품 이름 클릭 시 제품 상세 페이지로 이동
+	$(document).on('click', '.thumbnail, .goodsName', function () {
+		let goodsNo = $(this).closest('.cart-item').find('input[name="goodsNo"]').val();
+		location.href = "goodsDetail.gs?goodsNo=" + goodsNo;
+	});
+
+
 	
 });
 //------------------------------------------------------------------------------
@@ -297,7 +304,7 @@ function renderCartItems(data) {
                 </div>
                 <!-- 상품 상세 정보 -->
                 <div class="item-details">
-                    <h3>${item.goods.goodsName || "상품 정보 없음"}</h3>
+                    <h3 class="goodsName">${item.goods.goodsName || "상품 정보 없음"}</h3>
 					<br>
                     <!-- <p class="item-options">선택: ${item.goods.goodsInfo || "정보 없음"}</p> -->
                     <div class="item-quantity">

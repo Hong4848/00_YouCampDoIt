@@ -134,6 +134,21 @@
     width: 150px;
 }
 
+/* 커서 효과를 위한 스타일 */
+/* 썸네일과 용품이름 */
+.thumbnail:hover {
+    cursor: pointer; /* 커서 모양을 손가락 모양으로 변경 */
+    opacity: 0.8; /* 약간 투명하게 */
+    transition: opacity 0.3s ease;
+}
+
+.goodsName:hover {
+    cursor: pointer; /* 커서 모양을 손가락 모양으로 변경 */
+    color: #6c5e37; /* 텍스트 색상 변경 */
+    text-decoration: underline; /* 텍스트 밑줄 추가 */
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
 /* 수량 조절 컨트롤 */
 .item-quantity {
     display: flex;

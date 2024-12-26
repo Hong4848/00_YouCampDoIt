@@ -54,7 +54,7 @@
 				               <td><fmt:formatNumber value="${Amt}" type="number" />원</td>
 							   
 				           </tr>
-				           <tr>
+				           <tr hidden>
 				               <th>거래 번호</th>
 				               <td>${TID}</td>
 				           </tr>

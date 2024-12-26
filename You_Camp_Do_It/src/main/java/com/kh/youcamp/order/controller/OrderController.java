@@ -193,7 +193,6 @@ public class OrderController {
 		
 		Member loginMember = (Member) session.getAttribute("loginMember");
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
-		
 	    order.setMemberNo(memberNo);
 	    
 	    // 예약 내역이 있어야 주문결제 가능하게 처리
@@ -203,7 +202,6 @@ public class OrderController {
 	    	model.addAttribute("errorMsg", "예약내역이 없습니다. 예약 후 주문을 진행해 주세요.");
 			return "common/errorPage";
 	    }
-	    
 	    
 //	    log.debug("jsp 에서 값 넘어오냐? order : " + order);
 	    
@@ -226,8 +224,6 @@ public class OrderController {
 		// orderDetail insert
 	    // Json 형태 데이터 아니면 cart에서 셀렉해와서 orderDetail 에 insert 하기 
 //	    log.debug("jsp 에서 값 넘어오냐? orderDetailsJson  : "  + orderDetailsJson);
-	    
-	    
 	    ObjectMapper objectMapper = new ObjectMapper();
 	    List<OrderDetail> orderDetails = new ArrayList<>();
 		try {
@@ -337,11 +333,9 @@ public class OrderController {
 	
 	
 	/**
-	 * 
 	 * 결제 후 결제 완료되면 order status 컬럼 update
 	 * 그리고 주문완료(결제완료) 내역 뷰 요청
 	 * 결제 완료 데이터를 payResult.jsp로 넘김
-	 * 
 	 * @param request
 	 * @param model
 	 * @return
@@ -354,7 +348,6 @@ public class OrderController {
 							  HttpSession session) throws Exception {
 		
 		// request.setCharacterEncoding("utf-8"); 
-		
 		
 		/*
 		****************************************************************************************
@@ -396,7 +389,6 @@ public class OrderController {
 		String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
 		String GoodsName 	= ""; String Amt 		= ""; String TID 		= ""; 
 		//String Signature = ""; String paySignature = "";
-
 
 		/*
 		****************************************************************************************
@@ -620,10 +612,6 @@ public class OrderController {
 					
 					mailSender.send(message);
 				    
-				    
-				    //----------------------------------------------------------------------
-
-				    
 					return "order/payResult";
 				}
 				// --------------------------------------------------------------------------
@@ -662,7 +650,6 @@ public class OrderController {
 		int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 		log.debug("결제내역 리스트뷰 컨트롤러, memberNo : " + memberNo);
 		
-		// 로그인 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
 		// 주문(결제)한 내용 memberNo > order테이블 > 
 		ArrayList<Order> list = 
 				orderService.selectOrederListByMemberNo(memberNo);
@@ -715,7 +702,6 @@ public class OrderController {
     }
 	
 	/*
-	 * 
 	 * 취소 흐름 현재 관리자 페이지가 구성되있지 않아 2번으로 구현
 	 * 사용자의 취소요청 > 관리자페이지에서 승인 및 나이스페이 취소 실행 > db 업데이트
 	 * 사용자의 취소요청 > 나이스페이 결제 취소 > 관리자가 상태 update (취소자체는 나이스페이 및 카드사가 바로 진행)
