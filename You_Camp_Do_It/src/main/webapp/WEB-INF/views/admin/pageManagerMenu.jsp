@@ -242,6 +242,27 @@
                 <div class="left_side_menu_img"><img src="resources/images/admin/뒤로가기.png" alt="뒤로가기" style="width: 80%;"></div>
                 <div class="left_side_menu_img"><img src="resources/images/admin/logout.png" alt="로그아웃" style="width: 75%;"></div>
             </div>
+            <c:choose>
+				<c:when test="${(not empty sessionScope.alertMsg) and (sessionScope.alertMsg eq '상품 등록에 성공했습니다')}">
+		       		<script>
+		               	alertify.alert('등록 결과', '${ sessionScope.alertMsg }', function(){ alertify.success('상품이 등록되었습니다.'); });
+		           	</script>
+		           	<c:remove var="alertMsg" scope="session" />
+		       	</c:when>
+		       	<c:when test="${(not empty sessionScope.alertMsg) and (sessionScope.alertMsg eq '상품정보 수정에 성공했습니다')}">
+		       		<script>
+		                alertify.alert('등록 결과', '${ sessionScope.alertMsg }', function(){ alertify.success('상품이 수정되었습니다.'); });
+		            </script>
+		            <c:remove var="alertMsg" scope="session" />
+		       	</c:when>
+		       	<c:when test="${not empty sessionScope.errorMsg}">
+		       		<script>
+		               	alertify.alert('등록 결과', '${ sessionScope.errorMsg }', function(){ alertify.success('실패했습니다.'); });
+		           	</script>
+		           	<c:remove var="errorMsg" scope="session" />
+		       	</c:when>
+		       	<c:otherwise></c:otherwise>
+			</c:choose>
         </div>
         <script>
 			$(".head_node").click(function(){

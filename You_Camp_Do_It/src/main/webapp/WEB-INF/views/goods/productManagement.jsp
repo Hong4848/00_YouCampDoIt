@@ -123,8 +123,6 @@
                 text-align: center;
             }
             
-            
-
             .goodsNo_checkbox{
                 width: 5%;
                 height: 100%;
@@ -550,6 +548,7 @@
             $("#pagingArea>ul").addClass("pagination");
         }
     </script>
+    
     <!-- ajax 결과 데이터 처리 -->
     <script>
         function ajaxResult(result, i){
@@ -698,6 +697,7 @@
             }
         });
     </script>
+    
     <!-- 상품정보수정 ajax통신 -->
     <script>
         function ajaxGoodsDetailUpdate(goodsNo, price, totalStock, remainStock, discount, status){

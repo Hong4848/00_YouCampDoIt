@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.kh.youcamp.common.model.vo.PageInfo;
@@ -78,6 +79,25 @@ public class GoodsController
 			// 실패
 			session.setAttribute("errorMsg", "상품 등록에 실패했습니다");
 			return "addProduct.ma";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping(value="updateGoods.gs", produces="text/html; charset=UTF-8")
+	public String updateGoods(Goods g, HttpSession session) {
+		int result = goodsService.updateGoods(g);
+		
+		if(result > 0)
+		{
+			// 성공
+			session.setAttribute("alertMsg", "상품정보 수정에 성공했습니다");
+			return "Management.ma";
+		}
+		else
+		{
+			// 실패
+			session.setAttribute("errorMsg", "상품정보 수정에 실패했습니다");
+			return "Management.ma";
 		}
 	}
 	
@@ -232,5 +252,85 @@ public class GoodsController
 		model.addAttribute("goods", goods);
 
 		return "goods/updateProduct";
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "ajaxDibs.gs", produces="application/json; charset=UTF-8")
+	public String ajaxDibs(int memberNo, int goodsNo){
+		int dibsCheck = goodsService.dibsCheck(memberNo, goodsNo);
+		String s = "";
+		if(dibsCheck == 0){
+			int ajaxInsert = goodsService.ajaxDibsInsert(memberNo, goodsNo);
+			if(ajaxInsert > 0){
+				s += "추가성공";
+			}
+			else{
+				s += "추가실패";
+			}
+		}
+		else if(dibsCheck == 1){
+			int ajaxDelete = goodsService.ajaxDibsDelete(memberNo, goodsNo);
+			if(ajaxDelete > 0){
+				s += "삭제성공";
+			}
+			else{
+				s += "삭제실패";
+			}
+		}
+		else {
+			s += "완전실패";
+		}
+		
+		return new Gson().toJson(s);
+	}
+	
+	@ResponseBody
+	@PostMapping("dibsCheck.gs")
+	public Boolean dibsCheck(int memberNo, int goodsNo){
+		int dibsCheck = goodsService.dibsCheck(memberNo, goodsNo);
+		
+		if(dibsCheck > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	@GetMapping("myDibs.me")
+	public ModelAndView myDibs(ModelAndView mv)
+	{
+		mv.setViewName("goods/myDibs");
+		return mv;
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "selectDibs.gs", produces="application/json; charset=UTF-8")
+	public String selectDibs(int memberNo) {
+		
+		int ListCount = goodsService.selectDibsCount(memberNo);
+		ArrayList<Goods> goods = goodsService.selectDibs(memberNo);
+		
+		//섬네일 이미지 추출
+		for(Goods g : goods)
+		{
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = g.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			g.setGoodsThumbnail(body);
+		}
+		
+		Map<String, Object> list = new HashMap<>();
+		
+		list.put("goods", goods);
+		list.put("ListCount", ListCount);
+		
+		return new Gson().toJson(list);
 	}
 }

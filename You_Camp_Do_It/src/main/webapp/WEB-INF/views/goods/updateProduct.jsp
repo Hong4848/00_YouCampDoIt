@@ -179,26 +179,13 @@
     <body>
         <div id="outer">
             <jsp:include page="/WEB-INF/views/admin/pageManagerMenu.jsp"></jsp:include>
-            <c:if test="${ not empty sessionScope.alertMsg }">
-                <script>
-                    alertify.alert('등록 결과', '${ sessionScope.alertMsg }', function(){ alertify.success('상품이 등록되었습니다.'); });
-                </script>
-                <c:remove var="alertMsg" scope="session" />
-            </c:if>
-
-            <c:if test="${ not empty sessionScope.errorMsg }">
-                <script>
-                    alertify.alert('등록 결과', '${ sessionScope.errorMsg }', function(){ alertify.success('상품이 등록에 실패했습니다.'); });
-                </script>
-                <c:remove var="errorMsg" scope="session" />
-            </c:if>
             <div class="goods_enrollment">
                 <div class="title_enrollment">
                     <div style="line-height: 47px; padding-left: 20px;">상품 정보 수정</div>
                     <input id="fileCall" type="file" onchange="loadImg(this);">
                     <div style="padding-right: 20px;">
-                        <button class="btn" style="background-color: rgb(147, 255, 195);">취소</button>
-                        <button id="submit" class="btn" style="background-color: rgb(88, 199, 190);">등록</button>
+                        <button id="returnBtn" class="btn" style="background-color: rgb(147, 255, 195);">취소</button>
+                        <button id="submit" class="btn" style="background-color: rgb(88, 199, 190);">수정</button>
                     </div>
                 </div>
                 <div class="content_enrollment">
@@ -207,20 +194,22 @@
                             <div id="productThumbnail" class="productForm">
                                 <div style="padding: 10px; height: 30px; display: flex; justify-content: space-between;">
                                     <div>섬네일이미지</div>
-                                    <div>이미지 삽입</div>
+                                    <div>이미지를 클릭해서 등록</div>
                                 </div>
                                 <div id="Thumbnail_Area">
-                                    <img src="resources/images/goods/이미지삽입.png" onclick="onImg()" class="temporary"><br>
-                                    <div class="temporary" style="color: rgba(0, 0, 0, 0.5);">여기를 눌러 이미지 추가</div>
+                                	<div id="Thumbnail_Img">
+                                		${requestScope.goods.goodsThumbnail}
+                                	</div>
                                 </div>
                             </div>
                             <div id="productInfo" class="productForm">
                                 <div id="productInfo_header">
                                     <div style="padding-top: 10px;">상품명</div>
-                                    <div><input id="goodsTitle" type="text" class="productInput" name="" value="" maxlength="200" autocomplete="off"></div>
+                                    <div><input id="goodsTitle" type="text" class="productInput" name="" value="${requestScope.goods.goodsName}" maxlength="200" autocomplete="off"></div>
                                     <div style="color: rgba(0, 0, 0, 0.5);">요약 설명. 상품 상세정보 상단에 출력됩니다.</div>
                                 </div>
                                 <div id="goodsInfo">
+                                	${requestScope.goods.goodsInfo}
                                 </div>
                             </div>
                         </div>
@@ -229,12 +218,13 @@
                                 상세설명
                             </div>
                             <div id="goodsContent">
+                            	${requestScope.goods.goodsContent}
                             </div>
                         </div>
                     </div>
                     <div class="sub_enrollment">
                         <div>분류</div>
-                        <div><input type="text" id="category" class="productInput" name="category" value="" maxlength="200" autocomplete="off" readonly Placeholder="카테고리를 선택해주세요"></div>
+                        <div><input type="text" id="category" class="productInput" name="category" value="${requestScope.goods.category}" maxlength="200" autocomplete="off" readonly Placeholder="카테고리를 선택해주세요"></div>
                         <div class="select_Category">
                             <div class="category_header">카테고리</div>
                             <div class="category_body">
@@ -283,10 +273,10 @@
                         <div><input id="brand" type="text" class="productInput" name="brand" value="${requestScope.goods.mark}" maxlength="200" autocomplete="off" Placeholder="브랜드를 입력해주세요"></div>
                         <div style="height: 30px;"></div>
                         <div>가격</div>
-                        <div><input id="price" type="number" class="productInput" name="price" value="0" maxlength="200" autocomplete="off" Placeholder="가격을 입력해주세요" min="0"></div>
+                        <div><input id="price" type="number" class="productInput" name="price" value="${requestScope.goods.price}" maxlength="200" autocomplete="off" Placeholder="가격을 입력해주세요" min="0"></div>
                         <div style="height: 30px;"></div>
                         <div>재고수량</div>
-                        <div><input id="totalStock" type="number" class="productInput" name="totalStock" value="0" maxlength="200" autocomplete="off" Placeholder="재고를 입력해주세요" min="0"></div>
+                        <div><input id="totalStock" type="number" class="productInput" name="totalStock" value="${requestScope.goods.totalStock}" maxlength="200" autocomplete="off" Placeholder="재고를 입력해주세요" min="0"></div>
                     </div>
                 </div>
 			</div>
@@ -294,7 +284,7 @@
     </body>
     <!-- 시작 시 현재 메뉴 부분 강조 -->
     <script>
-	    let imgSwitch = false;
+	    let imgSwitch = true;
 	    $(document).ready(function(){
 	        let count = $("#Product").next().children().length;
 	        $("#Product").next().css("border-color", "rgb(26, 187, 156, 1.0)");
@@ -302,6 +292,9 @@
 			$("#Product").next().css("height", count*35);
 	
 			$("#ProductRegister").children().css("color","red");
+			$("#Thumbnail_Img").click(function(){
+                onImg();
+            });
 	    });
     </script>
     
@@ -336,7 +329,7 @@
 	</script>
 	
     <!-- 섬네일 이미지 등록 -->
-	<script>
+    <script>
 	    function onImg(){
 		    let myInput = document.getElementById("fileCall");
 		    myInput.click();
@@ -420,9 +413,11 @@
 	        let price = $("#price").val();
 	        let totalStock = $("#totalStock").val();
 	        let goodsContent = $("#goodsContent").summernote('code');
-	
+            let status = '${requestScope.goods.status}';
+            let goodsNo = ${requestScope.goods.goodsNo};
+            
 	        let errorMsg = "";
-	        if(goodsTitle == "" || category == "" || goodsTitle.length > 20 || imgSwitch == false){
+	        if(goodsTitle == "" || category == "" || goodsTitle.length > 20 || imgSwitch == false || totalStock < 0 || totalStock == '' || price == '' || price < 0){
 	            if(goodsTitle == ""){
 	                errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
 	            }
@@ -438,11 +433,20 @@
                 if(imgSwitch == false){
                     errorMsg += "상품의 섬네일 이미지가 등록되지 않았습니다.<br>";
                 }
+                
+                if(totalStock < 0 || totalStock == ''){
+                    errorMsg += "상품의 수량이 잘못 되었습니다.<br>";
+                }
+                
+                if(price == '' || price < 0){
+                	errorMsg += "상품의 가격이 잘못 되었습니다.<br>";
+                }
 	            
 	            alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });
 	        }
 	        else{
 	            let formData = new FormData();
+                formData.append('goodsNo', goodsNo);
 	            formData.append('goodsThumbnail', productThumbnail);
 	            formData.append('goodsName', goodsTitle);
 	            formData.append('goodsInfo', goodsInfo);
@@ -451,9 +455,10 @@
 	            formData.append('price', price);
 	            formData.append('totalStock', totalStock);
 	            formData.append('goodsContent', goodsContent);
-	
+                formData.append('status', status);
+
 	            $.ajax({
-	                url : "enrollGoods.gs",
+	                url : "updateGoods.gs",
 	                type : "post",
 	                data : formData,
 	                contentType: false,
@@ -470,4 +475,11 @@
 	        }
 	    });
 	</script>
+	
+    <!-- 취소버튼 이벤트 -->
+    <script>
+        $("#returnBtn").click(function(){
+            location.replace("Management.ma");
+        })
+    </script>
 </html>

@@ -346,6 +346,22 @@
 		 WHERE GOODS_NO = #{goodsNo}
  	</update>
  	
+ 	<!-- 상품 정보 수정 -->
+ 	<update id="updateGoods" parameterType="goods">
+ 		UPDATE GOODS
+ 		   SET CATEGORY = #{category}
+             , GOODS_NAME = #{goodsName}
+             , GOODS_THUMBNAIL = #{goodsThumbnail}
+             , GOODS_CONTENT = #{goodsContent}
+             , GOODS_INFO = #{goodsInfo}
+             , MARK = #{mark}
+             , PRICE = #{price}
+             , TOTAL_STOCK = #{totalStock}
+             , REMAIN_STOCK = #{totalStock}
+             , STATUS = #{status}
+ 		 WHERE GOODS_NO = #{goodsNo}
+ 	</update>
+ 	
  	<!-- cart 목록 뷰 시 썸네일 -->
  	<select id="selectGoodsThumbnailList" parameterType="_int"
  			resultMap="goodsResultSet">
@@ -370,5 +386,41 @@
 		 		  FROM GOODS_ORDER
 		 		 WHERE ORDER_NO = #{orderNo}
 		 )
+ 	</select>
+ 	
+ 	<!-- 찜 기능 -->
+ 	<select id="dibsCheck" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM DIBS
+		 WHERE DIBS_MEMBER = #{memberNo}
+		   AND DIBS_GOODS = #{goodsNo}
+ 	</select>
+ 	
+ 	<insert id="ajaxDibsInsert">
+ 		INSERT INTO DIBS(DIBS_MEMBER
+                 , DIBS_GOODS)
+            VALUES(#{memberNo}
+                 , #{goodsNo})
+ 	</insert>
+ 	
+ 	<delete id="ajaxDibsDelete">
+ 		DELETE
+ 		  FROM DIBS
+ 		 WHERE DIBS_MEMBER = #{memberNo}
+		   AND DIBS_GOODS = #{goodsNo}
+ 	</delete>
+ 	
+ 	<select id="selectDibs" resultMap="goodsResultSet">
+ 		SELECT GOODS_NO, GOODS_NAME, GOODS_THUMBNAIL, PRICE
+		  FROM DIBS
+		  JOIN GOODS ON (DIBS_GOODS = GOODS_NO)
+		 WHERE DIBS_MEMBER = #{memberNo}
+		   AND STATUS IN ('Y', 'N')
+ 	</select>
+ 	
+ 	<select id="selectDibsCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM DIBS
+		 WHERE DIBS_MEMBER = #{memberNo}
  	</select>
 </mapper>

@@ -44,6 +44,7 @@ public class GoodsDao {
 	public int searchingListCount(SqlSessionTemplate sqlSession, Search search){
 		return sqlSession.selectOne("goodsMapper.searchingListCount", search);
 	}
+	
 	/* 상품 검색 리스트 조회 */
 	public ArrayList<Goods> searchingGoods(SqlSessionTemplate sqlSession, Search search, PageInfo pi)
 	{
@@ -143,6 +144,49 @@ public class GoodsDao {
 	/* 관리자 페이지 상세 정보 업데이트 페이지 이동 */
 	public Goods adminUpdateGoods(SqlSessionTemplate sqlSession, int goodsNo) {
 		return sqlSession.selectOne("goodsMapper.adminUpdateGoods", goodsNo);
+	}
+	
+	/* 상품 정보 수정 */
+	public int updateGoods(SqlSessionTemplate sqlSession, Goods g) {
+		return sqlSession.update("goodsMapper.updateGoods", g);
+	}
+	
+	/* 찜 유무 판별 */
+	public int dibsCheck(SqlSessionTemplate sqlSession, int memberNo, int goodsNo) {
+		Map<String, Object> dibs = new HashMap<>();
+		dibs.put("memberNo", memberNo);
+		dibs.put("goodsNo", goodsNo);
+		
+		return sqlSession.selectOne("goodsMapper.dibsCheck", dibs);
+	}
+	
+	/* 상품 찜하기 */
+	public int ajaxDibsInsert(SqlSessionTemplate sqlSession, int memberNo, int goodsNo) {
+
+		Map<String, Object> dibs = new HashMap<>();
+		dibs.put("memberNo", memberNo);
+		dibs.put("goodsNo", goodsNo);
+		
+		return sqlSession.insert("goodsMapper.ajaxDibsInsert", dibs);
+	}
+	
+	/* 상품 찜 삭제 */
+	public int ajaxDibsDelete(SqlSessionTemplate sqlSession, int memberNo, int goodsNo) {
+
+		Map<String, Object> dibs = new HashMap<>();
+		dibs.put("memberNo", memberNo);
+		dibs.put("goodsNo", goodsNo);
+		return sqlSession.delete("goodsMapper.ajaxDibsDelete", dibs);
+	}
+
+	/* 내 찜 목록 */
+	public ArrayList<Goods> selectDibs(SqlSessionTemplate sqlSession, int memberNo){
+		return (ArrayList)sqlSession.selectList("goodsMapper.selectDibs", memberNo);
+	}
+	
+	/* 내가 찜 한 목록 개수 */
+	public int selectDibsCount(SqlSessionTemplate sqlSession, int memberNo) {
+		return sqlSession.selectOne("goodsMapper.selectDibsCount", memberNo);
 	}
 	
 /************************************************************************************************************************/	

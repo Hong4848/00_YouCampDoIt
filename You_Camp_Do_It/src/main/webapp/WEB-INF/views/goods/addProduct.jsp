@@ -12,19 +12,10 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Jua&family=Nanum+Pen+Script&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Yeon+Sung&display=swap" rel="stylesheet">
-
-        <!-- 섬머노트 추가 -->
-        
-        <!--
-        <script src="resources/js/summernote/lang/summernote-ko-KR.js"></script>
-        <script src="resources/js/summernote/summernote-lite.js"></script>
-        <link rel="stylesheet" href="resources/css/summernote/summernote-lite.css">
-		-->
 		
         <style>
             div{
                 box-sizing: border-box;
-                /*border: 1px solid red;*/
             }
             #outer{
 				width: 1900px;
@@ -34,12 +25,6 @@
 
             .goods_enrollment{
                 width: 1650px;
-
-                /*
-                font-family: "Yeon Sung", system-ui;
-                font-weight: 400;
-                font-style: normal;
-                */
             }
 
             .title_enrollment{
@@ -179,19 +164,6 @@
     <body>
         <div id="outer">
             <jsp:include page="/WEB-INF/views/admin/pageManagerMenu.jsp"></jsp:include>
-            <c:if test="${ not empty sessionScope.alertMsg }">
-                <script>
-                    alertify.alert('등록 결과', '${ sessionScope.alertMsg }', function(){ alertify.success('상품이 등록되었습니다.'); });
-                </script>
-                <c:remove var="alertMsg" scope="session" />
-            </c:if>
-
-            <c:if test="${ not empty sessionScope.errorMsg }">
-                <script>
-                    alertify.alert('등록 결과', '${ sessionScope.errorMsg }', function(){ alertify.success('상품이 등록에 실패했습니다.'); });
-                </script>
-                <c:remove var="errorMsg" scope="session" />
-            </c:if>
             <div class="goods_enrollment">
                 <div class="title_enrollment">
                     <div style="line-height: 47px; padding-left: 20px;">상품 등록</div>
@@ -292,6 +264,7 @@
 			</div>
         </div>
     </body>
+    
     <!-- 시작 시 현재 메뉴 부분 강조 -->
     <script>
 	    let imgSwitch = false;
@@ -419,9 +392,9 @@
 	        let price = $("#price").val();
 	        let totalStock = $("#totalStock").val();
 	        let goodsContent = $("#goodsContent").summernote('code');
-	
+	        
 	        let errorMsg = "";
-	        if(goodsTitle == "" || category == "" || goodsTitle.length > 20 || imgSwitch == false){
+	        if(goodsTitle == "" || category == "" || goodsTitle.length > 20 || imgSwitch == false || totalStock < 0){
 	            if(goodsTitle == ""){
 	                errorMsg += "상품의 이름이 입력되지 않았습니다.<br>";
 	            }
@@ -436,6 +409,10 @@
 
                 if(imgSwitch == false){
                     errorMsg += "상품의 섬네일 이미지가 등록되지 않았습니다.<br>";
+                }
+                
+                if(totalStock < 0){
+                    errorMsg += "상품의 수량이 잘못 되았습니다.<br>";
                 }
 	            
 	            alertify.alert('등록 오류<br>해당 이유로 등록이 불가능 합니다.', errorMsg, function(){ alertify.success('상품이 등록되지 않았습니다.'); });

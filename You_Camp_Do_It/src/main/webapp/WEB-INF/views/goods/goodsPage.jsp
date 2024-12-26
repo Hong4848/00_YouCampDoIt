@@ -235,6 +235,11 @@
 				margin: auto;
 				text-align: center;
 			}
+			
+			#dibs{
+				cursor: pointer;
+				background-color: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -272,7 +277,7 @@
 				<div style="width: 10%;"></div>
 			</div>
 			<div class="locator">
-				<a href="">HOME</a> ❯ <a href="">캠핑용품</a> ❯ <a href="">캠핑용품대여</a> ❯ <a href="">텐트/쉘터</a>
+				<a href="${ pageContext.request.contextPath }/">HOME</a> ❯ <a href="${ pageContext.request.contextPath }/product.gs">캠핑용품</a> ❯ <a>캠핑용품대여</a> ❯ <a>텐트/쉘터</a>
 			</div>
 			<div id="goodsExplain">
 				<div class="goodsSummary">
@@ -296,7 +301,9 @@
 								</div>
 							</div>
 							<div id="bookmark">
-								<img src="resources/images/goods/찜표시.png">
+								<c:if test="${sessionScope.loginMember != null}">
+									<img id="dibs" src="resources/images/goods/찜표시3.png">
+								</c:if>
 							</div>
 						</div>
 						<div style="border-bottom: 2px solid rgba(128, 128, 128, 0.3); height: 30px;"></div>
@@ -393,6 +400,37 @@
 			</div>
 		</div>
 	</body>
+	
+	<!-- 시작 시 -->
+    <script>
+        $(document).ready(function(){
+            if(${sessionScope.loginMember != null}){
+				
+				let memberNo = ${sessionScope.loginMember.memberNo};
+				let goodsNo = ${requestScope.goods.goodsNo};
+
+				$.ajax({
+					url : "dibsCheck.gs",
+					type : "post",
+					data : {
+						memberNo : memberNo,
+						goodsNo : goodsNo
+					},
+					success(result){
+						if(result){
+							$("#dibs").css("background-color", "#FFD700");
+						}
+						else{
+							$("#dibs").css("background-color", "#FFFFFF");
+						}
+					},
+					error(){
+						console.log("실패");
+					}
+				});
+			}
+		});
+    </script>
 	
 	<!-- cart insert form 의 btn 클릭 시 수량값을 가져오는 함수 -->
 	<script>
@@ -519,5 +557,44 @@
 	<!-- 섬네일 이미지 크기 조절 -->
 	<script>
 		$(".thumbnail>img").css({"height" : 450, "margin" : 0, position: "absolute", display:"block"});
+	</script>
+	
+	<!-- 찜하기 클릭 이벤트 -->
+	<script>
+		$("#dibs").click(function(){
+			let memberNo = ${sessionScope.loginMember.memberNo};
+			let goodsNo = ${requestScope.goods.goodsNo};
+			
+			$.ajax({
+				url : "ajaxDibs.gs",
+				type : "post",
+				data : {
+					memberNo : memberNo,
+					goodsNo : goodsNo
+				},
+				success(result){
+					console.log(result);
+					switch(result){
+						case '추가성공':
+							alertify.success('상품을 찜 목록에<br>추가했습니다.');
+							$("#dibs").css("background-color", "#FFD700");
+							break;
+						case '추가실패':
+							alertify.success('상품을 찜 목록에<br>추가하지 못했습니다.');
+							break;
+						case '삭제성공':
+							alertify.success('상품을 찜 목록에서<br>삭제했습니다.');
+							$("#dibs").css("background-color", "#FFFFFF");
+							break;
+						case '삭제실패':
+							alertify.success('상품을 찜 목록에서<br>삭제하지 못했습니다.');
+							break;
+					}
+				},
+				error(){
+					alertify.success('서버와의 통신에<br>실패했습니다.');
+				}
+			});
+		});
 	</script>
 </html>

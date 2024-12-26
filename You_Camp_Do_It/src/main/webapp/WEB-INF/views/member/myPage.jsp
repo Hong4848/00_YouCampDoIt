@@ -203,7 +203,7 @@
 	                <img src="resources/images/member/MyLikeIcon.png" alt="좋아요한 글 아이콘">
 	                <span>좋아요한 글</span>
 	            </a>
-	            <a href="#8" class="menu-item">
+	            <a href="${ pageContext.request.contextPath }/myDibs.me" class="menu-item">
 	                <img src="resources/images/member/MyGoodIcon.png" alt="찜한 물품 아이콘">
 	                <span>찜한 물품</span>
 	            </a>

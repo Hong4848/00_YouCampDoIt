@@ -204,7 +204,72 @@ public class GoodsServiceImpl implements GoodsService{
 	public Goods adminUpdateGoods(int goodsNo) {
 		return goodsDao.adminUpdateGoods(sqlSession, goodsNo);
 	}
-
+	
+	/**
+	 * 작성일 : 2024.12.25
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상품 정보 수정
+	 */
+	@Override
+	public int updateGoods(Goods g) {
+		return goodsDao.updateGoods(sqlSession, g);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.25
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상품 찜 유무 판별
+	 */
+	@Override
+	public int dibsCheck(int memberNo, int goodsNo) {
+		return goodsDao.dibsCheck(sqlSession, memberNo, goodsNo);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.25
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상품 찜하기
+	 */
+	@Override
+	public int ajaxDibsInsert(int memberNo, int goodsNo) {
+		return goodsDao.ajaxDibsInsert(sqlSession, memberNo, goodsNo);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.25
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 상품 찜하기 취소
+	 */
+	@Override
+	public int ajaxDibsDelete(int memberNo, int goodsNo) {
+		return goodsDao.ajaxDibsDelete(sqlSession, memberNo, goodsNo);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.25
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 내가 찜 한 목록 보기
+	 */
+	@Override
+	public ArrayList<Goods> selectDibs(int memberNo) {
+		return goodsDao.selectDibs(sqlSession, memberNo);
+	}
+	
+	/**
+	 * 작성일 : 2024.12.26
+	 * 작성자 : 박진홍
+	 * 버전 : 1.0.0
+	 * 내용 : 내가 짬 한 목록 개수
+	 */
+	@Override
+	public int selectDibsCount(int memberNo) {
+		return goodsDao.selectDibsCount(sqlSession, memberNo);
+	}
 /************************************************************************************************************************/
 /************************************************************************************************************************/
 /************************************************************************************************************************/
@@ -226,6 +291,4 @@ public class GoodsServiceImpl implements GoodsService{
 	public ArrayList<Goods> selectGoodsThumbnailListByOrderNo(int orderNo) {
 		return goodsDao.selectGoodsThumbnailListByOrderNo(sqlSession, orderNo);
 	}
-
-	
 }

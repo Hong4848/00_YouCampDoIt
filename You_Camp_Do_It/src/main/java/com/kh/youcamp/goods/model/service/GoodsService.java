@@ -37,6 +37,17 @@ public int insertGoods(Goods g);
 	
 	public Goods adminUpdateGoods(int goodsNo);
 
+	public int updateGoods(Goods g);
+	
+	public int dibsCheck(int memberNo, int goodsNo);
+	
+	public int ajaxDibsInsert(int memberNo, int goodsNo);
+	
+	public int ajaxDibsDelete(int memberNo, int goodsNo);
+	
+	public ArrayList<Goods> selectDibs(int memberNo);
+	
+	public int selectDibsCount(int memberNo);
 /************************************************************************************************************************/	
 /************************************************************************************************************************/
 /************************************************************************************************************************/
