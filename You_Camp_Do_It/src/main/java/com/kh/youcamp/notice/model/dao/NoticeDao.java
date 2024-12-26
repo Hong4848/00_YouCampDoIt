@@ -1,6 +1,7 @@
 package com.kh.youcamp.notice.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -13,12 +14,12 @@ import com.kh.youcamp.notice.model.vo.Notice;
 @Repository
 public class NoticeDao {
 
-	public int selectListCount(SqlSessionTemplate sqlSession) {
+	public int selectListCount(SqlSessionTemplate sqlSession, HashMap<String, String> searchMap) {
 		// select(단일행) : selectOne 메소드
-		return sqlSession.selectOne("noticeMapper.selectListCount");
+		return sqlSession.selectOne("noticeMapper.selectListCount", searchMap);
 	}
 
-	public ArrayList<Notice> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Notice> selectList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> searchMap) {
 		// select(여러행) : selectList 메소드
 		
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit(); // 0 이 되게끔
@@ -27,7 +28,7 @@ public class NoticeDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		
-		return (ArrayList)sqlSession.selectList("noticeMapper.selectList", null, rowBounds);
+		return (ArrayList) sqlSession.selectList("noticeMapper.selectList", searchMap, rowBounds);
 	}
 
 	public int increaseCount(SqlSessionTemplate sqlSession, int noticeNo) {

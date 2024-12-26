@@ -112,7 +112,7 @@
 		   AND R.STATUS = 'Y'
 	</select>
 	
-	<select id="selectReviewAttachment" resultMap="reviewAttachments">
+	<select id="selectReviewAttachment" resultMap="reviewAttachments" parameterType="_int">
 		SELECT FILE_NO
 		     , ORIGIN_NAME
 		     , CHANGE_NAME
@@ -134,6 +134,7 @@
 	      AND STATUS = 'Y'
 	</update>
 	
+	<!-- 첨부파일 수정 쿼리문 -->
 	<update id="updateReviewAttachment" parameterType="reviewAttachment">
 	     UPDATE REVIEW_ATTACHMENT
 		    SET ORIGIN_NAME = #{originName}
@@ -144,10 +145,11 @@
 		   AND STATUS = 'Y'
 	</update>
 	
+	<!-- 첨부파일 삭제 쿼리 -->
 	<update id="deleteReviewAttachment" parameterType="int">
 	    UPDATE REVIEW_ATTACHMENT
 	       SET STATUS = 'N'
-	     WHERE REVIEW_NO = #{reviewNo}
+	     WHERE FILE_NO = #{fileNo}
 	</update>
 	
 	

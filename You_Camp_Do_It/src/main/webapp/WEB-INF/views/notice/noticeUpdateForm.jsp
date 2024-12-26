@@ -121,7 +121,7 @@
             <br><br>
 
 			<form id="updateForm" method="post" action="update.no" enctype="multipart/form-data">
-    			<input type="hidden" name="noticeNo" value="${n.noticeNo}" />
+    			<input type="hidden" name="noticeNo" value="${requestScope.n.noticeNo}" />
 				<table id="contentArea" align="center" class="table table-bordered">
 	            	<tr>
 	            		<th>제목</th>

@@ -11,21 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.google.gson.Gson;
+
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.review.model.service.ReviewService;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
-import com.kh.youcamp.review.model.vo.ReviewReply;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -147,11 +147,18 @@ public class ReviewController {
     	
     	// 게시글 정보, 첨부파일 정보 조회
     	Review r = reviewService.selectReview(reviewNo);
+    	log.debug("Review data: {}", r);  // 로그 추가
+        
+        // 게시글 정보 첨부파일 정보 조회 후 상세페이지 포워딩
+        ArrayList<ReviewAttachment> list = reviewService.selectReviewAttachment(reviewNo);
+        log.debug("Attachment list size: {}", list.size());  // 로그 추가
+        
+        // 각 첨부파일 정보 로깅
+        for(ReviewAttachment file : list) {
+            log.debug("File info - fileNo: {}, fileLevel: {}, changeName: {}", 
+                     file.getFileNo(), file.getFileLevel());
+        }
     	
-    	// 게시글 정보 첨부파일 정보 조회 후 상세페이지 포워딩
-    	ArrayList<ReviewAttachment> list = reviewService.selectReviewAttachment(reviewNo);
-    	
-
     	// 조회된 데이터들 담아서 응답페이지로 포워딩
     	mv.addObject("r", r).addObject("list",list).setViewName("review/reviewDetailView");
     	
@@ -194,90 +201,91 @@ public class ReviewController {
     // 게시글 수정 요청
     @PostMapping("update.re")
     public String updateReview(Review r, 
-                               @RequestParam(value="upfile", required=false) MultipartFile[] upfiles,
-                               HttpSession session, 
-                               Model model, 
-                               ArrayList<ReviewAttachment> attachments) {
-    	 log.debug("Review object before updating: {}", r);
+					            @RequestParam(value="upfile", required=false) MultipartFile[] upfiles,
+					            HttpSession session, 
+					            Model model) {
+			if (r == null || r.getReviewNo() <= 0) {
+			model.addAttribute("errorMsg", "리뷰 정보가 유효하지 않습니다.");
+			return "common/errorPage";
+			}
+			
+			Member loginUser = (Member) session.getAttribute("loginMember");
+			log.debug("Login user: {}", loginUser);
+			if (loginUser == null) {
+				model.addAttribute("errorMsg", "로그인이 필요합니다.");
+				return "common/errorPage";
+			}
+			
+			r.setMemberNo(loginUser.getMemberNo());
+			r.setReviewWriter(loginUser.getMemberName());
+			
+			String savePath = session.getServletContext().getRealPath("/resources/images/review_upfiles/");
+			
+			ArrayList<ReviewAttachment> attachments = new ArrayList<>();
+			List<ReviewAttachment> existingAttachments = reviewService.selectReviewAttachment(r.getReviewNo());
+			log.debug("Existing attachments: {}", existingAttachments);
+			
+			for (ReviewAttachment attachment : existingAttachments) {
+				boolean fileUpdated = false;
+					for (MultipartFile upfile : upfiles) {
+					if (!upfile.isEmpty() && attachment.getOriginName().equals(upfile.getOriginalFilename())) {
+					 String changeName = saveFile(upfile, savePath);
+					 attachment.setChangeName("/resources/images/review_upfiles/" + changeName);
+					 attachment.setFilePath(savePath);
+					 attachment.setStatus("Y");
+					 fileUpdated = true;
+					 break;
+					}
+				}
+				if (!fileUpdated) {
+					attachment.setStatus("N");
+				}
+					attachments.add(attachment);
+			}
+			
+			if (upfiles != null) {
+				for (MultipartFile upfile : upfiles) {
+					if (!upfile.isEmpty()) {
+					 boolean fileAlreadyExists = false;
+					 for (ReviewAttachment existingAttachment : existingAttachments) {
+					     if (existingAttachment.getOriginName().equals(upfile.getOriginalFilename())) {
+					         fileAlreadyExists = true;
+					         break;
+					     }
+					 }
+					 if (!fileAlreadyExists) {
+					     String changeName = saveFile(upfile, savePath);
+					     log.debug("Saved file path: {}", changeName);
+					     ReviewAttachment at = new ReviewAttachment();
+					     at.setOriginName(upfile.getOriginalFilename());
+					     at.setChangeName("/resources/images/review_upfiles/" + changeName);
+					     at.setFilePath(savePath);
+					     at.setReviewNo(r.getReviewNo()); // reviewNo 설정
+					     at.setFileLevel(attachments.isEmpty() ? 1 : 2);
+					     at.setStatus("Y");
+					     attachments.add(at);
+					 }
+					}
+				}
+			}
 
-    	    if (r == null) {
-    	        model.addAttribute("errorMsg", "리뷰 정보가 유효하지 않습니다.");
-    	        return "common/errorPage";
-    	    }
 
-    	    if (attachments == null) {
-    	        model.addAttribute("errorMsg", "첨부파일 정보가 유효하지 않습니다.");
-    	        return "common/errorPage";
-    	    }
-    	
-    	
-    	log.debug("Review object before updating: {}", r);
-
-        // reviewNo 유효성 검증
-        if (r.getReviewNo() <= 0) {
-            log.error("Invalid reviewNo: {}", r.getReviewNo());
-            model.addAttribute("errorMsg", "게시글 번호가 유효하지 않습니다.");
-            return "common/errorPage";
-        }
-
-        // 로그인 사용자 정보 가져오기
-        Member loginUser = (Member) session.getAttribute("loginMember");
-        log.debug("Session ID: {}", session.getId());
-        log.debug("loginMember from session: {}", loginUser);
-
-        if (loginUser == null) {
-            model.addAttribute("errorMsg", "로그인이 필요합니다.");
-            return "common/errorPage";
-        }
-
-        // 사용자 정보 설정
-        r.setMemberNo(loginUser.getMemberNo());
-        r.setReviewWriter(loginUser.getMemberName());
-
-        // 파일 저장 경로 (서버 내부 경로)
-        String savePath = session.getServletContext().getRealPath("/resources/images/review_upfiles/");
-        
-        // 파일 처리 부분
-        if (upfiles != null) {
-            for (MultipartFile upfile : upfiles) {
-                if (!upfile.getOriginalFilename().isEmpty()) {
-                    // 기존 파일이 있는지 확인하고 삭제
-                    if (r.getReviewAttachments() != null && !r.getReviewAttachments().isEmpty()) {
-                        for (ReviewAttachment existingAttachment : r.getReviewAttachments()) {
-                            File oldFile = new File(savePath + existingAttachment.getChangeName());
-                            if (oldFile.exists()) {
-                                oldFile.delete(); // 모든 첨부파일 삭제
-                            }
-                        }
-                    }
-
-                    // 새로운 파일 저장
-                    String changeName = saveFile(upfile, savePath);  // changeName은 실제로 저장된 파일명
-                    ReviewAttachment at = new ReviewAttachment();
-                    at.setOriginName(upfile.getOriginalFilename());
-                    at.setChangeName("/resources/images/review_upfiles/" + changeName);  // 클라이언트에서 접근할 수 있는 경로
-                    at.setFilePath(savePath);  // 서버 경로
-                    at.setReviewNo(r.getReviewNo());
-                    
-                    // 파일 레벨 설정 (첫 번째 파일은 대표 이미지로 설정)
-                    at.setFileLevel(attachments.isEmpty() ? 1 : 2); // 첫 번째 첨부파일을 대표 이미지로 처리
-                    attachments.add(at);  // 새로운 첨부파일 리스트에 추가
-                }
-            }
-        }
-
-        // 업데이트된 리뷰 및 첨부파일 리스트를 서비스에 전달
-        int result = reviewService.updateReview(r);  // 리뷰 업데이트
-        log.debug("Update result: {}", result);
+        // 리뷰 업데이트와 첨부파일 업데이트
+        int result = reviewService.updateReviewWithAttachments(r, attachments);
 
         if (result > 0) {
+            // 수정된 reviewNo를 반환받을 수 있도록 하세요.
+            int updatedReviewNo = r.getReviewNo(); // 수정된 리뷰 번호
+            log.debug("Updated review number: {}", updatedReviewNo);  // 로그 출력
+
             session.setAttribute("alertMsg", "게시글이 성공적으로 수정되었습니다.");
-            return "redirect:/list.re";
+            return "redirect:/list.re?reviewNo=" + updatedReviewNo; // 수정된 번호를 쿼리 파라미터로 넘김
         } else {
             model.addAttribute("errorMsg", "게시글 수정에 실패했습니다.");
             return "common/errorPage";
         }
     }
+
 
     // 게시글 삭제하기 요청 메소드
     @PostMapping("delete.re")
@@ -306,6 +314,7 @@ public class ReviewController {
         }
     }
 
+    /* 
     // 댓글 목록 조회 요청 (ajax)
     @ResponseBody
     @GetMapping(value="rlist.re", produces="application/json; charset=UTF-8")
@@ -321,6 +330,7 @@ public class ReviewController {
         int result = reviewService.insertReviewReply(r);
         return (result > 0) ? "success" : "fail";
     }
+    */
     
     
 

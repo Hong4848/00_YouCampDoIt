@@ -135,18 +135,12 @@
 <body>
 
 	<div class="content">
-        <br><br>
+        <!--사이드메뉴바-->
         <div class="main-side">
             <div class="sidebar">          
-                <h3>커뮤니티</h3>
-                <br>
-                <div>
-                    <ul>
-						<li><a href="${ pageContext.request.contextPath }/list.no"><i class="fas fa-notice"></i>공지사항</a></li>
-                        <li><a href="${ pageContext.request.contextPath }/list.re"><i class="fas fa-review"></i>후기게시판</a></li>
-                        <li><a href="${ pageContext.request.contextPath }/list.lo"><i class="fas fa-lost"></i>분실물게시판</a></li>
-                    </ul>
-                </div>
+                <a href="list.no">공지사항</a>
+                <a href="list.re">후기게시판</a>
+                <a href="list.lo" class="active">분실물게시판</a>
             </div>
         </div>
         <div class="main-content">
@@ -165,83 +159,71 @@
 			<table id="contentArea" align="center" class="table table-bordered">
             	<tr>
             		<th>제목</th>
+            		<td colspan="3">${ requestScope.l.lostTitle }</td>
             	</tr>
 			    <tr>
 			        <th width="100">작성자</th>
 			        <td width="220">관리자</td>
 			        <th width="100">작성일시</th>
-			        <td width="220">2024-12-02</td>
+			        <td width="220">${ requestScope.l.createDate }</td>
 			    </tr>
 			    <tr>
-			        <th>첨부파일</th>
-			        <td colspan="3">
-			            <a href="첨부파일경로" download>첨부파일이름.png</a>
-			        </td>
-			    </tr>
-    			 <!--
-                <tr>
-                    <th>첨부파일</th>
-                    <td colspan="3">
-                       
-                    	<c:choose>
-                    		<c:when test="${ empty requestScope.b.originName }">
-                        		첨부파일이 없습니다.
-                        	</c:when>
-                        	<c:otherwise>
-                        		<a href="${ pageContext.request.contextPath }/${ requestScope.b.changeName }" download="${ requestScope.b.originName }">
-                        			${ requestScope.b.originName }
-                        		</a>
-                        	</c:otherwise>
-                        </c:choose>
-                       
+                    <th>내용</th>
+                    <td colspan="3">                       
+                    	<c:forEach var="file" items="${ requestScope.list }"> 
+							<div class="review-image"> 
+								<c:if test="${file.fileLevel eq 1}"> 
+									<!-- 썸네일 이미지 --> 
+									<img src="${pageContext.request.contextPath}${file.changeName}" class="thumbnail-image"> 
+									console.log('이미지 로드 실패:', this.src);
+								</c:if> 
+								<c:if test="${file.fileLevel eq 2}"> 
+									<!-- 상세 이미지 --> 
+									<img src="${pageContext.request.contextPath}${file.changeName}" class="detail-image"> 
+									console.log('이미지 로드 실패:', this.src);
+								</c:if> 
+							</div> 
+						</c:forEach>
+                        <p>${ requestScope.r.reviewContent }</p>                      
                     </td>
                 </tr>
-                 -->
-			    <tr>
-			        <th>내용</th>
-			        <td colspan="3">
-			
-			            <p><b>상품 설명:</b> 맑은오토캠핑리조트 / 자연캠핑장 전세</p>
-			            <p><b>이용 안내:</b> 매월 14박 이상 예약 시 이용 가능 (예약 접수 가능 시간: 매일 09:00~18:00)</p>
-			            <ul>
-			                <li>현장 추가 할인: 매월 최대 30%, 추가 할인 적용</li>
-			                <li>결제 방식: 카드 결제 가능</li>
-			                <li>취소 및 환불: 소비자보호법 기준에 따라 진행</li>
-			            </ul>
-			            <p><b>유의 사항:</b> 취소 시 소정의 취소 수수료 발생</p>
-			        </td>
-			    </tr>
             </table>
 
-			<c:if test="${ sessionScope.loginUser.userId eq requestScope.n.noticeWriter }">
-	            <div align="center" id="buttoncentroller">
-                    <a class="btn btn-warning btn-sm" href="list.lo">목록</a>
-	            </div>
-	            
-	            <form id="postForm" action="" method="post">
-	            	<input type="hidden" name="nno" value="${ requestScope.n.noticeNo }">
-	            	<input type="hidden" name="filePath" value="${ requestScope.n.changeName }">
-	            </form>
+			<div class="d-flex justify-content-start gap-2 mt-3">
+                <c:if test="${sessionScope.loginMember.memberId eq 'admin1'}">
+                <!-- 로그인한 아이디가 'admin'일 경우 수정 및 삭제 버튼 표시 -->
+                    <a class="btn btn-primary btn-sm" href="javascript:postFormSubmit(1)">수정</a>
+                    <a class="btn btn-danger btn-sm" href="javascript:postFormSubmit(2)">삭제</a>
+                    <form id="postForm" action="" method="post">
+		            	<input type="hidden" name="nno" value="${ requestScope.n.noticeNo }">
+		            	<input type="hidden" name="filePath" value="${ requestScope.n.changeName }">
+		            </form>
 	            
 	            <script>
 	            	function postFormSubmit(num) {
 	            		// console.log(num);
-	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.no)
-	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.no)
+	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.lo)
+	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.lo)
 	            		
 	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
 	            		// 곧바로 submit 시키기!!
 	            		// attr : 기타 속성
 	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "../updateForm.no").submit();
+	            			 $("#postForm").attr("method", "get"); // GET 요청으로 변경
+	            		     $("#postForm").attr("action", "${pageContext.request.contextPath}/updateForm.lo").submit();
 	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
 	            		} else { // 삭제하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.no").submit();
+	            			$("#postForm").attr("method", "post"); // POST 요청 유지
+	            	        $("#postForm").attr("action", "${pageContext.request.contextPath}/delete.lo").submit();
 	            		}
 	            	}
 	            </script>
-	            
-            </c:if>
+                    
+                	               
+                </c:if>
+                <!-- 로그인한 아이디가 'admin'이 아닐 경우 목록 조회 버튼만 표시 -->
+                <a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/list.lo">목록</a>
+            </div>
             
             <br><br>
 
@@ -261,19 +243,19 @@
     </div>
     
     <script>
-	// 사이드메뉴 클릭하였을 때, 노란밑줄과 확대효과 부여
-	// 모든 링크 가져오기
-	const links = document.querySelectorAll('.sidebar-menu li a');
-	
-	// 클릭 이벤트 처리
-	link.addEventListener('click', (event) => {
-	    event.preventDefault();
-	    event.stopPropagation();
-	
-	    links.forEach(l => l.classList.remove('active'));
-	    event.currentTarget.classList.add('active');
-	});
-	</script>>
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".sidebar a");
+
+            links.forEach(link => {
+                link.addEventListener("click", function () {
+                    // 모든 a 태그에서 active 클래스 제거
+                    links.forEach(item => item.classList.remove("active"));
+                    // 클릭된 a 태그에 active 클래스 추가
+                    this.classList.add("active");
+                });
+            });
+        });
+    </script>
 
 </body>
 </html>

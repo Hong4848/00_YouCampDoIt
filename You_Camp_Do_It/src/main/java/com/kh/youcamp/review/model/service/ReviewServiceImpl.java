@@ -78,6 +78,21 @@ public class ReviewServiceImpl implements ReviewService {
 
         return result;
     }
+    
+    @Override
+    @Transactional
+    public int updateReviewWithAttachments(Review r, ArrayList<ReviewAttachment> attachments) {
+        int result = reviewDao.updateReview(sqlSession, r);
+        
+        if (result > 0 && attachments != null && !attachments.isEmpty()) {
+            reviewDao.deleteReviewAttachment(sqlSession, r.getReviewNo());
+            for (ReviewAttachment attachment : attachments) {
+                reviewDao.insertReviewAttachment(sqlSession, attachment);
+            }
+        }
+
+        return result;
+    }
 
 	// 게시글 삭제 서비스 메소드
 	@Override
@@ -98,9 +113,6 @@ public class ReviewServiceImpl implements ReviewService {
 
 
 
-
-
-    
 
 
 

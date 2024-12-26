@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>        
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,83 +20,40 @@
 
 
         /* 메뉴바 스타일 */
-        .main-side {
-            width: 60%; /* 화면 전체 너비 */
-            padding: 10px; /* 내부 여백 설정 */
-            text-align: center; /* 텍스트 중앙 정렬 */
-            display: flex; /* 가로로 정렬 */
-            justify-content: center; /* 메뉴 항목을 가운데 정렬 */
+		.main-side {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            height: 100px;
+            background-color: white;
+            width: 100%;
+            margin: 0 auto;
         }
 
-        /* 사이드메뉴 클릭시 약간의 강조 효과 부여 */
-        
-        .sidebar h3 {
-        	text-align: center; /* h3 태그를 가로로 중앙 정렬 */
-		    margin-bottom: 20px; /* 아래로 여백 추가 */
-		}
-        
-		/* 기본 스타일 */
-		.sidebar ul {
-		    display: flex; /* 한 줄로 정렬 */
-		    justify-content: center; /* 항목들을 중앙에 정렬 */
-		    margin: 0; /* 기본 마진 제거 */
-		    padding: 0; /* 기본 패딩 제거 */
-		    list-style: none; /* 기본 리스트 스타일 제거 */
-		}
-		
-		.sidebar li {
-		    margin: 20px; /* 항목 간격 추가 */
-		    margin-right: 60px; /* 항목들 사이에 20px 간격 추가 */
-		    padding-left  : 15px;
-		}
-		
-		.sidebar  li:last-child {
-		    margin-right: 0; /* 마지막 항목은 간격을 없앰 */
-		  }
-		
-		.sidebar li a {
-		    position: relative; /* 밑줄을 위한 기준 */
-		    text-decoration: none; /* 기본 밑줄 제거 */
-		    color: black; /* 텍스트 색상 */
-		    font-size: 18px; /* 텍스트 크기 */
-		    font-weight: bold;
-		    transition: font-size 0.3s ease, color 0.3s ease; /* 부드러운 애니메이션 */
-		}
-		
-		/* 마우스 오버 시 분홍색 밑줄 */
-		.sidebar li a:hover::after {
-		    content: "";
-		    position: absolute;
-		    left: 0;
-		    bottom: -5px; /* 밑줄 위치 */
-		    width: 100%; /* 밑줄 길이 */
-		    height: 3px; /* 밑줄 두께 */
-		    background-color: lightpink; /* 밑줄 색상 */
-		}
-		
-		/* 클릭된 상태에서 밑줄 효과 유지 */
-		.sidebar li a.active::after {
-		    content: "";
-		    position: absolute;
-		    left: 0;
-		    bottom: -5px; /* 밑줄 위치 */
-		    width: 100%; /* 밑줄 길이 */
-		    height: 3px; /* 밑줄 두께 */
-		    background-color: lightpink; /* 밑줄 색상 */
-		}
-		
-		/* 클릭된 상태 (active) */
-		.sidebar li a.active {
-		    color: blue; /* 클릭된 상태 텍스트 색상 */
-		    font-size: 20px; /* 클릭된 상태에서 폰트 크기 증가 */
-		}
-		
-		/* 메뉴바 효과 끝 */
-        
-        .main-side h1 {text-align: center;}
+        .sidebar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .sidebar a {
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            padding: 10px 20px;
+            margin-right: 20px;
+            border-bottom: 3px solid transparent;
+        }
 
-    
+        .sidebar a.active {
+            color: #f7b500;
+            border-bottom: 3px solid #f7b500;
+        }
+
+        .sidebar a:hover {
+            color: #f7b500;
+        }
 
         /*루트메뉴바*/
         .main-content {
@@ -252,15 +210,9 @@
         <!--사이드메뉴바-->
         <div class="main-side">
             <div class="sidebar">          
-                <h3>커뮤니티</h3>
-                <br>
-                <div>
-                    <ul>
-                        <li><a href="list.no"><i class="fas fa-notice"></i>공지사항</a></li>
-                        <li><a href="list.re"><i class="fas fa-review"></i>후기게시판</a></li>
-                        <li><a href="list.lo"><i class="fas fa-lost"></i>분실물게시판</a></li>
-                    </ul>
-                </div>
+                <a href="list.no">공지사항</a>
+                <a href="list.re">후기게시판</a>
+                <a href="list.lo" class="active">분실물게시판</a>
             </div>
         </div>
         <div class="main-content">
@@ -292,178 +244,113 @@
                 <div class="content_sub_wrap_box">
                     <table class="listThmb">
                         <tbody>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot1">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글1">
-                                        <span class="date">2024. 10. 14</span>
-                                        <span class="title">재미있는 캠핑이였습니다. 하하하 호호호호 글씨가 넘어가나요???</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot2">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 2">
-                                        <span class="date">2024. 11. 01</span>
-                                        <span class="title">12/05 A사이트 5번 구역에서 찾은 분실물입니다~</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot3">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot4">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot5">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot6">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot7">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot8">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진2.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot9">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot10">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진3.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot11">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot12">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a href="/contextroot13">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 4">
-                                        <span class="date">2024. 09. 20</span>
-                                        <span class="title">여름 바다에서의 추억</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot14">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 5">
-                                        <span class="date">2024. 08. 15</span>
-                                        <span class="title">산속에서 힐링하기</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot15">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 6">
-                                        <span class="date">2024. 07. 10</span>
-                                        <span class="title">초여름의 숲속 캠핑</span>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="/contextroot16">
-                                        <span class="tbumb_hover"></span>
-                                        <img src="resources/images/review/사진1.jpg" alt="게시글 이미지 3">
-                                        <span class="date">2024. 12. 06</span>
-                                        <span class="title">즐거운 겨울 여행!</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
+			                <c:forEach items="${requestScope.list}" var="lost" varStatus="status">
+			                    <c:if test="${status.index % 4 == 0}">
+			                        <tr>
+			                    </c:if>
+			                    <td>
+ 			                        <a href="${pageContext.request.contextPath }/detail.lo?lostNo=${review.lostNo}">
+			                            <span class="tbumb_hover"></span>
+			                            <img src="${pageContext.request.contextPath}${lost.mainImage}" alt="${lost.lostTitle}">
+			                            <span class="date">${lost.createDate}</span>
+			                            <span class="title">${lost.reviewTitle}</span>
+			                        </a>
+			                    </td>
+			                    <c:if test="${status.index % 4 == 3 || status.last}">
+			                        </tr>
+			                    </c:if>
+			                </c:forEach>
+			                
+            			</tbody>
                     </table>
                 </div>
             </div>
             <br>
             <!-- 페이징 바 와 글작성 버튼-->
-            <div id="area">
-                <div id="pagingArea">
-                    <ul class="pagination">
-                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">4</a></li>
-                        <li class="page-item"><a class="page-link" href="#">5</a></li>
-                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                    </ul>
-                </div>
-            </div> 
+            <div id="pagingArea">
+                <ul class="pagination">
+	                
+	                <c:choose>
+	                	<c:when test="${ requestScope.pi.currentPage eq 1 }">
+		                    <li class="page-item disabled">
+		                    	<a class="page-link" href="#">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:when>
+		                <c:otherwise>
+		                	<li class="page-item">
+		                    	<a class="page-link" href="list.lo?cpage=${ requestScope.pi.currentPage - 1 }">
+		                    		Previous
+		                    	</a>
+		                    </li>
+		                </c:otherwise>
+	                </c:choose>
+                    
+                    <c:forEach var="p" begin="${ requestScope.pi.startPage }"
+                    				   end="${ requestScope.pi.endPage }" 
+                    				   step="1">
+                    	<c:choose>
+                    		<c:when test="${ p ne requestScope.pi.currentPage }">			   
+			                    <li class="page-item">
+			                    	<a class="page-link" href="list.lo?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+		                    </c:when>
+		                    <c:otherwise>
+		                    	<li class="page-item disabled">
+			                    	<a class="page-link" href="list.lo?cpage=${ p }">
+			                    		${ p }
+			                    	</a>
+			                    </li>
+	                    	</c:otherwise>
+	                    </c:choose>
+                    </c:forEach>
+                    
+                    <c:choose>
+                    	<c:when test="${ requestScope.pi.currentPage ne requestScope.pi.maxPage }">
+                   			<li class="page-item">
+                   				<a class="page-link" href="list.lo?cpage=${ requestScope.pi.currentPage + 1 }">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:when>
+                   		<c:otherwise>
+                   			<li class="page-item disabled">
+                   				<a class="page-link" href="#">
+                   					Next
+                   				</a>
+                   			</li>
+                   		</c:otherwise>
+                   	</c:choose>
+                </ul>
+            </div>
+            
+            <div id="writeBtn">
+			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin1' }">
+			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
+			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.no'">글작성</button>
+			    </c:if>
+			</div>
+             
         </div>
     </div> <!--content 영역 끝 -->
     
     <script>
-	// 사이드메뉴 클릭하였을 때, 노란밑줄과 확대효과 부여
-	// 모든 링크 가져오기
-	const links = document.querySelectorAll('.sidebar-menu li a');
-	
-	// 클릭 이벤트 처리
-	link.addEventListener('click', (event) => {
-	    event.preventDefault();
-	    event.stopPropagation();
-	
-	    links.forEach(l => l.classList.remove('active'));
-	    event.currentTarget.classList.add('active');
-	});
-	</script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".sidebar a");
+
+            links.forEach(link => {
+                link.addEventListener("click", function () {
+                    // 모든 a 태그에서 active 클래스 제거
+                    links.forEach(item => item.classList.remove("active"));
+                    // 클릭된 a 태그에 active 클래스 추가
+                    this.classList.add("active");
+                });
+            });
+        });
+    	</script>
     
     <jsp:include page="../common/footer.jsp" />
 

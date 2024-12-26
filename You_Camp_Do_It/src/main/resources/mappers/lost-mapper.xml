@@ -2,4 +2,55 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd" >
 <mapper namespace="lostMapper">
   
+   <resultMap id="lostResultMap" type="lost">
+  	<id column="lost_NO" property="lostNo" />
+  	<result column="LOST_TITLE" property="lostTitle" />
+  	<result column="LOST_CONTENT" property="lostContent" />
+  	<result column="COUNT" property="count" />
+  	<result column="CREATE_DATE" property="createDate" />
+  	<result column="FOUND_STATUS" property="foundStatus" />
+  	<result column="MAINIMAGE" property="mainImage" />
+  	<result column="CATEGORY_NAME" property="categoryName" />
+  </resultMap>
+  
+  <resultMap id="lostAttachments" type="lostAttachment">
+	   	<result column="FILE_NO" property="fileNo" />
+	  	<result column="ORIGIN_NAME" property="originName" />
+	  	<result column="CHANGE_NAME" property="changeName" />
+	  	<result column="FILE_PATH" property="filePath" />
+	  	<result column="UPLOAD_DATE" property="uploadDate" />
+	  	<result column="FILE_LEVEL" property="fileLevel" />
+	  	<result column="LOST_NO" property="lostNo" /> 
+   </resultMap>
+  
+	<select id="selectCount" resultType="_int">
+        SELECT COUNT(*)
+        FROM LOST
+    </select>
+    
+    <!-- 분실물게시글 첨부파일 등록 -->
+    <insert id="insertLostAttachment" parameterType="lostAttachment">
+        INSERT INTO LOST_ATTACHMENT (
+        	FILE_NO,
+            ORIGIN_NAME,
+            CHANGE_NAME,
+            FILE_PATH,
+            UPLOAD_DATE,
+            FILE_LEVEL,
+            STATUS,
+            LOST_NO
+        ) VALUES (
+        	LOST_FILE_SEQ.NEXTVAL,
+            #{originName},
+            #{changeName},
+            #{filePath},
+            SYSDATE,
+            #{fileLevel},
+            'Y',
+            #{lostNo}
+        )
+    </insert>
+    
+    
+  
 </mapper>

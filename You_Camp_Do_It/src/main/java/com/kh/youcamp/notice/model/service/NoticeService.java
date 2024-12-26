@@ -1,6 +1,7 @@
 package com.kh.youcamp.notice.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
@@ -10,10 +11,10 @@ public interface NoticeService {
 	
 	// 게시글 리스트 조회용 서비스 메소드 + 페이징 처리
 	// 게시글의 총 갯수 조회를 먼저~!
-	int selectListCount();
+	int selectListCount(HashMap<String, String> searchMap);
 	
 	// 게시글 목록조회
-	ArrayList<Notice> selectList(PageInfo pi);
+	ArrayList<Notice> selectList(PageInfo pi, HashMap<String, String> searchMap);
 	
 	// 게시글 상세조회 서비스 메소드
 	// 1.게시글 조회수 증가 메소드
@@ -38,5 +39,9 @@ public interface NoticeService {
 
 	// 공지사항 수정하기 서비스
 	int updateNotice(Notice n);
+
+	
+
+	
     
 }

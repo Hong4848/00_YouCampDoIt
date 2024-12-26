@@ -58,14 +58,16 @@ public class ReviewDao {
 		    return sqlSession.update("reviewMapper.updateReviewAttachment", attachment);
 	}
     
-    // 첨부파일 삭제
-	 public void deleteReviewAttachment(SqlSessionTemplate sqlSession, int reviewNo) {
-		    sqlSession.delete("reviewMapper.deleteReviewAttachment", reviewNo);
-		}
 	
 	// 삭제하기
 	public int deleteReview(SqlSessionTemplate sqlSession, int reviewNo) {
 		return sqlSession.update("reviewMapper.deleteReview", reviewNo);
+	}
+	
+	// 첨부파일 삭제
+	public int deleteReviewAttachment(SqlSessionTemplate sqlSession, int reviewNo) {
+		return sqlSession.delete("reviewMapper.deleteReviewAttachment", reviewNo);
+		
 	}
 	
 
@@ -91,6 +93,13 @@ public class ReviewDao {
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		return (List)sqlSession.selectList("reviewMapper.selectMyReviewList", memberNo, rowBounds);
 	}
+
+	
+
+
+
+
+	
 
 
 

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpSession;
 
@@ -40,23 +40,37 @@ public class NoticeController {
 	 * @return
 	 */
 	@GetMapping(value="list.no")
-	public String selectList(@RequestParam(value="cpage", defaultValue="1")int currentPage, Model model) {
-		
-		int listCount = noticeService.selectListCount();
-		
-		int pageLimit = 5;
-		int boardLimit = 5;
-		
-		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-		
-		ArrayList<Notice> list = noticeService.selectList(pi);
-		
-		// 응답데이터로 목록조회 및 페이징바 관련 객체를 넘기고 공지사항 목록조회 페이지로 포워딩
-		model.addAttribute("list", list);
-		model.addAttribute("pi", pi);
+	public String selectList(
+	        @RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+	        @RequestParam(value = "condition", required = false) String condition,
+	        @RequestParam(value = "keyword", required = false) String keyword,
+	        Model model) {
 
-		return "notice/noticeListView";
+	    // 검색 조건과 키워드를 HashMap에 담아 전달
+	    HashMap<String, String> searchMap = new HashMap<>();
+	    if (condition != null && keyword != null && !keyword.trim().isEmpty()) {
+	        searchMap.put("condition", condition);
+	        searchMap.put("keyword", keyword);
+	    }
+
+	    int listCount = noticeService.selectListCount(searchMap); // 검색 조건에 따른 전체 리스트 수
+
+	    int pageLimit = 5;
+	    int boardLimit = 5;
+
+	    PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+
+	    ArrayList<Notice> list = noticeService.selectList(pi, searchMap); // 검색 조건에 따른 리스트 조회
+
+	    // 검색 조건과 키워드도 뷰로 전달
+	    model.addAttribute("list", list);
+	    model.addAttribute("pi", pi);
+	    model.addAttribute("condition", condition);
+	    model.addAttribute("keyword", keyword);
+
+	    return "notice/noticeListView";
 	}
+
 	
 
 	// 게시글 상세조회 요청 - 기존의 방식 (쿼리스트링 이용)
@@ -160,7 +174,7 @@ public class NoticeController {
 	
 	// 게시글 수정하기 페이지 요청
 	@GetMapping("updateForm.no")
-	public String updateForm(@RequestParam("nno") int nno, Model model) {
+	public String updateForm(int nno, Model model) {
 		
 		
 		// 게시글 수정하기 페이지에서는

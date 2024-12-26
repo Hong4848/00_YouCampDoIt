@@ -1,6 +1,7 @@
 package com.kh.youcamp.notice.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -24,14 +25,14 @@ public class NoticeServiceImpl implements NoticeService {
 	
 	
 	@Override
-	public int selectListCount() {
-		return noticeDao.selectListCount(sqlSession);
-	}
+    public int selectListCount(HashMap<String, String> searchMap) {
+        return noticeDao.selectListCount(sqlSession, searchMap);
+    }
 
-	@Override
-	public ArrayList<Notice> selectList(PageInfo pi) {
-		return noticeDao.selectList(sqlSession, pi);
-	}
+    @Override
+    public ArrayList<Notice> selectList(PageInfo pi, HashMap<String, String> searchMap) {
+        return noticeDao.selectList(sqlSession, pi, searchMap);
+    }
 
 
 	@Override
@@ -82,6 +83,7 @@ public class NoticeServiceImpl implements NoticeService {
 	public int updateNotice(Notice n) {
 		return noticeDao.updateNotice(sqlSession, n);
 	}
+
 
 
 	

@@ -175,10 +175,36 @@
             </table>
 
 			<div class="d-flex justify-content-start gap-2 mt-3">
-                <c:if test="${sessionScope.loginMember.memberId eq 'admin'}">
+                <c:if test="${sessionScope.loginMember.memberId eq 'admin1'}">
                 <!-- 로그인한 아이디가 'admin'일 경우 수정 및 삭제 버튼 표시 -->
                     <a class="btn btn-primary btn-sm" href="javascript:postFormSubmit(1)">수정</a>
-                    <a class="btn btn-danger btn-sm" href="javascript:postFormSubmit(2)">삭제</a>                  
+                    <a class="btn btn-danger btn-sm" href="javascript:postFormSubmit(2)">삭제</a>
+                    <form id="postForm" action="" method="post">
+		            	<input type="hidden" name="nno" value="${ requestScope.n.noticeNo }">
+		            	<input type="hidden" name="filePath" value="${ requestScope.n.changeName }">
+		            </form>
+	            
+	            <script>
+	            	function postFormSubmit(num) {
+	            		// console.log(num);
+	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.no)
+	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.no)
+	            		
+	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
+	            		// 곧바로 submit 시키기!!
+	            		// attr : 기타 속성
+	            		if(num == 1) { // 수정하기를 클릭했을 경우
+	            			 $("#postForm").attr("method", "get"); // GET 요청으로 변경
+	            		     $("#postForm").attr("action", "${pageContext.request.contextPath}/updateForm.no").submit();
+	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
+	            		} else { // 삭제하기를 클릭했을 경우
+	            			$("#postForm").attr("method", "post"); // POST 요청 유지
+	            	        $("#postForm").attr("action", "${pageContext.request.contextPath}/delete.no").submit();
+	            		}
+	            	}
+	            </script>
+                    
+                	               
                 </c:if>
                 <!-- 로그인한 아이디가 'admin'이 아닐 경우 목록 조회 버튼만 표시 -->
                 <a class="btn btn-secondary btn-sm" href="${pageContext.request.contextPath}/list.no">목록</a>

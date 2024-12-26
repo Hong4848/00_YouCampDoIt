@@ -147,18 +147,18 @@
 			    <tr>
                     <th>내용</th>
                     <td colspan="3">                       
-                    	<c:forEach var="file" items="${ requestScope.list }">
-                    		<div class="review-image">
-                    			<c:if test="${file.fileLevel eq 1}">
-						            <!-- 썸네일 이미지 -->
-						            <img src="${pageContext.request.contextPath}${file.changeName}" class="thumbnail-image">
-						        </c:if>
-						        <c:if test="${file.fileLevel eq 2}">
-						            <!-- 상세 이미지 -->
-						            <img src="${pageContext.request.contextPath}${file.changeName}" class="detail-image">
-						        </c:if>                   			
-                    		</div>	
-                        </c:forEach>
+                    	<c:forEach var="file" items="${ requestScope.list }"> 
+							<div class="review-image"> 
+								<c:if test="${file.fileLevel eq 1}"> 
+									<!-- 썸네일 이미지 --> 
+									<img src="${pageContext.request.contextPath}${file.changeName}" class="thumbnail-image"> 
+								</c:if> 
+								<c:if test="${file.fileLevel eq 2}"> 
+									<!-- 상세 이미지 --> 
+									<img src="${pageContext.request.contextPath}${file.changeName}" class="detail-image"> 
+								</c:if> 
+							</div> 
+						</c:forEach>
                         <p>${ requestScope.r.reviewContent }</p>                      
                     </td>
                 </tr>
@@ -290,7 +290,7 @@
             });
         });
     </script>
-    
+    <%-- 
     <script>
     $(function() {
         selectReplyList();
@@ -355,6 +355,6 @@
         });
     }
     </script>
-
+	--%>
 </body>
 </html>

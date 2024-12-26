@@ -14,14 +14,26 @@
 	</resultMap>
 	
 	<!-- 공지사항 게시글 갯수 조회용 쿼리문 -->
-	<select id="selectListCount" resultType="_int">
+	<!-- 검색 조건에 따른 전체 리스트 수 -->
+	<select id="selectListCount" resultType="_int" parameterType="map">
 		SELECT COUNT(*)
 		  FROM NOTICE
-		 WHERE STATUS = 'Y'	
+		 WHERE STATUS = 'Y'
+		  <if test="condition != null and keyword != null">
+	        <choose>
+	            <when test="condition == 'title'">
+	                AND NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND NOTICE_CONTENT LIKE '%' || #{keyword} || '%'
+	            </when>
+	        </choose>
+	      </if>
 	</select>
 	
 	<!-- 공지사항 목록조회 쿼리문  -->
-	<select id="selectList" resultMap="noticeResultSet">
+	<!-- 검색 조건에 따른 리스트 조회 -->
+	<select id="selectList" resultMap="noticeResultSet" parameterType="map">
 		SELECT NOTICE_NO
 		     , NOTICE_TITLE
 		     , COUNT
@@ -29,7 +41,17 @@
 		     , ORIGIN_NAME
 		  FROM NOTICE
 		 WHERE STATUS = 'Y'
-		 ORDER BY NOTICE_NO DESC
+		 <if test="condition != null and keyword != null">
+	        <choose>
+	            <when test="condition == 'title'">
+	                AND NOTICE_TITLE LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND NOTICE_CONTENT LIKE '%' || #{keyword} || '%'
+	            </when>
+	        </choose>
+    	 </if>
+    	ORDER BY NOTICE_NO DESC
 	</select>
 	
 	<!-- 공지사항 상세조회용 쿼리문 -->

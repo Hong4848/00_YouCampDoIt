@@ -196,18 +196,19 @@
                 </ul>
             </div>
             <!--검색창-->
-            <form id="search-bar" action="" method="get" align="right">
-                <div class="select">
-                    <select class="custom-select" name="condition">
-                        <option value="title">제목</option>
-                        <option vlaue="content">내용</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-                </div>
-                <button type="button" class="btn btn-info">검색</button>
-            </form>
+            <form id="search-bar" action="list.no" method="get" align="right">
+			    <div class="select">
+			        <select class="custom-select" name="condition">
+			            <option value="title" ${condition == 'title' ? 'selected' : ''}>제목</option>
+			            <option value="content" ${condition == 'content' ? 'selected' : ''}>내용</option>
+			        </select>
+			    </div>
+			    <div class="text">
+			        <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="${keyword}">
+			    </div>
+			    <button type="submit" class="btn btn-info">검색</button>
+			</form>
+			
             <!--게시판목록조회-->
             <table id="noticeList" class="table-hover" align="center">
                 <thead>
@@ -321,7 +322,7 @@
             </div>
 
             <div id="writeBtn">
-			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin' }">
+			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin1' }">
 			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
 			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.no'">글작성</button>
 			    </c:if>
