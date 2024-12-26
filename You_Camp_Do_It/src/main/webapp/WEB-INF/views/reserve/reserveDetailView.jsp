@@ -165,7 +165,7 @@
 
         .site_option {
             padding: 10px;
-            height: 58%;
+            height: 40%;
             border-top: 1px rgb(216, 204, 204) solid;
             border-bottom: 1px rgb(216, 204, 204) solid;
         }
@@ -470,6 +470,53 @@
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        
+        /* Modal 기본 스타일 */
+		.modal {
+		    display: none; /* 기본적으로 숨김 */
+		    position: fixed;
+		    z-index: 1000;
+		    left: 0;
+		    top: 0;
+		    width: 100%;
+		    height: 100%;
+		    overflow: auto;
+		    background-color: rgba(0, 0, 0, 0.5); /* 어두운 배경 */
+		}
+		
+		/* Modal 내부 콘텐츠 */
+		.modal-content {
+		    background-color: #fff;
+		    margin: 15% auto;
+		    padding: 20px;
+		    border-radius: 10px;
+		    width: 50%;
+		    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+		    text-align: center;
+		}
+		
+		/* 닫기 버튼 */
+		.close {
+		    color: #aaa;
+		    float: right;
+		    font-size: 28px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    transition: color 0.3s;
+		}
+		
+		.close:hover,
+		.close:focus {
+		    color: #000;
+		    text-decoration: none;
+		}
+		
+
+		
+		.ico img{
+			width: 40px;
+			height: 40px;
+		}
 
     </style>
 </head>
@@ -535,17 +582,37 @@
 		                                <div class="site_option">
 		                                    <ul>
 		                                        <li>
-		                                        	<span class="ico"><img src="resources/images/reserve/reserveDetail/계곡"></span>
+		                                        	<div class="ico"><img src="resources/images/reserve/계곡.png"></div>
 		                                        	<span class="option_txt">계곡</span>
 		                                        </li>
-		                                        <li><span class="option_txt">산책로</span></li>
-		                                        <li><span class="option_txt">샤워실</span></li>
-		                                        <li><span class="option_txt">개수대</span></li>
-		                                        <li><span class="option_txt">수세식</span></li>
-		                                        <li><span class="option_txt">전기</span></li>
-		                                        <li><span class="option_txt">온수</span></li>
-		                                        <li><span class="option_txt">불가능</span></li>
-		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/산책로.png"></div>
+		                                        	<span class="option_txt">산책로</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/샤워실.png"></div>
+		                                        	<span class="option_txt">샤워실</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/수세식.png"></div>
+		                                        	<span class="option_txt">수세식</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/전기.png"></div>
+		                                        	<span class="option_txt">전기</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/온수.png"></div>
+		                                        	<span class="option_txt">온수</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/반려동물.png"></div>
+		                                        	<span class="option_txt">불가능</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/파쇄석.png"></div>
+		                                        	<span class="option_txt">파쇄석</span>
+		                                        </li>
 		                                    </ul>
 		                                </div>
 		                                <div class="site_person"> 
@@ -558,15 +625,38 @@
                             			<div class="site_title">밸리</div>
 		                                <div class="site_option">
 		                                    <ul>
-		                                        <li><span class="option_txt">계곡</span></li>
-		                                        <li><span class="option_txt">산책로</span></li>
-		                                        <li><span class="option_txt">샤워실</span></li>
-		                                        <li><span class="option_txt">개수대</span></li>
-		                                        <li><span class="option_txt">수세식</span></li>
-		                                        <li><span class="option_txt">전기</span></li>
-		                                        <li><span class="option_txt">온수</span></li>
-		                                        <li><span class="option_txt">불가능</span></li>
-		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/계곡.png"></div>
+		                                        	<span class="option_txt">계곡</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/산책로.png"></div>
+		                                        	<span class="option_txt">산책로</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/샤워실.png"></div>
+		                                        	<span class="option_txt">샤워실</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/수세식.png"></div>
+		                                        	<span class="option_txt">수세식</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/전기.png"></div>
+		                                        	<span class="option_txt">전기</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/온수.png"></div>
+		                                        	<span class="option_txt">온수</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/반려동물.png"></div>
+		                                        	<span class="option_txt">불가능</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/파쇄석.png"></div>
+		                                        	<span class="option_txt">파쇄석</span>
+		                                        </li>
 		                                    </ul>
 		                                </div>
 		                                <div class="site_person"> 
@@ -579,15 +669,38 @@
                             			<div class="site_title">스카이</div>
 		                                <div class="site_option">
 		                                    <ul>
-		                                        <li><span class="option_txt">계곡</span></li>
-		                                        <li><span class="option_txt">산책로</span></li>
-		                                        <li><span class="option_txt">샤워실</span></li>
-		                                        <li><span class="option_txt">개수대</span></li>
-		                                        <li><span class="option_txt">수세식</span></li>
-		                                        <li><span class="option_txt">전기</span></li>
-		                                        <li><span class="option_txt">온수</span></li>
-		                                        <li><span class="option_txt">불가능</span></li>
-		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/산책로.png"></div>
+		                                        	<span class="option_txt">산책로</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/샤워실.png"></div>
+		                                        	<span class="option_txt">샤워실</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/매점.png"></div>
+		                                        	<span class="option_txt">매점</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/수세식.png"></div>
+		                                        	<span class="option_txt">수세식</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/전기.png"></div>
+		                                        	<span class="option_txt">전기</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/온수.png"></div>
+		                                        	<span class="option_txt">온수</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/반려동물.png"></div>
+		                                        	<span class="option_txt">불가능</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/파쇄석.png"></div>
+		                                        	<span class="option_txt">파쇄석</span>
+		                                        </li>
 		                                    </ul>
 		                                </div>
 		                                <div class="site_person"> 
@@ -600,15 +713,38 @@
                             			<div class="site_title">스톤</div>
 		                                <div class="site_option">
 		                                    <ul>
-		                                        <li><span class="option_txt">계곡</span></li>
-		                                        <li><span class="option_txt">산책로</span></li>
-		                                        <li><span class="option_txt">샤워실</span></li>
-		                                        <li><span class="option_txt">개수대</span></li>
-		                                        <li><span class="option_txt">수세식</span></li>
-		                                        <li><span class="option_txt">전기</span></li>
-		                                        <li><span class="option_txt">온수</span></li>
-		                                        <li><span class="option_txt">불가능</span></li>
-		                                        <li><span class="option_txt">파쇄석</span></li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/산책로.png"></div>
+		                                        	<span class="option_txt">산책로</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/샤워실.png"></div>
+		                                        	<span class="option_txt">샤워실</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/매점.png"></div>
+		                                        	<span class="option_txt">매점</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/수세식.png"></div>
+		                                        	<span class="option_txt">수세식</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/전기.png"></div>
+		                                        	<span class="option_txt">전기</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/온수.png"></div>
+		                                        	<span class="option_txt">온수</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/반려동물.png"></div>
+		                                        	<span class="option_txt">불가능</span>
+		                                        </li>
+		                                        <li>
+		                                        	<div class="ico"><img src="resources/images/reserve/파쇄석.png"></div>
+		                                        	<span class="option_txt">파쇄석</span>
+		                                        </li>
 		                                    </ul>
 		                                </div>
 		                                <div class="site_person"> 
@@ -641,8 +777,35 @@
                             <div class="section bg_none site_select">
                                 <div class="tit_h3">
                                      사이트정보
-                                    <a href="#" class="btn_map">지도보기</a>
+                                    <a href="#" class="btn_map btn btn-primary" data-toggle="modal" data-target="#myModal">지도보기</a>
                                 </div>
+                                
+                                <!-- The Modal -->
+								<div class="modal fade" id="myModal">
+								  <div class="modal-dialog modal-xl">
+								    <div class="modal-content">
+								
+								      <!-- Modal Header -->
+								      <div class="modal-header">
+								        <h4 class="modal-title">캠핑장 약도</h4>
+								        <button type="button" class="close" data-dismiss="modal">&times;</button>
+								      </div>
+								
+								      <!-- Modal body -->
+								      <div class="modal-body">
+								        <img src="resources/images/reserve/reserveDetail/map.jpg">
+								      </div>
+								
+								      <!-- Modal footer -->
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+								      </div>
+								
+								    </div>
+								  </div>
+								</div>
+								
+								
                                 
                                 <ul>
                                 
@@ -680,6 +843,9 @@
                                     </c:forEach>
                                     
                                 </ul>
+                                
+                                
+								                                
                                 
                             </div>
                             <div class="section bg_none reserve_guide">

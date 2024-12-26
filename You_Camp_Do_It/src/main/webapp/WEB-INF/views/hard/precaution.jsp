@@ -28,7 +28,7 @@
         border-bottom: 3px solid transparent;
     }
 
-    .reserve_wrap a:first-child {
+    .reserve_wrap a:nth-child(2) {
         color: #f7b500;
         border-bottom: 3px solid #f7b500;
     }
@@ -130,7 +130,7 @@
 
     <div id="content_1">
         <div class="reserve_wrap">
-            <a href="location.ha">찾아오시는길길</a>
+            <a href="location.ha">찾아오시는길</a>
             <a href="precaution.ha">사용시 유의사항</a>
             <a href="emergency.ha">비상시 대책요령</a>
         </div>

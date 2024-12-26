@@ -313,6 +313,7 @@
 		 	</when>
 		 	<otherwise></otherwise>
 		 </choose>
+		ORDER BY RESERVE_NO DESC
 		 
 	</select>
 	

@@ -13,7 +13,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 1200px
+            height: 800px
             
         }
 
@@ -158,6 +158,140 @@
         .password-wrapper .toggle-password:hover {
             color: #333; /* 호버 시 색상 변경 */
         }
+        
+        .wrap-signup {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f9f4; /* 부드러운 자연색 배경 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 1200px;
+    padding: 20px;
+}
+
+.signup-container {
+    background-color: #eaf7e8; /* 밝은 녹색 */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    border: 2px solid #b8d8ba; /* 연한 녹색 테두리 */
+}
+
+.signup-container h1 {
+    font-size: 32px;
+    font-weight: bold;
+    color: #4a774e; /* 진한 녹색 */
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.required-info {
+    font-size: 14px;
+    text-align: center;
+    color: #6b8f71; /* 연한 녹색 */
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #4a774e;
+    display: block;
+    margin-bottom: 5px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #c2d9c2; /* 연한 녹색 */
+    border-radius: 5px;
+    background-color: #ffffff; /* 흰색 배경 */
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+form input:focus {
+    border-color: #8ebf8d; /* 포커스 시 더 진한 녹색 */
+    box-shadow: 0 0 5px rgba(142, 191, 141, 0.5);
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-group .btn {
+    background-color: #6c9c6d; /* 짙은 녹색 */
+    color: white;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.input-group .btn:hover {
+    background-color: #597e5b; /* 더 어두운 녹색 */
+}
+
+.btn-submit {
+    width: 100%;
+    background-color: #6c9c6d; /* 짙은 녹색 */
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #597e5b; /* 더 어두운 녹색 */
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 40px; /* 눈 모양 아이콘 공간 확보 */
+}
+
+.password-wrapper .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #aaa; /* 기본 색상 */
+    transition: color 0.3s ease;
+}
+
+.password-wrapper .toggle-password:hover {
+    color: #4a774e; /* 호버 시 진한 녹색 */
+}
+
+.hidden {
+    display: none;
+}
+
+#validateResult {
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 0px;
+    color: #e57373; /* 오류 메시지 빨간색 */
+}
+
+        
+        
+        
 
 
 
@@ -350,6 +484,8 @@
     	// 사용자의 이메일 주소와 입력받은 인증 번호를 대조해주는 요청 (ajax)
     	function validate() {
     		
+    		$("#verificationCode").attr("readonly", true);
+    		
     		// 입력값 가져오기
             let checkNo = $("#verificationCode").val();
 
@@ -381,7 +517,7 @@
         					
         					$("#validateResult").css("color", "green");
         					
-        					$("#verificationCode").attr("readonly", true);
+        					
         					$("#checkCode").attr("disabled", true);
         					
         					// 타이머 종료

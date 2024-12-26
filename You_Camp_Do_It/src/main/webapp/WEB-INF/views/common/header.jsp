@@ -177,7 +177,7 @@
             /* 로그인폼 css */
             .modal-content {
 	            font-family: Arial, sans-serif;
-	            
+	            border-radius: 10px;
 	        }
 	        
 	        #links {
@@ -189,6 +189,91 @@
 	        #links a {
 	        	color: black;
 	        }
+	        
+	        /* Camping Theme */
+	.camping-theme {
+	    font-family: 'Arial', sans-serif;
+	    background: #f5f5dc; /* 캠핑 느낌의 베이지 배경 */
+	    padding: 20px;
+	    border-radius: 10px;
+	    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	    border: 2px solid #8b5e3c; /* 나무 느낌의 테두리 */
+	}
+	
+	.modal-header {
+	    text-align: center;
+	    margin-bottom: 20px;
+	    display: flex;
+	    align-items: center;
+	    height: 80px;
+	}
+	
+	.modal-logo {
+	    width: 120px;
+	    height: auto;
+	    margin-bottom: 10px;
+	}
+	
+	.modal-title {
+	    font-size: 24px;
+	    font-weight: bold;
+	    color: #4b5320; /* 짙은 녹색 */
+	}
+	
+	.form-label {
+	    font-size: 14px;
+	    font-weight: bold;
+	    margin-bottom: 5px;
+	    color: #6b4226; /* 갈색 텍스트 */
+	}
+	
+	.form-control {
+	    font-size: 14px;
+	    padding: 10px;
+	    border: 1px solid #d4af37; /* 금색 느낌의 테두리 */
+	    border-radius: 4px;
+	    background: #fffaf0; /* 부드러운 배경색 */
+	}
+	
+	.form-control:focus {
+	    border-color: #8b4513; /* 짙은 갈색 테두리 */
+	    box-shadow: 0 0 5px rgba(139, 69, 19, 0.5);
+	}
+	
+	.btn-primary {
+	    background-color: #4b5320; /* 짙은 녹색 */
+	    border: none;
+	    font-size: 16px;
+	    padding: 10px;
+	    border-radius: 4px;
+	    transition: background-color 0.3s ease;
+	    color: #fff;
+	}
+	
+	.btn-primary:hover {
+	    background-color: #2f4f4f; /* 더 짙은 녹색 */
+	}
+	
+	#links {
+	    font-size: 14px;
+	    margin-top: 20px;
+	    font-family: 'Arial', sans-serif;
+	}
+	
+	.modal-link {
+	    color: #8b4513; /* 갈색 */
+	    text-decoration: none;
+	    margin: 0 5px;
+	    transition: color 0.3s ease;
+	}
+	
+	.modal-link:hover {
+	    color: #4b5320; /* 녹색 */
+	    text-decoration: underline;
+	}
+	        
+	        
+	        
             
             
             
@@ -342,10 +427,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Modal Header -->
-                    <div class="modal-header">
-                    <h4 class="modal-title">로그인</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
+                    
                     
                     <!-- 
                     	로그인 요청 시 
@@ -355,35 +437,26 @@
                     
                     <form action="${ pageContext.request.contextPath }/login.me" method="post" >
                     	<!-- Modal body -->
-                        <div class="modal-body">
-                            <label for="memberId" class="mr-sm-2">아이디</label>
-                            <input type="text" class="form-control mb-2 mr-sm-2" placeholder="아이디를 입력해주세요" id="memberId" name="memberId" value="" required><br>
-                            <label for="memberPwd" class="mr-sm-2">비밀번호</label>
-                            <input type="password" class="form-control mb-2 mr-sm-2" placeholder="비밀번호를 입력해주세요" id="memberPwd" name="memberPwd" required autoComplete="off"><br>
-                        
-                        	<div class="text-right">
-						        <button type="submit" class="btn btn-primary mb-2">로그인</button>
+						<div class="modal-body camping-theme">
+						    <div class="modal-header text-center">
+						        <img src="resources/images/mainPage/메인로고.png" alt="캠핑장 로고" class="modal-logo">
+						        <h3 class="modal-title">로그인 </h3>
 						    </div>
-                        </div>
-            
-                        <!-- Modal footer -->
-						<div id="links">
+						    <label for="memberId" class="form-label">아이디</label>
+						    <input type="text" class="form-control" placeholder="아이디를 입력해주세요" id="memberId" name="memberId" required>
+						    <label for="memberPwd" class="form-label mt-3">비밀번호</label>
+						    <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요" id="memberPwd" name="memberPwd" required autocomplete="off">
+						    <button type="submit" class="btn btn-primary w-100 mt-4">로그인</button>
+						    <div id="links">
 						    <a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
 						    <a href="${ pageContext.request.contextPath }/findIdForm.me">아이디 찾기</a> | 
 						    <a href="${ pageContext.request.contextPath }/findPwdForm.me">비밀번호 찾기</a>
 						</div>
-                        <!-- 
-                        <div class="links">
-                        	<a href="${ pageContext.request.contextPath }/enrollForm.me">회원가입</a> | 
-                        	<a href="${ pageContext.request.contextPath }/findId.me">아이디 찾기</a> | 
-                        	<a href="${ pageContext.request.contextPath }/findPwd.me">비밀번호 찾기</a>
-                        	
-                        	
-                        	<button type="button" class="btn btn-primary mb-2">회원가입</button>
-                            <button type="submit" class="btn btn-primary mb-2">아이디 찾기</button>
-                            <button type="submit" class="btn btn-primary mb-2">비밀번호 찾기</button>
-                        </div>
-                         -->
+						</div>
+            
+                        <!-- Modal footer -->
+						
+                        
                     </form>
                 </div>
             </div>

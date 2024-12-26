@@ -605,8 +605,8 @@
 	                                    포레스트
 	                                </span>
 	                                <span class="item_price">
-	                                    <strong>30,000</strong>
-	                                    <span class="remain-seats">(5/10)</span> 
+	                                    <strong>30,000원</strong>
+	                                    <span class="remain-seats"></span> 
 	                                </span>
 	                            </p>
 	                        </a>
@@ -621,8 +621,8 @@
 	                                    밸리
 	                                </span>
 	                                <span class="item_price">
-	                                    <strong>40,000</strong>
-	                                    <span class="remain-seats">(5/10)</span> 
+	                                    <strong>40,000원</strong>
+	                                    <span class="remain-seats"></span> 
 	                                </span>
 	                            </p>
 	                        </a>
@@ -637,8 +637,8 @@
 	                                    스카이
 	                                </span>
 	                                <span class="item_price">
-	                                    <strong>50,000</strong>
-	                                    <span class="remain-seats">(5/10)</span> 
+	                                    <strong>50,000원</strong>
+	                                    <span class="remain-seats"></span> 
 	                                </span>
 	                            </p>
 	                        </a>
@@ -653,8 +653,8 @@
 	                                    스톤
 	                                </span>
 	                                <span class="item_price">
-	                                    <strong>60,000</strong>
-	                                    <span class="remain-seats">(5/10)</span> 
+	                                    <strong>60,000원</strong>
+	                                    <span class="remain-seats"></span> 
 	                                </span>
 	                            </p>
 	                        </a>

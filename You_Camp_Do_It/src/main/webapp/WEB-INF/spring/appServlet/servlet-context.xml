@@ -126,10 +126,12 @@
 			<mapping path="/updateForm.me" />
 			<mapping path="/changeMemberPwd.me" />
 			
+			<!-- 예약관련 -->
 			<mapping path="/reserveDate.res" />
 			<mapping path="/reserveDetail.res" />
 			<mapping path="/reservePayment.res" />
 			<mapping path="/reserveComplete.res" />
+			<mapping path="/reserveList.res" />
 			
 			<!-- 장바구니관련 -->
 			<mapping path="/listForm.ca" />

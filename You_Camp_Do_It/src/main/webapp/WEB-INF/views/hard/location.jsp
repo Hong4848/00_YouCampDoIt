@@ -80,19 +80,27 @@
         background-color: #fff;
         border-top: 1px solid #ddd; /* 상단 구분선 */
         width: 1000px; /* 요소의 너비를 전체로 확장 */
+        align-items: center;
     }
 
     #adress-phone h3 {
-        font-size: 30px; /* 글씨 크기 확대 */
+        font-size: 22px; /* 글씨 크기 확대 */
         font-weight: bold;
         color: #333;
         margin: 0; /* 불필요한 마진 제거 */
+        background-color: rgb(94, 93, 67);
+        color: white;
+        padding: 7px;
+        margin: 0px;
     }
 
     #adress-phone span {
-        font-size: 25px;
+        font-size: 20px;
         color: #555; /* 텍스트 색상 */
+        
     }
+    
+    
     
 </style>
 </head>
@@ -102,7 +110,7 @@
 
     <div id="content_1">
         <div class="reserve_wrap">
-            <a href="location.ha">찾아오시는길길</a>
+            <a href="location.ha">찾아오시는길</a>
             <a href="precaution.ha">사용시 유의사항</a>
             <a href="emergency.ha">비상시 대책요령</a>
         </div>
