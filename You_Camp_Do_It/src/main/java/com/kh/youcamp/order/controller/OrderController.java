@@ -1,11 +1,13 @@
 package com.kh.youcamp.order.controller;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -21,6 +24,9 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,6 +61,9 @@ public class OrderController {
 	
 	@Autowired
 	private GoodsService goodsService;
+	
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	// nicePay util 메소드들 ------------------------------------------------------
 	public final synchronized String getyyyyMMddHHmmss(){
@@ -328,7 +337,8 @@ public class OrderController {
 	@PostMapping(value="update.or")
 	public String updateOrder(HttpServletRequest request, 
 							  Model model,
-							  int orderNo) throws Exception {
+							  int orderNo,
+							  HttpSession session) throws Exception {
 		
 		// request.setCharacterEncoding("utf-8"); 
 		
@@ -513,7 +523,96 @@ public class OrderController {
 				    model.addAttribute("GoodsName", GoodsName);
 				    model.addAttribute("Amt", Amt);
 				    model.addAttribute("TID", TID);
+				    
+				    //----------------------------------------------------------------------
+					// 결제 완료 내역 이메일발송
+				    
+					Order orderInfo = orderService.selectOrder(orderNo);
 					
+					Member loginMember = (Member)session.getAttribute("loginMember");
+					
+					MimeMessage message = mailSender.createMimeMessage();
+					
+					MimeMessageHelper mimeMessageHelper
+					= new MimeMessageHelper(message, true, "UTF-8");
+					
+					System.out.println(orderInfo.getUpdatedDate());
+					String formattedPaymentDate = (orderInfo.getUpdatedDate()+""); // "2024-12-22"
+					
+					String name = "";
+					if(list.size() > 1) {
+						name = list.get(0).getGoods().getGoodsName() + " 외 " + (list.size() - 1) + "건" ;
+					} else {
+						name = list.get(0).getGoods().getGoodsName();
+					}
+					log.debug("이메일발송 name : " + name);
+					
+					
+					int price = orderInfo.getTotalPrice(); // 결제금액은 int로 가정
+					String formattedPrice = NumberFormat.getInstance().format(price) + "원";
+					
+					String emailContent = 
+						    "<div style='font-family: Arial, sans-serif; background-color: #f8f8f8; padding: 20px;'>"
+						        + "<div style='max-width: 600px; margin: auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);'>"
+						            + "<div style='padding: 20px; text-align: center; background-color: #4CAF50; border-radius: 8px 8px 0 0;'>"
+						                + "<img src='cid:companyLogo' alt='YouCampDoIt 로고' style='width: 150px;'>"
+						                + "<h1 style='color: #ffffff; margin: 0;'>YouCampDoIt</h1>"
+						                + "<p style='color: #ffffff; font-size: 16px;'>자연과 캠핑을 사랑하는 당신을 환영합니다!</p>"
+						            + "</div>"
+						            + "<div style='padding: 20px;'>"
+						                + "<h2 style='color: #333333; text-align: center;'>용품대여 결제 정보 안내</h2>"
+						                + "<table style='width: 100%; border-collapse: collapse; margin: 20px 0;'>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>주문번호</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + orderInfo.getOrderNo() + "</td>"
+						                    + "</tr>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>예약자명</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + loginMember.getMemberName() + "</td>"
+						                    + "</tr>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>생년월일</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + loginMember.getBirthDate() + "</td>"
+						                    + "</tr>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>결제일자</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + formattedPaymentDate + "</td>"
+						                    + "</tr>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>결제금액</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + formattedPrice + "</td>"
+						                    + "</tr>"
+						                    + "<tr>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 150px;'>대여용품</td>"
+						                        + "<td style='padding: 10px; border: 1px solid #ddd;'>" + name + "</td>"
+					                        + "</tr>"
+						                + "</table>"
+						                + "<p style='color: #666666; font-size: 14px; text-align: center;'>"
+						                    + "이용해 주셔서 감사합니다.<br>캠핑장에서 뵙겠습니다!"
+						                + "</p>"
+						            + "</div>"
+						            + "<div style='padding: 10px; background-color: #f1f1f1; text-align: center; font-size: 12px; color: #666;'>"
+						                + "<p style='margin: 0;'>본 메일은 YouCampDoIt 캠핑장에서 발송되었습니다.</p>"
+						                + "<p style='margin: 5px 0;'>문의사항은 youcampdoit123@gmail.com 으로 연락 바랍니다.</p>"
+						            + "</div>"
+						        + "</div>"
+						    + "</div>";
+					
+					// 메세지 정보 담기
+					mimeMessageHelper.setSubject("[YouCampDoIt] 용품대여 결제 정보 안내");
+					mimeMessageHelper.setText(emailContent, true); // 내용
+					
+					mimeMessageHelper.setTo(loginMember.getEmail());
+					
+					FileSystemResource logo = new FileSystemResource(new File("C:\\YouCampDoIt\\You_Camp_Do_It\\src\\main\\webapp\\resources\\images\\mainPage\\메인로고.png")); // 로고 이미지 파일 경로
+					mimeMessageHelper.addInline("companyLogo", logo);
+					
+					mailSender.send(message);
+				    
+				    
+				    //----------------------------------------------------------------------
+
+				    
 					return "order/payResult";
 				}
 				// --------------------------------------------------------------------------

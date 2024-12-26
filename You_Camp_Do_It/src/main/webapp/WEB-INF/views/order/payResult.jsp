@@ -78,7 +78,7 @@
 				</table>
 			</div>	
 			
-			<p>*테스트 아이디인경우 당일 오후 11시 30분에 취소됩니다.</p>
+			<!-- <p>*테스트 아이디인경우 당일 오후 11시 30분에 취소됩니다.</p> -->
 
 			<!-- Order Items - 주문테이블 목록조회 부분 -->
         	<c:forEach var="od" items="${ requestScope.list }">
