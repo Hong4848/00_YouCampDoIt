@@ -549,7 +549,6 @@ public class OrderController {
 					MimeMessageHelper mimeMessageHelper
 					= new MimeMessageHelper(message, true, "UTF-8");
 					
-					System.out.println(orderInfo.getUpdatedDate());
 					String formattedPaymentDate = (orderInfo.getUpdatedDate()+""); // "2024-12-22"
 					
 					String name = "";
@@ -559,7 +558,6 @@ public class OrderController {
 						name = list.get(0).getGoods().getGoodsName();
 					}
 					log.debug("이메일발송 name : " + name);
-					
 					
 					int price = orderInfo.getTotalPrice(); // 결제금액은 int로 가정
 					String formattedPrice = NumberFormat.getInstance().format(price) + "원";

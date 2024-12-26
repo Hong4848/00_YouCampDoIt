@@ -121,6 +121,8 @@
 	<interceptors>
 		<interceptor>
 			<mapping path="/myPage.me" />
+			<mapping path="/myList.re" />
+			<mapping path="/myDibs.me" />
 			<mapping path="/updateForm.me" />
 			<mapping path="/changeMemberPwd.me" />
 			
@@ -128,6 +130,20 @@
 			<mapping path="/reserveDetail.res" />
 			<mapping path="/reservePayment.res" />
 			<mapping path="/reserveComplete.res" />
+			
+			<!-- 장바구니관련 -->
+			<mapping path="/listForm.ca" />
+			<mapping path="/list.ca" />
+			<mapping path="/insert.ca" />
+			<mapping path="/delete.ca" />
+			<mapping path="/updateQuantity.ca" />
+			
+			<!-- 주문결제관련 -->
+			<mapping path="/insert.or" />
+			<mapping path="/update.or" />
+			<mapping path="/list.or" />
+			<mapping path="/orderDetail.or" />
+			<mapping path="/orderCancelRequest.or" />
 			
 			<beans:bean class="com.kh.youcamp.common.intercepter.LoginInterceptor" 
 						id="loginInterceptor" />
