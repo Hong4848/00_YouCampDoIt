@@ -11,7 +11,7 @@
     <title>결제완료</title>
 	<!-- 경로수정 -->
     <link rel="stylesheet" 
-    	  href="${pageContext.request.contextPath}/resources/css/order/orderDetailView.css?ver=1.0">
+    	  href="${pageContext.request.contextPath}/resources/css/order/orderDetailView.css?ver=1.1">
 </head>
 <body>
 
@@ -69,7 +69,7 @@
 						<td>${requestScope.order.paymentId}</td>
 					</tr>
 				</table>
-				<button type="button" class="btn-lg" onClick="reqCancel();">결제 취소</button>
+				<button type="button" class="btn-lg" id="cancel-btn" onClick="reqCancel();">결제 취소</button>
 			</div>	
 
 			<!-- 결제 취소 시 필요한 정보들 -->
@@ -103,11 +103,12 @@
 			<!-- Order Items - 주문테이블 목록조회 부분 -->
         	<c:forEach var="od" items="${ requestScope.list }">
 				<div class="order-item">
+					<input type="hidden" name="goodsNo" value="${od.goods.goodsNo}">
 					<div class="thumbnail">
 						${thumbnailMap[od.goods.goodsNo]}
 					</div>
 					<div class="item-details">
-						<h3>${od.goods.goodsName}</h3>
+						<h3 class="goodsName">${od.goods.goodsName}</h3>
 						<!-- <p class="item-options">${od.goods.goodsInfo}</p> -->
 						<br>
 						<div class="item-quantity">
@@ -140,9 +141,19 @@
 			const paymentStatus = "${requestScope.order.paymentStatus}";
 
 			if (paymentStatus === "CANCELED") {
-				const cancelButton = $(".btn-lg");
+				const cancelButton = $("#cancel-btn");
 				cancelButton.prop("disabled", true); // 버튼 비활성화
 			}
+
+			// .thumbnail 또는 .goodsName 클릭 시 이벤트 처리
+			$(document).on('click', '.thumbnail, .goodsName', function () {
+				// 해당 요소의 부모에서 hidden input의 값을 찾아 goodsNo를 가져옴
+				const goodsNo = $(this).closest('.order-item').find('input[name="goodsNo"]').val();
+
+				// goodsNo를 이용해 상품 상세 페이지로 이동
+				location.href = "goodsDetail.gs?goodsNo=" + goodsNo;
+    		});
+
 		});
 
         function reqCancel(){

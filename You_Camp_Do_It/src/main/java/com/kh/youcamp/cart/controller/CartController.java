@@ -63,12 +63,7 @@ public class CartController {
 		
 	    // 썸네일가져오기
 	    ArrayList<Goods> gList = goodsService.selectGoodsThumbnailList(memberNo);
-	    // 썸네일컬럼 img 부터 짤라서 div에 넣기
-		//섬네일 이미지 추출
-	    for(Cart c : cList) {
-	    	System.out.println(c);
-	    }
-	    
+		// 섬네일 이미지 추출 (썸네일컬럼 img 부터 짤라서 div에 넣기)
 	    for(Goods g : gList){
 			String s = "<img src="; // 이미지 태그 찾기
 			String body = g.getGoodsThumbnail();
@@ -101,8 +96,6 @@ public class CartController {
 						     HttpSession session,
 						     Model model) {
 		
-		// 인터셉터 처리 필요함@@@@@@@@@@@@@@@@@@@@@@@@@@
-		
 		Member loginMember = (Member) session.getAttribute("loginMember");
 	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
 	    cart.setMemberNo(memberNo);
@@ -130,7 +123,6 @@ public class CartController {
 		
 	}
 	
-	// 멤버 번호 넘겨서 쿼리문 조건문에 맴버 번호 넣기
 	/**
 	 * 24.12.13 윤홍문
 	 * 장바구니 삭제 메소드
