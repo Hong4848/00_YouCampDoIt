@@ -221,7 +221,7 @@
                 <div class="mid_node">
                     <div class="leaf_node" id="ProductRegister"><a href="${ pageContext.request.contextPath }/addProduct.ma">◈ 상품정보등록</a></div>
 					<div class="leaf_node" id="ProductList"><a href="${ pageContext.request.contextPath }/Management.ma">◈ 상품정보관리</a></div>
-                    <div class="leaf_node"><a>◈ 상품주문관리</a></div>
+                    <div class="leaf_node" id="ProductRental"><a href="${ pageContext.request.contextPath }/rentalList.ma">◈ 상품주문관리</a></div>
                     <div class="leaf_node"><a>◈ 상품주문통계</a></div>
                 </div>
                 <div style="height: 20px;"></div>
