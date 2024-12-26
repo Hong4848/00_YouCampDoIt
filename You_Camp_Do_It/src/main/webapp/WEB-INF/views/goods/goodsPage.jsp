@@ -409,7 +409,7 @@
     <script>
         $(document).ready(function(){
             if(${sessionScope.loginMember != null}){
-				
+            	
 				let memberNo = ${sessionScope.loginMember.memberNo};
 				let goodsNo = ${requestScope.goods.goodsNo};
 

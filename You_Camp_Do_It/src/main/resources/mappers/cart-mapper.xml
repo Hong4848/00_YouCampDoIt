@@ -20,6 +20,7 @@
 	        <result column="GOODS_INFO" property="goodsInfo" />
 	        <result column="MARK" property="mark" />
 	        <result column="GOODS_PRICE" property="price" />
+	        <result column="DISCOUNT" property="discount" />
 	        <result column="VIEWS" property="views" />
 	        <result column="ENROLL_DATE" property="enrollDate" />
 	        <result column="TOTAL_STOCK" property="totalStock" />
@@ -65,6 +66,7 @@
 		     , G.GOODS_NO
 		     , G.CATEGORY
 		     , G.GOODS_NAME
+		     , G.DISCOUNT
 		     <!--  , G.GOODS_THUMBNAIL -->
 		     , G.PRICE AS GOODS_PRICE
 		  FROM CART C
