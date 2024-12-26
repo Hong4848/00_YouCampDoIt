@@ -292,7 +292,7 @@
                             <a href="">이용안내</a>
                             <div class="border_line"></div>
                             <div class="header_menu2">
-                                <a href="">세부내용1</a>
+                                <a href="${ pageContext.request.contextPath }/location.ha">찾아오시는길</a>
                                 <a href="${ pageContext.request.contextPath }/precaution.ha">사용시 유의사항</a>
                                 <a href="${ pageContext.request.contextPath }/emergency.ha">비상시 대책요령</a>
                             </div>

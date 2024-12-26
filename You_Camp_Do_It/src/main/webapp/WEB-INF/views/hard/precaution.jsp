@@ -130,6 +130,7 @@
 
     <div id="content_1">
         <div class="reserve_wrap">
+            <a href="location.ha">찾아오시는길길</a>
             <a href="precaution.ha">사용시 유의사항</a>
             <a href="emergency.ha">비상시 대책요령</a>
         </div>

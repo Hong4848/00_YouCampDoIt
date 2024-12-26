@@ -56,4 +56,13 @@ public class HardController {
 		mv.setViewName("hard/etc");
 		return mv;
 	}
+	
+	@GetMapping("location.ha")
+	public ModelAndView location(ModelAndView mv)
+	{
+		mv.setViewName("hard/location");
+		return mv;
+	}
+	
+	
 }
