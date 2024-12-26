@@ -34,8 +34,7 @@ public interface OrderService {
 	// 결제 취소용
 	int deleteOrder(int orderNo);
 
-	
-	
-	
-	
+	///////////////////////////////////////////////////////////////////
+	// 결제 완료 후 상품 재고 소진
+	int remainStockCounting(int goodsNo, int counting);
 }

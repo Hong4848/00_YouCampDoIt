@@ -204,6 +204,11 @@
 		 WHERE ORDER_NO = #{orderNo}
 	</update>
 	
-	
+	<!-- 재고 소진 용 쿼리문 -->
+	<update id="remainStockCounting">
+		UPDATE GOODS
+		   SET REMAIN_STOCK = REMAIN_STOCK - #{counting}
+		 WHERE GOODS_NO = #{goodsNo}
+	</update>
   
 </mapper>

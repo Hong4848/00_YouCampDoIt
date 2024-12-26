@@ -1,6 +1,8 @@
 package com.kh.youcamp.order.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -47,7 +49,16 @@ public class OrderDao {
 		return sqlSession.update("orderMapper.deleteOrder", orderNo);
 	}
 
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// 재고 소진 용
+	public int remainStockCounting(SqlSessionTemplate sqlSession, int goodsNo, int counting) {
 	
+		Map<String, Object> var = new HashMap<>();
+		
+		var.put("goodsNo", goodsNo);
+		var.put("counting", counting);
+		return sqlSession.update("orderMapper.remainStockCounting", var);
+	}
 
 	
 

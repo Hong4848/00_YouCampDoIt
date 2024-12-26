@@ -496,6 +496,14 @@ public class OrderController {
 					
 					// 결제완료한 상품 orderDetail select > orderNo 기준
 					ArrayList<OrderDetail> list = orderService.selectOrederDetailList(orderNo);
+					
+					// ----------------------------------------------------------------------
+					// 결제완료한 상품 재고 소진(박진홍 작성)
+					for(OrderDetail ord : list) {
+						int remainStockCounting = orderService.remainStockCounting(ord.getGoodsNo(), ord.getQuantity());
+					}
+					// ----------------------------------------------------------------------
+					
 					// 결제완료된 상품 썸네일
 					ArrayList<Goods> gList = goodsService.selectGoodsThumbnailListByOrderNo(orderNo);
 				    

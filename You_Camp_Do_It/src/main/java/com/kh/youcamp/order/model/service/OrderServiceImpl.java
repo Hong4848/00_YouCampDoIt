@@ -70,11 +70,10 @@ public class OrderServiceImpl implements OrderService {
 		return orderDao.deleteOrder(sqlSession, orderNo);
 	}
 
-	
-	
-	 
-	 
-	 
-	 
-
+	///////////////////////////////////////////////////////////////////////////////
+	// 재고 소진
+	@Override
+	public int remainStockCounting(int goodsNo, int counting) {
+		return orderDao.remainStockCounting(sqlSession, goodsNo, counting);
+	}
 }
