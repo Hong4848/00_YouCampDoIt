@@ -104,7 +104,7 @@
 				height: 100%;	
 			}
 
-			.admin_img>img{
+			.admin_img img{
 				height: 100%;
 				filter: invert(100%) sepia(2%) saturate(1236%) hue-rotate(165deg) brightness(100%) contrast(89%);
 			}
@@ -183,14 +183,16 @@
 	<body>
         <div class="left_side_menu">
             <div class="left_side_title">
-                <a href="adminMain.ma">
+                <a href="${ pageContext.request.contextPath }/">
                     <img src="resources/images/mainPage/로고수정.png" alt="">
                 </a>
             </div>
             <div style="height: 50px;"></div>
             <div class="admin_profile">
                 <div class="admin_img">
-                    <img src="resources/images/admin/관리자.png" alt="">						
+                	<a href="${ pageContext.request.contextPath }/adminMain.ma">
+                		<img src="resources/images/admin/관리자.png" alt="">
+                	</a>						
                 </div>
                 <div class="admin_hello">
                     환영합니다<br>

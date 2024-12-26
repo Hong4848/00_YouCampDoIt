@@ -388,7 +388,7 @@
 		 )
  	</select>
  	
- 	<!-- 찜 기능 -->
+ 	<!-- 찜 유무 -->
  	<select id="dibsCheck" resultType="_int">
  		SELECT COUNT(*)
 		  FROM DIBS
@@ -396,6 +396,7 @@
 		   AND DIBS_GOODS = #{goodsNo}
  	</select>
  	
+ 	<!-- 찜 하기 -->
  	<insert id="ajaxDibsInsert">
  		INSERT INTO DIBS(DIBS_MEMBER
                  , DIBS_GOODS)
@@ -403,6 +404,7 @@
                  , #{goodsNo})
  	</insert>
  	
+ 	<!-- 찜 품목 삭제 -->
  	<delete id="ajaxDibsDelete">
  		DELETE
  		  FROM DIBS
@@ -410,6 +412,7 @@
 		   AND DIBS_GOODS = #{goodsNo}
  	</delete>
  	
+ 	<!-- 찜 품목 불러오기 -->
  	<select id="selectDibs" resultMap="goodsResultSet">
  		SELECT GOODS_NO, GOODS_NAME, GOODS_THUMBNAIL, PRICE
 		  FROM DIBS
@@ -418,9 +421,31 @@
 		   AND STATUS IN ('Y', 'N')
  	</select>
  	
+ 	<!-- 찜 품목 개수 -->
  	<select id="selectDibsCount" resultType="_int">
  		SELECT COUNT(*)
 		  FROM DIBS
 		 WHERE DIBS_MEMBER = #{memberNo}
+ 	</select>
+ 	
+ 	<!-- 할인 품목 개수 -->
+ 	<select id="discountListCount" resultType="_int">
+ 		SELECT COUNT(*)
+		  FROM GOODS
+		 WHERE DISCOUNT > 0
+		   AND STATUS IN ('Y', 'N')
+ 	</select>
+ 	
+ 	<!-- 할인품목 전체 리스트 조회 -->
+ 	<select id="discountList" resultMap="goodsResultSet">
+ 		SELECT *
+		  FROM( SELECT ROWNUM GOODSLIST, G.*
+		          FROM( SELECT *
+		                  FROM GOODS
+		                 WHERE STATUS IN ('Y', 'N')
+		                   AND DISCOUNT > 0
+		              ORDER BY GOODS_NO DESC) G
+		      )
+		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>
 </mapper>

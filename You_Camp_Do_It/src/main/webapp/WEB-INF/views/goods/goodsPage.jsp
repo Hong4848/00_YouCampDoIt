@@ -250,29 +250,29 @@
 				<div class="shoppingMall_category select_this">
 					<a href="">전체 목록 보기</a>
 				</div>
-				<div class="shoppingMall_category">
-					<a href="">캠핑장비 패키지 세트 대여</a>
+				<div class="shoppingMall_category select_this">
+					<a href="searching.gs">전체 목록 보기</a>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">캠핑용품대여</a>
+					<a>캠핑용품대여</a>
 					<div class="category_list">
-						<a href="">텐트/쉘터</a>
-						<a href="">침낭/난방기구</a>
-						<a href="">의자/테이블</a>
-						<a href="">화로/버너/전자</a>
-						<a href="">식기/아이스박스</a>
+						<a href="searching.gs?searchCategory=쉘터텐트">텐트/쉘터</a>
+						<a href="searching.gs?searchCategory=침낭방한용품">침낭/난방기구</a>
+						<a href="searching.gs?searchCategory=의자테이블">의자/테이블</a>
+						<a href="searching.gs?searchCategory=화로버너전자">화로/버너/전자</a>
+						<a href="searching.gs?searchCategory=식기아이스박스">식기/아이스박스</a>
 					</div>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">소비용품판매</a>
+					<a>소비용품판매</a>
 					<div class="category_list">
-						<a href="">연료/가스</a>
-						<a href="">식자재</a>
-						<a href="">생활용품</a>
+						<a href="searching.gs?searchCategory=연료가스">연료/가스</a>
+						<a href="searching.gs?searchCategory=식자재">식자재</a>
+						<a href="searching.gs?searchCategory=생활용품">생활용품</a>
 					</div>
 				</div>
 				<div class="shoppingMall_category">
-					<a href="">이달의 세일</a>
+					<a href="discountList.gs">이달의 세일</a>
 				</div>
 				<div style="width: 10%;"></div>
 			</div>

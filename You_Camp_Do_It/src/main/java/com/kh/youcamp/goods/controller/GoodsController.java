@@ -125,10 +125,44 @@ public class GoodsController
 		return "goods/goodsPage";
 	}
 	
+	@GetMapping("discountList.gs")
+	public String discountList(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
+			HttpSession session, Model model) {
+		
+		int listCount = goodsService.discountListCount();
+		int pageLimit = 5;
+		int boardLimit = 8;
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Goods> list = goodsService.discountList(pi);
+		
+		//섬네일 이미지 추출
+		for(Goods g : list)
+		{
+			String s = "<img src="; // 이미지 태그 찾기
+			String body = g.getGoodsThumbnail();
+			int start = 0;
+			int end = 0;
+			
+			start = body.indexOf(s);
+			body = body.substring(start);
+			end = body.indexOf(">");
+			body = body.substring(0, end+1);
+			
+			g.setGoodsThumbnail(body);
+		}
+		
+		model.addAttribute("list", list);
+		model.addAttribute("pi", pi);
+		
+		return "goods/discountShoppingMall";
+	}
+	
 	@GetMapping("searching.gs")
 	public String searchingGoods(@RequestParam(value="pageNumber", defaultValue="1")int currentPage,
 			Search search, HttpSession session, Model model)
 	{
+		search.setSearchCategory(search.getSearchCategory().replace("\'", ""));
 		int listCount = goodsService.searchingListCount(search);
 		int pageLimit = 5;
 		int boardLimit = 8;
@@ -332,5 +366,27 @@ public class GoodsController
 		list.put("ListCount", ListCount);
 		
 		return new Gson().toJson(list);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "ajaxDibsDelete.gs", produces="application/json; charset=UTF-8")
+	public boolean ajaxDibsDelete(int memberNo, int goodsNo) {
+		
+		int dibsCheck = goodsService.dibsCheck(memberNo, goodsNo);
+		
+		if(dibsCheck == 1){
+			
+			int ajaxDelete = goodsService.ajaxDibsDelete(memberNo, goodsNo);
+			
+			if(ajaxDelete > 0){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
 	}
 }
