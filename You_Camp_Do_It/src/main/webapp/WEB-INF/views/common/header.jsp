@@ -147,6 +147,9 @@
                 z-index: 20;
                 transition: all 0.5s;
                 opacity: 1.0;
+
+				  background-color: white;
+				  box-shadow: -6px 0 10px rgba(0, 0, 0, 0.1); /* 왼쪽에 그림자 */
             }
 
             .quick_a{
@@ -207,10 +210,18 @@
                 <div id="quick_open" onclick="quickOpen();"></div>
                 <div id="quickMenu">
                     <div id="userManu" class="quick_a">
-                        <a data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"><img src="resources/images/mainPage/로그인icon.png"></a>
+                    	<c:choose>
+                    		<c:when test="${ empty sessionScope.loginMember }">
+                    			<a data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"><img src="resources/images/mainPage/로그인.png"></a>
+                    		</c:when>
+                    		<c:otherwise>
+                    			<a href="${ pageContext.request.contextPath }/logout.me" style="cursor: pointer;"><img src="resources/images/mainPage/로그아웃icon.png"></a>
+                    		</c:otherwise>
+                    	</c:choose>
+                        
                         <c:choose>
                         	<c:when test="${sessionScope.loginMember.memberId == 'admin'}">
-                        		<a href="${ pageContext.request.contextPath }/adminMain.ma"><img src="resources/images/mainPage/회원가입icon.png"></a>
+                        		<a href="${ pageContext.request.contextPath }/adminMain.ma"><img src="resources/images/mainPage/관리자icon.png"></a>
                         	</c:when>
                         	<c:otherwise></c:otherwise>
                         </c:choose>
@@ -220,9 +231,17 @@
                         <a href="${ pageContext.request.contextPath }/listForm.ca">
                         	<img src="resources/images/mainPage/장바구니icon.png">
                         </a>
-                        <a href="${ pageContext.request.contextPath }/myPage.me">
-                        	<img src="resources/images/mainPage/마이페이지icon.png">
-                        </a>
+                        <c:choose>
+                    		<c:when test="${ empty sessionScope.loginMember }">
+                    			
+                    		</c:when>
+                    		<c:otherwise>
+                    			<a href="${ pageContext.request.contextPath }/myPage.me">
+		                        	<img src="resources/images/mainPage/마이페이지.png">
+		                        </a>
+                    		</c:otherwise>
+                    	</c:choose>
+                        
                     </div>
                 </div>
             </div>
