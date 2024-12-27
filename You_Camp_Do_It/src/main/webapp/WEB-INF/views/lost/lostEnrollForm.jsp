@@ -228,18 +228,21 @@
 		
 		<br>
 	     <div class="container">
-	        <h1>후기게시판 작성하기</h1>
+	        <h1>분실물게시판 작성하기</h1>
 	        <form id="uploadForm" action="list.lo" method="POST" enctype="multipart/form-data"> 
         		<!-- hidden 필드로 memberNo 추가 -->
     			<input type="hidden" name="memberNo" value="${sessionScope.loginMember.memberNo}" />
-    			<p>로그인된 사용자 번호: ${sessionScope.loginMember.memberNo}</p>
 			        
 			        <div id="contentcontroller">
 			            <div class="form-group">
 			                <label for="lostTitle">제목</label>
 			                <input type="text" id="lostTitle" name="lostTitle" required>
 			            </div>
-			
+						<select name="categoryName" required>
+						    <option value="">카테고리를 선택하세요</option>
+						    <option value="생필픔">생필품</option>
+						    <option value="캠핑용품">캠핑용품</option>
+						</select>
 			            <div class="form-group">
 			                <label for="lostContent">내용</label>
 			                <textarea id="lostContent" name="lostContent" style="resize : none;" required></textarea>
@@ -323,8 +326,8 @@
 		    const formData = new FormData();
 		    
 		    // 제목과 내용 추가
-		    formData.append("reviewTitle", document.getElementById("reviewTitle").value);
-		    formData.append("reviewContent", document.getElementById("reviewContent").value);
+		    formData.append("lostTitle", document.getElementById("lostTitle").value);
+		    formData.append("lostContent", document.getElementById("lostContent").value);
 		    
 		    // 파일들 추가
 		    const mainImage = document.getElementById("mainImage").files[0];
@@ -335,7 +338,7 @@
 		    if (detailImage1) formData.append("upfile", detailImage1);
 		    if (detailImage2) formData.append("upfile", detailImage2);
 		
-		    fetch("insert.re", {
+		    fetch("insert.lo", {
 		        method: "POST",
 		        body: formData
 		    })

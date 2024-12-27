@@ -144,4 +144,51 @@
 	    <!-- STATUS 조건 제거 -->
 	</update>
 	
+	
+	<select id="ajaxSelectListCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+		  <choose>
+	        <when test="state == '탈퇴한 회원'">
+		 		WHERE STATUS = 'N'
+		 	</when>
+		 	<when test="state == '활동 회원'">
+		 		WHERE STATUS = 'Y'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+	</select>
+
+	<select id="ajaxNoticeSelect" resultMap="noticeResultSet">
+		SELECT * 
+		  FROM NOTICE
+		  <choose>
+	        <when test="state == '탈퇴한 회원'">
+		 		WHERE STATUS = 'N'
+		 	</when>
+		 	<when test="state == '활동 회원'">
+		 		WHERE STATUS = 'Y'
+		 	</when>
+		 	<otherwise></otherwise>
+		 </choose>
+		
+	</select>
+	
+	<select id="totalCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+	</select>
+	
+	<select id="exitCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+		 WHERE STATUS = 'N'
+	</select>
+	
+	<select id="activeCount" resultType="_int">
+		SELECT COUNT(*)
+		  FROM NOTICE
+		 WHERE STATUS = 'Y'
+	</select>
+	
 </mapper>

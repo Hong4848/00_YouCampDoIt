@@ -11,7 +11,7 @@ public class PrivacyPolicyController {
     @ResponseBody
     public String getPrivacyPolicy() {
         // 약관 내용을 HTML 형식으로 반환
-        return "<h2>개인정보 처리방침</h2>" +
+        return "<h2>개인정보 취급방침</h2>" +
                "<p>('http://localhost:8006/youcamp/'이하 'YOU CAMP DO IT')은(는) 개인정보보호법에 따라 이용자의 개인정보 보호 및 권익을 보호하고 개인정보와 관련한 이용자의 고충을 원활하게 처리할 수 있도록 다음과 같은 처리방침을 두고 있습니다. 'YOU CAMP DO IT'은 개인정보처리방침을 개정하는 경우 웹사이트 공지사항(또는 개별공지)을 통하여 공지할 것입니다.\r\n"
                + "1. 개인정보의 처리 목적\r\n"
                + "'YOU CAMP DO IT'은 개인정보를 다음의 목적을 위해 처리합니다. 처리한 개인정보는 다음의 목적 이외의 용도로는 사용되지 않으며 이용목적이 변경될 시에는 사전동의를 구할 예정입니다.\r\n"

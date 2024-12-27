@@ -151,7 +151,7 @@
         /* 이미지 스타일 */
         table.listThmb td img {
             width: 100%;
-            height: auto;
+            height: 180px;
             border-bottom: 1px solid #ddd;
             margin-bottom: 10px;
         }
@@ -182,15 +182,13 @@
         
 
         /*페이징바*/
-        #area {
-            display: flex;
-            justify-content: space-between; /* 좌우로 배치 */
-            width: 100%; /* 부모 요소 너비 설정 */
-        }
-        #pagingArea {
-            display: flex;
-            margin : 0 auto; /* 가운데 정렬 */
-        }
+        .pagination {
+		    display: flex;
+		    justify-content: center; /* 수평 가운데 정렬 */
+		    align-items: center;    /* 수직 가운데 정렬 */
+		    margin-top: 20px;       /* 위쪽 여백 추가 */
+		    gap: 10px;              /* 버튼 사이 간격 */
+		}
         #write {
             border : none;
             height: 35px;
@@ -199,6 +197,21 @@
             display: flex;
             justify-content: flex-end; /* 버튼을 오른쪽 끝으로 배치 */
         }
+        
+        .center-image {
+		    display: block;
+		    margin: 0 auto;
+		    text-align: center;
+		    height: 100vh;
+		    position: relative;
+		}
+		
+		.center-image img {
+		    display: block;
+		    margin: auto;
+		    max-width: 100%;
+		    max-height: 100%;
+		}
 
     </style>
 </head>
@@ -263,6 +276,10 @@
 			                
             			</tbody>
                     </table>
+
+                    <div class="center-image">
+					    <img src="resources/images/lost/roding.png">
+					</div>
                 </div>
             </div>
             <br>
@@ -328,12 +345,12 @@
             </div>
             
             <div id="writeBtn">
-			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin1' }">
+			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin' }">
 			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
-			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.no'">글작성</button>
+			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.lo'">글작성</button>
 			    </c:if>
 			</div>
-             
+            
         </div>
     </div> <!--content 영역 끝 -->
     

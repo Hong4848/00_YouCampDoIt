@@ -6,11 +6,13 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.lost.model.dao.LostDao;
 import com.kh.youcamp.lost.model.vo.Lost;
 import com.kh.youcamp.lost.model.vo.LostAttachment;
+
 
 @Service
 public class LostServiceImpl implements LostService {
@@ -40,6 +42,21 @@ public class LostServiceImpl implements LostService {
 	@Override
 	public List<Lost> selectLostList(PageInfo pi) {
 		return lostDao.selectLostList(sqlSession, pi);
+	}
+
+	@Override
+	@Transactional
+	public int insertLost(Lost lost) {
+		int result = lostDao.insertLost(sqlSession, lost);
+        
+        if(result > 0 && lost.getLostAttachments() != null) {
+            for(LostAttachment attachment : lost.getLostAttachments()) {
+                attachment.setLostNo(lost.getLostNo());
+                result *= lostDao.insertLostAttachment(sqlSession, attachment);
+            }
+        }
+        
+        return result;
 	}
 
 }

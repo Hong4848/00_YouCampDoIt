@@ -6,6 +6,7 @@ import java.util.List;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.lost.model.vo.Lost;
 import com.kh.youcamp.lost.model.vo.LostAttachment;
+import com.kh.youcamp.review.model.vo.Review;
 
 public interface LostService {
 
@@ -15,8 +16,10 @@ public interface LostService {
 
 	// 게시글 작성 서비스 메소드
 	int selectCount();
+	int insertLost(Lost lost);
 
 	// 목록조회 서비스 메소드
 	List<Lost> selectLostList(PageInfo pi);
+	
 
 }

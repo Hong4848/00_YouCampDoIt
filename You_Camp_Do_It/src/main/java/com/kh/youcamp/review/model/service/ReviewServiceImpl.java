@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
+import com.kh.youcamp.notice.model.vo.Notice;
 import com.kh.youcamp.review.model.dao.ReviewDao;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
@@ -23,11 +24,15 @@ public class ReviewServiceImpl implements ReviewService {
     @Autowired
 	private SqlSessionTemplate sqlSession;
     
+	@Override
+	public int selectListCount(HashMap<String, String> searchMap) {
+		 return reviewDao.selectListCount(sqlSession, searchMap);
+	}
     
-    @Override
-    public List<Review> selectReviewList(PageInfo pi) {
-        return reviewDao.selectReviewList(sqlSession, pi);
-    }
+	@Override
+	public ArrayList<Review> selectList(PageInfo pi, HashMap<String, String> searchMap) {
+		return reviewDao.selectReviewList(sqlSession, pi, searchMap);
+	}
     
     @Override
     @Transactional
@@ -157,6 +162,12 @@ public class ReviewServiceImpl implements ReviewService {
 	public int selectMyLikedCount(int memberNo) {
 		return reviewDao.selectMyLikedCount(sqlSession, memberNo);
 	}
+
+
+
+
+
+
 
 
 

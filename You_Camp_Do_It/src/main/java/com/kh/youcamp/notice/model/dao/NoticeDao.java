@@ -71,6 +71,34 @@ public class NoticeDao {
 	    return sqlSession.update("noticeMapper.updateNotice", n);
 	}
 	
+	
+
+	public ArrayList<Notice> ajaxNoticeSelect(SqlSessionTemplate sqlSession, PageInfo pi, String state) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		int limit = pi.getBoardLimit();
+		
+		RowBounds rowBounds 
+				= new RowBounds(offset, limit);
+		
+		return (ArrayList)sqlSession.selectList("noticeMapper.ajaxNoticeSelect", state, rowBounds);
+	}
+
+	public int ajaxSelectListCount(SqlSessionTemplate sqlSession, String state) {
+		return sqlSession.selectOne("noticeMapper.ajaxSelectListCount", state);
+	}
+
+	public int totalCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.totalCount");
+	}
+
+	public int exitCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.exitCount");
+	}
+
+	public int activeCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("noticeMapper.activeCount");
+	}
+	
 
 
 }

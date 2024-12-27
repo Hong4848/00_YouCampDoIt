@@ -28,6 +28,23 @@
         FROM LOST
     </select>
     
+    <!-- 분실물게시글 등록 -->
+    <insert id="insertLost" parameterType="lost">
+    	<selectKey keyProperty="lostNo" resultType="int" order="BEFORE">
+	        SELECT LOST_SEQ.NEXTVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO LOST (LOST_NO
+	    				, LOST_TITLE
+	    				, LOST_CONTENT
+	    				, CATEGORY_NAME
+	    				, CREATE_DATE)
+	    		VALUES (#{lostNo}
+	    			  , #{lostTitle}
+	    			  , #{lostContent}
+	    			  , #{categoryName}
+	    			  , SYSDATE)
+    </insert>
+    
     <!-- 분실물게시글 첨부파일 등록 -->
     <insert id="insertLostAttachment" parameterType="lostAttachment">
         INSERT INTO LOST_ATTACHMENT (
@@ -51,6 +68,77 @@
         )
     </insert>
     
+    <!-- 목록조회 -->
+    <select id="selectLostList" resultMap="lostResultMap">
+	    SELECT L.LOST_NO
+		      , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+		      , LOST_TITLE
+		      , CHANGE_NAME AS "MAINIMAGE"
+		  FROM LOST L
+		  JOIN LOST_ATTACHMENT A ON (L.LOST_NO = A.LOST_NO)
+		 WHERE L.STATUS = 'Y'
+		   AND FILE_LEVEL = 1
+		 ORDER BY LOST_NO DESC
+	</select>
+	
+	<!-- 상세조회 쿼리문 -->
+	<select id="selectLost" parameterType="_int" resultMap="lostResultMap">
+		SELECT LOST_NO
+		     , TO_CHAR(CREATE_DATE, 'YYYY.MM.DD') AS "CREATE_DATE"
+		     , LOST_TITLE
+		     , LOST_CONTENT
+		  FROM LOST
+		 WHERE LOST_NO = #{lostNo}
+		   AND STATUS = 'Y'
+	</select>
+	
+	<select id="selectLostAttachment" resultMap="lostAttachments" parameterType="_int">
+		SELECT FILE_NO
+		     , ORIGIN_NAME
+		     , CHANGE_NAME
+		     , FILE_PATH
+		     , FILE_LEVEL
+		  FROM LOST_ATTACHMENT
+		 WHERE LOST_NO = #{lostNo}
+		   AND STATUS = 'Y'
+		 ORDER BY FILE_LEVEL ASC
+	</select>
+	
+	<!-- 수정하기 쿼리문 -->
+	<update id="updateLost" parameterType="lost">
+	    UPDATE LOST
+	    SET LOST_TITLE = #{lostTitle}
+	      , LOST_CONTENT = #{lostContent}
+	      , CREATE_DATE = SYSDATE
+	    WHERE LOST_NO = #{lostNo}
+	      AND STATUS = 'Y'
+	</update>
+	
+	<!-- 첨부파일 수정 쿼리문 -->
+	<update id="updateLostAttachment" parameterType="lostAttachment">
+	     UPDATE LOST_ATTACHMENT
+		    SET ORIGIN_NAME = #{originName}
+		      , CHANGE_NAME = #{changeName}
+		      , FILE_PATH = #{filePath}
+		      , UPLOAD_DATE = SYSDATE
+		 WHERE FILE_NO = #{fileNo}
+		   AND STATUS = 'Y'
+	</update>
+	
+	<!-- 첨부파일 삭제 쿼리 -->
+	<update id="deleteLostAttachment" parameterType="int">
+	    UPDATE LOST_ATTACHMENT
+	       SET STATUS = 'N'
+	     WHERE FILE_NO = #{fileNo}
+	</update>
+	
+	
+	<!-- 삭제하기 쿼리문 -->
+	<update id="deleteLost" parameterType="_int">
+	    UPDATE LOST
+	    SET STATUS = 'N'
+	    WHERE LOST_NO = #{lostNo}
+	</update>
     
   
 </mapper>
