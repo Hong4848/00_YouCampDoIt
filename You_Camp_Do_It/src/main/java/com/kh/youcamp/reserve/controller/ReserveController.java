@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.kh.youcamp.common.model.vo.PageInfo;
@@ -294,7 +295,8 @@ public class ReserveController {
 										  Model model, 
 										  HttpServletRequest request,
 										  ModelAndView mv, 
-										  HttpSession session) throws Exception {
+										  HttpSession session,
+										  RedirectAttributes redirectAttributes) throws Exception {
 		
 //		System.out.println(r);
 		

@@ -53,15 +53,13 @@ public class ReviewController {
         Member loginUser = (Member) session.getAttribute("loginMember");
         
         // Interceptor가 로그인 여부를 보장하므로 null 체크는 생략 가능
+        
         r.setMemberNo(loginUser.getMemberNo()); // 작성자의 MEMBER_NO 설정
         r.setReviewWriter(loginUser.getMemberName()); // MEMBER_NAME을 REVIEW_WRITER로 설정
-        
-        log.debug("review: {}", r);
-        
+
         String savePath = session.getServletContext().getRealPath("/resources/images/review_upfiles/");
-
+        
         ArrayList<ReviewAttachment> attachments = new ArrayList<>();
-
         for (int i = 0; i < upfiles.length; i++) {
             MultipartFile upfile = upfiles[i];
             
@@ -191,7 +189,7 @@ public class ReviewController {
     public String updateForm(@RequestParam("rno") int reviewNo, Model model) {
         // 리뷰 정보 가져오기
         Review r = reviewService.selectReview(reviewNo);
-        
+
         // 첨부파일 리스트 가져오기
         List<ReviewAttachment> attachments = reviewService.selectReviewAttachment(reviewNo);
         
@@ -230,12 +228,13 @@ public class ReviewController {
 			return "common/errorPage";
 			}
 			
+			System.out.println(r.getReviewNo());
 			Member loginUser = (Member) session.getAttribute("loginMember");
-			log.debug("Login user: {}", loginUser);
 			if (loginUser == null) {
 				model.addAttribute("errorMsg", "로그인이 필요합니다.");
 				return "common/errorPage";
 			}
+			
 			
 			r.setMemberNo(loginUser.getMemberNo());
 			r.setReviewWriter(loginUser.getMemberName());
@@ -244,7 +243,6 @@ public class ReviewController {
 			
 			ArrayList<ReviewAttachment> attachments = new ArrayList<>();
 			List<ReviewAttachment> existingAttachments = reviewService.selectReviewAttachment(r.getReviewNo());
-			log.debug("Existing attachments: {}", existingAttachments);
 			
 			for (ReviewAttachment attachment : existingAttachments) {
 				boolean fileUpdated = false;

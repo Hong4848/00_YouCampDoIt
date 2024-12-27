@@ -461,7 +461,7 @@
             $("#all_list .listCount").text(result.totalCount);
             $("#sale_list .listCount").text(result.exitCount);
             $("#soldOut_list .listCount").text(result.activeCount);
-            console.log(totalCount);
+            
         }
     </script>
 
