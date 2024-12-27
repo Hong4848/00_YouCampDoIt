@@ -240,6 +240,17 @@
 				cursor: pointer;
 				background-color: none;
 			}
+
+			#cart-order-forms{
+				display: flex;
+				justify-content: right;
+			}
+
+			#cart-order-forms button{
+				margin-left: 20px;
+				margin-top: 100px;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -491,10 +502,10 @@
 			let height = $(".sumUpContent").css("height");
 			height = height.substring(0, height.length-2);
 			if(height <= 150){
-				$(".goodsSummary").css("height", 500);
+				$(".goodsSummary").css("height", 600);
 			}
 			else{
-				height = parseInt(height)+400
+				height = parseInt(height)+500
 				$(".goodsSummary").css("height", height);
 			}
 		});
