@@ -32,7 +32,26 @@
    	<result column="REVIEW_NO" property="reviewNo" />
    </resultMap>
   
-  
+  	<!-- 후기 게시글 갯수 조회용 쿼리문 -->
+	<!-- 검색 조건에 따른 전체 리스트 수 -->
+	<select id="selectListCount" resultType="_int" parameterType="map">
+		SELECT COUNT(*)
+		  FROM REVIEW
+		 WHERE STATUS = 'Y'
+		  <if test="condition != null and keyword != null">
+	        <choose>
+	            <when test="condition == 'title'">
+	                AND REVIEW_TITLE LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND REVIEW_CONTENT LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND REVIEW_WRITER LIKE '%' || #{keyword} || '%'
+	            </when>
+	        </choose>
+    	 </if>
+	</select>
 
   
    <select id="selectCount" resultType="_int">
@@ -50,6 +69,19 @@
 		  JOIN REVIEW_ATTACHMENT A ON (R.REVIEW_NO = A.REVIEW_NO)
 		 WHERE R.STATUS = 'Y'
 		   AND FILE_LEVEL = 1
+		  <if test="condition != null and keyword != null">
+	        <choose>
+	            <when test="condition == 'title'">
+	                AND REVIEW_TITLE LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND REVIEW_CONTENT LIKE '%' || #{keyword} || '%'
+	            </when>
+	            <when test="condition == 'content'">
+	                AND REVIEW_WRITER LIKE '%' || #{keyword} || '%'
+	            </when>
+	        </choose>
+    	 </if>
 		 ORDER BY REVIEW_NO DESC
 	</select>
     

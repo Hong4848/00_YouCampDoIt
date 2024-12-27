@@ -40,6 +40,17 @@ public interface NoticeService {
 	// 공지사항 수정하기 서비스
 	int updateNotice(Notice n);
 
+	// 관리자페이지 목록조회
+	int totalCount();
+
+	int exitCount();
+
+	int activeCount();
+
+	int ajaxSelectListCount(String state);
+
+	ArrayList<Notice> ajaxNoticeSelect(PageInfo pi, String state);
+
 	
 
 	

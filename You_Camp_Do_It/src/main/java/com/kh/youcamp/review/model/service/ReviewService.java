@@ -1,18 +1,21 @@
 package com.kh.youcamp.review.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.kh.youcamp.common.model.vo.PageInfo;
-import com.kh.youcamp.lost.model.vo.Lost;
+
+
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
-import com.kh.youcamp.review.model.vo.ReviewReply;
+
 
 public interface ReviewService {
 	
+	int selectListCount(HashMap<String, String> searchMap);
 	// 목록조회 서비스 메소드
-	List<Review> selectReviewList(PageInfo pi);
+	ArrayList<Review> selectList(PageInfo pi, HashMap<String, String> searchMap);
 	
     // 게시글 작성 서비스 메소드
 	int insertReview(Review review);
@@ -44,6 +47,11 @@ public interface ReviewService {
 	// 내가 좋아요 한 글 조회
 	List<Review> selectMyLikedReviewList(PageInfo pi, int memberNo);
 	int selectMyLikedCount(int memberNo);
+
+	
+	
+
+	
 
 
 	

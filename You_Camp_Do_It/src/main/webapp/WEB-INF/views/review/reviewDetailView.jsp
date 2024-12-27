@@ -225,19 +225,8 @@
 
             <hr>
             
-             <!-- 이전글, 다음글 -->
-             <div align="left" id="review-centroller">  
-	             <div class="reviewDetail-next">
-	             	<span class="next">다음글</span>
-	             	<a href="" class="reDetitle">캠핑 컨셉이 너무 잘나왔네요~~</a>
-	             </div>
-	             <div class="reviewDetail-prev">
-	             	<span class="prev">이전글</span>
-	             	<a href="" class="reDetitle">이번 캠핑 너무 즐거웠어요~~!!^--^</a>
-	             </div>
-             </div>
             
-            
+            <%-- 
             <!-- 댓글 기능은 나중에 ajax 배우고 나서 구현할 예정! 우선은 화면구현만 해놓음 -->
             <!-- 댓글 목록 섹션 -->
 		    <div class="comments-section">
@@ -252,7 +241,7 @@
 		        </table>
 		    </div>
 	        
-	        <!-- 댓글 작성 섹션 -->
+	        
 	        <div class="reply-input-section">
                	<c:choose>
                		<c:when test="${ empty sessionScope.loginMember }">
@@ -275,7 +264,8 @@
 	                     </th>
                  	</c:otherwise>
                  </c:choose>
-            </div>                  
+            </div>
+             --%>                
         </div>
         <br><br>
 

@@ -84,6 +84,31 @@ public class NoticeServiceImpl implements NoticeService {
 		return noticeDao.updateNotice(sqlSession, n);
 	}
 
+	@Override
+	public int totalCount() {
+		return noticeDao.totalCount(sqlSession);
+	}
+
+	@Override
+	public int exitCount() {
+		return noticeDao.exitCount(sqlSession);
+	}
+
+	@Override
+	public int activeCount() {
+		return noticeDao.activeCount(sqlSession);
+	}
+
+	@Override
+	public int ajaxSelectListCount(String state) {
+		return noticeDao.ajaxSelectListCount(sqlSession, state);
+	}
+
+	@Override
+	public ArrayList<Notice> ajaxNoticeSelect(PageInfo pi, String state) {
+		return noticeDao.ajaxNoticeSelect(sqlSession, pi, state);
+	}
+
 
 
 	

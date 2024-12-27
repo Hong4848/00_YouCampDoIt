@@ -35,4 +35,12 @@ public class LostDao {
 		return (List)sqlSession.selectList("lostMapper.selectLostList", null, rowBounds);
 	}
 
+	public int insertLost(SqlSessionTemplate sqlSession, Lost lost) {
+		return sqlSession.insert("lostMapper.insertLost", lost);
+	}
+
+	public int insertLostAttachment(SqlSessionTemplate sqlSession, LostAttachment attachment) {
+		return sqlSession.insert("lostMapper.insertLostAttachment", attachment);
+	}
+
 }

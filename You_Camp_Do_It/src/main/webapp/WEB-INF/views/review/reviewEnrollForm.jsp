@@ -232,7 +232,6 @@
 	        <form id="uploadForm" action="list.re" method="POST" enctype="multipart/form-data"> 
         		<!-- hidden 필드로 memberNo 추가 -->
     			<input type="hidden" name="memberNo" value="${sessionScope.loginMember.memberNo}" />
-    			<p>로그인된 사용자 번호: ${sessionScope.loginMember.memberNo}</p>
 			        
 			        <div id="contentcontroller">
 			            <div class="form-group">

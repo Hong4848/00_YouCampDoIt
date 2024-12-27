@@ -76,4 +76,11 @@ public class PageManagerController
 		return mv;
 	}
 	
+	/* 관리자 페이지 공지사항 페이지 요청용 컨트롤러 */
+	@GetMapping("noticeManagerList.no")
+	public ModelAndView noticeManager(ModelAndView mv) {
+		mv.setViewName("notice/noticeManagerList");
+		return mv;
+	}
+	
 }

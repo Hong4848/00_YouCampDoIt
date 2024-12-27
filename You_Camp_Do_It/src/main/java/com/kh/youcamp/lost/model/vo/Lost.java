@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class Lost {
 
-	private int listNo;
+	private int lostNo;
 	private String lostTitle;
 	private String lostContent;
 	private String categoryName;

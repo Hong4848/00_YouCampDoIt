@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,11 +17,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
+import com.kh.youcamp.member.model.vo.Member;
 import com.kh.youcamp.notice.model.service.NoticeService;
 import com.kh.youcamp.notice.model.vo.Notice;
 
@@ -279,6 +283,40 @@ public class NoticeController {
 	}
 	
 	return changeName;
+	}
+	
+	// 관리자 페이지 목록조회
+	@ResponseBody
+	@GetMapping(value="ajaxNoticeManagement.no", produces="application/json; charset=UTF-8")
+	public String ajaxNoticeSelect(@RequestParam(value="pageNumber", defaultValue="1")int currentPage, 
+			@RequestParam(value="state", defaultValue="전체")String state, 
+			HttpSession session)
+	{
+		
+		int totalCount = noticeService.totalCount();
+		int exitCount = noticeService.exitCount();
+		int activeCount = noticeService.activeCount();
+		
+		
+		int listCount = noticeService.ajaxSelectListCount(state);
+		
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+		
+		ArrayList<Notice> list = noticeService.ajaxNoticeSelect(pi, state);
+		
+		
+		Map<String, Object> ajaxList = new HashMap<>();
+		ajaxList.put("totalCount", totalCount);
+		ajaxList.put("exitCount", exitCount);
+		ajaxList.put("activeCount", activeCount);
+		ajaxList.put("list", list);
+		ajaxList.put("pi", pi);
+		
+		
+		return new Gson().toJson(ajaxList);
 	}
 
 }

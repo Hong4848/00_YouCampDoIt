@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.kh.youcamp.common.model.vo.PageInfo;
 import com.kh.youcamp.common.template.Pagination;
 import com.kh.youcamp.member.model.vo.Member;
+import com.kh.youcamp.notice.model.vo.Notice;
 import com.kh.youcamp.review.model.service.ReviewService;
 import com.kh.youcamp.review.model.vo.Review;
 import com.kh.youcamp.review.model.vo.ReviewAttachment;
@@ -72,15 +73,6 @@ public class ReviewController {
                 at.setChangeName("/resources/images/review_upfiles/" + changeName);
                 at.setFilePath(changeName);
                 
-                // fileLevel 설정
-                /*
-                if (i == 0) {
-                    at.setFileLevel(1); // mainImage는 fileLevel 1
-                } else {
-                    at.setFileLevel(2); // detailImage1, detailImage2는 fileLevel 2
-                }
-                */
-                
                 // 첫 번째 파일은 대표이미지(fileLevel=1)
                 // 나머지는 상세이미지(fileLevel=2)로 설정
                 at.setFileLevel(i == 0 ? 1 : 2);
@@ -98,26 +90,36 @@ public class ReviewController {
     }
     
     // 목록조회 요청 메소드
-    @GetMapping("list.re")
-    public ModelAndView selectList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
-                                 ModelAndView mv) {
-        
-        int listCount = reviewService.selectCount();
+    @GetMapping(value="list.re")
+	public String selectList(
+	        @RequestParam(value = "cpage", defaultValue = "1") int currentPage,
+	        @RequestParam(value = "condition", required = false) String condition,
+	        @RequestParam(value = "keyword", required = false) String keyword,
+	        Model model) {
+
+	    // 검색 조건과 키워드를 HashMap에 담아 전달
+	    HashMap<String, String> searchMap = new HashMap<>();
+	    if (condition != null && keyword != null && !keyword.trim().isEmpty()) {
+	        searchMap.put("condition", condition);
+	        searchMap.put("keyword", keyword);
+	    }
+
+	    int listCount = reviewService.selectListCount(searchMap); // 검색 조건에 따른 전체 리스트 수
         
         int pageLimit = 5;
         int boardLimit = 16;
         
         PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
-        List<Review> list = reviewService.selectReviewList(pi);
-        
-        mv.addObject("pi", pi)
-          .addObject("list", list)
-          .setViewName("review/reviewListView");
-        
-        System.out.println(list);
-        System.out.println(list.size());
-        
-        return mv;
+        ArrayList<Review> list = reviewService.selectList(pi, searchMap); // 검색 조건에 따른 리스트 조회
+
+
+        // 검색 조건과 키워드도 뷰로 전달
+	    model.addAttribute("list", list);
+	    model.addAttribute("pi", pi);
+	    model.addAttribute("condition", condition);
+	    model.addAttribute("keyword", keyword);
+
+	    return "review/reviewListView";
     }
     
     // --- 일반메소드 ---

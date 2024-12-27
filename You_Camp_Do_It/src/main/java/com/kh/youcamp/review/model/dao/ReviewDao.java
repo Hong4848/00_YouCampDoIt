@@ -19,12 +19,12 @@ import com.kh.youcamp.review.model.vo.ReviewReply;
 public class ReviewDao {
 
 
-	public List<Review> selectReviewList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<Review> selectReviewList(SqlSessionTemplate sqlSession, PageInfo pi, HashMap<String, String> searchMap) {
 		
 		int limit = pi.getBoardLimit();
 		int offset = (pi.getCurrentPage()-1)*limit;
 		RowBounds rowBounds = new RowBounds(offset, limit);
-		return (List)sqlSession.selectList("reviewMapper.selectReviewList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("reviewMapper.selectReviewList", null, rowBounds);
 	}
 
 	 public int insertReview(SqlSessionTemplate sqlSession, Review review) {
@@ -131,6 +131,11 @@ public class ReviewDao {
 	}
 	public int selectMyLikedCount(SqlSessionTemplate sqlSession, int memberNo) {
 		return sqlSession.selectOne("reviewMapper.selectMyLikedCount");
+	}
+
+	public int selectListCount(SqlSessionTemplate sqlSession, HashMap<String, String> searchMap) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

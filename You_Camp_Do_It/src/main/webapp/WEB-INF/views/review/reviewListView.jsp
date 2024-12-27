@@ -153,7 +153,7 @@
         /* 이미지 스타일 */
         table.listThmb td img {
             width: 100%;
-            height: auto;
+            height: 180px;
             border-bottom: 1px solid #ddd;
             margin-bottom: 10px;
         }
@@ -184,15 +184,13 @@
         
 
         /*페이징바*/
-        #area {
-            display: flex;
-            justify-content: space-between; /* 좌우로 배치 */
-            width: 100%; /* 부모 요소 너비 설정 */
-        }
-        #pagingArea {
-            display: flex;
-            margin : 0 auto; /* 가운데 정렬 */
-        }
+        .pagination {
+		    display: flex;
+		    justify-content: center; /* 수평 가운데 정렬 */
+		    align-items: center;    /* 수직 가운데 정렬 */
+		    margin-top: 20px;       /* 위쪽 여백 추가 */
+		    gap: 10px;              /* 버튼 사이 간격 */
+		}
         #write {
             border : none;
             height: 35px;
@@ -228,20 +226,22 @@
                     <li>후기게시판</li>
                 </ul>
             </div>
-            <!--검색창-->
-            <form id="search-bar" action="" method="get" align="right">
-                <div class="select">
-                    <select class="custom-select" name="condition">
-                        <option value="title">제목</option>
-                        <option vlaue="content">내용</option>
-						<option value="writer">작성자</option>
-                    </select>
-                </div>
-                <div class="text">
-                    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
-                </div>
-                <button type="button" class="btn btn-info">검색</button>
-            </form>
+            <%-- 
+            <!-- 검색창 -->
+			<form id="search-bar" action="list.re" method="get" align="right">
+			    <div class="select">
+			        <select class="custom-select" name="condition">
+			            <option value="title" ${condition == 'title' ? 'selected' : ''}>제목</option>
+			            <option value="content" ${condition == 'content' ? 'selected' : ''}>내용</option>
+			            <option value="writer" ${condition == 'writer' ? 'selected' : ''}>작성자</option>
+			        </select>
+			    </div>
+			    <div class="text">
+			        <input type="text" name="keyword" placeholder="검색어를 입력하세요" value="${keyword}">
+			    </div>
+			    <button type="submit" class="btn btn-info">검색</button>
+			</form>
+			--%>
             <!--후기게시판(사진)목록조회-->
             <div id="content_sub_wrap">
                 <div class="content_sub_wrap_box">
@@ -263,7 +263,7 @@
 			                        </tr>
 			                    </c:if>
 			                </c:forEach>
-			                
+        
             			</tbody>
                     </table>
                 </div>
@@ -331,9 +331,9 @@
             </div>
 
                 <div id="writeBtn">
-                	<!-- 로그인 상태일 경우만 보여지는 글쓰기 버튼 -->
                	    <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.re'">글작성</button>
                 </div>
+
             </div> 
     </div> <!--content 영역 끝 -->
     
