@@ -110,7 +110,7 @@
         <div class="main-content">
             <!--루트메뉴바-->
             <div class="breadcrumb">
-                <h4>공지사항 상세보기</h4>
+                <h4>공지사항 작성하기</h4>
                 <ul>
                     <li>홈</li>
                     <li>커뮤니티</li>
