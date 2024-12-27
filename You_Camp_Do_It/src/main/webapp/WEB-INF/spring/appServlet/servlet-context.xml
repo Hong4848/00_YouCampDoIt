@@ -147,6 +147,9 @@
 			<mapping path="/orderDetail.or" />
 			<mapping path="/orderCancelRequest.or" />
 			
+			<!-- 게시글 관련 -->
+			<mapping path="/enrollForm.re" />
+			
 			<beans:bean class="com.kh.youcamp.common.intercepter.LoginInterceptor" 
 						id="loginInterceptor" />
 		</interceptor>

@@ -17,7 +17,7 @@ public class PageManagerController
 	@GetMapping("adminMain.ma")
 	public ModelAndView adminMain(ModelAndView mv)
 	{
-		mv.setViewName("admin/adminMain");
+		mv.setViewName("member/memberManagementList");
 		return mv;
 	}
 	

@@ -263,7 +263,7 @@
 		<div id="shoppingMall_header">
 			<div class="search">
 				<div style="width: 70%; margin: auto; text-align: center;">
-					자세한 사항은 전화/챗봇을 통해 상담하세요
+					자세한 사항은 전화를 통해 상담하세요
 				</div>
 				<div class="search_content">
 					<form id="searchForm" action="searching.gs" method="get">

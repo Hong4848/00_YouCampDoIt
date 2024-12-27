@@ -227,8 +227,8 @@
             <div class="setting_bar">
                 <div class="left_side_menu_img"></div>
                 <div class="left_side_menu_img"></div>
-                <div class="left_side_menu_img"><img src="resources/images/admin/뒤로가기.png" alt="뒤로가기" style="width: 80%;"></div>
-                <div class="left_side_menu_img"><img src="resources/images/admin/logout.png" alt="로그아웃" style="width: 75%;"></div>
+                <div class="left_side_menu_img" id="backBtn"><img src="resources/images/admin/뒤로가기.png" alt="뒤로가기" style="width: 80%;"></div>
+                <div class="left_side_menu_img" id="logoutBtn"><img src="resources/images/admin/logout.png" alt="로그아웃" style="width: 75%;"></div>
             </div>
             <c:choose>
 				<c:when test="${(not empty sessionScope.alertMsg) and (sessionScope.alertMsg eq '상품 등록에 성공했습니다')}">
@@ -279,4 +279,13 @@
     		$(location).attr("href", "wrongApproach.ma");
     	}
     </script>
+    
+    <script>
+		$("#logoutBtn").click(function(){
+			location.replace("logout.me");
+		});
+		$("#backBtn").click(function(){
+			location.replace("${ pageContext.request.contextPath }/");
+		});
+	</script>
 </html>
