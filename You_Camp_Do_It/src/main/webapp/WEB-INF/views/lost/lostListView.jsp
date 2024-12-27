@@ -105,23 +105,11 @@
 
       
         /*후기게시판썸네일목록조회*/
-        #content_sub_wrap {
-            width: 100%;
-            margin: 0 auto;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         .content_sub_wrap_box {
             display: flex;
             justify-content: center;
         }
 
-        table.listThmb {
-            width: 100%;
-            border-collapse: collapse;
-            table-layout: fixed;
-        }
 
         table.listThmb td {
             width: 25%; /* 한 행에 4개의 게시글이 들어가도록 설정 */
@@ -198,19 +186,24 @@
             justify-content: flex-end; /* 버튼을 오른쪽 끝으로 배치 */
         }
         
-        .center-image {
-		    display: block;
-		    margin: 0 auto;
-		    text-align: center;
-		    height: 100vh;
-		    position: relative;
+        #content_sub_wrap {
+		    display: flex; /* 플렉스박스를 사용하여 내부 요소 정렬 */
+		    justify-content: center; /* 가로 중앙 정렬 */
+		    align-items: center; /* 세로 중앙 정렬 */
+		    position: relative; /* 기준 위치 설정 */
+		    width: 100%; /* 너비를 컨테이너 전체로 설정 */
+		    height: 400px; /* 현재 높이에 맞게 설정 */
+		}
+		
+		.center-image {
+
+		    margin-right: 20px;
 		}
 		
 		.center-image img {
-		    display: block;
-		    margin: auto;
-		    max-width: 100%;
-		    max-height: 100%;
+		    max-width: 100%; /* 이미지가 컨테이너를 넘지 않도록 설정 */
+		    max-height: 100%; /* 이미지가 높이를 초과하지 않도록 설정 */
+		    margin: auto; /* 여백 자동 정렬 */
 		}
 
     </style>
@@ -254,15 +247,15 @@
             </form>
             <!--분실물게시판(사진)목록조회-->
             <div id="content_sub_wrap">
-                <div class="content_sub_wrap_box">
-                    <table class="listThmb">
-                        <tbody>
+			    <div class="content_sub_wrap_box">
+			        <table class="listThmb">
+			            <tbody>
 			                <c:forEach items="${requestScope.list}" var="lost" varStatus="status">
 			                    <c:if test="${status.index % 4 == 0}">
 			                        <tr>
 			                    </c:if>
 			                    <td>
- 			                        <a href="${pageContext.request.contextPath }/detail.lo?lostNo=${review.lostNo}">
+			                        <a href="${pageContext.request.contextPath }/detail.lo?lostNo=${review.lostNo}">
 			                            <span class="tbumb_hover"></span>
 			                            <img src="${pageContext.request.contextPath}${lost.mainImage}" alt="${lost.lostTitle}">
 			                            <span class="date">${lost.createDate}</span>
@@ -273,15 +266,18 @@
 			                        </tr>
 			                    </c:if>
 			                </c:forEach>
-			                
-            			</tbody>
-                    </table>
-
-                    <div class="center-image">
-					    <img src="resources/images/lost/roding.png">
+			            </tbody>
+			        </table>
+			
+			        <div id="content_sub_wrap">
+					    <!-- 가운데 정렬할 이미지 -->
+					    <div class="center-image">
+					        <img src="resources/images/lost/roding.png">
+					    </div>
 					</div>
-                </div>
-            </div>
+			    </div>
+			</div>
+
             <br>
             <!-- 페이징 바 와 글작성 버튼-->
             <div id="pagingArea">
@@ -343,13 +339,14 @@
                    	</c:choose>
                 </ul>
             </div>
-            
+            <%--
             <div id="writeBtn">
 			    <c:if test="${ sessionScope.loginMember.memberId eq 'admin' }">
 			        <!-- 로그인한 아이디가 'admin'일 경우 글작성 버튼 표시 -->
 			        <button class="btn btn-primary" id="write" onclick="location.href='enrollForm.lo'">글작성</button>
 			    </c:if>
 			</div>
+			--%>
             
         </div>
     </div> <!--content 영역 끝 -->

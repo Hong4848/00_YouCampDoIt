@@ -165,58 +165,57 @@
             </table>
 
 			<c:if test="${ sessionScope.loginMember.memberId eq requestScope.r.reviewWriter }">
-	            <div align="center" id="buttoncentroller">
-	                <!-- 
-	                	수정하기, 삭제하기 버튼은 이 글이 본인이 작성한 글일 경우에만 보여져야 함 
-	                	또한, url 주소상에 해당 게시글의 rno 가 보여지면 안됨~ 그래서 POST방식
-	                	으로 변경해주어야 한다~~
-	                -->
-                    <!-- <a class="btn btn-danger btn-sm">
-                        <span class="material-symbols-outlined">
-                        	heart_check
-                        </span>
-                    </a> -->
-                    <!-- 좋아요 버튼 -->
-                    <button class="btn btn-danger btn-sm like-btn ${requestScope.r.liked ? 'liked' : ''}" 
-                            data-review-no="${requestScope.r.reviewNo}" 
-                            data-member-no="${sessionScope.loginMember.memberNo}">
-                        <span class="material-symbols-outlined">heart_check</span>
-                        <span class="like-count">${requestScope.likeCount}</span>
-                    </button>
-	                <a class="btn btn-success btn-sm" onclick="postFormSubmit(1);">
-	               		수정
-	                </a>
-	                <a class="btn btn-info btn-sm" onclick="postFormSubmit(2);">
-	                	삭제
-	                </a>
-                    <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.re">목록</a>
+			    <!-- 작성자인 경우 -->
+			    <div align="center" id="buttoncentroller">
+			        <!-- 좋아요 버튼 -->
+			        <button class="btn btn-danger btn-sm like-btn ${requestScope.r.liked ? 'liked' : ''}" 
+			                data-review-no="${requestScope.r.reviewNo}" 
+			                data-member-no="${sessionScope.loginMember.memberNo}">
+			            <span class="material-symbols-outlined">heart_check</span>
+			            <span class="like-count">${requestScope.likeCount}</span>
+			        </button>
+			        <!-- 수정 버튼 -->
+			        <a class="btn btn-success btn-sm" onclick="postFormSubmit(1);">수정</a>
+			        <!-- 삭제 버튼 -->
+			        <a class="btn btn-info btn-sm" onclick="postFormSubmit(2);">삭제</a>
+			        <!-- 목록 버튼 -->
+			        <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.re">목록</a>
+			    </div>
+			</c:if>
 
-	            </div>
-           
-	            
-	            <form id="postForm" action="updateForm.re" method="post">
-	            	<input type="hidden" name="rno" value="${ requestScope.r.reviewNo }">
-	            	<input type="hidden" name="filePath" value="${ requestScope.r.changeName }">
-	            </form>
-	            
-	            <script>
-	            	function postFormSubmit(num) {
-	            		// console.log(num);
-	            		// > num 이 1 일 경우 게시글 수정 페이지를 요청 (updateForm.re)
-	            		//   num 이 2 일 경우 게시글 삭제 요청 (delete.re)
-	            		
-	            		// 위의 form 태그의 action 속성값을 상황에 따라 알맞게 지정 후
-	            		// 곧바로 submit 시키기!!
-	            		// attr : 기타 속성
-	            		if(num == 1) { // 수정하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/updateForm.re").submit();
-	            			// > 제이쿼리의 submit 메소드 : 해당 form 의 submit 버튼을 클릭한 효과
-	            		} else { // 삭제하기를 클릭했을 경우
-	            			$("#postForm").attr("action", "${ pageContext.request.contextPath }/delete.re").submit();
-	            		}
-	            	}
-	            </script>
-	          </c:if>
+			<c:if test="${ sessionScope.loginMember.memberId ne requestScope.r.reviewWriter }">
+			    <!-- 작성자가 아닌 경우 -->
+			    <div align="center" id="buttoncentroller">
+			        <!-- 좋아요 버튼 -->
+			        <button class="btn btn-danger btn-sm like-btn ${requestScope.r.liked ? 'liked' : ''}" 
+			                data-review-no="${requestScope.r.reviewNo}" 
+			                data-member-no="${sessionScope.loginMember.memberNo}">
+			            <span class="material-symbols-outlined">heart_check</span>
+			            <span class="like-count">${requestScope.likeCount}</span>
+			        </button>
+			        <!-- 목록 버튼 -->
+			        <a class="btn btn-warning btn-sm" href="${pageContext.request.contextPath}/list.re">목록</a>
+			    </div>
+			</c:if>
+
+			<!-- 숨겨진 폼 -->
+			<form id="postForm" action="updateForm.re" method="post">
+			    <input type="hidden" name="rno" value="${ requestScope.r.reviewNo }">
+			    <input type="hidden" name="filePath" value="${ requestScope.r.changeName }">
+			</form>
+			
+			<script>
+			    function postFormSubmit(num) {
+			        if(num == 1) { 
+			            // 수정하기 버튼 클릭 시
+			            $("#postForm").attr("action", "${pageContext.request.contextPath}/updateForm.re").submit();
+			        } else if(num == 2) { 
+			            // 삭제하기 버튼 클릭 시
+			            $("#postForm").attr("action", "${pageContext.request.contextPath}/delete.re").submit();
+			        }
+			    }
+			</script>
+
          
             
             <br><br>

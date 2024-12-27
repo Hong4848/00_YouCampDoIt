@@ -107,7 +107,7 @@ public class ReviewController {
 	    int listCount = reviewService.selectListCount(searchMap); // 검색 조건에 따른 전체 리스트 수
         
         int pageLimit = 5;
-        int boardLimit = 16;
+        int boardLimit = 8;
         
         PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
         ArrayList<Review> list = reviewService.selectList(pi, searchMap); // 검색 조건에 따른 리스트 조회
