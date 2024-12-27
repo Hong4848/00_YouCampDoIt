@@ -311,18 +311,17 @@
 							<img src="resources/images/mainPage/stone.png" id="infoNo4">
 						</div>
 						<div class="info-explain">
+							
 							<div class="section-title">
-								<span class="badge">1구역</span>
-								<h2>&nbsp;포레스트</h2>
+								<span class="badge">진동리</span>
+								<h2>&nbsp;YouCampDoIt</h2>
 							</div>
 							<br>
 							<p class="description">
-								계곡을 가운데 끼고 산으로 둘러싸인 인제 진동리, 복잡한 도심에서 벗어나 힐링을 하고 싶다면 여기
-								진동리 캠핑장으로 당장 떠나자. 새소리와 물소리를 들으며 아침에 눈을 뜨게 되고 상쾌한 아침공기를
-								마시며 가만히 앉아있으면 마음이 평온해진다.
+								계곡을 중심으로 산으로 둘러싸인 강원도 인제 진동리, 이곳은 복잡하고 소란스러운 도심을 벗어나 자연 속에서 진정한 힐링을 경험할 수 있는 캠핑 명소입니다. 진동리 YouCampDoIt 캠핑장은 맑은 계곡물과 울창한 숲이 어우러진 아름다운 풍경 속에서 하루의 피로를 씻어내기에 최적의 장소입니다. 이곳에서는 아침에 눈을 뜨자마자 새소리와 계곡 물소리가 잔잔히 들려오고, 상쾌한 공기를 들이마시며 하루를 시작할 수 있습니다. 고요한 자연 속에서 가만히 앉아 있으면 마음이 차분히 가라앉고 평온함이 밀려옵니다. 가족, 친구, 연인과 함께 진정한 쉼을 만끽하며 특별한 추억을 만들고 싶다면, 지금 바로 진동리 캠핑장으로 떠나보세요. 자연이 선사하는 위로와 여유가 여러분을 기다리고 있습니다.
 							</p>
 							<ul class="details">
-								<li><strong>사이트 &nbsp;&nbsp;</strong> 파쇄석 18개</li>
+								<li><strong>사이트 &nbsp;&nbsp;</strong> 포레스트, 밸리, 스카이, 스톤 </li>
 								<li><strong>시설 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</strong> 남/여 화장실, 남/여 샤워실, 취사장</li>
 							</ul>
 							<div class="tags">
@@ -336,109 +335,9 @@
 					</div>
 				</div>
 		    </div>
-
-		
-			<!-- 
-		    <div id="dayWeather">
-		        <div class="calendar">
-		            <div class="calendar-head">
-		                <div class="calendar-title">
-		                    <div id="prevCalender"><a onclick="prevMonth();" style="cursor: pointer;">⮜</a></div>
-		                    <div style="width: 30%;"></div>
-		                    <div id="year" class="yyyy">2024</div>
-                            <div class="yyyy">.</div>
-		                    <div id="month" class="yyyy">12</div>
-		                    <div style="width: 30%;"></div>
-		                    <div id="prevCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
-		                </div>
-		            </div>
-		            <div class="calendar-body">
-		                <div class="calendar-week">
-		                    <div class="week sun">SUN</div>
-		                    <div class="week">MON</div>
-		                    <div class="week">TUE</div>
-		                    <div class="week">WED</div>
-		                    <div class="week">THU</div>
-		                    <div class="week">FRI</div>
-		                    <div class="week sat">SAT</div>
-		                </div>
-		                <div class="calendar-day">
-		                    <div class="day sun"></div>
-		                    <div class="day mon"></div>
-		                    <div class="day tue"></div>
-		                    <div class="day wed"></div>
-		                    <div class="day thu"></div>
-		                    <div class="day fri"></div>
-		                    <div class="day sat"></div>
-		                    <div class="day sun"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day sat"></div>
-		                    <div class="day sun"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day sat"></div>
-		                    <div class="day sun"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day"></div>
-		                    <div class="day sat"></div>
-		                    <div class="day sun"></div>
-		                    <div class="day mon"></div>
-		                    <div class="day tue"></div>
-		                    <div class="day wed"></div>
-		                    <div class="day thu"></div>
-		                    <div class="day fri"></div>
-		                    <div class="day sat"></div>
-                            <div class="day sun"></div>
-		                    <div class="day mon"></div>
-		                    <div class="day tue"></div>
-		                    <div class="day wed"></div>
-		                    <div class="day thu"></div>
-		                    <div class="day fri"></div>
-		                    <div class="day sat"></div>
-		                </div>
-		            </div>
-		        </div>
-                <div style="width: 50px;">
-
-                </div>
-		        <div class="weather">
-		            <div class="weather_header">
-		                <div id="weather_location">
-		                    영등포구 양평2동
-		                </div>
-                        
-		                <div id="current_temp">
-		                    <div style="width: 20%;"></div>
-		                    <div id="temp">
-		                        3.1°C
-		                    </div>
-		                    <div id="current_img" class="sunny">
-		                        <img src="" alt="맑음">
-		                    </div>
-		                    <div style="width: 20%;"></div>
-		                </div>
-		            </div>
-		            <div style="margin: auto; left: 0px; right: 0px; background-color: rgb(153, 153, 153); width: 90%; height: 2px;"></div>
-		            <div class="weather_content">
-		
-		            </div>
-		        </div>
-		    </div>
-		    <div>
-		        여기는 아직
-		    </div>
 		</div>
-		-->
+		
+			
 		
 		
 		<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
