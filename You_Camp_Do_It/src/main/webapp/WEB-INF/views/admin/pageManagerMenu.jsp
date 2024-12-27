@@ -223,19 +223,6 @@
 					<div class="leaf_node" id="ProductList"><a href="${ pageContext.request.contextPath }/Management.ma">◈ 상품정보관리</a></div>
                     <div class="leaf_node" id="ProductRental"><a href="${ pageContext.request.contextPath }/rentalList.ma">◈ 상품주문관리</a></div>
                 </div>
-                <div style="height: 20px;"></div>
-
-                <div class="head_node" id="contentManagement">
-                    <div class="head_node_left"><img src="resources/images/admin/게시판관리.png" alt=""></div>
-                    <div class="head_node_mid">컨텐츠관리</div>
-                    <div class="head_node_right">▶</div>
-                </div>
-                <div class="mid_node">
-                    <div class="leaf_node" id="noticeInfo"><a>◈ 공지사항관리</a></div>
-                    <div class="leaf_node" id="boardInfo"><a>◈ 일반게시판관리</a></div>
-                    <div class="leaf_node" id="postscriptInfo"><a>◈ 후기게시판관리</a></div>
-                    <div class="leaf_node" id="replyInfo"><a>◈ 댓글관리</a></div>
-                </div>
             </div>
             <div class="setting_bar">
                 <div class="left_side_menu_img"></div>

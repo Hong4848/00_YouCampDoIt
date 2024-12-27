@@ -248,9 +248,6 @@
 			<div id="shoppingMall_index">
 				<div style="width: 10%;"></div>
 				<div class="shoppingMall_category select_this">
-					<a href="">전체 목록 보기</a>
-				</div>
-				<div class="shoppingMall_category select_this">
 					<a href="searching.gs">전체 목록 보기</a>
 				</div>
 				<div class="shoppingMall_category">
@@ -380,7 +377,7 @@
 									   name="goodsNo" value="${requestScope.goods.goodsNo}">
 								<input type="hidden" id="quantity-input"
 									   name="quantity" value="">
-								<button type="submit" id="cart-insert-btn">장바구니 담기</button>
+								<button type="submit" class="btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="cart-insert-btn">장바구니 담기</button>
 							</form>
 							<!-- 바로 주문문 -->
 							<form id="orderForm" 
@@ -391,7 +388,7 @@
 								
 								<input type="hidden" name="orderDetails" id="orderDetailsInput" value="0">
 								
-								<button type="submit" class="order-btn" id="order-btn">주문하기</button>
+								<button type="submit" class="order-btn btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="order-btn">주문하기</button>
 							</form>
 						</div>
 					</div>

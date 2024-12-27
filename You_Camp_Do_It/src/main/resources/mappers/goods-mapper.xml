@@ -460,7 +460,7 @@
 		          FROM( SELECT *
 		                  FROM GOODS
 		                 WHERE STATUS IN ('Y', 'N')
-		                   AND DISCOUNT > 0
+		                   AND DISCOUNT > 0) G
 		      )
 		 WHERE GOODSLIST BETWEEN #{start} AND #{end}
  	</select>

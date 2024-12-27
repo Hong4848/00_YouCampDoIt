@@ -292,6 +292,13 @@
 				width:fit-content;
 				margin:auto;
 			}
+			
+			.miniMenu{
+				color : black;
+			}
+			.miniMenu:hover{
+				color : rgb(112, 112, 112);
+			}
 		</style>
 	</head>
 	<body>
@@ -299,10 +306,10 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div id="shoppingMall_index">
 			<div style="width: 10%;"></div>
-			<div class="shoppingMall_category select_this">
+			<div class="shoppingMall_category" id="category_listTo">
 				<a href="searching.gs">전체 목록 보기</a>
 			</div>
-			<div class="shoppingMall_category">
+			<div class="shoppingMall_category" id="category_list1">
 				<a>캠핑용품대여</a>
 				<div class="category_list">
 					<a href="searching.gs?searchCategory=쉘터텐트">텐트/쉘터</a>
@@ -312,7 +319,7 @@
 					<a href="searching.gs?searchCategory=식기아이스박스">식기/아이스박스</a>
 				</div>
 			</div>
-			<div class="shoppingMall_category">
+			<div class="shoppingMall_category" id="category_list2">
 				<a>소비용품판매</a>
 				<div class="category_list">
 					<a href="searching.gs?searchCategory=연료가스">연료/가스</a>
@@ -392,7 +399,11 @@
 				or (requestScope.search.searchCategory eq '의자테이블')
 				or (requestScope.search.searchCategory eq '화로버너전자')
 				or (requestScope.search.searchCategory eq '식기아이스박스')}">
-					<div>텐트/쉘터</div>
+					<script>
+						$(".shoppingMall_category").attr("class", "shoppingMall_category");
+						$("#category_list1").attr("class", "shoppingMall_category select_this");
+					</script>
+					<div><a href="" class="miniMenu">텐트/쉘터</a></div>
 					<div>침낭/난방기구</div>
 					<div>의자/테이블</div>
 					<div>화로/버너/전자</div>
@@ -402,11 +413,19 @@
 				or (requestScope.search.searchCategory eq '연료가스')
 				or (requestScope.search.searchCategory eq '식자재')
 				or (requestScope.search.searchCategory eq '생활용품')}">
+					<script>
+						$(".shoppingMall_category").attr("class", "shoppingMall_category");
+						$("#category_list2").attr("class", "shoppingMall_category select_this");
+					</script>
 					<div>연료/가스</div>
 					<div>식자재</div>
 					<div>생활용품</div>
 				</c:when>
 				<c:otherwise>
+					<script>
+						$(".shoppingMall_category").attr("class", "shoppingMall_category");
+						$("#category_listTo").attr("class", "shoppingMall_category select_this");
+					</script>
 					<div>텐트/쉘터</div>
 					<div>침낭/난방기구</div>
 					<div>의자/테이블</div>
@@ -581,6 +600,5 @@
 				$("#searchForm").submit();
 			}
 		</script>
-		
 	</body>
 </html>

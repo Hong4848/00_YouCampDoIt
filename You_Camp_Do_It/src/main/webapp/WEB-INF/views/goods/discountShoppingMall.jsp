@@ -233,7 +233,7 @@
 		<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 		<div id="shoppingMall_index">
 			<div style="width: 10%;"></div>
-			<div class="shoppingMall_category select_this">
+			<div class="shoppingMall_category">
 				<a href="searching.gs">전체 목록 보기</a>
 			</div>
 			<div class="shoppingMall_category">
@@ -254,7 +254,7 @@
 					<a href="searching.gs?searchCategory=생활용품">생활용품</a>
 				</div>
 			</div>
-			<div class="shoppingMall_category">
+			<div class="shoppingMall_category select_this">
 				<a href="discountList.gs">이달의 세일</a>
 			</div>
 			<div style="width: 10%;"></div>

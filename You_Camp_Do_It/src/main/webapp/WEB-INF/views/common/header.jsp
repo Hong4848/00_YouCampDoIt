@@ -341,8 +341,7 @@
                             <div class="border_line"></div>
                             <div class="header_menu2">
                                 <a href="${ pageContext.request.contextPath }/product.gs">용품목록</a>
-                                <a href="">대여/반납안내</a>
-                                <a href="">자주묻는질문</a>
+                                <a href="${ pageContext.request.contextPath }/rentalInfo.ha">대여/반납안내</a>
                             </div>
                         </div>
                         <div class="header_menu1">

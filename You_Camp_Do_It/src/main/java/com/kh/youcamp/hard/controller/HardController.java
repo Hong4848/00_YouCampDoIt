@@ -64,5 +64,14 @@ public class HardController {
 		return mv;
 	}
 	
+	@GetMapping("rentalInfo.ha")
+	public ModelAndView rentalInfo(ModelAndView mv)
+	{
+		mv.setViewName("hard/rental_Info");
+		return mv;
+	}
+	
+	
+	
 	
 }
