@@ -227,6 +227,7 @@
 	    </div>
 		
 		<br>
+		
 	     <div class="container">
 	        <h1>후기게시판 수정하기</h1>
 	        <form id="uploadForm" action="update.re" method="POST" enctype="multipart/form-data">
