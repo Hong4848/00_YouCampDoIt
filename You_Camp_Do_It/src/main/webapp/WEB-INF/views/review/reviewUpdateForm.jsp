@@ -283,8 +283,11 @@
 					
 					<br>
 					<div id="btncontroller">
+					<!-- 
 				        <button type="submit" class="submit-btn">수정하기</button>
+				    -->
 				        <button type="button" class="btn btn-danger" onclick="javascript:history.go(-1);">이전으로</button>
+				        
 				    </div>
 	        </form>
 	    </div>

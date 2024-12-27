@@ -388,7 +388,15 @@
 									   name="goodsNo" value="${requestScope.goods.goodsNo}">
 								<input type="hidden" id="quantity-input"
 									   name="quantity" value="">
-								<button type="submit" class="btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="cart-insert-btn">장바구니 담기</button>
+								<c:choose>
+									<c:when test="${requestScope.goods.status eq 'Y'}">
+										<button type="submit" class="btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="cart-insert-btn">장바구니 담기</button>
+									</c:when>
+									<c:otherwise>
+										<button type="submit" class="btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="cart-insert-btn" disabled>장바구니 담기</button>
+									</c:otherwise>
+								</c:choose>
+								
 							</form>
 							<!-- 바로 주문문 -->
 							<form id="orderForm" 
@@ -399,7 +407,15 @@
 								
 								<input type="hidden" name="orderDetails" id="orderDetailsInput" value="0">
 								
-								<button type="submit" class="order-btn btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="order-btn">주문하기</button>
+								<c:choose>
+									<c:when test="${requestScope.goods.status eq 'Y'}">
+										<button type="submit" class="order-btn btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="order-btn">주문하기</button>
+									</c:when>
+									<c:otherwise>
+										<button type="submit" class="order-btn btn btn-light" style="border: 1px solid rgb(170, 170, 170);" id="order-btn" disabled>주문하기</button>
+									</c:otherwise>
+								</c:choose>
+								
 							</form>
 						</div>
 					</div>
