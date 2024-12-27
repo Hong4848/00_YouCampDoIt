@@ -92,7 +92,7 @@
 
         <div id="footer-2">
             <p id="p1">
-                캠핑장 주소 : 인천광역시 강화군 화도면 해안남로 2478번길 15  <br>
+                캠핑장 주소 : 강원 인제군 기린면 진동리 618  <br>
                 상호명 : You Camp Do It 대표 정성민 032-246-8468
             </p>
             <p id="p2">Copyright © 1998-2024 You Camp Do It All Right Reserved</p>

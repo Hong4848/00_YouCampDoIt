@@ -863,7 +863,43 @@ public class MemberController {
         return mv;
     }
 	
-	
+    /**
+     * 내가 댓글을 쓴 게시글 리스트 조회
+     * @param currentPage
+     * @param mv
+     * @param session
+     * @return
+     */
+    @GetMapping("myReplyList.re")
+    public String selectMyReplyList(@RequestParam(value="cpage", defaultValue="1") int currentPage, 
+    									  ModelAndView mv,
+    									  HttpSession session,
+    									  Model model) {
+        
+    	Member loginMember = (Member) session.getAttribute("loginMember");
+	    int memberNo = (loginMember != null) ? loginMember.getMemberNo() : 0;
+    	/*
+        int listCount = reviewService.selectMyReplyList(memberNo);
+        log.debug("내가 쓴글 listCount : " + listCount);
+        
+        int pageLimit = 5;
+        int boardLimit = 16;
+        
+        PageInfo pi = Pagination.getPageInfo(listCount, currentPage, pageLimit, boardLimit);
+        List<Review> list = reviewService.selectMyLikedReviewList(pi, memberNo);
+        
+        mv.addObject("pi", pi)
+          .addObject("list", list)
+          .setViewName("member/myReviewListView");
+        
+//        log.debug("내가 쓴글 list : " + list);
+        log.debug("내가 쓴글 list.size() : " + list.size());
+        */
+        
+        model.addAttribute("errorMsg", "기능 구현 중");
+		
+		return "common/errorPage";
+    }
 	
 	
 	
