@@ -939,6 +939,13 @@
 		    				
 		    				if(result[i].restCount == 0) {
 		    					resultStr = ` 예약 마감 `;
+		    					
+		    					// 클릭 막기: 해당 섹션의 <a> 태그에 pointer-events: none; 스타일 추가
+		    				    let targetItem = items.eq(i);
+		    				    targetItem.find("a").css({
+		    				        "pointer-events": "none",  // 클릭 비활성화
+		    				        "color": "#ccc"           // 비활성화 상태 표시 (선택 사항)
+		    				    }).text("예약 마감");           // 텍스트 변경 (선택 사항)
 		    				} else {
 		    					resultStr = ` (\${result[i].restCount} / 10)`;
 		    				}

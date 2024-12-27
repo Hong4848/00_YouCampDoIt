@@ -279,54 +279,63 @@
 		<div id="goods_content">
 			<div style="margin: 10px; font-size: 17px;">등록 제품 : ${requestScope.pi.listCount}</div>
 			<div class="goods_list">
-				<c:forEach var="g" items="${requestScope.list}">
-					<div class="goods_container">
-						<div class="goods_number">
-							${g.goodsNo}
+				<c:choose>
+					<c:when test="${empty requestScope.list}">
+						<div style="text-align: center;">
+							<img alt="" src="resources/images/admin/등록된 정보가 없습니다.png" style="width:40%">
 						</div>
-						<div class="goods_img">
-							${g.goodsThumbnail}
-							<c:choose>
-								<c:when test="${g.status eq 'N'}">
-									<img style="display: block; z-index: 10; position: absolute;" src="resources/images/goods/일시품절.png">
-								</c:when>
-								<c:otherwise>
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class=goods_title>
-							<div class="goods_name">
-								${g.goodsName}
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="g" items="${requestScope.list}">
+							<div class="goods_container">
+								<div class="goods_number">
+									${g.goodsNo}
+								</div>
+								<div class="goods_img">
+									${g.goodsThumbnail}
+									<c:choose>
+										<c:when test="${g.status eq 'N'}">
+											<img style="display: block; z-index: 10; position: absolute;" src="resources/images/goods/일시품절.png">
+										</c:when>
+										<c:otherwise>
+										</c:otherwise>
+									</c:choose>
+								</div>
+								<div class=goods_title>
+									<div class="goods_name">
+										${g.goodsName}
+									</div>
+								</div>
+								<div class="goods_information">
+									<div class="goods_maker">
+										${g.mark}
+									</div>
+									<c:choose>
+										<c:when test="${g.discount <= 0.0}">
+											<div class="goods_discounted">
+												<fmt:formatNumber type="number">
+													${g.price}
+												</fmt:formatNumber>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<div class="goods_price">
+												<fmt:formatNumber type="number">
+													${g.price}
+												</fmt:formatNumber>
+											</div>
+											<div class="goods_discounted">
+												<fmt:formatNumber type="number" maxFractionDigits="0">
+													${g.price - (g.price*g.discount)}
+												</fmt:formatNumber>
+											</div>
+										</c:otherwise>
+									</c:choose>
+								</div>
 							</div>
-						</div>
-						<div class="goods_information">
-							<div class="goods_maker">
-								${g.mark}
-							</div>
-							<c:choose>
-								<c:when test="${g.discount <= 0.0}">
-									<div class="goods_discounted">
-										<fmt:formatNumber type="number">
-											${g.price}
-										</fmt:formatNumber>
-									</div>
-								</c:when>
-								<c:otherwise>
-									<div class="goods_price">
-										<fmt:formatNumber type="number">
-											${g.price}
-										</fmt:formatNumber>
-									</div>
-									<div class="goods_discounted">
-										<fmt:formatNumber type="number" maxFractionDigits="0">
-											${g.price - (g.price*g.discount)}
-										</fmt:formatNumber>
-									</div>
-								</c:otherwise>
-							</c:choose>
-						</div>
-					</div>
-				</c:forEach>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div id="pagingArea">
                 <ul class="pagination">

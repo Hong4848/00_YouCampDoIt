@@ -416,12 +416,12 @@
         let state = '전체';
 
         $(document).ready(function(){
-            let count = $("#Product").next().children().length;
-            $("#Product").next().css("border-color", "rgb(26, 187, 156, 1.0)");
-            $("#Product").children(".head_node_right").text("▼");
-            $("#Product").next().css("height", count*35);
+            let count = $("#User").next().children().length;
+            $("#User").next().css("border-color", "rgb(26, 187, 156, 1.0)");
+            $("#User").children(".head_node_right").text("▼");
+            $("#User").next().css("height", count*35);
 
-            $("#ProductList").children().css("color","red");
+            $("#reservationInfo").children().css("color","red");
             ajaxGoodsList(1, state);
             
         });

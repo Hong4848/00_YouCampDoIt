@@ -109,7 +109,7 @@
 	
 	<div class="info-section">
         <div id="map" style="width:1200px;height:1300px;">
-        	<img src="resources/images/hard/rental.jpg">
+        	<img src="resources/images/hard/반납안내.png">
         </div>
 
         <div id="adress-phone">

@@ -87,7 +87,7 @@
         <div id="footer-1">
             <a href="javascript:void(0);" id="showPrivacyPolicy">개인정보취급방침</a> | 
             <a href="javascript:void(0);" id="showEmailPolicy">이메일무단수집거부</a> | 
-            <a href="#">오시는길</a> 
+            <a href="${ pageContext.request.contextPath }/location.ha">오시는길</a> 
         </div>
 
         <div id="footer-2">
