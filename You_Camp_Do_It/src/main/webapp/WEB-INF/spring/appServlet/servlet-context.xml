@@ -143,6 +143,7 @@
 			<!-- 주문결제관련 -->
 			<mapping path="/insert.or" />
 			<mapping path="/update.or" />
+			<mapping path="/orderForm.or" />
 			<mapping path="/list.or" />
 			<mapping path="/orderDetail.or" />
 			<mapping path="/orderCancelRequest.or" />

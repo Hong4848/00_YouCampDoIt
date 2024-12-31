@@ -209,51 +209,25 @@ public class ReserveController {
 		int memberNo = ((Member)session.getAttribute("loginMember")).getMemberNo();
 		
 		// --------------------------------------------------
-		/*
-		*******************************************************
-		* <결제요청 파라미터>
-		* 결제시 Form 에 보내는 결제요청 파라미터입니다.
-		* 샘플페이지에서는 기본(필수) 파라미터만 예시되어 있으며, 
-		* 추가 가능한 옵션 파라미터는 연동메뉴얼을 참고하세요.
-		*******************************************************
-		*/
+		// <결제요청 파라미터>
 		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
 		String merchantID 		= "nicepay00m"; 				// 상점아이디
-		String goodsName 		= "나이스페이"; 					// 결제상품명
-		// order에서 가져올꺼
-		// String price 			= "1004"; 						// 결제상품금액	
+		
 		String price =  (r.getPrice()*r.getNights())+"";		
 //		log.debug("r.getPrice() : " + r.getPrice());
 //		log.debug("r.getNights() : " + r.getNights());
 		log.debug("price : " + price);
 		r.setPrice(Integer.parseInt(price));
-		// 아래 세개는 view 단에서 session 에서 직접 출력
-		// String buyerName 		= "나이스"; 						// 구매자명
-		// String buyerTel 		= "01000000000"; 				// 구매자연락처
-		// String buyerEmail 		= "happy@day.co.kr"; 			// 구매자메일주소
 		String moid 			= "mnoid1234567890"; 			// 상품주문번호	
-		// String returnURL 		= "http://localhost:8080/nicepay3.0_utf-8/payResult_utf.jsp"; // 결과페이지(절대경로) - 모바일 결제창 전용
-
-		/*
-		*******************************************************
-		* <해쉬암호화> (수정하지 마세요)
-		* SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
-		*******************************************************
-		*/
+		
+		// <해쉬암호화> (수정하지 마세요)
 		DataEncrypt sha256Enc 	= new DataEncrypt();
 		String ediDate 			= getyyyyMMddHHmmss();	
 		String hashString 		= sha256Enc.encrypt(ediDate + merchantID + price + merchantKey);
 		
-		
 		mv.addObject("merchantKey", merchantKey);
 		mv.addObject("merchantID", merchantID);
-		mv.addObject("goodsName", goodsName);
-		// model.addAttribute("price", price);
-		// model.addAttribute("buyerName", buyerName);
-		// model.addAttribute("buyerTel", buyerTel);
-		// model.addAttribute("buyerEmail", buyerEmail);
 		mv.addObject("moid", moid);
-		// model.addAttribute("returnURL", returnURL);
 		mv.addObject("ediDate", ediDate);
 		mv.addObject("hashString", hashString);
 		// ---------------------------------------------------
@@ -264,24 +238,6 @@ public class ReserveController {
 		
 		return mv;
 	}
-	
-	// 이거 필요없음
-	/**
-	 * 24.12.10 정성민
-	 * 캠핑장 결제 요청 나이스페이 페이지 접속요청 컨트롤러
-	 * 여기서 결제 완료 구문 처리
-	 * @return
-	 */
-	/*
-	@PostMapping("reserveRequirePay.res")
-	public ModelAndView reserveRequirePayment(Reserve r, ModelAndView mv, HttpSession session) {
-		
-		// 결제 요청 처리 @@@@@@@@@@@@@@@@@@@@@@@
-		
-	}*/
-	
-	
-	
 	
 	/**
 	 * 24.12.20 정성민
@@ -300,12 +256,7 @@ public class ReserveController {
 		
 //		System.out.println(r);
 		
-		
-		/*
-		****************************************************************************************
-		* <인증 결과 파라미터>
-		****************************************************************************************
-		*/
+		// <인증 결과 파라미터>
 		String authResultCode 	= (String)request.getParameter("AuthResultCode"); 	// 인증결과 : 0000(성공)
 		String authResultMsg 	= (String)request.getParameter("AuthResultMsg"); 	// 인증결과 메시지
 		String nextAppURL 		= (String)request.getParameter("NextAppURL"); 		// 승인 요청 URL
@@ -317,54 +268,23 @@ public class ReserveController {
 		String amt 				= (String)request.getParameter("Amt"); 				// 결제 금액
 		String reqReserved 		= (String)request.getParameter("ReqReserved"); 		// 상점 예약필드
 		String netCancelURL 	= (String)request.getParameter("NetCancelURL"); 	// 망취소 요청 URL
-		//String authSignature = (String)request.getParameter("Signature");			// Nicepay에서 내려준 응답값의 무결성 검증 Data
-
-		/*  
-		****************************************************************************************
-		* Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며 
-		* 위변조 검증 미사용으로 인해 발생하는 이슈는 당사의 책임이 없음 참고하시기 바랍니다.
-		****************************************************************************************
-		 */
+		
+		// <해쉬암호화> (수정하지 마세요)
 		DataEncrypt sha256Enc 	= new DataEncrypt();
 		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
 
-		//인증 응답 Signature = hex(sha256(AuthToken + MID + Amt + MerchantKey)
-		//String authComparisonSignature = sha256Enc.encrypt(authToken + mid + amt + merchantKey);
-
-		/*
-		****************************************************************************************
-		* <승인 결과 파라미터 정의>
-		* 샘플페이지에서는 승인 결과 파라미터 중 일부만 예시되어 있으며, 
-		* 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
-		****************************************************************************************
-		*/
+		// <승인 결과 파라미터 정의>
 		String ResultCode 	= ""; String ResultMsg 	= ""; String PayMethod 	= "";
 		String GoodsName 	= ""; String Amt 		= ""; String TID 		= ""; 
-		//String Signature = ""; String paySignature = "";
-
-
-		/*
-		****************************************************************************************
-		* <인증 결과 성공시 승인 진행>
-		****************************************************************************************
-		*/
+		
+		// <인증 결과 성공시 승인 진행>
 		String resultJsonStr = "";
-		if(authResultCode.equals("0000") /*&& authSignature.equals(authComparisonSignature)*/){
-			/*
-			****************************************************************************************
-			* <해쉬암호화> (수정하지 마세요)
-			* SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
-			****************************************************************************************
-			*/
+		if(authResultCode.equals("0000")){
+			// <해쉬암호화> (수정하지 마세요)
 			String ediDate			= getyyyyMMddHHmmss();
 			String signData 		= sha256Enc.encrypt(authToken + mid + amt + ediDate + merchantKey);
 
-			/*
-			****************************************************************************************
-			* <승인 요청>
-			* 승인에 필요한 데이터 생성 후 server to server 통신을 통해 승인 처리 합니다.
-			****************************************************************************************
-			*/
+			// <승인 요청>
 			StringBuffer requestData = new StringBuffer();
 			requestData.append("TID=").append(txTid).append("&");
 			requestData.append("AuthToken=").append(authToken).append("&");
@@ -379,12 +299,8 @@ public class ReserveController {
 			HashMap resultData = new HashMap();
 			boolean paySuccess = false;
 			if("9999".equals(resultJsonStr)){
-				/*
-				*************************************************************************************
-				* <망취소 요청>
-				* 승인 통신중에 Exception 발생시 망취소 처리를 권고합니다.
-				*************************************************************************************
-				*/
+				
+				// <망취소 요청>
 				StringBuffer netCancelData = new StringBuffer();
 				requestData.append("&").append("NetCancel=").append("1");
 				String cancelResultJsonStr = connectToServer(requestData.toString(), netCancelURL);
@@ -392,9 +308,7 @@ public class ReserveController {
 				HashMap cancelResultData = jsonStringToHashMap(cancelResultJsonStr);
 				ResultCode = (String)cancelResultData.get("ResultCode");
 				ResultMsg = (String)cancelResultData.get("ResultMsg");
-				/*Signature = (String)cancelResultData.get("Signature");
-				String CancelAmt = (String)cancelResultData.get("CancelAmt");
-				paySignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);*/
+				
 			}else{
 				resultData = jsonStringToHashMap(resultJsonStr);
 				ResultCode 	= (String)resultData.get("ResultCode");	// 결과코드 (정상 결과코드:3001)
@@ -403,16 +317,8 @@ public class ReserveController {
 				GoodsName   = (String)resultData.get("GoodsName");	// 상품명
 				Amt       	= (String)resultData.get("Amt");		// 결제 금액
 				TID       	= (String)resultData.get("TID");		// 거래번호
-				// Signature : Nicepay에서 내려준 응답값의 무결성 검증 Data
-				// 가맹점에서 무결성을 검증하는 로직을 구현하여야 합니다.
-				/* Signature = (String)resultData.get("Signature");
-				paySignature = sha256Enc.encrypt(TID + mid + Amt + merchantKey); */
 				
-				/*
-				*************************************************************************************
-				* <결제 성공 여부 확인>
-				*************************************************************************************
-				*/
+				// <결제 성공 여부 확인>
 				if(PayMethod != null){
 					if(PayMethod.equals("CARD")){
 						if(ResultCode.equals("3001")) paySuccess = true; // 신용카드(정상 결과코드:3001)       	
@@ -560,14 +466,10 @@ public class ReserveController {
 				// --------------------------------------------------------------------------
 				
 			}
-		}else/*if(authSignature.equals(authComparisonSignature))*/{
+		}else{
 			ResultCode 	= authResultCode; 	
 			ResultMsg 	= authResultMsg;
-		}/*else{
-			System.out.println("인증 응답 Signature : " + authSignature);
-			System.out.println("인증 생성 Signature : " + authComparisonSignature);
-		}*/
-		
+		}
 		
 	    // 결제 실패 경우
 	    model.addAttribute("errorMsg", "결제 실패. 다시 시도해주세요");
@@ -663,11 +565,6 @@ public class ReserveController {
 		return mv;
 	}
 	
-	/*
-	 * 취소 흐름 현재 관리자 페이지가 구성되있지 않아 2번으로 구현
-	 * 사용자의 취소요청 > 관리자페이지에서 승인 및 나이스페이 취소 실행 > db 업데이트
-	 * 사용자의 취소요청 > 나이스페이 결제 취소 > 관리자가 상태 update (취소자체는 나이스페이 및 카드사가 바로 진행)
-	 */
 	/**
 	 * 24.12.22 정성민
 	 * 캠핑장 예약취소 요청 처리용 컨트롤러
@@ -675,7 +572,6 @@ public class ReserveController {
 	 * @param mv
 	 * @param request 
 	 * @return
-	 * 예약 취소는 db데이터 변동이니까 post로 변경
 	 * 취소 기능 구현 24.12.25 윤홍문
 	 * @throws Exception 
 	 */
@@ -685,14 +581,7 @@ public class ReserveController {
 											 HttpSession session, 
 											 ServletRequest request) throws Exception {
 		
-		/*
-		****************************************************************************************
-		* <취소요청 파라미터>
-		* 취소시 전달하는 파라미터입니다.
-		* 샘플페이지에서는 기본(필수) 파라미터만 예시되어 있으며, 
-		* 추가 가능한 옵션 파라미터는 연동메뉴얼을 참고하세요.
-		****************************************************************************************
-		*/
+		// <취소요청 파라미터>
 		String tid 					= (String)request.getParameter("TID");	// 거래 ID
 		String cancelAmt 			= (String)request.getParameter("CancelAmt");	// 취소금액
 		String partialCancelCode 	= (String)request.getParameter("PartialCancelCode"); 	// 부분취소여부
@@ -700,24 +589,13 @@ public class ReserveController {
 		String moid					= "nicepay_api_3.0_test";	// 주문번호
 		String cancelMsg 			= "고객요청";	// 취소사유
 
-		/*
-		****************************************************************************************
-		* <해쉬암호화> (수정하지 마세요)
-		* SHA-256 해쉬암호화는 거래 위변조를 막기위한 방법입니다. 
-		****************************************************************************************
-		*/
+		// <해쉬암호화> (수정하지 마세요)
 		DataEncrypt sha256Enc 	= new DataEncrypt();
 		String merchantKey 		= "EYzu8jGGMfqaDEp76gSckuvnaHHu+bC4opsSN6lHv3b2lurNYkVXrZ7Z1AoqQnXI3eLuaUFyoRNC6FkrzVjceg=="; // 상점키
 		String ediDate			= getyyyyMMddHHmmss();
 		String signData 		= sha256Enc.encrypt(mid + cancelAmt + ediDate + merchantKey);
 
-		/*
-		****************************************************************************************
-		* <취소 요청>
-		* 취소에 필요한 데이터 생성 후 server to server 통신을 통해 취소 처리 합니다.
-		* 취소 사유(CancelMsg) 와 같이 한글 텍스트가 필요한 파라미터는 euc-kr encoding 처리가 필요합니다.
-		****************************************************************************************
-		*/
+		// <취소 요청>
 		StringBuffer requestData = new StringBuffer();
 		requestData.append("TID=").append(tid).append("&");
 		requestData.append("MID=").append(mid).append("&");
@@ -730,23 +608,9 @@ public class ReserveController {
 		requestData.append("SignData=").append(signData);
 		String resultJsonStr = connectToServer(requestData.toString(), "https://pg-api.nicepay.co.kr/webapi/cancel_process.jsp");
 
-		/*
-		****************************************************************************************
-		* <취소 결과 파라미터 정의>
-		* 샘플페이지에서는 취소 결과 파라미터 중 일부만 예시되어 있으며, 
-		* 추가적으로 사용하실 파라미터는 연동메뉴얼을 참고하세요.
-		****************************************************************************************
-		*/
+		// <취소 결과 파라미터 정의>
 		String ResultCode 	= ""; String ResultMsg 	= ""; String CancelAmt 	= "";
 		String CancelDate 	= ""; String CancelTime = ""; String TID 		= ""; String Signature = "";
-
-		/*  
-		****************************************************************************************
-		* Signature : 요청 데이터에 대한 무결성 검증을 위해 전달하는 파라미터로 허위 결제 요청 등 결제 및 보안 관련 이슈가 발생할 만한 요소를 방지하기 위해 연동 시 사용하시기 바라며 
-		* 위변조 검증 미사용으로 인해 발생하는 이슈는 당사의 책임이 없음 참고하시기 바랍니다.
-		****************************************************************************************
-		 */
-		//String Signature = ""; String cancelSignature = "";
 
 		if("9999".equals(resultJsonStr)){
 			ResultCode 	= "9999";
@@ -763,8 +627,7 @@ public class ReserveController {
 			CancelDate 	= (String)resultData.get("CancelDate");	// 취소일
 			CancelTime 	= (String)resultData.get("CancelTime");	// 취소시간
 			TID 		= (String)resultData.get("TID");		// 거래아이디 TID
-			//Signature       	= (String)resultData.get("Signature");
-			//cancelSignature = sha256Enc.encrypt(TID + mid + CancelAmt + merchantKey);
+			
 			log.debug("결제 취소 요청 ResultCode : " + ResultCode);
 			log.debug("결제 취소 요청 resultData : " + ResultMsg);
 			

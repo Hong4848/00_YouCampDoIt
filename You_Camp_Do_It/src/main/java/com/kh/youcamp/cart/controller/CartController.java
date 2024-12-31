@@ -144,16 +144,6 @@ public class CartController {
 			result += 
 				cartService.deleteCart( Integer.parseInt(cartNoList[i]));
         }
-		/*
-		 * *= 활용 하나의 삭제 메소드라도 실패하면 result 전체값이 0 으로 실패
-		 * 근데 서비스 단에 트랜잭션이 있으니 이미 삭제되서 되돌릴수 없지 않나?
-		 * 컨트롤러에서 결과는 이미 커밋 된 후 시점인데..? 어떻게 처리?
-		 * 서비스에서 반복문을 돌려야 할듯..?
-		 * 
-		 * 서비스메소드1 삭제서비스메소드를 배열의길이만큼 반복시키는 메소드
-		 * 서비스메소드2 삭제서비스메소드
-		 * 
-		 */
 		
 		return (result > 0) ? "success" : "fail";
 	}
@@ -181,9 +171,6 @@ public class CartController {
 		
 		return (result > 0) ? "success" : "fail";
 	}
-	
-	
-	
 	
 }
 
