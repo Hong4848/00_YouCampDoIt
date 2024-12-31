@@ -504,9 +504,9 @@
 				                <div class="calendar-title">
 				                    <div id="prevCalender"><a onclick="prevMonth();" style="cursor: pointer;">⮜</a></div>
 				                    <div style="width: 30%;"></div>
-				                    <div id="year" class="yyyy">2024</div>
+				                    <div id="year" class="yyyy"></div>
 		                            <div class="yyyy">.</div>
-				                    <div id="month" class="yyyy">12</div>
+				                    <div id="month" class="yyyy"></div>
 				                    <div style="width: 30%;"></div>
 				                    <div id="nextCalender"><a onclick="nextMonth();" style="cursor: pointer;">⮞</a></div>
 				                </div>
@@ -689,6 +689,10 @@
             currentDate = date.getDate();
             dateInit();
             dateList();
+            console.log(currentYear);
+            console.log(currentMonth);
+            $("#year").text(currentYear)
+            $("#month").text(currentMonth);
         })
 
         function dateInit(){
