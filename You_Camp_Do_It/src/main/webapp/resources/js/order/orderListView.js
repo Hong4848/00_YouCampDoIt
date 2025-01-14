@@ -15,7 +15,6 @@ $(function () {
 
     // 현재 표시된 리스트 수
     let visibleCount = 5; // 초기 표시 개수
-
     // 더보기 버튼 클릭 이벤트
     $("#btn-more").on("click", function () {
         const rows = $(".order-row"); // 모든 행 선택

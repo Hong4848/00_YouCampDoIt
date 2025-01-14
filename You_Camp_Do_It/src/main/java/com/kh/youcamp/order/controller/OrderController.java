@@ -185,10 +185,10 @@ public class OrderController {
 	    // 예약 내역 확인
 	    int reserveCount = reserveService.selectReserveCount(memberNo);
 	    log.debug("주문결제 진행 전, 예약내역 있는지 ? reserveCount : " + reserveCount);
-	    if(reserveCount == 0) { // 예약내역 없음 > 주문 불가능
-	    	model.addAttribute("errorMsg", "예약내역이 없습니다. 예약 후 주문을 진행해 주세요.");
-			return "common/errorPage";
-	    }
+//	    if(reserveCount == 0) { // 예약내역 없음 > 주문 불가능
+//	    	model.addAttribute("errorMsg", "예약내역이 없습니다. 예약 후 주문을 진행해 주세요.");
+//			return "common/errorPage";
+//	    }
 	    
 
 	    // -----------------------------------------------------------------

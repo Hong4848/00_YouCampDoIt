@@ -130,7 +130,9 @@
 	
 	<jsp:include page="../common/footer.jsp" />
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c91caa4623b0063ff5afc4d3d0a1d9d"></script>
+    <script type="text/javascript" 
+    		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9c91caa4623b0063ff5afc4d3d0a1d9d">
+    </script>
 
     <script>
         
@@ -147,13 +149,9 @@
 
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
-        position: position,
-        clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
+	        position: position,
+	        clickable: true // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
         });
-
-        // 아래 코드는 위의 마커를 생성하는 코드에서 clickable: true 와 같이
-        // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-        // marker.setClickable(true);
 
         // 마커를 지도에 표시합니다.
         marker.setMap(map);
@@ -177,7 +175,6 @@
         $(document).on('click', '#location', function () {
             window.location.href = "https://map.kakao.com/link/map/1837432015";
         });
-        
 
     </script>
 

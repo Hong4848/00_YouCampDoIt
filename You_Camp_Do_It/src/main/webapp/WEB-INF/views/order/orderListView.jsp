@@ -46,7 +46,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            
                                 <c:forEach var="o" items="${ requestScope.list }" varStatus="status">
                                 
                                     <tr class="order-row" style="display: ${status.index < 5 ? 'table-row' : 'none'};">
@@ -54,7 +53,6 @@
                                         <td><fmt:formatDate value="${o.updatedDate}" pattern="yyyy-MM-dd" /></td>
                                         <td><fmt:formatNumber value="${o.totalPrice}" type="number" pattern="#,###" /></td>
                                         <td>
-                                            
                                             <c:choose>
                                                 <c:when test="${ o.paymentStatus eq 'PAID' }">
                                                     <span class="state state_point">결제 완료</span>
@@ -67,14 +65,10 @@
                                                 <c:when test="${ o.paymentStatus eq 'REFUNDED' }">
                                                     <span class="state state_point">취소 완료</span>
                                                 </c:when>
-                                                
                                             </c:choose>
-                                            
                                         </td>
                                     </tr>
-                                
                                 </c:forEach>
-                                
                             </tbody>
                         </table>
                     </div>

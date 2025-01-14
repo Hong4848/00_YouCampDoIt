@@ -38,7 +38,6 @@
 		        <h3>주문정보</h3>
 			    <form name="payForm" method="post" action="update.or">
 					<table class="order-info-table">
-						<!-- 일단, 카드결제만 가능하게 처리 -->
 						<tr hidden>
 							<th><span>결제 수단</span></th>
 							<td><input type="text" name="PayMethod" value="CARD"></td>
@@ -78,17 +77,8 @@
 						<tr>
 							<th><span>구매자 연락처</span></th>
 							<td><input type="text" name="BuyerTel" value="${sessionScope.loginMember.phone}"></td>
-						</tr>	 
-						<%--<tr>
-							<th><span>인증완료 결과처리 URL<!-- (모바일 결제창 전용)PC 결제창 사용시 필요 없음 --></span></th>
-							<td><input type="text" name="ReturnURL" value="${returnURL}"></td>
-						</tr> 
-						<tr>
-							<th>가상계좌입금만료일(YYYYMMDD)</th>
-							<td><input type="text" name="VbankExpDate" value=""></td>
-						</tr> --%>		
+						</tr>
 						
-									
 						<!-- 옵션 --> 
 						<input type="hidden" name="GoodsCl" value="1"/>						<!-- 상품구분(실물(1),컨텐츠(0)) -->
 						<input type="hidden" name="TransType" value="0"/>					<!-- 일반(0)/에스크로(1) --> 
@@ -133,7 +123,6 @@
 	    
 	    <br><br>
 
-		<!-- 결제시 약관 동의 등 체크 요소 넣기 ???? -->
 	    <div class="floating-area">
 	        <div class="buy-area">
 				<span class="total-price">
@@ -150,16 +139,15 @@
     
     </div>
     
-    
     <jsp:include page="../common/footer.jsp" />
-    
-    
-    <script src="https://pg-web.nicepay.co.kr/v3/common/js/nicepay-pgweb.js" type="text/javascript"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/order/orderForm.js" type="text/javascript"></script>
 
+    <script src="https://pg-web.nicepay.co.kr/v3/common/js/nicepay-pgweb.js" 
+			type="text/javascript">
+	</script>
+	<script src="${pageContext.request.contextPath}/resources/js/order/orderForm.js"
+			type="text/javascript">
+	</script>
 
-
-    
 </body>
 </html>
     

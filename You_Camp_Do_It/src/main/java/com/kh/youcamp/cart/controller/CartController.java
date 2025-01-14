@@ -125,7 +125,7 @@ public class CartController {
 	/**
 	 * 24.12.13 윤홍문
 	 * 장바구니 삭제 메소드
-	 * @param cartNos 삭제할 카트 번호 - 쉼표가 포함된 문자열(숫자아님)
+	 * @param cartNos 삭제할 카트 번호 - 쉼표가 포함된 문자열(숫자배열아님)
 	 * @return 쿼리문실행결과
 	 */
 	@ResponseBody
@@ -134,8 +134,8 @@ public class CartController {
 	public String AjaxDeleteCart(String cartNos) {
 		
 		log.debug("장바구니 삭제메소드 카트번호" + cartNos);
-		// null 또는 공백만있거나 또는 빈문자열"" 이면
-		// 빈배열 [] 할당
+		// , 기준으로 배열로 가공
+		// null 또는 공백만있거나 빈문자열"" 이면 빈배열 [] 할당
 		String[] cartNoList = 
 			    (cartNos == null || cartNos.trim().isEmpty()) 
 			    			? new String[0] : cartNos.split(",");

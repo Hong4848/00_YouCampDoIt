@@ -4,7 +4,6 @@
 // 체크된상태에서 선택삭제로 삭제 후 총 주문금액에 금액 남아있는 문제
 // 삭제 ajax 하기전에 '삭제 할거임?' 묻기??
 // x버튼 위치수정
-// 상품사진 사이즈 수정
 
 
 $(function () {
@@ -189,8 +188,7 @@ $(function () {
 // 장바구니 목록 삭제 ajax
 function deleteCart(cartNos){
 	$.ajax({
-		// 삭제할 카트번호 문자열로 넘기고
-		// 외부방식으로 사용 시 경로에 el 구문 사용불가, 상대경로방식 사용해야함
+		// 삭제할 카트번호 문자열로 넘김
 		url : "./delete.ca",
 		type : "post",
 		data : { cartNos : cartNos },
@@ -366,7 +364,6 @@ function updateTotalPrice(){
         const $cartItem = $(this).closest('.cart-item'); // 해당 체크박스의 부모 요소
         const price = parseInt($cartItem.find('.item-price p').text().replace(/,/g, '').replace(' 원', ''), 10);
        
-
         totalPrice += price; // 총 가격 누적
         totalCount++; // 체크된 항목 개수 누적
     });
